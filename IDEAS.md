@@ -1,6 +1,6 @@
 # Ideas
 
-- latex in wasm?!
+- ~~latex in wasm?!~~ — promoted 2026-08-01 to ADR-0026 + issue #43 (the spike): WASM LuaTeX exists (busytex/TeXlyre, TL2026), gregorio must be compiled ourselves
 - ~~improve incipit generation, for antiphons take everything till the star~~ — the star rule was refuted (it's the intonation break, lands after 2 words); promoted 2026-07-30 to ADR-0020 + issue #36 as an anti-dangling heuristic instead
 - ~~for gabc files that dont have euouae notes, users need to be able to easily supply them~~ — done 2026-07-27, issue #33
 - CI/CD pipeline mit pytest in github??
@@ -12,7 +12,7 @@
 - ~~Structured way to add flavour/trivia filler pages at the end of a booklet~~ — promoted to issue #34, done 2026-07-28 (ADR-0018).
 - Form: "Freestyle-Modus" — nach Wahl eines Ritus umschaltbar in einen Modus, in dem man Elemente (Psalmen, Antiphon, Responsorium breve, Freitext etc.) per Drag-and-drop aus einer Palette frei anordnet, statt dem festen Skeleton zu folgen; Generierung im Backend.
 - Form: Live-Preview je Sektion — kein LaTeX-Rendering im Browser, aber ein (evtl. vorgeneriertes) Musterbild der jeweiligen Sektion anzeigen.
-- ich will irgendwie eine native app aus diesem ganzen bums bauen, die auch auf windows laufen muss
+- ~~ich will irgendwie eine native app aus diesem ganzen bums bauen, die auch auf windows laufen muss~~ — promoted 2026-08-01 to ADR-0026, but *not* native: Electron, so one web codebase serves browser and desktop alike
 - das repo selber muss eigentlich keine fest spezifischen dateien haben, es soll ein rein generelles repo sein
 - nicer stock filler pages
 - versiculus rendering vom content trennen, V und R nicht reinschreiben muessen sondern eigene felder definieren
@@ -27,5 +27,5 @@
 - add explanatory pages explaining the mystical significance of vesper/terce etc. 
 - selector for the marian antiphons, since they're fixed, with festive options
 - can we get german translations for the antiphons?
-- add TODO option in the form and in the yaml, libellus should log WARNINGS when such lines are found 
-- i need to leave a crash course on how to use the liber usualis and other sources
+- ~~add TODO option in the form and in the yaml, libellus should log WARNINGS when such lines are found~~ — promoted 2026-08-01 to ADR-0030 as one third of **Review state**, alongside a per-element `reviewed:` and a booklet-level checklist
+- i need to leave a crash course on how to use the liber usualis and other sources — partly answered 2026-08-01 by ADR-0030: the checklist items carry a German `hint:`, so the crash course lands where it gets read instead of in a document nobody opens. The wider survey (which books, which editions, how to read a differentia table) still needs writing somewhere.
