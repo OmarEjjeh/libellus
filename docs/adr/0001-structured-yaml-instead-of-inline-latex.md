@@ -25,7 +25,7 @@ characters the chant books themselves print.**
 - **Oratio (and any chant-adjacent prose)**: authors type literal `†` and
   `*`; libellus auto-styles them rubric-red. Nothing to learn — it matches
   what is printed in the Antiphonale.
-- **Back cover** (amended 2026-07-21 during implementation of #3):
+- **Back cover** (amended 2026-07-21 during implementation of #4):
   `image:` and `credit:` are always required; the content is **exactly
   one of** a `quote:` block (`text` + `de`, newlines are line breaks;
   optional red-italic `motto`/`motto_de`; optional italic `citation`,

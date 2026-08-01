@@ -7,7 +7,7 @@ as an optional *assertion* — what the printed source shows — checked
 against `tonus:` and never fed to typesetting.
 
 Two requirements compete when an antiphon's own GABC has no EUOUAE at all
-(a real, common case — see #33): supplying the missing notes must not
+(a real, common case — see #34): supplying the missing notes must not
 require error-prone text-splicing logic in the form's deliberately
 dependency-free, no-build-step JS (ADR-0003) that a non-technical
 successor group inherits; but the EUOUAE must still print, joined into

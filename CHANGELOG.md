@@ -13,42 +13,42 @@ that repository, not to issues in this one.
 ### Feat
 
 - the Magnificat's first two verses on one system, as the Liber prints them
-- Kurzfassung — only the first verse in notation (#40, ADR-0022)
-- draft booklets marked PRO MANUSCRIPTO with the creation time (#39, ADR-0021)
-- incipits that never dangle; psalm names from a table (#36, ADR-0020)
+- Kurzfassung — only the first verse in notation (#41, ADR-0022)
+- draft booklets marked PRO MANUSCRIPTO with the creation time (#40, ADR-0021)
+- incipits that never dangle; psalm names from a table (#37, ADR-0020)
 - back cover as JPEG — 3.13 MB PNG becomes 886 KB
 - warn when a picture's print size is wrong; recompress the three losslessly
-- bundle a feast into one file (#35, ADR-0019); all notation under chant/
-- structured filler pages (#34, ADR-0018)
+- bundle a feast into one file (#36, ADR-0019); all notation under chant/
+- structured filler pages (#35, ADR-0018)
 - monasticum skeleton; swap the pipeline fixture to St. Lambert
 - **lambert**: source line settled — no placeholders left in the feast file
 - admit "Duplex minus" as a second spelling of Duplex (ADR-0015)
 - **lambert**: Stephan 1926 hymn translation, all six stanzas
 - choose the psalm tone as mode + differentia, never free text
 - pick a psalm tone by its rendered ending, not by guessing the code
-- euouae field takes bare notes only, spliced with fixed syllables (#33)
-- always-visible GABC-basics explainer popup (issue #25, ADR-0009)
-- EUOUAE termination override, backend (#33)
-- provenance notes on propers, rendered as footnotes (#27, ADR-0011)
+- euouae field takes bare notes only, spliced with fixed syllables (#34)
+- always-visible GABC-basics explainer popup (issue #26, ADR-0009)
+- EUOUAE termination override, backend (#34)
+- provenance notes on propers, rendered as footnotes (#28, ADR-0011)
 - gold border as default, rename border_size presets
 - liturgical rank as a closed vocabulary (ADR-0015)
 - photographed gold frame for back-cover border (ADR-0014)
 - ornamental border option for the back-cover image (ADR-0013)
-- draft St. Lambert feast spec, fix Responsorium rite gating (#30) and versicle incipit (#31)
-- redaktioneller Neuzuschnitt des EÜ-1980-Psalters — alle 108 Psalmen (#15)
-- EÜ-1980 psalter German — scrape, align, boundary-review (#14)
+- draft St. Lambert feast spec, fix Responsorium rite gating (#31) and versicle incipit (#32)
+- redaktioneller Neuzuschnitt des EÜ-1980-Psalters — alle 108 Psalmen (#16)
+- EÜ-1980 psalter German — scrape, align, boundary-review (#15)
 - selectable psalter translations (de-<versio>.yaml, ADR-0008)
-- back-cover image flow in the form (#12)
-- gabc paste renders instant exsurge preview (#11)
-- data island wired into the form (#10)
-- form loads existing feast specs, comment-preserving round-trip (#9)
-- the form, tracer bullet — compose a feast spec in the browser (#8)
-- libellus export-form-data emits the data island (#7)
-- gabc field is a union of repo path and inline notation (#6)
-- close the escape hatch, text fields are pure plain text (#5)
-- pause marks auto-styled rubric-red (#4)
-- back cover as structured quote/text variants (#3)
-- capitulum as versus list (#2)
+- back-cover image flow in the form (#13)
+- gabc paste renders instant exsurge preview (#12)
+- data island wired into the form (#11)
+- form loads existing feast specs, comment-preserving round-trip (#10)
+- the form, tracer bullet — compose a feast spec in the browser (#9)
+- libellus export-form-data emits the data island (#8)
+- gabc field is a union of repo path and inline notation (#7)
+- close the escape hatch, text fields are pure plain text (#6)
+- pause marks auto-styled rubric-red (#5)
+- back cover as structured quote/text variants (#4)
+- capitulum as versus list (#3)
 - generate psalm/Magnificat gabc on demand via jgabc engine
 - stage self-contained build folders, drop LaTeX from the required path
 - add who-sings notes and alternatim instructions
@@ -62,7 +62,7 @@ that repository, not to issues in this one.
 - reserve the word space in the Magnificat system's second line
 - a test run no longer deletes the PDFs in build/
 - **lambert**: the feast is Semiduplex, not Duplex minus
-- EUOUAE is derived from the tone, not an override (#33 redesign)
+- EUOUAE is derived from the tone, not an override (#34 redesign)
 - Magnificat tonus (6F, not 1D); ADR-0011 provenance notes for Lambert
 - euouae mora-dot validation + tagged-EUOUAE detection; St. Lambert data
 - Simplex vesperae is inapplicable, not just unprinted; rename rank vocab to pre-1955 (ADR-0015)

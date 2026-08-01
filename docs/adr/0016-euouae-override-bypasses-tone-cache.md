@@ -12,7 +12,7 @@ only by `(psalmus, tonus)` and shared by every feast that references that
 tone. That assumes one named differentia (e.g. `8G`) always renders the
 same termination — but printed antiphonalia were believed to vary the
 actual notes for a same-named ending between editions (AM vs LU convention
-differences; the `1D`/`1D-` ornamental-count tie, #23). A feast could
+differences; the `1D`/`1D-` ornamental-count tie, #24). A feast could
 therefore supply a custom EUOUAE (auto-extracted from the antiphon's own
 `<eu>` block, or hand-typed) overriding the termination for one antiphon in
 one feast — not a universal replacement for the tone's canonical formula.
@@ -46,7 +46,7 @@ this ADR was in fact two mislabelled St. Lambert antiphons (`8G*`→`8G`,
 `1D`→`1f`) plus a mora-dot spelling convention (jgabc writes `gf..` where
 hand transcriptions write `g.f.`). `HANDOFF.md`'s 2026-07-20 domain notes
 had already concluded exactly this — *"take the differentia label as
-input, not raw EUOUAE notes"* — and were overlooked when #33 was designed.
+input, not raw EUOUAE notes"* — and were overlooked when #34 was designed.
 
 ## Consequences of superseding
 

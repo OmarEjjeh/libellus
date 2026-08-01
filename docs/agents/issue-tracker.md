@@ -5,6 +5,13 @@ Issues and PRDs for this repo live as GitHub issues. Use the `gh` CLI for all op
 **Account:** always use the private **OmarEjjeh** account with `gh` — never the
 `omar-ejjeh_webcom` work account (see `AGENTS.md`, "GitHub account").
 
+**Numbering, for anything written before 2026-08-01:** the first 40 issues were
+migrated from the private `vesper` repository, where #1 was already taken here
+by the public-domain-Psalter issue. So **vesper #N is this repo's #N+1**, and
+each migrated issue says which number it used to have. Older notes and
+correspondence that cite a bare `#13` mean `#14` here. References inside the
+repository were corrected in the migration commit.
+
 ## Conventions
 
 - **Create an issue**: `gh issue create --title "..." --body "..."`. Use a heredoc for multi-line bodies.

@@ -40,7 +40,7 @@ pins `psalter_de: eu2016` (the printed booklet's texts).
   against the hand-made files as a **documented version-difference
   report** (re-cut boundary conventions still apply), not byte fidelity.
 - Whether Pss 109–112 also get `de-eu1980.yaml` re-cuts (full-psalter
-  consistency) is decided in #15's review.
-- The form edits `psalter_de` starting with the frontend batch (#16 ff.);
+  consistency) is decided in #16's review.
+- The form edits `psalter_de` starting with the frontend batch (#17 ff.);
   until then the comment-preserving round-trip keeps the field intact,
   and the island's `psalmi_cum_de` means "has at least one variant".
