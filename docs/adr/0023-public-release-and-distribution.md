@@ -12,7 +12,7 @@ licence, published how.
 
 Three facts settled the shape of the answer.
 
-**The repository could not simply be made public.** 15 of its 1030 commits touch
+**The repository could not simply be made public.** 16 of its 111 commits touch
 the 155 Einheitsübersetzung files, so flipping visibility would expose them in
 history even after deletion at HEAD. Publishing this repository would have meant
 a `git filter-repo` pass over the whole history, an irreversible rewrite of the
@@ -37,7 +37,7 @@ correspondence.
    |---|---|---|
    | `libellus` | public | the tool, its bundled assets, `feasts/`, `images/`, `docs/` |
    | `psalter-eu` | private | the 155 Einheitsübersetzung files and the tooling that made them |
-   | `vesper` | private, retained | the 1030-commit archive and the working notes |
+   | `vesper` | private, retained | the 111-commit archive and the working notes |
 
    The public repository begins with a single commit rather than carrying
    history, which is what makes the copyright problem disappear without a
