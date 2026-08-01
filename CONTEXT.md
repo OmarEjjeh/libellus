@@ -11,8 +11,11 @@ One YAML file describing one celebration, always self-contained.
 _Avoid_: feast file, config, spec file
 
 **Libellus**:
-The tool that turns a feast spec into the finished booklet PDFs.
-_Avoid_: generator, pipeline, vespers-tool
+The tool that turns a feast spec into the finished booklet PDFs — one product in
+three shapes: the application (browser and Electron), the command line, and the
+`core` library both are built on. Say „the app“ or „the CLI“ only where the shapes
+actually differ; otherwise Libellus means all of them.
+_Avoid_: generator, pipeline, vespers-tool; inventing a separate name for the app
 
 **Ordo**:
 Which order of service a feast follows: `romanum-1962`, `monasticum`, or
@@ -64,7 +67,8 @@ chant reference replaced by its notation, every picture by a `data:` URI, so the
 one file plus the program is a booklet (ADR-0019). An export for archiving,
 emailing or attaching to an issue — `feasts/*.yaml` stay path-referencing and
 readable, which is what a maintainer edits.
-_Avoid_: export, archive, self-contained spec (as a noun)
+_Avoid_: export, archive, self-contained spec (as a noun); document — the app
+opens a **Working directory**, never a Bündel (ADR-0026)
 
 **Entwurf** (draft):
 A booklet built to be read and corrected rather than used: every page carries
@@ -222,28 +226,43 @@ Producing a self-contained build folder that compiles to the booklet
 without libellus or the rest of the repo.
 _Avoid_: export, bundling
 
+**Working directory**:
+The folder Libellus works in: the feast specs, the pictures, any **Psalter**
+supplied by hand, and the builds. What the app opens, what the CLI runs in, and
+what a repository of celebrations is. In the browser it is an OPFS tree, filled by
+importing a folder and exported the same way (ADR-0026); everywhere else it is an
+ordinary directory.
+_Avoid_: workspace, project, library (that word is taken twice over — see
+**Bundled data** and the vendored psalm-tone engine)
+
+**Toolchain**:
+The versioned WebAssembly payload Libellus typesets with: LuaTeX, gregorio, the
+minimal texmf tree and its four fonts. Downloaded once and cached rather than
+shipped inside a package, being far too large for one (ADR-0026).
+_Avoid_: bundle (a **Bündel** is a feast spec), payload, distro, TeX Live
+
+**Bundled data**:
+The reference corpora that travel with the **Toolchain**: the GregoBase chant
+index, the Clementine Bible, and the public-domain **Psalter**. Public-domain/CC0
+content only — ADR-0006's rule outliving its mechanism.
+_Avoid_: static API, companion data, data island — all three retired along with
+the repo-as-server arrangement they belonged to (ADR-0028)
+
 **The form**:
-The single self-contained HTML page that composes and edits feast specs
-entirely in the browser; it is a full editor, never generate-only.
+The app's feast-spec editing surface; a full editor, never generate-only. Once a
+single self-contained HTML page that ran from `file://`, which is gone: a browser
+that typesets needs a real origin (ADR-0028).
 _Avoid_: GUI, web app, wizard
 
-**Data island**:
-The generated block of variable vocabularies (valid toni, ordinarium
-names, psalms with German) embedded in the form.
-_Avoid_: manifest, config blob
-
-**Static API**:
-The public data repo serving vocabulary-heavy data (GregoBase chants,
-Clementine Bible) as a compact index plus one small file per item, so
-the form fetches only what a session touches. Public-domain/CC0 content
-only.
-_Avoid_: mini server, proxy, backend
-
-**Companion data**:
-The same data files placed in `form/daten/` next to the form as the
-offline fallback for the static API; their absence never breaks the
-form's core.
-_Avoid_: local cache, bundle
+**Review state**:
+What is known about the *work* on a booklet, as opposed to about the celebration
+or about a copy: a `todo:` where something is known to be wrong, a `reviewed:`
+marker per element recording that it has been looked at, and a short
+booklet-level checklist for the checks no single element owns. Kept in the feast
+spec so it travels, printed nowhere, and a `reviewed:` is bound to the content it
+approved — edit the element and it lapses (ADR-0030).
+_Avoid_: status, workflow, approval; „in review“ as a stored value (it is
+derived)
 
 **Numbered paste**:
 Pasting scripture text with its verse numbers left in, which the form
@@ -279,9 +298,10 @@ _Avoid_: treating it as another rank level
 **Psalter**:
 One translator's complete German for the sung verses — one directory,
 `psalter/<versio>/`, holding a file per psalm plus the Magnificat. Chosen
-per feast with `psalter_de:`, and supplied alongside a working directory
-rather than shipped with **Libellus**: none is redistributable, so a fresh
-install has no Psalter at all (ADR-0024).
+per feast with `psalter_de:`. A public-domain one travels in the **Bundled
+data**; every other is supplied by hand in a **Working directory**, since none
+of the modern translations may be redistributed — the Einheitsübersetzung
+Bremen sings from least of all (ADR-0024, amended).
 _Avoid_: translation files, de-files, the German (a Psalter is one whole
 thing, not a scattering of per-psalm files)
 
