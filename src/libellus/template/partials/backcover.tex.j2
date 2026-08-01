@@ -1,0 +1,72 @@
+% ============================================================
+%  BACK COVER
+% ============================================================
+% ---- final pages: no headers ----
+% (no \clearpage here: \newgeometry below already breaks the page;
+%  a second break would insert a blank page before the back cover)
+\pagestyle{empty}
+\newgeometry{top=15mm, bottom=15mm, left=5mm, right=5mm}
+\thispagestyle{empty}
+% corner, line ornament numbers + margin + 2*margin (the frame's extra
+% height, subtracted below so a framed image still fits the page — an
+% unshrunk image here reproduces the old "frame taller than the page"
+% blank-page bug, see HANDOFF.md)
+\BLOCK{set border_styles = {"vine": ("61", "87", "0.9cm", "1.8cm"), "grapevine": ("63", "87", "0.9cm", "1.8cm"), "knot": ("41", "89", "0.7cm", "1.4cm"), "feather": ("131", "80", "0.7cm", "1.4cm")}}
+\BLOCK{set gilded_sizes = {"normal": "1.0cm", "large": "1.6cm", "extra-large": "2.2cm"}}
+\BLOCK{set gilded_thickness = gilded_sizes[feast.back_cover.border_size]}
+% A note (ADR-0011) adds a footnote rule + line below the quote; reserve
+% room for it here, or the extra height silently overflows the fixed-height
+% back cover onto a second page (breaking the mod-4 page-count invariant
+% that filler.tex.j2 only enforces for content BEFORE this partial).
+\BLOCK{set note_reserve = "-1.2cm" if feast.back_cover.quote and feast.back_cover.quote.note else ""}
+\begin{center}
+  \vspace*{\fill}
+  % height capped at 0.6\textheight: taller images force an early page
+  % break and silently insert a blank page before the back cover
+\BLOCK{if feast.back_cover.border in border_styles}
+\BLOCK{set corner, line, margin, shrink = border_styles[feast.back_cover.border]}
+  \framedimage{\VAR{corner}}{\VAR{line}}{\VAR{margin}}{\includegraphics[width=0.9\textwidth,height=\dimexpr0.6\textheight-\VAR{shrink}\VAR{note_reserve}\relax,keepaspectratio]{\VAR{back_cover_image}}}
+\BLOCK{elif feast.back_cover.border == "gilded"}
+  \goldframedimage{\VAR{gilded_thickness}}{\includegraphics[width=0.9\textwidth,height=\dimexpr0.6\textheight-\VAR{gilded_thickness}*2\VAR{note_reserve}\relax,keepaspectratio]{\VAR{back_cover_image}}}
+\BLOCK{elif note_reserve}
+  \includegraphics[width=0.9\textwidth,height=\dimexpr0.6\textheight\VAR{note_reserve}\relax,keepaspectratio]{\VAR{back_cover_image}}
+\BLOCK{else}
+  \includegraphics[width=0.9\textwidth,height=0.6\textheight,keepaspectratio]{\VAR{back_cover_image}}
+\BLOCK{endif}
+  \vspace*{\fill}
+
+  % \savenotes/\spewnotes (package footnote): a \footnote inside a minipage
+  % otherwise gets its own letter-numbered mpfootnote counter instead of
+  % continuing the document's ordinary page-bottom footnote sequence.
+  \savenotes
+  \begin{minipage}{\textwidth}
+    \centering
+\BLOCK{if feast.back_cover.quote}
+    {\normalsize\itshape \VAR{feast.back_cover.quote.text|tex|breaks}%
+\BLOCK{if feast.back_cover.quote.motto}
+\\[0.5em]{\color{rubricred}\textit{\VAR{feast.back_cover.quote.motto|tex}}}%
+\BLOCK{endif}
+}\\[0.6em]
+    {\footnotesize \BLOCK{if not latin_only}\VAR{feast.back_cover.quote.de|tex|breaks}%
+\BLOCK{if feast.back_cover.quote.motto_de}
+\\[0.3em]{\color{rubricred}\textit{\VAR{feast.back_cover.quote.motto_de|tex}}}%
+\BLOCK{endif}
+\BLOCK{endif}
+\BLOCK{if feast.back_cover.quote.citation}
+\#{ The break belongs between the translation and the citation; with no
+    translation above it (latin_only) the citation would open the group and
+    LaTeX would report "There's no line here to end". Written as a template
+    comment, not a LaTeX one: a % comment still reaches the .tex and disturbs
+    the minipage. }
+\BLOCK{if not latin_only}\\[0.6em]\BLOCK{endif}\textit{\VAR{feast.back_cover.quote.citation|tex}}%
+\BLOCK{endif}
+\BLOCK{if feast.back_cover.quote.note}\footnote{\VAR{feast.back_cover.quote.note|tex}}\BLOCK{endif}%
+}\\[0.6em]
+\BLOCK{endif}
+\BLOCK{if feast.back_cover.text}
+    {\normalsize \VAR{feast.back_cover.text|tex|breaks}}\\[0.6em]
+\BLOCK{endif}
+    {\tiny\textit{\VAR{feast.back_cover.credit|tex}}}
+  \end{minipage}
+  \spewnotes
+\end{center}

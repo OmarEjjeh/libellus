@@ -1,0 +1,250 @@
+# DRAFT — St. Lambert, Vespers I, romanum-cum-precibus (issue #13).
+#
+# This file is a first pass, not a finished, signed-off feast spec. It
+# assembles everything already decided in HANDOFF.md ("Lambert content —
+# grilling session"), plus GABC freshly fetched from GregoBase for the
+# five Common-of-Martyrs pieces that weren't in the repo yet (antiphons
+# 1-3/5, hymn). Several German translations below are a first AI draft,
+# not yet seen by Omar or the priest — every such field is flagged with a
+# comment. Do NOT build/print/sing from this without a full review pass.
+#
+# No placeholders left: title, subtitle, rank, date, source, chants, tones
+# and their EUOUAE are all settled. Still genuinely open (not something to
+# guess here):
+#   - the capitulum's per-verse split below is a mechanical re-cut of
+#     the priest-supplied Latin/German at the given Hebr 5 verse
+#     boundaries, not independently re-translated — flagged as
+#     "unresolved" in HANDOFF.md until Omar confirms the cut
+#   - the German marked "AI draft" below still wants a review pass
+#
+# ADR-0011 (provenance `note`/footnote fields) landed 2026-07-26 (#27) —
+# the idiosyncratic choices below (proper oratio/capitulum instead of the
+# Commune, swapped Magnificat antiphon, versiculus from the Antiphonale
+# Monasticum) now carry real `note:` fields that print as footnotes, not
+# just YAML comments.
+title: Sancti Lamberti
+subtitle: Episcopi et Martyris
+vesperae: I
+header: S. Lambertus, Ep. et Mart.
+rank: Semiduplex
+date: 2026-09-18
+liturgical_date: 2026-09-17
+rite: romanum-cum-precibus
+# Settled 2026-07-27. Chant: the Liber Usualis for the antiphons and hymn.
+# Two pieces come from elsewhere and carry their own footnotes instead of
+# crowding this line — the versiculus (Antiphonale Monasticum 1934, solemn
+# tone) and the Magnificat antiphon (the priest's own notated PDF).
+# Rank and title are folded in here, from the priest's citation in full:
+# "Officia propria Sanctorum Dioecesis Osnabrugensis, Osnabrugi apud Julium
+# Jonscher Bibliopolam, 1905, pag. 7*" — giving both "Episcopus et Martyr"
+# and "Semiduplex". The publisher is dropped from the printed line to keep
+# the cover's smallest type to two lines; it is preserved here.
+source: >-
+  Liber Usualis, Solesmis 1961; titulus et gradus ex Officiis propriis
+  Sanctorum Dioecesis Osnabrugensis, Osnabrugi 1905, pag. 7*
+antiphonae:
+  - gabc: chant/ant/omnes-sancti-quanta-passi.gabc
+    de: >-  # TODO: AI draft, not yet reviewed
+      Alle Heiligen, wie viele Qualen haben sie erlitten, um sicher zur
+      Palme des Martyriums zu gelangen.
+    psalmus: 109
+    tonus: 8G
+  - gabc: chant/ant/cum-palma-ad-regna.gabc
+    de: >-  # TODO: AI draft, not yet reviewed
+      Mit der Palme gelangten die Heiligen zum Reich; die Kronen der
+      Zier haben sie aus der Hand Gottes verdient.
+    psalmus: 110
+    # was 8G* until 2026-07-27: the euouae below (what the LU prints) belongs
+    # to 8G — 8G* ends "gh..", not "g." (issue #33)
+    tonus: 8G
+    euouae: j j i j h g.  # what the LU prints; cross-checks tonus (issue #33)
+  - gabc: chant/ant/corpora-sanctorum-in-pace.gabc
+    de: >-  # TODO: AI draft, not yet reviewed
+      Die Leiber der Heiligen sind im Frieden begraben, und ihr Name
+      lebt in Ewigkeit.
+    psalmus: 111
+    # was a guess (1D, "tied with 1D-") until 2026-07-27; the euouae below
+    # settles it as 1f — 1D ends with the climacus "gvFED." (issue #33, #23)
+    tonus: 1f
+    euouae: h h g f gh g.f.  # what the LU prints; cross-checks tonus (issue #33)
+  - gabc: chant/ant/martyres-domini.gabc
+    de: >-  # TODO: AI draft, not yet reviewed
+      Ihr Märtyrer des Herrn, preiset den Herrn in Ewigkeit.
+    psalmus: 112
+    tonus: peregrinus
+    euouae: g g g d f e.d.  # what the LU prints; cross-checks tonus (issue #33)
+  - gabc: chant/ant/martyrum-chorus-laudate.gabc
+    de: >-  # TODO: AI draft, not yet reviewed
+      Chor der Märtyrer, lobet den Herrn in der Höhe.
+    psalmus: 116
+    tonus: 8c
+    euouae: j j h j k j.  # what the LU prints; cross-checks tonus (issue #33)
+
+capitulum:
+  ref: Hebr 5, 1-6 # NOTE: the Mass reading for Lambert in the Liège diocese's own Proprium Missarum Leodiense), not the Commune text.
+  versus: # TODO: check the recut
+    - n: 1
+      text: >-
+        Omnis namque pontifex ex homínibus assúmptus, pro homínibus
+        constitúitur in iis, quae sunt ad Deum: ut ófferat dona et
+        sacrifícia pro peccátis:
+      de: >-
+        Jeder Hohepriester wird aus den Menschen genommen und für die
+        Menschen eingesetzt zum Dienst vor Gott, um Gaben und Opfer für
+        die Sünden darzubringen.
+      note: >-
+        Hebr 5, 1-6 — die Epistel aus der Messe für Lambertus im Proprium Missarum
+        Leodiense der Diözese Lüttich (17. September), nicht die
+        Capitulum-Lesung aus dem Commune.
+    - n: 2
+      text: >-
+        qui condolére possit iis, qui ignórant, et errant: quóniam et
+        ipse circúmdatus est infirmitáte:
+      de: >-
+        Er ist fähig, mit den Unwissenden und Irrenden mitzufühlen, da
+        er auch selbst behaftet ist mit Schwachheit,
+    - n: 3
+      text: >-
+        et proptérea debet, quemádmodum pro pópulo, ita étiam et pro
+        semetípso offérre pro peccátis.
+      de: >-
+        und dieser Schwachheit wegen muss er wie für das Volk so auch
+        für sich selbst Sündopfer darbringen.
+    - n: 4
+      text: Nec quisquam sumit sibi honórem, sed qui vocátur a Deo, tamquam Aaron.
+      de: >-
+        Und keiner nimmt sich selbst diese Würde, sondern er wird von
+        Gott berufen, so wie Aaron.
+    - n: 5
+      text: >-
+        Sic et Christus non semetípsum clarificávit ut póntifex fíeret:
+        sed qui locútus est ad eum: Fílius meus es tu, ego hódie génui te.
+      de: >-
+        So hat auch Christus sich nicht selbst die Würde verliehen,
+        Hohepriester zu werden, sondern der zu ihm gesprochen hat: Mein
+        Sohn bist du. Ich habe dich heute gezeugt,
+    - n: 6
+      text: >-
+        Quemádmodum et in álio loco dicit: Tu es sacérdos in aetérnum,
+        secúndum órdinem Melchísedech.
+      de: >-
+        wie er auch an anderer Stelle sagt: Du bist Priester auf ewig
+        nach der Ordnung Melchisedeks.
+
+hymnus:
+  gabc: chant/hymni/sanctorum-meritis.gabc
+  # Replaces the neumz.com draft 2026-07-27 (priest's mail): Erzpriester
+  # Stanislaus Stephan, "Das kirchliche Stundengebet oder Das römische
+  # Brevier", München-Regensburg 1926, Bd. I, S. [49]. Chosen because it
+  # renders all SIX stanzas: the Liturgia horarum (1971/72) dropped the
+  # third (vv. 9-13, the antique instruments of martyrdom — our gabc still
+  # has them, "úngula", the iron claw), and the books following it (Deutsches
+  # Antiphonale; Vesperale Monasticum Gerleve 1993, pp. 110-111) drop it too,
+  # so their translations are 5-stanza and cannot serve this score.
+  # On the omission see Anselmo Lentini OSB, "Te decet hymnus. L'Innario
+  # della Liturgia horarum", Vaticano 1984, p. 262 no. 257.
+  #
+  # Two typos in the supplied mail text corrected here, confirmed by Omar
+  # 2026-07-27: stanza 6 "voll Hild" -> "voll Huld" and "uns abm was" ->
+  # "uns ab, was".
+  de:  # 6 stanzas, Stephan 1926
+    - >-
+      Lob der heiligen Schar schickt euch zu singen an; Brüder, kündet nun
+      laut, was sie für Gott getan; lechzend sinnet das Herz, wie es
+      gebührend preis' der Gotteshelden hehren Kreis.
+    - >-
+      Das sind die, die im Wahn hasst die Welt so blöd, ihnen galt sie als
+      Baum, fruchtlos, an Blüten öd, denn sie liebten nur dich, fühlten
+      sich ganz als dein, o Jesus, Herr der Himmelsreih'n.
+    - >-
+      Sie ertrugen für dich zorniger Menschen Wut, sie erduldeten gern
+      Schläge, bis rann das Blut; eher ruhte, als sie, müde der Peiniger;
+      und ihres Sinnes ward er nicht Herr.
+    - >-
+      Wie auf Lämmer, so schlug tötend auf sie das Schwert, nie vernahm
+      man ein Droh'n, Klage war nie gehört; sondern mutig und fest, keines
+      Vergeh'ns bewusst, blieb ruhig ihre edle Brust.
+    - >-
+      Und darum fehlt uns das Lied, würdig die Herrlichkeit zu besingen,
+      die du ihnen dort hältst bereit; denn gerötet von Blut, das sie
+      vergossen hier, ist Lorbeer ihrer Stirnen Zier.
+    - >-
+      Dich nun flehen wir an, ewiger Gott voll Huld: Nimm erbarmend uns
+      ab, was uns bedrückt an Schuld; lass uns Freunde dir sein, dass wir
+      in Ewigkeit besingen deine Herrlichkeit. Amen.
+  note: >-
+    Vollständiger sechsstrophiger Hymnus; die dritte Strophe (Verse 9-13)
+    fehlt in der Liturgia horarum von 1971/72 und in den ihr folgenden
+    Büchern. Übertragung: Stanislaus Stephan, Das römische Brevier,
+    München-Regensburg 1926, Bd. I, S. 49.
+
+versiculus:
+  gabc: chant/vers/laetamini-in-domino.gabc
+  de: >-  # TODO: AI draft, not yet reviewed
+    ℣. Freuet euch im Herrn und frohlocket, ihr Gerechten. ℟. Und
+    rühmet euch, alle, die aufrichtigen Herzens seid.
+  note: >-
+    Feierliche Melodie aus dem Antiphonale Monasticum, Solesmes 1934,
+    S. 1172 — nicht die Fassung des Liber Usualis.
+
+magnificat:
+  antiphona:
+    gabc: chant/ant/laetare-et-lauda.gabc
+    # Override because the gabc is transcribed without accents throughout
+    # (issue #38); the priest's own review supplies this one. Delete once
+    # the antiphon itself is accented — the derivation then gets it right.
+    incipit: Laetáre et lauda
+    de: >-  # TODO: AI draft, not yet reviewed
+      Freue dich und lobe Gott, Lüttich, ob der Gegenwart deines Patrons
+      Lambertus, durch dessen Blut du geweiht, durch dessen Leib du
+      bereichert zu werden verdient hast. O Liebhaber der Keuschheit, o
+      Verteidiger der Wahrheit, Märtyrer und Priester Christi, Lambertus,
+      tritt für uns bei Gott ein.
+    note: >- # TODO: add the proper provenance from the lambert missal
+      Antiphona propria (des Priesters eigene handschriftliche Notierung,
+      transkribiert von Omar Ejjeh) — nicht die Antiphon aus dem Commune.
+  tonus: 6F
+
+oratio:
+  text: >-
+    Intercéssio, quaésumus, Dómine, beáti Lambérti Mártyris tui atque
+    Pontíficis, † tuam nobis non désinat placáre justítiam, * et nostrum
+    tibi devótum effícere famulátum. Per Dóminum.
+  de: >-
+    Die Fürbitte deines heiligen Märtyrers und Bischofs Lambertus, so
+    bitten wir dich, o Herr, möge nicht aufhören, für uns deine
+    Gerechtigkeit zu versöhnen und unseren Dienst dir wohlgefällig zu
+    machen. Durch Jesus Christus…
+  note: >-
+    Eigene Oration des hl. Lambertus (Collectarium Osnabrück, 15. Jh.;
+    heute im Proprium Missarum Leodiense der Diözese Lüttich, 17.
+    September) — nicht die Oration aus dem Commune.
+
+antiphona_bmv: salve-regina-simple
+
+filler: []
+
+back_cover:
+  image: images/03-lambert/St-Lambert-Liège.jpg
+  border: gilded
+  border_size: normal
+  credit: >-
+    Imago: Cædes sancti Lamberti (Ioánne Bruxellénsi?, circa 1490), pars
+    díptychi vocáti «Palude», in Musée Grand Curtius Leódii asservatam.
+  quote:
+    text: >-
+      Supplex tibi committo animam cum corpore; simplice pietas tua
+      succúrrat me insipiéntem. In sǽcula tibi laudes cum glória lingua,
+      ut valet, pio reddit afféctu; tibi sit honor, qui trinus et unus
+      vivis et regnas.
+    de: >-  # TODO: AI draft, not yet reviewed
+      Demütig vertraue ich dir Seele und Leib an; in deiner Güte mögest
+      du mir Unverständigem beistehen. In alle Ewigkeit erweist dir die
+      Zunge, so gut sie es vermag, in frommer Zuneigung Lob und Ehre; dir
+      sei die Ehre, der du dreifaltig und einig lebst und herrschest.
+    citation: >- # TODO: fix this
+      Vita Landiberti episcopi Traiectensis vetustissima (ed. B. Krusch,
+      MGH SS rer. Merov. 6, 1913, pp. 253-384) — second sentence only
+      search-synthesis-confirmed, worth a by-hand check (see HANDOFF.md)
+
+drollery: auto

@@ -1,0 +1,11 @@
+name:Martyres Domini;
+office-part:Antiphona;
+mode:p;
+book:Liber antiphonarius, 1960, p. [42]; via GregoBase (gregobase.selapa.net), chant id 13045;
+transcriber:Andrew Hinkley;
+% Abweichung von der Vorlage, 2026-07-30: die Vorlage schreibt "MAr(d)ty(c')res(d)"
+% ganz ohne Akzent, so dass auch die gesungene Antiphon unbetont gedruckt wurde.
+% Der Ton liegt auf der Antepaenultima (már-ty-res), also "MÁrtyres" — so gerügt
+% von Pastor Kraienhorst in seiner Durchsicht des Ordo Vesperarum (ADR-0020).
+%%
+(c4) MÁr(d)ty(c')res(d) Dó(f)mi(fg)ni,(g.) *(;) Dó(h')mi(g)num(h'_) be(h)ne(g)dí(f')ci(e)te(d'_) (,) in(f) ae(gh)tér(g.)num.(g.) (::)

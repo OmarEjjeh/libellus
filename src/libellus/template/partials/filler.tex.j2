@@ -1,0 +1,91 @@
+% ============================================================
+%  FILLER (flavour pages) + ornament-only padding pages so the
+%  total page count stays divisible by 4 for the booklet
+%
+%  Two kinds, discriminated by `kind` (see resolve._resolve_filler):
+%  "page" = structured plain-text content, all styling owned here;
+%  "tex"  = a hand-authored .tex file, \input verbatim (the ADR-0001/0002
+%  escape hatch). This partial emits the page break BETWEEN entries, so a
+%  filler .tex must not begin with its own \newpage.
+% ============================================================
+\BLOCK{if filler}
+\clearpage
+\pagestyle{plain}
+\BLOCK{for page in filler}
+\BLOCK{if not loop.first}
+\newpage
+\BLOCK{endif}
+\BLOCK{if page.kind == "tex"}
+\input{\VAR{page.path}}
+\BLOCK{else}
+\BLOCK{if page.title or page.subtitle}
+\begin{center}
+  \vspace*{0.5cm}
+  \pgfornament[width=3cm,color=rubricred]{84}\\[1.2em]
+\BLOCK{if page.title}
+  {\large\scshape \VAR{page.title|tex}}\\[0.5em]
+\BLOCK{endif}
+\BLOCK{if page.subtitle}
+  {\normalsize\itshape \VAR{page.subtitle|tex|breaks}}\\[1em]
+\BLOCK{endif}
+  \pgfornament[width=3cm,color=rubricred]{84}
+\end{center}
+\BLOCK{endif}
+\BLOCK{if page.blocks}
+
+\vspace{1.2em}
+{\footnotesize
+\BLOCK{for block in page.blocks}
+\BLOCK{if block.heading}
+\noindent{\small\itshape\color{rubricred} \VAR{block.heading|tex}\par}\smallskip
+\BLOCK{endif}
+\noindent \VAR{block.text|tex}\par\medskip
+
+\BLOCK{endfor}
+}
+\BLOCK{endif}
+\BLOCK{if page.citation}
+\vspace{1em}
+\begin{flushright}
+  {\scriptsize\itshape \VAR{page.citation|tex}}
+\end{flushright}
+\BLOCK{endif}
+\BLOCK{if page.image}
+\vfill
+\begin{center}
+  \includegraphics[width=0.72\textwidth]{\VAR{page.image}}\\[0.7em]
+\BLOCK{if page.caption}
+  \begin{minipage}{0.9\textwidth}
+    {\scriptsize\itshape \VAR{page.caption|tex}\par}
+  \end{minipage}
+\BLOCK{endif}
+\end{center}
+\BLOCK{endif}
+% No trailing \null on a filler page: on a page filled to the brim it spills
+% onto the next one, which then reads as a blank page and pushes the back
+% cover off its multiple-of-4 slot (the padding loop below has already
+% counted by then).
+\BLOCK{endif}
+\BLOCK{endfor}
+\BLOCK{endif}
+% TeX computes the padding itself, so a single compile suffices and the
+% staged folder builds without libellus. After \clearpage, \value{page} is
+% the number the NEXT page will get; the back cover (exactly one page,
+% set right after this partial) must land on a multiple of 4, so emit
+% ornament pages while that next number is not divisible by 4.
+% \ornamentfloor = 4*floor(page/4), equal to \value{page} iff 4 | page.
+\clearpage
+\newcount\ornamentfloor
+\loop
+  \ornamentfloor=\value{page}
+  \divide\ornamentfloor by 4
+  \multiply\ornamentfloor by 4
+\ifnum\ornamentfloor<\value{page}
+  \thispagestyle{empty}
+  \null\vfill
+  \begin{center}
+    \pgfornament[width=3.5cm,color=rubricred]{88}
+  \end{center}
+  \vfill\null
+  \clearpage
+\repeat

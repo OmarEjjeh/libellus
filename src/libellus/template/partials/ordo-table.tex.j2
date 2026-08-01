@@ -1,0 +1,37 @@
+% ============================================================
+%  ORDO VESPERARUM (generated from the elements' incipits)
+% ============================================================
+\newpage
+\thispagestyle{plain}
+\null\vfill
+\begin{center}
+  \pgfornament[width=2.5cm,color=rubricred]{84}\\[1.5em]
+  {\footnotesize\scshape Ordo Vesperarum}\\[0.8em]
+  {\footnotesize
+  \begin{tabular}{@{}rl@{}}
+    \rubric{Initium}                & \textit{Deus, in adjutórium\ldots} \\[3pt]
+\BLOCK{for ps in psalmi}
+    \textsc{Ant.~\VAR{ps.index_roman}} & \textit{\VAR{ps.antiphona.incipit|tex}\ldots} \\
+    \textsc{Ps.~\VAR{ps.number_roman}} & \textit{\VAR{ps.incipit|tex}\ldots} \\[3pt]
+\BLOCK{endfor}
+    \rubric{Capitulum}              & \textit{\VAR{feast.capitulum.ref|tex}} \\[3pt]
+\BLOCK{if feast.responsorium}
+    \textsc{Resp. Br.}              & \textit{\VAR{responsorium.incipit|tex}\ldots} \\[3pt]
+\BLOCK{endif}
+    \textsc{Hymnus}                 & \textit{\VAR{hymnus.incipit|tex}} \\[3pt]
+    \textsc{Versiculus}             & \textit{\VAR{versiculus.incipit|tex}\ldots} \\[3pt]
+    \textsc{Ant. ad Magnificat}     & \textit{\VAR{magnificat.antiphona.incipit|tex}\ldots} \\
+    \textsc{Magnificat}             & \textit{Magníficat ánima mea\ldots} \\[3pt]
+\BLOCK{if feast.cum_precibus}
+    \rubric{Preces}                 & \textit{Te rogámus, audi nos} \\[3pt]
+    \textsc{Pater Noster}           & \textit{Pater noster et preces} \\[3pt]
+\BLOCK{endif}
+    \rubric{Orátio}                 & \textit{\VAR{oratio_incipit|tex}\ldots} \\
+    \textsc{Antiphona B.M.V.}       & \textit{\VAR{bmv.name|tex}} \\[3pt]
+  \end{tabular}}\\[1.5em]
+\BLOCK{if drollery}
+  \includegraphics[height=1.6cm]{\VAR{drollery}}\\[0.8em]
+\BLOCK{endif}
+  \pgfornament[width=2.5cm,color=rubricred]{84}
+\end{center}
+\vfill\null

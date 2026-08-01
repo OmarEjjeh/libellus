@@ -1,0 +1,47 @@
+% ============================================================
+%  MAGNIFICAT
+% ============================================================
+\section{Canticum Beatæ Mariæ Virginis}
+
+\subsection{Antiphona ad Magnificat}
+\stagenote{Schola}{Man steht}
+
+\gregorioscore{\VAR{magnificat.antiphona.gabc}}
+\BLOCK{if not latin_only}\noindent{\footnotesize\itshape \VAR{magnificat.antiphona.de|tex}\BLOCK{if magnificat.antiphona.note}\footnote{\VAR{magnificat.antiphona.note|tex}}\BLOCK{endif}\par}\BLOCK{else}\noindent{\footnotesize \BLOCK{if magnificat.antiphona.note}\footnote{\VAR{magnificat.antiphona.note|tex}}\BLOCK{endif}\par}\BLOCK{endif}\medskip
+
+\subsection{Canticum Mariæ Virginis}
+\stagenote{Alle — beide Seiten Vers um Vers im Wechsel}{}
+
+\gresetinitiallines{0}
+\BLOCK{if compact and magnificat.system}
+% Kurzfassung (ADR-0022): verses 1 and 2 share one system, the way the Liber
+% prints this canticle — „Magníficat" is too short to carry the mediant
+% cadence, so verse 2 lies beneath it and shows the notes verse 1 never reaches.
+\gregorioscore{\VAR{magnificat.system}}
+\BLOCK{if not latin_only}
+\pstrans{1. \VAR{magnificat.verses[0].de|tex}}
+\pstrans{2. \VAR{magnificat.verses[1].de|tex}}
+\BLOCK{endif}
+\BLOCK{endif}
+\BLOCK{for verse in magnificat.verses}
+\BLOCK{if not compact}
+\gregorioscore{\VAR{verse.gabc}}
+\BLOCK{if not latin_only}
+\pstrans{\VAR{verse.de|tex}}
+\BLOCK{endif}
+\BLOCK{elif loop.index > 2}
+\textvers{\VAR{verse.number}}{\VAR{verse.halves|pointing}}{\VAR{verse.de|tex}}
+\BLOCK{elif not magnificat.system}
+% no two-verse system for this tone: its first verse has its own solemn
+% melody, so both verses are notated in full instead
+\gregorioscore{\VAR{verse.gabc}}
+\BLOCK{if not latin_only}
+\pstrans{\VAR{verse.de|tex}}
+\BLOCK{endif}
+\BLOCK{endif}
+\BLOCK{endfor}
+\gresetinitiallines{1}
+
+\antrepeat{\VAR{magnificat.antiphona.repetitio|tex}}
+
+\smallornament

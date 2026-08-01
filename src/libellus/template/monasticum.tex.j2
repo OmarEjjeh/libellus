@@ -1,0 +1,31 @@
+% ============================================================
+%  Ordo skeleton: monasticum
+%  Benedictine Vespers: 4 psalms, a Responsorium breve after the
+%  capitulum, Preces and sung Pater noster. Section order was read off
+%  the printed Benedict booklet (hand-written vesper.tex, retired
+%  2026-07-28; that office is now feasts/2026-07-10-benedictus.yaml).
+%  Include-list only; all LaTeX lives in the partials.
+% ============================================================
+\BLOCK{include "partials/preamble.tex.j2"}
+
+\begin{document}
+
+\BLOCK{include "partials/cover.tex.j2"}
+\BLOCK{include "partials/instructions.tex.j2"}
+\BLOCK{include "partials/ordo-table.tex.j2"}
+\BLOCK{include "partials/initium.tex.j2"}
+\BLOCK{include "partials/psalmi.tex.j2"}
+\BLOCK{include "partials/capitulum.tex.j2"}
+\BLOCK{include "partials/responsorium.tex.j2"}
+\BLOCK{include "partials/hymnus.tex.j2"}
+\BLOCK{include "partials/versiculus.tex.j2"}
+\BLOCK{include "partials/magnificat.tex.j2"}
+\BLOCK{include "partials/preces.tex.j2"}
+\BLOCK{include "partials/paternoster.tex.j2"}
+\BLOCK{include "partials/oratio.tex.j2"}
+\BLOCK{include "partials/conclusio.tex.j2"}
+\BLOCK{include "partials/antiphona-bmv.tex.j2"}
+\BLOCK{include "partials/filler.tex.j2"}
+\BLOCK{include "partials/backcover.tex.j2"}
+
+\end{document}

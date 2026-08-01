@@ -1,0 +1,332 @@
+# Vespers I of St. Benedict, Patron of Europe, as sung on 10 July 2026 in
+# the Krypta von St. Johann, Bremen: monasticum, 4 antiphon/psalm pairs,
+# Responsorium breve. All texts are the complete ones of the printed
+# booklet, which this file reproduces (roadmap item 8) — it superseded the
+# hand-written vesper.tex, retired 2026-07-28. It doubles as the pipeline's
+# `monasticum` test fixture.
+#
+# Until 2026-07-27 this file was the pipeline's romanum-cum-precibus
+# smoke fixture, with Benedict propers forced into that rite and a
+# duplicated 5th antiphon/psalm pair to reach its required five. That
+# role now belongs to feasts/2026-09-18-lambertus.yaml, a feast really
+# sung in that rite, and this file reverted to what it always was
+# (retirement plan, issues #13/#30).
+#
+# The last antiphon carries its notation INLINE (ADR-0005) to keep that
+# path exercised — the role the dropped 5th pair used to play. It is the
+# same chant chant/ant/vir-domini-benedictus.gabc holds, so the rendered
+# score is unchanged.
+title: Sancti Benedicti
+subtitle: Patroni Europæ
+vesperae: I
+header: S. Benedictus, Patronus Europæ
+rank: Duplex I classis
+date: 2026-07-10
+liturgical_date: 2026-07-11
+rite: monasticum
+source: Antiphonale Monasticum III · mmvii  # as the printed booklet sets it
+# The printed Benedict booklet used the hand-made EÜ-2016 re-cuts — pinned
+# so the fixture stays byte-stable as further translations land (ADR-0008).
+psalter_de: eu2016
+
+antiphonae:
+  - gabc: chant/ant/fuit-vir-vitae-venerabilis.gabc
+    de: >-
+      Fuit vir — Es lebte ein Mann von verehrungswürdigem Lebenswandel, der
+      Gnade und dem Namen nach ein Gesegneter: Benedictus. Von frühester
+      Jugend an hatte sein Herz die Reife des Alters, denn in seiner
+      Lebensweise war er seinem Alter weit voraus; Sinnenlust war seinem
+      Herzen fremd.
+    psalmus: 109
+    tonus: 8G
+  - gabc: chant/ant/beatus-vir-benedictus.gabc
+    de: >-
+      Beátus vir — Der heilige Mann Benedikt wollte lieber die Bosheit der
+      Welt ertragen als ihr Lob, und sich lieber um Gottes willen durch
+      Arbeiten abmühen als sich tragen zu lassen von der Gunst des Lebens.
+    psalmus: 110
+    tonus: 3a2
+  - gabc: chant/ant/gloriosus-confessor-domini.gabc
+    de: >-
+      Glorióssus conféssor — Der glorreiche Bekenner des Herrn Benedikt
+      führte ein engelgleiches Leben auf Erden; er wurde für die Welt ein
+      Spiegel der guten Werke. Darum freut er sich jetzt mit Christus im
+      Himmel ohne Ende.
+    psalmus: 111
+    tonus: 8c
+  # INLINE notation (ADR-0005) — byte-identical to
+  # chant/ant/vir-domini-benedictus.gabc.
+  - gabc: |
+      name:Vir Domini Benedictus (tonus 1f);
+      office-part:Antiphona;
+      mode:1;
+      book:Antiphonale monasticum III, 2007, p. 143;
+      transcriber:Matthias Bry;
+      %%
+      (c4) VIR(d) Dó(d)mi(f)ni(dc) Be(f)ne(g)díc(fh)tus(h) *(,) óm(hj)ni(h)um(h) ju(h)stó(h)rum(hg) spí(f)ri(f)tu(ef) ple(gh)nus(fe) fu(d)it :(d) (;) i(f)pse(fe) in(c)ter(df)cé(ffg)dat(f) (,) pro(f) cunc(ghf)tis(ed) mo(f)ná(fe)sti(dc)cæ(c) pro(ege)fes(f)si(e)ó(d)nis.(d) (::) <eu>E(h) u(h) o(g) u(f) a(gh) e.(gf) </eu>(::)
+    de: >-
+      Vir Dómini — Der Gottesmann Benedikt war erfüllt vom Geiste aller
+      Gerechten: Er sei Fürsprecher für alle Glieder der monastischen
+      Familie.
+    psalmus: 112
+    tonus: 1f
+
+capitulum:
+  ref: Iesu Sirach 50, 5–10
+  versus:
+    - n: 5
+      text: >-
+        Qui præváluit amplificáre civitátem, qui adéptus est glóriam in
+        conversatióne gentis, et ingréssum domus et átrii amplificátus est.
+      de: >-
+        Wie herrlich war er, umgeben vom Volk, wenn er heraustrat aus
+        dem Haus des Vorhangs.
+    - n: 6
+      text: >-
+        Quasi stella matutína in médio nébulæ, et quasi luna plena in
+        diébus suis lucet.
+      de: >-
+        Wie der Morgenstern inmitten von Wolken, wie der volle Mond an
+        seinen Tagen leuchtet er.
+    - n: 7
+      text: >-
+        Et quasi sol refúlgens, sic ille effúlsit in templo Dei.
+      de: >-
+        Wie die Sonne, die auf den Tempel des Höchsten strahlt, so
+        erstrahlte er im Tempel Gottes.
+    - n: 8
+      text: >-
+        Quasi arcus effúlgens in nébulam glóriæ, et quasi flos rosárum in
+        diébus veris, quasi lília quæ sunt in transítu aquæ, et quasi tus
+        redólens in diébus æstátis.
+      de: >-
+        Wie ein Regenbogen, der in den herrlichen Wolken leuchtet, wie
+        eine Rosenblüte in den Tagen des Frühlings, wie Lilien an
+        quellendem Wasser, wie Weihrauch, der in Sommertagen duftet.
+    - n: 9
+      text: >-
+        Quasi ignis effúlgens, et tus ardens in igni.
+      de: >-
+        Wie Feuer und Weihrauch auf der Räucherpfanne.
+    - n: 10
+      text: >-
+        Quasi vas auri solidum, ornátum omni lápide pretióso.
+      de: >-
+        Wie ein Gefäß aus Gold gehämmert, geschmückt mit allen kostbaren
+        Steinen.
+
+responsorium:
+  gabc: chant/resp/sancte-pater-benedicte.gabc
+  de: >-
+    Heiliger Vater Benedikt, * bitte für uns. — Auf dass wir würdig werden
+    der Verheißungen Christi. * Bitte für uns. — Ehre sei dem Vater und dem
+    Sohn und dem Heiligen Geist. — Heiliger Vater Benedikt, * bitte für
+    uns.
+
+hymnus:
+  gabc: chant/hymni/gemma-caelestis.gabc
+  de:
+    - >-
+      O Benedikt, Schatz des Königs des Himmels, Vorbild der Heiligkeit,
+      Führer der Mönche! Hilf uns heute, die Fesseln unserer irdischen
+      Verstrickungen zu sprengen.
+    - >-
+      Du hast dich für den Himmel entschieden und bist aus der Welt
+      geschieden, hast das Irdische deinen Eltern überlassen: Du hast das
+      Gefäß der Gnade gerettet, das durch die Sünden zerbrochen war.
+    - >-
+      Du warst ein großer Einsiedler in einem kleinen Körper und hast
+      Härten ertragen, die dein Alter und deine Kraft überstiegen; du bist
+      eifrig die steilen Pfade der strengen Askese gegangen.
+    - >-
+      Diese Gnade wurde dir zu Recht zuteil, damit du die strahlende Seele
+      deiner reinen Schwester wie eine Taube gen Himmel fliegen sehen
+      konntest.
+    - >-
+      Und auch du folgtest ihr auf dem leuchtenden Pfad als Triumphierende
+      zum Ruhm und hinterließest uns die Gesetze und Beispiele wunderbarer
+      Macht.
+    - >-
+      Deshalb stärke deine Kinder auf dem Weg deiner Herrschaft und deines
+      Geistes, damit wir eifrig nach Licht und Frieden streben.
+    - >-
+      Ehre sei dem Vater und dem Wort, dem Sohn. Ehre sei dem Heiligen
+      Geist in Ewigkeit, durch dessen Gnade dich solche Herrlichkeit
+      umgibt. Amen.
+
+versiculus:
+  gabc: chant/vers/amavit-eum-dominus.gabc
+  de: >-
+    ℣. Der Herr hat ihn geliebt und ihn geschmückt. ℟. Das Kleid der
+    Herrlichkeit hat er ihm angetan.
+
+magnificat:
+  antiphona:
+    gabc: chant/ant/exsultet-omnium-turba.gabc
+    de: >-
+      Es juble die Schar aller Gläubigen bei der Verehrung des erhabenen
+      Vaters Benedikt; es mögen sich freuen vor allem die Scharen der
+      Mönche, die sein Fest auf Erden feiern, über dessen Gemeinschaft sich
+      die Heiligen im Himmel freuen.
+  tonus: 1D
+
+oratio:
+  text: >-
+    Deus, qui beatíssimum Confessórem tuum Benedíctum, ómnium justórum
+    spíritu replére dignátus es: † concéde nobis fámulis tuis ejus
+    Solemnitátem celebrántibus; * ut ejúsdem spíritu repléti, quod, te
+    donánte, promísimus, fidéliter adimpleámus. Per Dóminum nostrum Iesum
+    Christum Fílium tuum, qui tecum vivit et regnat in unitáte Spíritus
+    Sancti, Deus, * per ómnia sǽcula sæculórum.
+  de: >-
+    Gott, du hast deinen heiligen Bekenner Benedikt mit dem Geist aller
+    Gerechten erfüllt: Erfülle uns, deine Diener, die wir sein Fest feiern,
+    mit seinem Geist und lass uns mit deiner Hilfe treu das erfüllen, was
+    wir versprochen haben. Durch unsern Herrn Jesus Christus, deinen Sohn,
+    der in der Einheit des Heiligen Geistes mit dir lebt und herrscht, Gott
+    von Ewigkeit zu Ewigkeit.
+
+antiphona_bmv: salve-regina-simple
+
+# The printed booklet's three flavour pages, ported from vesper.tex when
+# structured filler pages landed. Two entries, three physical pages: the
+# Scholastika text overflows onto a second page whose lower half carries
+# the medal. Text is plain — the ornament rules, small-caps titles and red
+# block headings live in partials/filler.tex.j2.
+filler:
+  - title: Der heilige Vater Benedikt
+    subtitle: aus Dom Prosper Guérangers »Kirchenjahr«
+    blocks:
+      - heading: Vater Europas
+        text: >-
+          Benedikt ist der geistige Vater Europas; durch seine gleich den
+          Sternen am Himmel und dem Sand am Meere zahlreichen Jünger hat er
+          die Trümmer der römischen Gesellschaft, welche unter dem Einfalle
+          der Barbaren zerschellt war, wieder zusammengetragen; … Er hat das
+          Evangelium und die Civilisation nach England und Germanien, in die
+          nordischen Länder, ja bis in die von Slaven bewohnten Gegenden
+          hineingetragen. Er hat den Ackerbau gelehrt und die Sklaverei
+          vernichtet; er hat endlich, was an Künsten und Wissenschaften
+          vorhanden war, aus dem allgemeinen Schiffbruch gerettet.
+      - heading: Die Regel
+        text: >-
+          Und all diese Wunderthaten hat Benedikt durch das einfache Buch,
+          welches er seine Regel nannte, vollbracht. … Jetzt erscheint diese
+          Regel, und alle vorhandenen verschwinden eine nach der anderen, wie
+          die Sterne erbleichen, wenn die Sonne am Himmel sich erhebt.
+      - heading: Vom Geiste aller Gerechten
+        text: >-
+          Mit welch' tiefer Verehrung müssen wir uns heute diesem wunderbaren
+          Manne nahen, von welchem der heilige Gregor gesagt hat, daß er „vom
+          Geiste aller Gerechten erfüllt war“.
+      - heading: Sein Tod am Altar
+        text: >-
+          … als du am Fuße des Altares, gestützt auf die Arme deiner Jünger,
+          kaum noch die Erde mit deinen Füßen berührend, voll Demuth und
+          Vertrauen deine Seele ihrem Schöpfer zurückgabst.
+    citation: >-
+      Dom Prosper Guéranger, Das Kirchenjahr, Bd. 5, Mainz: Kirchheim 1877,
+      S. 483 ff.
+  - title: Benedikt und Scholastika
+    subtitle: |-
+      aus dem zweiten Buch der Dialoge
+      Gregors des Großen
+    blocks:
+      - heading: Von dem Wunder seiner Schwester Scholastika
+        text: >-
+          Es pflegte seine Schwester, Scholastika mit Namen, die von Kindheit
+          auf dem allmächtigen Gotte geweiht war, ihn einmal im Jahre zu
+          besuchen. Der Mann Gottes stieg zu ihr zu einem Klosterbesitztum
+          nicht weit von der Pforte hinab. Eines Tages kam sie, wie sie es
+          gewohnt war, und ihr ehrwürdiger Bruder ging mit seinen Jüngern zu
+          ihr hinab. Sie verbrachten den ganzen Tag im Lobe Gottes und mit
+          heiligen Gesprächen. Schon brach das Dunkel der Nacht herein, als
+          sie mitsammen Speise zu sich nahmen. Während sie noch bei Tische
+          saßen und es unter heiligen Gesprächen immer später wurde, bat ihn
+          die gottgeweihte Frau, seine Schwester: „Ich bitte dich, verlasse
+          mich diese Nacht nicht, damit wir bis zum Morgen von den Freuden
+          des himmlischen Lebens sprechen können.“ Er aber erwiderte ihr:
+          „Was sagst du doch, Schwester? Ich kann unter keinen Umständen
+          außerhalb des Klosters bleiben.“ Es war aber das Wetter so heiter,
+          daß sich keine Wolke am Himmel zeigte. Als die gottgeweihte Frau
+          die abschlägige Antwort ihres Bruders vernahm, legte sie die Finger
+          ineinander, ließ die Hände auf den Tisch sinken und neigte ihr
+          Haupt auf die Hände herab, um so zu Gott dem Allmächtigen zu beten.
+          Als sie dann das Haupt vom Tische erhob, blitzte und donnerte es
+          gewaltig, und es ging ein solcher Wolkenbruch nieder, daß weder der
+          ehrwürdige Benedikt noch die Brüder, die bei ihm waren, an dem Ort,
+          wo sie saßen, einen Fuß vor die Türe setzen konnten. Denn als die
+          gottgeweihte Frau das Haupt auf ihre Hände herabneigte, vergoß sie
+          ganze Tränenströme auf den Tisch, und durch diese brachte sie den
+          heiteren Himmel zum Regnen. Da nun der Mann Gottes sah, daß er
+          unter Blitz und Donner und unter dem strömenden Regen nicht zum
+          Kloster zurückkehren konnte, wurde er traurig und beklagte sich mit
+          den Worten: „Der allmächtige Gott sei dir gnädig, Schwester! Was
+          hast du getan!“ Sie antwortete ihm: „Siehe, ich habe dich gebeten,
+          und du hast mich nicht erhören wollen; da habe ich meinen Herrn
+          gebeten, und er hat mich gehört. Gehe jetzt, wenn du kannst,
+          verlasse mich und kehre zum Kloster zurück!“ Da er das schützende
+          Dach nicht verlassen konnte, blieb er gezwungen, nachdem er
+          freiwillig nicht hatte bleiben wollen. Und so geschah es, daß sie
+          die ganze Nacht durchwachten und sich gegenseitig durch heilige
+          Gespräche über das geistliche Leben erquickten. … Es darf uns nicht
+          wundernehmen, daß die Frau, welche ihren Bruder länger zu sehen
+          wünschte, mehr als er vermochte; denn weil nach dem Worte des
+          Johannes Gott die Liebe ist, so vermochte nach einem gerechten
+          Entschlusse Gottes jene mehr, die mehr liebte.
+      - heading: Er sieht, wie die Seele seiner Schwester den Körper verläßt
+        text: >-
+          Am anderen Tage kehrte die ehrwürdige Frau wieder in ihre eigene
+          Zelle zurück, und auch der Mann Gottes begab sich in sein Kloster.
+          Als er drei Tage darnach gerade in seiner Zelle stand und die Augen
+          zum Himmel erhob, sah er, wie die Seele seiner Schwester, vom Leibe
+          geschieden, in Gestalt einer Taube den Himmelsraum durchdrang. Er
+          freute sich über ihre große Verherrlichung, dankte dem allmächtigen
+          Gott mit Hymnen und Lobgesängen und zeigte den Brüdern ihr
+          Hinscheiden an. Auch schickte er sie sogleich hin, um den Leichnam
+          ins Kloster zu bringen und in das Grab zu legen, das er für sich
+          selbst bereitet hatte. So kam es, daß auch das Grab die Leiber
+          derer nicht trennte, deren Geist immer eins in Gott gewesen war.
+    citation: Gregor der Große, Dialoge, Buch II, Kap. 33–34 (gekürzt)
+    image: images/02-benedict/medal-print.png
+    caption: >-
+      Die Benediktusmedaille (Jubiläumsprägung, Montecassino 1880). Rechts
+      der heilige Benedikt mit Kreuz und Regelbuch; neben ihm seine Zeichen:
+      der Giftbecher, der zersprang, als er das Kreuzzeichen über ihn machte,
+      und der Rabe, der das vergiftete Brot davontrug (Dialoge II, 3 und 8).
+      Links das Benediktuskreuz mit den Anfangsbuchstaben der Segensworte:
+      Crux sacra sit mihi lux — „Das heilige Kreuz sei mir Licht“; non draco
+      sit mihi dux — „nicht der Drache sei mir Führer“; im Umkreis: Vade
+      retro, Satana, numquam suade mihi vana; sunt mala quæ libas, ipse
+      venena bibas — „Weiche zurück, Satan, rate mir nie das Eitle; schlecht
+      ist, was du kredenzt: trink dein Gift selbst!“
+
+back_cover:
+  image: images/02-benedict/st-benedict-mary-evans.jpg
+  # The printed booklet also prints the fineartamerica URL here. Left out:
+  # a second credit line overflows the back cover onto a page of its own,
+  # which breaks the mod-4 page count (see HANDOFF.md — the back cover's
+  # height budget wants measuring rather than a fixed cap).
+  credit: >-
+    Imago: Saint Benedict of Nursia, ex collectione Mary Evans Picture
+    Library deprompta.
+  quote:
+    text: |-
+      Ad horam divini officii, mox auditus fuerit signus,
+      relictis omnibus quælibet fuerint in manibus,
+      summa cum festinatione curratur,
+      cum gravitate tamen, ut non scurrilitas inveniat fomitem.
+    de: |-
+      Sobald das Zeichen zur Stunde des Gottesdienstes gegeben wird,
+      soll man alles, was man in den Händen hält, liegenlassen
+      und mit größter Eile herbeieilen,
+      jedoch mit Würde, damit der Leichtfertigkeit kein Anlass geboten wird.
+    motto: Ergo nihil operi Dei præponatur.
+    motto_de: Dem Werk Gottes also soll nichts vorgezogen werden.
+    citation: Regula Benedicti, cap. XLIII
+  # The printed booklet frames nothing here — a bare \includegraphics. The
+  # schema's default is "gilded", whose frame costs 2 cm of the image's
+  # height budget; with it the two-line credit below overflows onto a
+  # second page and breaks the mod-4 page count.
+  border: none
+drollery: none

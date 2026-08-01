@@ -1,0 +1,20 @@
+# Probe-Psalter — KEIN liturgischer Text.
+#
+# Synthetic German, one line per sung verse, used only so the test suite can
+# set a complete booklet without the Einheitsübersetzung (ADR-0024). Verse
+# counts are generated from the psalm-tone engine, so they match what a feast
+# actually asks for. Do not sing from this.
+canticum: Magnificat
+verses:
+  1: Probevers 1 — Magnificat, kein echter Text.
+  2: Probevers 2 — Magnificat, kein echter Text.
+  3: Probevers 3 — Magnificat, kein echter Text.
+  4: Probevers 4 — Magnificat, kein echter Text.
+  5: Probevers 5 — Magnificat, kein echter Text.
+  6: Probevers 6 — Magnificat, kein echter Text.
+  7: Probevers 7 — Magnificat, kein echter Text.
+  8: Probevers 8 — Magnificat, kein echter Text.
+  9: Probevers 9 — Magnificat, kein echter Text.
+  10: Probevers 10 — Magnificat, kein echter Text.
+  11: Probevers 11 — Magnificat, kein echter Text.
+  12: Probevers 12 — Magnificat, kein echter Text.

@@ -1,0 +1,12 @@
+% ============================================================
+%  RESPONSORIUM BREVE
+% ============================================================
+\section{Responsorium Breve}
+\stagenote{Alle}{Man sitzt}
+
+\gresetinitiallines{0}
+\gregorioscore{\VAR{responsorium.gabc}}
+\gresetinitiallines{1}
+\BLOCK{if not latin_only}\noindent{\footnotesize\itshape \VAR{responsorium.de|tex}\BLOCK{if responsorium.note}\footnote{\VAR{responsorium.note|tex}}\BLOCK{endif}\par}\BLOCK{else}\noindent{\footnotesize \BLOCK{if responsorium.note}\footnote{\VAR{responsorium.note|tex}}\BLOCK{endif}\par}\BLOCK{endif}\medskip
+
+\smallornament

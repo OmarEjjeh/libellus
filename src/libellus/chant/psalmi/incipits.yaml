@@ -1,0 +1,192 @@
+# Vulgate psalm number → canonical accented Latin incipit (ADR-0010).
+# The single source of truth for every consumer that names a psalm: the
+# Ordo table, the form's psalm combobox (#28), the incipit-filling agent
+# skill (#29). Hand-correctable — nothing regenerates this file.
+#
+# Generated once, 2026-07-30, from the vendored accented Clementine
+# psalter (scripts/psalm-library/vendor/psalms/, byte-for-byte from
+# jgabc, public domain): the first verse's opening words, extended past
+# a governing word or a stranded form of *esse* the same way chant
+# incipits are (ADR-0020), then extended to at most three words where
+# that separates two psalms.
+#
+# Incipits are NOT unique, and cannot be made so: Ps 6/37, 13/52 and
+# 106/117 open with word-for-word identical verses. The psalm number is
+# the identifier; the incipit is a label that accompanies it.
+# 15 groups (35 psalms) share a label — listed at the foot of this file.
+#
+# Two labels count as shared when they differ only by punctuation or case:
+# the psalter punctuates the same words inconsistently (Ps 105 "Confitémini
+# Dómino, quóniam bonus" against Ps 106 without the comma; likewise Ps 102
+# against 103, and Ps 50 against 55/56). A comma is not a distinction a
+# reader could use, so it must not let a psalm pass for uniquely named.
+# The stored text itself stays faithful to the psalter, commas and all.
+
+incipits:
+  1: "Beátus vir, qui non ábiit"
+  2: "Quare fremuérunt"
+  3: "Dómine quid"
+  4: "Cum invocárem"
+  5: "Verba mea"
+  6: "Dómine, ne in furóre"
+  7: "Dómine, Deus meus"
+  8: "Dómine, Dóminus"
+  9: "Confitébor tibi, Dómine"
+  10: "In Dómino"
+  11: "Salvum me fac"
+  12: "Usquequo, Dómine"
+  13: "Dixit insípiens in corde"
+  14: "Dómine, quis"
+  15: "Consérva me"
+  16: "Exáudi, Dómine"
+  17: "Díligam te"
+  18: "Cæli enárrant"
+  19: "Exáudiat te"
+  20: "Dómine, in virtúte"
+  21: "Deus, Deus meus"
+  22: "Dóminus regit"
+  23: "Dómini est"
+  24: "Ad te, Dómine"
+  25: "Júdica me, Dómine"
+  26: "Dóminus illuminátio"
+  27: "Ad te, Dómine"
+  28: "Afférte Dómino"
+  29: "Exaltábo te, Dómine"
+  30: "In te, Dómine"
+  31: "Beáti quorum remíssæ sunt"
+  32: "Exsultáte, justi"
+  33: "Benedícam Dóminum"
+  34: "Júdica, Dómine"
+  35: "Dixit injústus"
+  36: "Noli æmulári"
+  37: "Dómine, ne in furóre"
+  38: "Dixi: Custódiam"
+  39: "Exspéctans exspectávi"
+  40: "Beátus qui intélligit"
+  41: "Quemádmodum desíderat"
+  42: "Júdica me, Deus"
+  43: "Deus, áuribus"
+  44: "Eructávit cor"
+  45: "Deus noster"
+  46: "Omnes Gentes"
+  47: "Magnus Dóminus"
+  48: "Audíte hæc"
+  49: "Deus deórum"
+  50: "Miserére mei Deus"
+  51: "Quid gloriáris"
+  52: "Dixit insípiens in corde"
+  53: "Deus, in nómine"
+  54: "Exáudi, Deus, oratiónem"
+  55: "Miserére mei, Deus"
+  56: "Miserére mei, Deus"
+  57: "Si vere"
+  58: "Eripe me de inimícis"
+  59: "Deus, repulísti"
+  60: "Exáudi, Deus, deprecatiónem"
+  61: "Nonne Deo"
+  62: "Deus, Deus meus"
+  63: "Exáudi, Deus, oratiónem"
+  64: "Te decet"
+  65: "Jubiláte Deo, omnis"
+  66: "Deus misereátur"
+  67: "Exsúrgat Deus"
+  68: "Salvum me fac"
+  69: "Deus, in adjutórium"
+  70: "In te, Dómine"
+  71: "Deus, judícium"
+  72: "Quam bonus"
+  73: "Ut quid"
+  74: "Confitébimur tibi"
+  75: "Notus in Judǽa"
+  76: "Voce mea ad Dóminum"
+  77: "Atténdite, pópule"
+  78: "Deus, venérunt"
+  79: "Qui regis"
+  80: "Exsultáte Deo"
+  81: "Deus stetit"
+  82: "Deus, quis"
+  83: "Quam dilécta"
+  84: "Benedixísti, Dómine"
+  85: "Inclína, Dómine"
+  86: "Fundaménta ejus"
+  87: "Dómine, Deus salútis"
+  88: "Misericórdias Dómini"
+  89: "Dómine, refúgium"
+  90: "Qui hábitat"
+  91: "Bonum est"
+  92: "Dóminus regnávit, decórem"
+  93: "Deus ultiónum"
+  94: "Veníte, exsultémus"
+  95: "Cantáte Dómino cánticum"
+  96: "Dóminus regnávit exsúltet"
+  97: "Cantáte Dómino cánticum"
+  98: "Dóminus regnávit, irascántur"
+  99: "Jubiláte Deo, omnis"
+  100: "Misericórdiam, et judícium"
+  101: "Dómine, exáudi oratiónem"
+  102: "Bénedic, ánima mea"
+  103: "Bénedic ánima mea"
+  104: "Confitémini Dómino, et invocáte"
+  105: "Confitémini Dómino, quóniam bonus"
+  106: "Confitémini Dómino quóniam bonus"
+  107: "Parátum cor"
+  108: "Deus, laudem"
+  109: "Dixit Dóminus"
+  110: "Confitébor tibi, Dómine"
+  111: "Beátus vir, qui timet"
+  112: "Laudáte, púeri"
+  113: "In éxitu"
+  114: "Diléxi, quóniam exáudiet"
+  115: "Crédidi, propter quod locútus sum"
+  116: "Laudáte Dóminum, omnes"
+  117: "Confitémini Dómino quóniam bonus"
+  118: "Beáti immaculáti"
+  119: "Ad Dóminum"
+  120: "Levávi óculos"
+  121: "Lætátus sum"
+  122: "Ad te levávi"
+  123: "Nisi quia Dóminus erat"
+  124: "Qui confídunt"
+  125: "In converténdo"
+  126: "Nisi Dóminus"
+  127: "Beáti omnes"
+  128: "Sæpe expugnavérunt"
+  129: "De profúndis"
+  130: "Dómine, non est"
+  131: "Meménto, Dómine"
+  132: "Ecce quam bonum"
+  133: "Ecce nunc"
+  134: "Laudáte nomen"
+  135: "Confitémini Dómino, quóniam bonus"
+  136: "Super flúmina"
+  137: "Confitébor tibi, Dómine"
+  138: "Dómine, probásti"
+  139: "Eripe me, Dómine"
+  140: "Dómine, clamávi"
+  141: "Voce mea ad Dóminum"
+  142: "Dómine, exáudi oratiónem"
+  143: "Benedíctus Dóminus"
+  144: "Exaltábo te, Deus"
+  145: "Lauda, ánima"
+  146: "Laudáte Dóminum quóniam bonus est"
+  147: "Lauda, Jerúsalem"
+  148: "Laudáte Dóminum de cælis"
+  149: "Cantáte Dómino cánticum"
+  150: "Laudáte Dóminum in sanctis"
+
+# Shared labels (disambiguated by the psalm number in every consumer):
+#   6, 37: Dómine, ne in furóre
+#   9, 110, 137: Confitébor tibi, Dómine
+#   11, 68: Salvum me fac
+#   13, 52: Dixit insípiens in corde
+#   21, 62: Deus, Deus meus
+#   24, 27: Ad te, Dómine
+#   30, 70: In te, Dómine
+#   50, 55, 56: Miserére mei Deus
+#   54, 63: Exáudi, Deus, oratiónem
+#   65, 99: Jubiláte Deo, omnis
+#   76, 141: Voce mea ad Dóminum
+#   95, 97, 149: Cantáte Dómino cánticum
+#   101, 142: Dómine, exáudi oratiónem
+#   102, 103: Bénedic, ánima mea
+#   105, 106, 117, 135: Confitémini Dómino, quóniam bonus

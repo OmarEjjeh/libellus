@@ -1,0 +1,38 @@
+% ============================================================
+%  COVER
+% ============================================================
+\thispagestyle{empty}
+\null\vspace*{0.8cm}
+\begin{center}
+  \pgfornament[width=5.5cm,color=rubricred]{88}\\[1em]
+  {\footnotesize\scshape \VAR{feast.rank|tex}}\\[0.4em]
+\BLOCK{if translata_note}
+  {\footnotesize\itshape \VAR{date_latin}}\\[0.2em]
+  {\scriptsize\itshape (\VAR{translata_note})}\\[1.6cm]
+\BLOCK{else}
+  {\footnotesize\itshape \VAR{date_latin}}\\[1.8cm]
+\BLOCK{endif}
+  {\fontsize{30}{36}\selectfont\textit{Vesperæ}}\\[0.3em]
+\BLOCK{if feast.vesperae}
+  {\normalsize\itshape \VAR{vesperae_label} in Festo}\\[0.6em]
+\BLOCK{else}
+  {\normalsize\itshape in Festo}\\[0.6em]
+\BLOCK{endif}
+  {\fontsize{18}{22}\selectfont\textsc{\VAR{feast.title|tex}}}\\[0.4em]
+\BLOCK{if feast.subtitle}
+  {\normalsize\itshape \VAR{feast.subtitle|tex}}\\[1.8cm]
+\BLOCK{else}
+  \vspace{1.8cm}
+\BLOCK{endif}
+  \pgfornament[width=5.5cm,color=rubricred]{88}
+\end{center}
+\vfill
+\begin{center}
+  {\footnotesize Cantus ex \textit{\VAR{feast.source|tex}}}\\[0.4em]
+  {\footnotesize\itshape Ad usum amicorum}
+\BLOCK{if compact}
+  % So a Kurzfassung and the full booklet can be told apart in a stack of
+  % paper — otherwise they differ only from the first psalm onwards (ADR-0022).
+  \\[0.4em]{\footnotesize\itshape Editio brevior}
+\BLOCK{endif}
+\end{center}

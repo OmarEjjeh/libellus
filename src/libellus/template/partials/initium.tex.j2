@@ -1,0 +1,16 @@
+% ============================================================
+%  INITIUM
+% ============================================================
+\newpage
+\section{Initium}
+\stagenote{Kantor beginnt, alle singen weiter}{Man steht}
+
+\gresetinitiallines{0}
+\gregorioscore{\VAR{ordinarium['incipit'].gabc}}
+\gresetinitiallines{1}
+
+% Standard translation style (like the antiphons), NOT \pstrans:
+% \transfont is reserved for the interlinear psalm verses only.
+\BLOCK{if not latin_only}\noindent{\footnotesize\itshape \VAR{ordinarium['incipit'].de|tex}\par}\BLOCK{endif}\medskip
+
+\smallornament

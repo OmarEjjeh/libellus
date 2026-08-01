@@ -1,0 +1,21 @@
+# Stand-in for the pinned "eu2016" translation — KEIN liturgischer Text.
+#
+# The Benedict fixture pins `psalter_de: eu2016`, because that is what its
+# printed booklet was set from. The real Einheitsübersetzung is not
+# redistributable, so the suite resolves that pin against this synthetic
+# stand-in of the same name instead (ADR-0024). Same shape, same verse counts,
+# invented words.
+canticum: Magnificat
+verses:
+  1: Vergleichsvers 1 — Magnificat, kein echter Text.
+  2: Vergleichsvers 2 — Magnificat, kein echter Text.
+  3: Vergleichsvers 3 — Magnificat, kein echter Text.
+  4: Vergleichsvers 4 — Magnificat, kein echter Text.
+  5: Vergleichsvers 5 — Magnificat, kein echter Text.
+  6: Vergleichsvers 6 — Magnificat, kein echter Text.
+  7: Vergleichsvers 7 — Magnificat, kein echter Text.
+  8: Vergleichsvers 8 — Magnificat, kein echter Text.
+  9: Vergleichsvers 9 — Magnificat, kein echter Text.
+  10: Vergleichsvers 10 — Magnificat, kein echter Text.
+  11: Vergleichsvers 11 — Magnificat, kein echter Text.
+  12: Vergleichsvers 12 — Magnificat, kein echter Text.

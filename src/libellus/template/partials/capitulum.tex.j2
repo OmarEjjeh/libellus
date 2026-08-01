@@ -1,0 +1,18 @@
+% ============================================================
+%  CAPITULUM
+% ============================================================
+\section{Capitulum}
+\stagenote{Vorbeter, alle antworten}{Man sitzt}
+
+\begin{center}{\small\rubric{\VAR{feast.capitulum.ref|tex}}}\end{center}\medskip
+
+\noindent \BLOCK{for v in feast.capitulum.versus}\vers{\VAR{v.n}} \VAR{v.text|tex|pausemarks}\BLOCK{if not loop.last} \BLOCK{endif}\BLOCK{endfor}
+
+\#{ The closing tag sits on its own line: trim_blocks would otherwise eat the
+    newline after it and swallow the paragraph break before „Dank sei Gott". }
+\medskip\BLOCK{if latin_only}\BLOCK{for v in feast.capitulum.versus}\BLOCK{if v.note}\footnote{\VAR{v.note|tex}}\BLOCK{endif}\BLOCK{endfor}\BLOCK{else}\noindent{\footnotesize\itshape \BLOCK{for v in feast.capitulum.versus}\vers{\VAR{v.n}} \VAR{v.de|tex}\BLOCK{if v.note}\footnote{\VAR{v.note|tex}}\BLOCK{endif}\BLOCK{if not loop.last} \BLOCK{endif}\BLOCK{endfor}}
+\BLOCK{endif}\#{}
+
+\medskip\noindent\rc\rubric{Dank sei Gott.}
+
+\smallornament

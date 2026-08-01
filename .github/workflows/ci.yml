@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A newer push to the same branch makes an in-flight run pointless.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      # The psalm-tone engine is plain JS with no npm dependencies, but it does
+      # need a runtime: every build of every feast calls it (ADR-0024).
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: uv sync --all-groups
+
+      # test_form.py drives the browser form through the real data island
+      - name: Install the Playwright browser
+        run: uv run playwright install --with-deps chromium
+
+      # No Psalter is checked out here, so the two tests that gate the committed
+      # data island skip themselves (see conftest.requires_psalter). Everything
+      # else runs against the probe Psalter and must pass.
+      - run: uv run pytest -q
+
+      - name: Check the commit messages
+        # commitizen derives the version and changelog from them, so a
+        # non-conforming message on a branch is a problem before it is merged.
+        if: github.event_name == 'pull_request'
+        run: >-
+          uv run cz check
+          --rev-range ${{ github.event.pull_request.base.sha }}..HEAD
+
+  artifacts:
+    # The wheel must never carry the Einheitsübersetzung: it is
+    # © Katholische Bibelanstalt and PyPI is public distribution. pyproject
+    # excludes it, and this is what proves the exclusion actually held.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv build
+
+      - name: Refuse any Psalter or Einheitsübersetzung in the artifacts
+        run: |
+          set -euo pipefail
+          : > listing
+          for archive in dist/*.whl; do unzip -l "$archive" >> listing; done
+          for archive in dist/*.tar.gz; do tar tzf "$archive" >> listing; done
+          # tests/fixtures/psalter/ is exempt: it is the synthetic probe Psalter,
+          # invented words with no liturgical text, and the sdist needs it to be
+          # able to run the suite at all.
+          if grep -E 'de-eu|/psalter/' listing | grep -v 'tests/fixtures/psalter/'; then
+            echo "::error::a Psalter or Einheitsübersetzung file is inside the build artifacts"
+            exit 1
+          fi
+          echo "clean: no de-eu*, no psalter/ beyond the test fixture"
+
+      - name: Check the bundled assets are all present
+        # .gitignore's picture patterns are deliberately broad, and hatchling
+        # selects files via VCS — which silently emptied images/ out of the
+        # wheel once already. Assert the counts rather than trust the globs.
+        run: |
+          set -euo pipefail
+          for wheel in dist/*.whl; do
+            for pattern in 'libellus/template/' 'libellus/chant/' \
+                           'libellus/images/borders/' 'libellus/psalm-library/'; do
+              count=$(unzip -l "$wheel" | grep -c "$pattern" || true)
+              echo "$pattern -> $count files"
+              [ "$count" -gt 0 ] || { echo "::error::$pattern missing from the wheel"; exit 1; }
+            done
+          done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/

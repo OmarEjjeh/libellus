@@ -1,0 +1,41 @@
+% ============================================================
+%  PSALMI (antiphon + interlinear psalm verses, one block per pair)
+% ============================================================
+\BLOCK{for ps in psalmi}
+\section{Psalmus \VAR{ps.number_roman|upper}}
+
+\subsection{Antiphona \textsc{\VAR{ps.index_roman}}}
+\BLOCK{if loop.first}
+\stagenote{Schola}{Man steht}
+
+\noindent\gregorioscore{\VAR{ps.antiphona.gabc}}
+\BLOCK{else}
+\stagenote{Schola}{Man sitzt}
+
+\gregorioscore{\VAR{ps.antiphona.gabc}}
+\BLOCK{endif}
+\BLOCK{if not latin_only}\noindent{\footnotesize\itshape \VAR{ps.antiphona.de|tex}\BLOCK{if ps.antiphona.note}\footnote{\VAR{ps.antiphona.note|tex}}\BLOCK{endif}\par}\BLOCK{else}\noindent{\footnotesize \BLOCK{if ps.antiphona.note}\footnote{\VAR{ps.antiphona.note|tex}}\BLOCK{endif}\par}\BLOCK{endif}\medskip
+\subsection{Psalmus \VAR{ps.number_roman}}
+\BLOCK{if loop.first}
+\stagenote{Alle — beide Seiten Vers um Vers im Wechsel}{Beim zweiten Halbvers setzt man sich}
+\BLOCK{else}
+\stagenote{Alle — beide Seiten Vers um Vers im Wechsel}{}
+\BLOCK{endif}
+\gresetinitiallines{0}
+\BLOCK{for verse in ps.verses}
+\BLOCK{if compact and not loop.first}
+\textvers{\VAR{verse.number}}{\VAR{verse.halves|pointing}}{\VAR{verse.de|tex}}
+\BLOCK{else}
+\gregorioscore{\VAR{verse.gabc}}
+\BLOCK{if not latin_only}
+\pstrans{\VAR{verse.de|tex}}
+\BLOCK{endif}
+\BLOCK{endif}
+\BLOCK{endfor}
+\gresetinitiallines{1}
+
+\antrepeat{\VAR{ps.antiphona.repetitio|tex}}
+
+\smallornament
+
+\BLOCK{endfor}

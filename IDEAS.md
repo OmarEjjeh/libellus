@@ -1,0 +1,30 @@
+# Ideas
+
+- ~~improve incipit generation, for antiphons take everything till the star~~ — the star rule was refuted (it's the intonation break, lands after 2 words); promoted 2026-07-30 to ADR-0020 + issue #36 as an anti-dangling heuristic instead
+- ~~for gabc files that dont have euouae notes, users need to be able to easily supply them~~ — done 2026-07-27, issue #33
+- CI/CD pipeline mit pytest in github??
+- ~~rang des fests muss implementiert werden siehe hbk mail~~ — done 2026-07-25, ADR-0015
+- ~~retire vesper.tex once the monasticum skeleton reproduces the Benedict booklet~~ — done 2026-07-28 (roadmap item 8)
+- Kleines Männchen neben Gloria-Patri-/Sicut-erat-Versen, das sich beugt oder steht (Verbeugung anzeigen), damit auch die ganz Langsamen mitkommen.
+- GUI-Editor: Ease-of-life-Features fürs Textfeld-Editing, insbesondere komfortables Einfügen von Sonderglyphen wie * und † (Buttons/Shortcuts statt Copy-Paste).
+- die gui soll schicker aussehen, so ein altes missale, so richtig katholisch
+- ~~Structured way to add flavour/trivia filler pages at the end of a booklet~~ — promoted to issue #34, done 2026-07-28 (ADR-0018).
+- Form: "Freestyle-Modus" — nach Wahl eines Ritus umschaltbar in einen Modus, in dem man Elemente (Psalmen, Antiphon, Responsorium breve, Freitext etc.) per Drag-and-drop aus einer Palette frei anordnet, statt dem festen Skeleton zu folgen; Generierung im Backend.
+- Form: Live-Preview je Sektion — kein LaTeX-Rendering im Browser, aber ein (evtl. vorgeneriertes) Musterbild der jeweiligen Sektion anzeigen.
+- ich will irgendwie eine native app aus diesem ganzen bums bauen, die auch auf windows laufen muss
+- das repo selber muss eigentlich keine fest spezifischen dateien haben, es soll ein rein generelles repo sein
+- nicer stock filler pages
+- versiculus rendering vom content trennen, V und R nicht reinschreiben muessen sondern eigene felder definieren
+  - kann man den versiculus gabc auch automatisch generieren? es gibt ja verschiedene optionen, einmal mit heinrich vergleichen
+  - gibt es in jgabc nicht ein gabc-versicle format??
+- add a little script that generates devotional cards with translations of texts
+- support printing entire missals
+- e2e test: once St. Lambert is fully done and all software adjustments for its creation are finished, write a test that drives the form end-to-end (fill every field via Playwright) and asserts the resulting YAML is byte-identical to a "golden St. Lambert" fixture
+- ~~add "compact" option where psalms and magnificat and hymn aren't fully spelled out~~ — done 2026-07-31, issue #40 (ADR-0022): the „Kurzfassung" — `--compact`/`compact: true`, first verse notated, the rest pointed Latin + German, one hymn stanza; Lambert 28 statt 36 Seiten
+- add option for when a priest is present
+- ~~add DRAFT option~~ — done 2026-07-30, issue #39 (ADR-0021): `--draft`/`draft: true`, „PRO MANUSCRIPTO" plus the creation time on every page
+- add explanatory pages explaining the mystical significance of vesper/terce etc. 
+- selector for the marian antiphons, since they're fixed, with festive options
+- can we get german translations for the antiphons?
+- add TODO option in the form and in the yaml, libellus should log WARNINGS when such lines are found 
+- i need to leave a crash course on how to use the liber usualis and other sources

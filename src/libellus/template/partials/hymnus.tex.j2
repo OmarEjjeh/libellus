@@ -1,0 +1,36 @@
+% ============================================================
+%  HYMNUS
+% ============================================================
+\section{Hymnus}
+\stagenote{Schola}{Man steht auf · bei der Schlussstrophe verneigt man das Haupt}
+
+\begin{center}{\small\rubric{\VAR{hymnus.incipit|tex}}}\end{center}
+
+\gregorioscore{\VAR{hymnus.gabc}}
+
+\BLOCK{if compact}
+% Kurzfassung (ADR-0022): the score above holds the first stanza only, so its
+% German stands alone here and every further stanza follows as Latin + German.
+\BLOCK{if not latin_only}\medskip{\footnotesize\itshape\noindent\textbf{1.}~\VAR{hymnus.stanzas[0]|tex}\par}\BLOCK{endif}
+\BLOCK{for lines in hymnus.latin}
+\BLOCK{if latin_only}
+\textstanza{\VAR{loop.index + 1}}{\VAR{lines|pointing}}{\BLOCK{if loop.last and hymnus.note}\footnote{\VAR{hymnus.note|tex}}\BLOCK{endif}}
+\BLOCK{else}
+\textstanza{\VAR{loop.index + 1}}{\VAR{lines|pointing}}{\VAR{hymnus.stanzas[loop.index]|tex}\BLOCK{if loop.last and hymnus.note}\footnote{\VAR{hymnus.note|tex}}\BLOCK{endif}}
+\BLOCK{endif}
+\BLOCK{endfor}
+\BLOCK{else}
+\BLOCK{if latin_only}
+% Latin-only: no stanza translations (ADR-0025). The hymn's provenance footnote
+% is not a translation and still belongs on the page (ADR-0011).
+\BLOCK{if hymnus.note}\noindent{\footnotesize\footnote{\VAR{hymnus.note|tex}}\par}\BLOCK{endif}
+\BLOCK{else}
+\medskip{\footnotesize\itshape%
+\BLOCK{for stanza in hymnus.stanzas}
+\noindent\textbf{\VAR{loop.index}.}~\VAR{stanza|tex}\BLOCK{if loop.last and hymnus.note}\footnote{\VAR{hymnus.note|tex}}\BLOCK{endif}\BLOCK{if not loop.last}\\[3pt]\BLOCK{endif}
+\BLOCK{endfor}
+}
+\BLOCK{endif}
+\BLOCK{endif}
+
+\smallornament

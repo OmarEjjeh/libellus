@@ -1,0 +1,20 @@
+% ============================================================
+%  ORATIO
+% ============================================================
+\section{Oratio}
+\stagenote{Kantor, alle antworten}{Man steht}
+
+\gresetinitiallines{0}
+\gregorioscore{\VAR{ordinarium['versicle-domine-exaudi'].gabc}}
+\gresetinitiallines{1}
+\BLOCK{if not latin_only}\noindent{\footnotesize\itshape \VAR{ordinarium['versicle-domine-exaudi'].de|tex}\par}\BLOCK{endif}\medskip
+
+\noindent\rubric{Orémus.}\medskip\\
+\BLOCK{if not latin_only}\noindent{\footnotesize\itshape Lasset uns beten.\par}\BLOCK{endif}\medskip
+
+\noindent \VAR{feast.oratio.text|tex|pausemarks}
+
+\medskip\noindent\rc\rubric{Amen.}
+
+\medskip\BLOCK{if latin_only}\BLOCK{if feast.oratio.note}\footnote{\VAR{feast.oratio.note|tex}}\BLOCK{endif}\BLOCK{else}\noindent{\footnotesize\itshape \VAR{feast.oratio.de|tex}\BLOCK{if feast.oratio.note}\footnote{\VAR{feast.oratio.note|tex}}\BLOCK{endif}}
+\BLOCK{endif}

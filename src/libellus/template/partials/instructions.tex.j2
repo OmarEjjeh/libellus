@@ -1,0 +1,73 @@
+% ============================================================
+%  ZUM GEBRAUCH DIESES HEFTES
+% ============================================================
+\newpage
+\thispagestyle{plain}
+\null\vfill
+\begin{center}
+  \pgfornament[width=2.5cm,color=rubricred]{84}\\[1.2em]
+  {\footnotesize\scshape Zum Gebrauch dieses Heftes}\\[1.2em]
+\end{center}
+{\footnotesize
+\noindent\rubric{Wer singt?} — Bei jedem Gesang ist \rubric{links oben}
+vermerkt, wer ihn singt:\par\smallskip
+
+\noindent\begin{tabular}{@{}p{7.5em}@{}p{\dimexpr\linewidth-7.5em}@{}}
+  \rubric{Schola} &
+    singt allein: die Antiphonen und den Hymnus — hier bitte nur zuhören. \\[8pt]
+  \rubric{Alle} &
+    singen mit: die Psalmen, das Magnificat und die übrigen Gesänge —
+    wer sich dabei nicht sicher fühlt, kann ebenso gut einfach still
+    mitbeten. Psalmen und Magnificat werden \rubric{im Wechsel} gesungen:
+    Die beiden Seiten singen abwechselnd je einen Vers; es beginnt stets
+    die Seite des Hauptkantors. \\[8pt]
+  \rubric{Kantor} &
+    stimmt an bzw.\ singt den Ruf~({\color{rubricred}℣.});
+    \rubric{alle antworten}~({\color{rubricred}℟.}). \\[8pt]
+  \rubric{Vorbeter} &
+\BLOCK{if feast.cum_precibus}
+    spricht die deutschen Texte der Antiphonen, die Fürbitten und
+    die Oration. \\
+\BLOCK{else}
+    spricht die deutschen Texte der Antiphonen und die Oration. \\
+\BLOCK{endif}
+\end{tabular}\par\bigskip
+
+\noindent Das Sternchen~{\small*} in den Psalmversen bezeichnet die Versmitte;
+dort wird eine kurze Pause gehalten. Der deutsche Text dient
+dem Mitlesen und wird nicht gesungen; die deutschen Texte der Antiphonen sowie
+die Oration werden jedoch von einem Vorbeter vorgebetet.\par\bigskip
+
+\BLOCK{if compact}
+\noindent Nur der erste Vers ist in Noten gesetzt; die folgenden Verse werden
+auf denselben Ton gesungen — beim Hymnus ebenso nur die erste Strophe.\par\bigskip
+
+\BLOCK{endif}
+
+\noindent\rubric{Stehen oder sitzen?} — Der Hinweis dazu findet sich stets
+\rubric{rechts oben} am Beginn eines Abschnitts. Im Überblick:\par\smallskip
+
+\noindent\begin{tabular}{@{}p{7.5em}@{}p{\dimexpr\linewidth-7.5em}@{}}
+  \rubric{Man steht} &
+    zu Beginn (\textit{Deus, in adjutórium}), während der ersten Antiphon
+    und beim ersten Halbvers des ersten Psalms bis zum~{\small*}. \\[8pt]
+  \rubric{Man sitzt} &
+    vom zweiten Halbvers des ersten Psalms an: während der Psalmen
+    und beim \mbox{Capitulum}\BLOCK{if feast.responsorium} sowie beim Responsorium breve\BLOCK{endif}. \\[8pt]
+  \rubric{Man steht} &
+\BLOCK{if feast.cum_precibus}
+    vom Hymnus an bis zum Schluss: Versikel, Magnificat, Preces,
+    Vater unser, Oration, Abschluss und marianische Antiphon. \\[8pt]
+\BLOCK{else}
+    vom Hymnus an bis zum Schluss: Versikel, Magnificat, Oration,
+    Abschluss und marianische Antiphon. \\[8pt]
+\BLOCK{endif}
+  \rubric{Man verneigt}\newline\rubric{das Haupt} &
+    beim \textit{Glória Patri} und bei der Schlussstrophe
+    des Hymnus. \\
+\end{tabular}\par}
+\vspace{1.5em}
+\begin{center}
+  \pgfornament[width=2.5cm,color=rubricred]{84}
+\end{center}
+\vfill\null

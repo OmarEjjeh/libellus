@@ -1,0 +1,96 @@
+[project]
+name = "libellus"
+version = "0.1.0"
+description = "Liturgical booklet generator: feast YAML in, booklet PDF out"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "0BSD"
+license-files = ["LICENSE"]
+authors = [{ name = "Omar Ejjeh" }]
+keywords = [
+    "gregorian-chant",
+    "gregorio",
+    "latex",
+    "liturgy",
+    "usus-antiquior",
+    "vespers",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Religion",
+    "Natural Language :: German",
+    "Natural Language :: Latin",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Religion",
+    "Topic :: Text Processing :: Markup :: LaTeX",
+]
+dependencies = [
+    "jinja2>=3.1",
+    "pydantic>=2.7",
+    "pypdf>=4.0",
+    "pyyaml>=6.0",
+    "typer>=0.27.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/OmarEjjeh/libellus"
+Repository = "https://github.com/OmarEjjeh/libellus"
+Issues = "https://github.com/OmarEjjeh/libellus/issues"
+Changelog = "https://github.com/OmarEjjeh/libellus/blob/main/CHANGELOG.md"
+
+[project.scripts]
+libellus = "libellus.cli:app"
+
+[dependency-groups]
+dev = [
+    "commitizen>=4.17",
+    "pytest>=8.0",
+    "pytest-playwright>=0.8.0",
+]
+
+[tool.pytest.ini_options]
+# Only this repository's own tests. Without this, pytest also collects
+# psalter/tools/, which belongs to the private Psalter companion repository
+# that gets checked out there (ADR-0023).
+testpaths = ["tests"]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+# Read and write `project.version` above rather than keeping a second copy.
+version_provider = "pep621"
+tag_format = "v$version"
+update_changelog_on_bump = true
+# While this is true a breaking change bumps the minor, not to 1.0.0. Remove it
+# with a breaking-change commit once the feast-spec format has settled — that is
+# what graduates the project to v1.0.0. Only valid while the version is 0.x.x.
+major_version_zero = true
+# Merge and revert commits are not Conventional Commits and must not fail `cz check`.
+allowed_prefixes = ["Merge", "Revert", "Pull request", "bump:"]
+
+[build-system]
+# >=1.27 for PEP 639 (the SPDX `license` expression and `license-files`).
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/libellus"]
+
+# NEVER ship the Einheitsübersetzung. It is © Katholische Bibelanstalt and is
+# not redistributable; PyPI is public distribution. Bremen's copies arrive as a
+# private companion repository checked out into psalter/ (ADR-0023/0024), which
+# is outside the package and so cannot be swept in — but a `de-eu*` file that
+# ever lands inside src/ would be, hence the belt-and-braces exclude. CI
+# enforces this by unzipping the built artifacts and failing on any match, so
+# the guarantee does not rest on this glob alone.
+[tool.hatch.build]
+exclude = [
+    "**/de-eu*.yaml",
+    "psalter/**",
+]
+# Hatchling selects files via VCS, so .gitignore's deliberately broad picture
+# patterns (`*.png`, `*.jpg`) silently emptied images/ out of the wheel. The
+# border tiles are tracked by exception with `git add -f`; name them here or a
+# gilded back cover fails at compile time for everyone but a checkout.
+artifacts = ["src/libellus/images/**"]

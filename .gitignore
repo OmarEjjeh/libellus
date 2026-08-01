@@ -1,0 +1,66 @@
+scratch/
+tmp-gre
+eu/
+*.pdf
+*.png
+*.log
+*.jpeg
+*.jpg
+*.aux
+*.gaux
+
+# TRAP: the picture patterns above also match images/, so a new back-cover or
+# filler image is ignored on arrival and a fresh clone cannot build the feast
+# that references it. Adding one takes
+#   git add -f images/<feast>/<file>
+# The patterns stay broad on purpose — unused artwork accumulates fast, and
+# nobody wants megabytes of it in history by accident.
+# Tracked so far: src/libellus/images/borders/, and the three pictures the
+# reference feasts actually reference.
+repomix-output.xml
+.DS_Store
+.claude/
+.agents/
+skills-lock.json
+
+# Working state, never published: names people, quotes correspondence, records
+# half-finished reasoning. See "Handoff notes" in AGENTS.md. These stay on disk
+# locally and live on in the private vesper archive; the decisions they settled
+# are restated in docs/adr/ and CREDITS.md, attributed by role.
+HANDOFF.md
+*-review.html
+lambertus-email-threads.md
+lambertus-hintergrund.md
+
+# Python (libellus package)
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.egg-info/
+
+# Staged feast builds (rendered TeX + assets + Makefile per feast)
+/build/
+
+# Root-level TeX is generated (pre-staging builds landed at the repo root).
+/*.tex
+
+# Everything generated at build time — psalm/Magnificat verses, materialized
+# inline GABC, decoded data: URI images — now lands under build/.cache/
+# (ADR-0024), so /build/ above already covers it. It is deliberately never
+# written inside src/libellus/, which in an installed wheel is read-only.
+
+# raw HTML fetched by the EÜ-1980 psalter scrape (delete to re-fetch)
+scripts/psalter-german/cache/
+
+# A Psalter is never published from here. The Einheitsübersetzung is
+# © Katholische Bibelanstalt and not redistributable; Bremen's copies live in
+# the private companion repository and are checked out into psalter/
+# (ADR-0023). A public-domain German psalter, once it exists, can be tracked by
+# exception with `git add -f`.
+#
+# Anchored to the root on purpose: unanchored, this pattern also swallowed
+# tests/fixtures/psalter/, the synthetic probe Psalter the suite resolves
+# against — which is committed, and must be, or the suite fails everywhere but
+# this working copy.
+/psalter/

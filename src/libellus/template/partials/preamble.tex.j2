@@ -1,0 +1,355 @@
+% ============================================================
+%  Preamble — shared by all ordo skeletons
+%  (extracted from the hand-written Benedict booklet vesper.tex,
+%   since retired — see feasts/2026-07-10-benedictus.yaml)
+% ============================================================
+\documentclass[11pt,a5paper,twoside]{article}
+\usepackage{emptypage}
+% \footnote inside a minipage otherwise gets its own per-minipage,
+% letter-numbered counter (mpfootnote) instead of the document's ordinary
+% page-bottom footnote sequence — needed for the back cover's note (ADR-0011).
+\usepackage{footnote}
+
+% --- Geometry ---
+\usepackage[
+  a5paper,
+  top=18mm, bottom=20mm,
+  inner=18mm, outer=13mm,
+  headheight=14pt, includehead
+]{geometry}
+
+% --- Fonts ---
+\usepackage{fontspec}
+\setmainfont{EB Garamond}[
+  Ligatures  = TeX,
+  Numbers    = OldStyle,
+]
+\usepackage[tracking=true]{microtype}
+% Distinct face for the interlinear German psalm translations: a sturdy
+% old-style serif with a large x-height — clearly a different voice from
+% EB Garamond but traditional, and crisp at small sizes. Scaled to EB
+% Garamond's x-height so it sits quietly between scores.
+\newfontfamily\transfont{Charis SIL}[Scale=MatchLowercase]
+
+% Map the Maltese cross to a font that has it
+\usepackage{newunicodechar}
+\newfontfamily\symbolfont{STIXGeneral}
+\newunicodechar{✠}{{\symbolfont ✠}}
+
+% --- Color ---
+\usepackage{xcolor}
+\definecolor{rubricred}{HTML}{8B1414}
+
+% --- Gregoriotex ---
+\usepackage[autocompile]{gregoriotex}
+\gresetlinecolor{black}
+\grechangedim{spaceabovelines}{0.35cm}{scalable}
+\grechangedim{spacebeneathtext}{0.15cm}{scalable}
+\gresetgregoriofont[op]{greciliae}
+% The only score with a second text line is the Kurzfassung's Magnificat
+% system, where that line is verse 2 — sung Latin, not a translation, so it is
+% set upright rather than in gregorio's italic translation style (ADR-0022).
+\grechangestyle{translation}{}
+
+% Gregorio typesets a translation in an \hbox to 0pt (gregoriotex-main.tex,
+% \GreWriteTranslation), so it claims no width at all: the spacing engine
+% budgets a syllable from \wd\gre@box@syllabletext, the LYRIC's width, and a
+% second line wider than the lyric above it simply prints into its neighbour —
+% „sul-" over „tá-", „De-" over „o". Nothing on the lyric side can fix that,
+% because verbatim padding is emitted but never measured, and widening
+% intersyllablespacenotes moves the notes without moving the text.
+%
+% So the syllable is padded here by however much the line beneath overhangs it.
+% Only scores that carry a translation are affected, which in this booklet means
+% the Magnificat system alone.
+\makeatletter
+\newsavebox{\gretransbox}
+\let\gre@orig@writetranslation\GreWriteTranslation
+\def\GreWriteTranslation#1{%
+  \gre@orig@writetranslation{#1}%
+  \sbox\gretransbox{\gre@style@translation#1\endgre@style@translation}%
+  \ifdim\wd\gretransbox>\wd\gre@box@syllabletext
+    \kern\dimexpr\wd\gretransbox-\wd\gre@box@syllabletext\relax
+  \fi}
+\makeatother
+
+% --- Headers / footers ---
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small\thepage}
+\fancyhead[LO]{\small\itshape \VAR{feast.header|tex}}
+\fancyhead[RE]{\small\itshape Ad Vesperas\BLOCK{if feast.vesperae} \VAR{feast.vesperae}\BLOCK{endif}}
+\renewcommand{\headrulewidth}{0.3pt}
+\fancypagestyle{plain}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}}
+
+% --- Section headings ---
+% nobottomtitles*: a heading with less than \bottomtitlespace left on the
+% page is moved to the next page instead of being orphaned at the bottom.
+% 0.3 rather than 0.15 (2026-07-31): a fifth of that reserve is spent by the
+% heading, its \stagenote and a reference line, which left „Capitulum /
+% Vorbeter, alle antworten / Hebr 5, 1-6" standing alone at the foot of a page
+% with its text overleaf. ~11 lines of company are needed, not ~5. Measured on
+% both feasts: no page is added — the ÷4 ornament padding absorbs the reflow.
+\usepackage[nobottomtitles*]{titlesec}
+\renewcommand{\bottomtitlespace}{0.3\textheight}
+\titleformat{\section}[block]
+  {\centering\large\scshape\color{rubricred}}{}
+  {0em}{}
+  [\vspace{3pt}\textcolor{black}{\rule{\linewidth}{0.3pt}}]
+\titleformat{\subsection}[block]
+  {\centering\normalsize\itshape\color{rubricred}}{}
+  {0em}{}
+\titlespacing*{\section}  {0pt}{1.4em}{0.6em}
+\titlespacing*{\subsection}{0pt}{0.5em}{0.2em}
+
+% --- Ornaments ---
+\usepackage{pgfornament}
+\newcommand{\ornament}[1]{%
+  \begin{center}%
+    \pgfornament[width=3cm,color=rubricred]{#1}%
+  \end{center}}
+\newcommand{\smallornament}{%
+  \begin{center}%
+    \pgfornament[width=1.8cm,color=rubricred]{84}%
+  \end{center}}
+
+% Ornamental frame around an image (ADR-0013): four corner \pgfornaments
+% held OUTSIDE the image by a margin (never overlapping it), connected by
+% \pgfornamenthline/\pgfornamentvline along all four edges — mirrors
+% pgfornament's own documented "poem in a frame" example.
+% #1 = corner ornament number, #2 = line ornament number,
+% #3 = margin (a length), #4 = the \includegraphics command to frame.
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\newcommand{\framedimage}[4]{%
+  \begin{tikzpicture}[color=rubricred, every node/.style={inner sep=0pt}]
+    \node[anchor=center] (fiimg) {#4};
+    \node[shift={(-#3,#3)},anchor=north west] (finw) at (fiimg.north west)
+      {\pgfornament[width=1.6cm,color=rubricred]{#1}};
+    \node[shift={(#3,#3)},anchor=north east] (fine) at (fiimg.north east)
+      {\pgfornament[width=1.6cm,color=rubricred,symmetry=v]{#1}};
+    \node[shift={(-#3,-#3)},anchor=south west] (fisw) at (fiimg.south west)
+      {\pgfornament[width=1.6cm,color=rubricred,symmetry=h]{#1}};
+    \node[shift={(#3,-#3)},anchor=south east] (fise) at (fiimg.south east)
+      {\pgfornament[width=1.6cm,color=rubricred,symmetry=c]{#1}};
+    \pgfornamenthline{finw}{fine}{north}{#2}
+    \pgfornamenthline{fisw}{fise}{south}{#2}
+    \pgfornamentvline{finw}{fisw}{west}{#2}
+    \pgfornamentvline{fine}{fise}{east}{#2}
+  \end{tikzpicture}}
+
+% Photographed gold frame around an image ("gilded" border, ADR-0014):
+% nine-slice tiling of a photographed frame moulding
+% (images/borders/gilded-corner-*.png, gilded-edge-<side>-<n>.png). Unlike
+% \framedimage above, the frame sits FLUSH against the image (no gap) — it
+% wraps the picture like a real frame rather than floating near it.
+%
+% Corners are each a real photographed corner (no mirroring: a mirrored
+% tile visibly mismatched the photo's directional gloss highlight). Edges
+% are NOT one tile repeated — each side is sliced into several consecutive
+% real segments (gilded-edge-{top,bottom}-0..12, -{left,right}-0..10), and
+% displayed tiles are sampled proportionally across that real sequence, so
+% the segment touching a corner is always the segment actually adjacent to
+% that corner in the photo. That carries the photo's own natural gradient
+% through instead of a single cloned tile hard-cutting against each corner.
+% Interior edge-to-edge boundaries (not the corner-facing ends of the first/
+% last segment, which stay untouched — those are approved as-is) use a
+% "-feather" tile variant with alpha-faded tiling-direction margins,
+% rendered wider so neighbouring tiles overlap and crossfade instead of
+% butting with a hard cut.
+% #1 = frame thickness (a length), #2 = the \includegraphics command to frame.
+\newsavebox{\GfBox}
+\newif\ifGfEdgeSuffix
+\def\GfWiden{1.3}
+% Draws one edge tile, picking the plain or "-feather" (wider, alpha-faded
+% margins) variant depending on whether #1/#2 (index/last-index) is an
+% interior position. Defined as ordinary macros — not raw \ifnum inside the
+% \foreach body below — because \foreach's own body-scanning mishandles a
+% bare \ifnum/\else/\fi sequence ("Incomplete \ifnum" at compile time).
+% #1=i #2=last-index #3=segment-index #4=offset-in-pt #5=tile-size-in-pt #6=frame-thickness
+\newcommand{\GfTopEdgeTile}[6]{%
+  \ifnum#1=0 \GfEdgeSuffixfalse\else\ifnum#1=#2 \GfEdgeSuffixfalse\else\GfEdgeSuffixtrue\fi\fi
+  \ifGfEdgeSuffix
+    \pgfmathsetmacro{\GfW}{(#5)*\GfWiden}
+    \node[anchor=south] at ($(nw)+(#4 pt,0)$)
+      {\includegraphics[width=\GfW pt,height=#6]{images/borders/gilded-edge-top-#3-feather.png}};
+  \else
+    \node[anchor=south] at ($(nw)+(#4 pt,0)$)
+      {\includegraphics[width=#5 pt,height=#6]{images/borders/gilded-edge-top-#3.png}};
+  \fi}
+\newcommand{\GfBottomEdgeTile}[6]{%
+  \ifnum#1=0 \GfEdgeSuffixfalse\else\ifnum#1=#2 \GfEdgeSuffixfalse\else\GfEdgeSuffixtrue\fi\fi
+  \ifGfEdgeSuffix
+    \pgfmathsetmacro{\GfW}{(#5)*\GfWiden}
+    \node[anchor=north] at ($(sw)+(#4 pt,0)$)
+      {\includegraphics[width=\GfW pt,height=#6]{images/borders/gilded-edge-bottom-#3-feather.png}};
+  \else
+    \node[anchor=north] at ($(sw)+(#4 pt,0)$)
+      {\includegraphics[width=#5 pt,height=#6]{images/borders/gilded-edge-bottom-#3.png}};
+  \fi}
+\newcommand{\GfLeftEdgeTile}[6]{%
+  \ifnum#1=0 \GfEdgeSuffixfalse\else\ifnum#1=#2 \GfEdgeSuffixfalse\else\GfEdgeSuffixtrue\fi\fi
+  \ifGfEdgeSuffix
+    \pgfmathsetmacro{\GfH}{(#5)*\GfWiden}
+    \node[anchor=east] at ($(nw)+(0,-#4 pt)$)
+      {\includegraphics[width=#6,height=\GfH pt]{images/borders/gilded-edge-left-#3-feather.png}};
+  \else
+    \node[anchor=east] at ($(nw)+(0,-#4 pt)$)
+      {\includegraphics[width=#6,height=#5 pt]{images/borders/gilded-edge-left-#3.png}};
+  \fi}
+\newcommand{\GfRightEdgeTile}[6]{%
+  \ifnum#1=0 \GfEdgeSuffixfalse\else\ifnum#1=#2 \GfEdgeSuffixfalse\else\GfEdgeSuffixtrue\fi\fi
+  \ifGfEdgeSuffix
+    \pgfmathsetmacro{\GfH}{(#5)*\GfWiden}
+    \node[anchor=west] at ($(ne)+(0,-#4 pt)$)
+      {\includegraphics[width=#6,height=\GfH pt]{images/borders/gilded-edge-right-#3-feather.png}};
+  \else
+    \node[anchor=west] at ($(ne)+(0,-#4 pt)$)
+      {\includegraphics[width=#6,height=#5 pt]{images/borders/gilded-edge-right-#3.png}};
+  \fi}
+\newcommand{\goldframedimage}[2]{%
+  \sbox{\GfBox}{#2}%
+  \begin{tikzpicture}[inner sep=0pt, outer sep=0pt]
+    \node (fiimg) {\usebox{\GfBox}};
+    \coordinate (nw) at (fiimg.north west);
+    \coordinate (ne) at (fiimg.north east);
+    \coordinate (sw) at (fiimg.south west);
+    \coordinate (se) at (fiimg.south east);
+    % corners: forced to #1 x #1 (native pixel aspect is within ~3% of
+    % square, imperceptible, and keeps every tile flush to the same thickness)
+    \node[anchor=south east] at (nw) {\includegraphics[width=#1,height=#1]{images/borders/gilded-corner-nw.png}};
+    \node[anchor=south west] at (ne) {\includegraphics[width=#1,height=#1]{images/borders/gilded-corner-ne.png}};
+    \node[anchor=north east] at (sw) {\includegraphics[width=#1,height=#1]{images/borders/gilded-corner-sw.png}};
+    \node[anchor=north west] at (se) {\includegraphics[width=#1,height=#1]{images/borders/gilded-corner-se.png}};
+    \pgfmathsetmacro{\GfImgWpt}{\the\wd\GfBox/1pt}
+    \pgfmathsetmacro{\GfImgHpt}{(\the\ht\GfBox+\the\dp\GfBox)/1pt}
+    % top/bottom: 13 real segments each, nominal width ~92px at height 152/153
+    \pgfmathsetmacro{\GfEdgeWTop}{(#1)*92/152}
+    \pgfmathsetmacro{\GfEdgeWBot}{(#1)*92/153}
+    \pgfmathtruncatemacro{\GfNTop}{max(1,round(\GfImgWpt/\GfEdgeWTop))}
+    \pgfmathsetmacro{\GfTileWTop}{\GfImgWpt/\GfNTop}
+    \pgfmathtruncatemacro{\GfNBot}{max(1,round(\GfImgWpt/\GfEdgeWBot))}
+    \pgfmathsetmacro{\GfTileWBot}{\GfImgWpt/\GfNBot}
+    \pgfmathtruncatemacro{\GfNTopm}{\GfNTop-1}
+    \pgfmathtruncatemacro{\GfNBotm}{\GfNBot-1}
+    \foreach \i in {0,...,\GfNTopm} {
+      \pgfmathsetmacro{\GfX}{\GfTileWTop*(\i+0.5)}
+      \pgfmathtruncatemacro{\GfJ}{round(\i*12/max(\GfNTopm,1))}
+      \GfTopEdgeTile{\i}{\GfNTopm}{\GfJ}{\GfX}{\GfTileWTop}{#1}
+    }
+    \foreach \i in {0,...,\GfNBotm} {
+      \pgfmathsetmacro{\GfX}{\GfTileWBot*(\i+0.5)}
+      \pgfmathtruncatemacro{\GfJ}{round(\i*12/max(\GfNBotm,1))}
+      \GfBottomEdgeTile{\i}{\GfNBotm}{\GfJ}{\GfX}{\GfTileWBot}{#1}
+    }
+    % left/right: 11 real segments each, nominal height ~88px at width 152/148
+    \pgfmathsetmacro{\GfEdgeHLeft}{(#1)*88/152}
+    \pgfmathsetmacro{\GfEdgeHRight}{(#1)*88/148}
+    \pgfmathtruncatemacro{\GfNLeft}{max(1,round(\GfImgHpt/\GfEdgeHLeft))}
+    \pgfmathsetmacro{\GfTileHLeft}{\GfImgHpt/\GfNLeft}
+    \pgfmathtruncatemacro{\GfNRight}{max(1,round(\GfImgHpt/\GfEdgeHRight))}
+    \pgfmathsetmacro{\GfTileHRight}{\GfImgHpt/\GfNRight}
+    \pgfmathtruncatemacro{\GfNLeftm}{\GfNLeft-1}
+    \pgfmathtruncatemacro{\GfNRightm}{\GfNRight-1}
+    \foreach \i in {0,...,\GfNLeftm} {
+      \pgfmathsetmacro{\GfY}{\GfTileHLeft*(\i+0.5)}
+      \pgfmathtruncatemacro{\GfJ}{round(\i*10/max(\GfNLeftm,1))}
+      \GfLeftEdgeTile{\i}{\GfNLeftm}{\GfJ}{\GfY}{\GfTileHLeft}{#1}
+    }
+    \foreach \i in {0,...,\GfNRightm} {
+      \pgfmathsetmacro{\GfY}{\GfTileHRight*(\i+0.5)}
+      \pgfmathtruncatemacro{\GfJ}{round(\i*10/max(\GfNRightm,1))}
+      \GfRightEdgeTile{\i}{\GfNRightm}{\GfJ}{\GfY}{\GfTileHRight}{#1}
+    }
+  \end{tikzpicture}}
+
+% --- Liturgical helper commands ---
+\newcommand{\rubric}[1]{{\color{rubricred}\textit{#1}}}
+\newcommand{\vc}{{\color{rubricred}℣.}~}
+\newcommand{\rc}{{\color{rubricred}℟.}~}
+\newcommand{\cros}{{\color{rubricred}†}~}
+\newcommand{\vers}[1]{\textsuperscript{\scriptsize #1}}
+
+% German translation line placed directly beneath a one-verse psalm score.
+% Must follow \gregorioscore at top level: \gregorioscore may not be wrapped
+% inside a macro (its autocompile input callback garbles the input buffer).
+\NewDocumentCommand{\pstrans}{+m}{%
+  \nopagebreak
+  % \leftskip (not \hspace) so wrapped lines stay aligned with the indent
+  {\leftskip=1.8em\noindent{\footnotesize\transfont\color{black!80}#1}\par}%
+}
+
+% One psalm or canticle verse set as text instead of notation (Kurzfassung,
+% ADR-0022): #1 = verse number, #2 = the pointed Latin with its half-verses
+% separated by \\, #3 = the German.
+% \hangindent indents every line after the first, so an explicit half-verse
+% break and an ordinary wrap look alike — the second half-verse sits where a
+% pointed psalter puts it. The German stays \pstrans: these are the
+% interlinear psalm translations, the one place \transfont belongs.
+\NewDocumentCommand{\textvers}{m +m +m}{%
+  \nopagebreak
+  {\hangindent=1.2em\hangafter=1\noindent\small\vers{#1}~#2\par}%
+  \pstrans{#3}%
+  \nopagebreak\vspace{2pt}%
+}
+
+% One hymn stanza set as text instead of notation (Kurzfassung, ADR-0022):
+% #1 = stanza number, #2 = the Latin metrical lines separated by \\,
+% #3 = the German. Metrical lines all start at the margin — a hymn's lines
+% are a fixed metre, not half-verses of unequal length. NOT \pstrans: every
+% German except the interlinear psalm verses is Garamond italic.
+\newcommand{\textstanza}[3]{%
+  \nopagebreak\smallskip
+  {\noindent\small\textbf{#1.}~#2\par}%
+  {\leftskip=1.2em\noindent{\footnotesize\itshape #3}\par}%
+}
+
+% The Kurzfassung's Magnificat system carries two verses under one line of
+% notes (ADR-0022), and gregorio sizes each syllable by its *lyric* — so where
+% the second verse's syllable is the wider one it would print into its
+% neighbour. This adds exactly the missing width and never a negative amount;
+% the generated system files in chant/magnificat/kurzfassung/ call it.
+% #1 = the syllable above, #2 = the syllable beneath.
+\newcommand{\antrepeat}[1]{%
+  \vspace{4pt}%
+  \noindent\rubric{Ant.}~\textit{#1\ldots}\par
+}
+
+% Note line at the top of a piece:
+% #1 = who sings (top left), #2 = posture (top right); either may be empty
+\newcommand{\stagenote}[2]{%
+  \nopagebreak\vspace{-0.5em}%
+  {\noindent{\scriptsize\itshape\color{rubricred}#1}\hfill{\scriptsize\itshape\color{rubricred}#2}\par}%
+  % positive space below: a left-hand singer note would otherwise collide
+  % with the clef of a directly following psalm-verse score
+  \nopagebreak\vspace{0.2em}%
+}
+
+\BLOCK{if draft_stamp}
+% --- Entwurf (ADR-0021) ---
+% Rendered only for a draft build — the whole block, comments included, so a
+% final booklet has no trace of it and needs no TeX-level flag. Both marks are
+% drawn in the shipout/background layer: painted at absolute page coordinates,
+% they never reflow a line, never shift the page count off the multiple of 4
+% the imposition needs, and cannot be suppressed by \thispagestyle{empty}
+% (cover) or \pagestyle{plain} (filler pages) the way a fancyhdr footer would.
+\usepackage{draftwatermark}
+\SetWatermarkText{PRO MANUSCRIPTO}
+\SetWatermarkScale{0.45}
+\SetWatermarkLightness{0.9}
+\SetWatermarkAngle{45}
+% The dated line sits inside geometry's 20mm bottom margin — below the text
+% block, hence below every footnote (the provenance notes of ADR-0011).
+\usepackage{eso-pic}
+\AddToShipoutPictureBG{%
+  \AtPageLowerLeft{\raisebox{9mm}{\makebox[\paperwidth][c]{%
+    \scriptsize\itshape\color{black!45}\VAR{draft_stamp|tex}}}}}
+\BLOCK{endif}
+
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{setspace}
+\setstretch{1.08}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}

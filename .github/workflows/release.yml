@@ -1,0 +1,121 @@
+name: Release
+
+# `cz bump` writes the version and tag locally; pushing the tag is what
+# releases. Nothing here bumps anything, so a release is always deliberate
+# (ADR-0023).
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv build
+
+      - name: Refuse any Psalter or Einheitsübersetzung in the artifacts
+        run: |
+          set -euo pipefail
+          : > listing
+          for archive in dist/*.whl; do unzip -l "$archive" >> listing; done
+          for archive in dist/*.tar.gz; do tar tzf "$archive" >> listing; done
+          # tests/fixtures/psalter/ is exempt: synthetic words, no liturgical
+          # text, and the sdist needs it to be able to run the suite.
+          if grep -E 'de-eu|/psalter/' listing | grep -v 'tests/fixtures/psalter/'; then
+            echo "::error::copyrighted content in the artifacts"
+            exit 1
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  booklet-from-the-wheel:
+    # The one check that can catch a wheel missing package data: install it into
+    # a clean environment, in a directory that is NOT a checkout, and set a whole
+    # booklet from it. A latin_only feast is used because no Psalter ships with
+    # libellus and none is available here — which is precisely what that flag is
+    # for (ADR-0025).
+    needs: build
+    runs-on: ubuntu-latest
+    container:
+      # LuaLaTeX, gregoriotex, the gregorio binary and pdfjam in one image
+      image: texlive/texlive:latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Install the tools TeX Live does not carry
+        run: |
+          apt-get update -qq
+          apt-get install -y --no-install-recommends pdftk-java nodejs python3-venv
+
+      - name: Install the built wheel into a clean environment
+        run: |
+          python3 -m venv /tmp/venv
+          /tmp/venv/bin/pip install --quiet dist/*.whl
+
+      - name: Make a working directory that is not a checkout
+        # Only content: one feast spec and the picture it references. No chant/,
+        # no template/, no psalter/ — all of that must come from the wheel.
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/work/feasts /tmp/work/images/03-lambert
+          cp images/03-lambert/*.jpg /tmp/work/images/03-lambert/
+          python3 - <<'PY'
+          import pathlib, re
+          src = pathlib.Path("feasts/2026-09-18-lambertus.yaml").read_text(encoding="utf-8")
+          out, skipping, indent = [], False, 0
+          for line in src.split("\n"):
+              here = len(line) - len(line.lstrip())
+              if skipping and (not line.strip() or here > indent):
+                  continue
+              skipping = False
+              if re.match(r"^\s*(de|motto_de):", line):
+                  skipping, indent = True, here
+                  continue
+              out.append(line)
+          pathlib.Path("/tmp/work/feasts/probe.yaml").write_text(
+              "latin_only: true\n" + "\n".join(out), encoding="utf-8"
+          )
+          PY
+
+      - name: Set the booklet
+        working-directory: /tmp/work
+        run: /tmp/venv/bin/libellus build feasts/probe.yaml
+
+      - name: There must be a booklet, and it must have pages
+        working-directory: /tmp/work
+        run: |
+          set -euo pipefail
+          pdf=build/probe/probe.pdf
+          [ -f "$pdf" ] || { echo "::error::no booklet was produced"; exit 1; }
+          pages=$(pdfinfo "$pdf" | awk '/^Pages:/ {print $2}')
+          echo "$pdf — $pages pages"
+          [ "$pages" -ge 20 ] || { echo "::error::only $pages pages"; exit 1; }
+          # a Latin-only booklet keeps its German rubrics and drops every
+          # translation; if the psalm German leaked in, the flag did nothing
+          pdftotext "$pdf" - > /tmp/text.txt
+          grep -q "Man steht" /tmp/text.txt || { echo "::error::rubrics missing"; exit 1; }
+
+  publish:
+    needs: booklet-from-the-wheel
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      # PyPI Trusted Publishing (OIDC): no API token is stored anywhere. The
+      # publisher on PyPI is configured against this repository AND this
+      # workflow's filename, so renaming this file breaks publishing.
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@release/v1

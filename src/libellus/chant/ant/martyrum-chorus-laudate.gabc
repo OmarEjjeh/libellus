@@ -1,0 +1,11 @@
+name:Martyrum chorus laudate;
+office-part:Antiphona;
+mode:8;
+book:Liber antiphonarius, 1960, p. [42]; via GregoBase (gregobase.selapa.net), chant id 12903;
+transcriber:Andrew Hinkley;
+% Abweichung von der Vorlage, 2026-07-30: die Vorlage schreibt "MAr(j)ty(i')rum(j)"
+% ganz ohne Akzent, so dass auch die gesungene Antiphon unbetont gedruckt wurde.
+% Der Ton liegt auf der Antepaenultima (már-ty-rum), also "MÁrtyrum" — so gerügt
+% von Pastor Kraienhorst in seiner Durchsicht des Ordo Vesperarum (ADR-0020).
+%%
+(c4) MÁr(j)ty(i')rum(j) cho(h_g)rus,(h.) *(;) lau(gf~)dá(g)te(h) Dó(j')mi(h)num(i_j) in(h) ex(fg)cél(g.)sis.(g.) (::)
