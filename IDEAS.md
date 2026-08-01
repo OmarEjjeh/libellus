@@ -1,5 +1,6 @@
 # Ideas
 
+- latex in wasm?!
 - ~~improve incipit generation, for antiphons take everything till the star~~ — the star rule was refuted (it's the intonation break, lands after 2 words); promoted 2026-07-30 to ADR-0020 + issue #36 as an anti-dangling heuristic instead
 - ~~for gabc files that dont have euouae notes, users need to be able to easily supply them~~ — done 2026-07-27, issue #33
 - CI/CD pipeline mit pytest in github??

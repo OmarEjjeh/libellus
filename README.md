@@ -88,17 +88,35 @@ wherever the tools do exist.
 
 ## Install
 
+Install it with [uv](https://docs.astral.sh/uv/):
+
 ```
-pip install libellus
+uv tool install libellus
 ```
 
-or, to work on it:
+This is the way to get `libellus`. It is a command-line tool, not a library you
+import, so uv gives it an isolated environment of its own and puts the
+`libellus` command on your `PATH` — nothing to activate, and no chance of
+colliding with another project's dependencies. Later, `uv tool upgrade libellus`.
+
+If your shell cannot find the command afterwards, run `uv tool update-shell`
+once and open a new terminal.
+
+<sub>For a one-off look without installing, `uvx libellus --help` runs it from a
+throwaway environment. `pip install libellus` and `pipx install libellus` also
+work, if that is the habit.</sub>
+
+To work on it instead:
 
 ```
 git clone https://github.com/OmarEjjeh/libellus
 cd libellus
 uv sync --all-groups
+uv run libellus --help
 ```
+
+In a clone, prefix the commands in this README with `uv run` — that is what
+picks up your checkout rather than an installed copy.
 
 The package carries everything that is *the tool*: the per-rite skeletons, the
 chant library, the psalm-tone engine and the border artwork. It deliberately
@@ -369,6 +387,11 @@ Two things worth knowing before touching the templates:
 - **A LaTeX `%` comment in a template still reaches the `.tex`.** Use `\#{ … }`
   for a comment that should not be emitted, and remember that template
   conditionals run at render time while `\if…` runs at compile time.
+- **A font named in the preamble is a dependency.** Name only fonts TeX Live
+  ships, or the tool stops working on everyone else's machine — the template
+  once asked for a macOS-only face and no booklet could be built on Linux at
+  all. `docker run --rm texlive/texlive:latest luaotfload-tool --find="<name>"`
+  answers whether CI will find it.
 
 Commit messages are [Conventional Commits](https://www.conventionalcommits.org/),
 and that is load-bearing: `commitizen` derives the version and the changelog from
@@ -377,7 +400,7 @@ them.
 ## Releasing
 
 ```
-cz bump                    # writes the version + CHANGELOG.md, commits, tags
+uv run cz bump             # writes the version + CHANGELOG.md, commits, tags
 git push --follow-tags     # pushing the tag is what publishes
 ```
 
