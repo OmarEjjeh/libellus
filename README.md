@@ -418,7 +418,11 @@ never left behind.
 Notes for whoever keeps the Bremen booklets going.
 
 - **Two clones.** `libellus`, plus the private `psalter-eu` repository checked
-  out into `psalter/`. Without the second one, only Latin-only booklets build.
+  out into `psalter/` — `git clone <psalter-eu> psalter` from the root of this
+  one. Without the second, only Latin-only booklets build. That clone is also
+  the psalter's only backup: the verse boundaries in it were re-cut psalm by
+  psalm against the Vulgate division, and no machine can redo that from the
+  source text. Commit and push changes to it like any other repository.
 - **The psalter is Einheitsübersetzung** and must not be published: not in this
   repository, not in the wheel, not in a bundle sent outside the parish.
   `psalter/` is gitignored and CI fails if any of it reaches an artifact.
