@@ -3,6 +3,14 @@
 Date: 2026-08-01
 Status: accepted
 Supersedes: ADR-0008's `de-<versio>.yaml` file convention
+Amended: 2026-08-01 — "a fresh install has no Psalter at all" ceases to hold once
+the all-in-one ships (ADR-0026). A **public-domain** Psalter (Allioli-Arndt, issue
+#1) becomes part of the Bundled data, so a stranger gets a bilingual booklet out
+of the box. What this ADR decided is otherwise unchanged and is what makes that
+possible: a Psalter is still a directory, still selected per feast with
+`psalter_de:`, and one supplied beside a Working directory still sits alongside
+the bundled default rather than replacing it — which is how Bremen keeps singing
+from `eu1980`, since the Einheitsübersetzung remains unshippable.
 
 ## Context
 
