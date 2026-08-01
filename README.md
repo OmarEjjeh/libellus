@@ -11,7 +11,8 @@ imposes the booklet.
 
 It was written for a schola in Bremen and is used there for real; the two feasts
 in `feasts/` are booklets that have actually been sung from. It is licensed
-[0BSD](LICENSE) — do anything you like with it, no attribution required.
+[0BSD](https://github.com/OmarEjjeh/libellus/blob/main/LICENSE) — do anything
+you like with it, no attribution required.
 
 ## Contents
 
@@ -35,10 +36,12 @@ in `feasts/` are booklets that have actually been sung from. It is licensed
 
 ## What it produces
 
+<!-- Absolute URLs on purpose: PyPI renders this file on the project page and
+     resolves nothing relative to the repository. -->
 <p align="center">
-  <img src="docs/images/cover.png" alt="Cover page: Vesperæ Primæ in Festo Sancti Lamberti, Episcopi et Martyris, with red ornamental rules" width="42%">
+  <img src="https://raw.githubusercontent.com/OmarEjjeh/libellus/main/docs/images/cover.png" alt="Cover page: Vesperæ Primæ in Festo Sancti Lamberti, Episcopi et Martyris, with red ornamental rules" width="42%">
   &nbsp;&nbsp;
-  <img src="docs/images/psalm.png" alt="A psalm page: antiphon in Gregorian notation with a drop capital, then the psalm verses pointed to tone 8G" width="42%">
+  <img src="https://raw.githubusercontent.com/OmarEjjeh/libellus/main/docs/images/psalm.png" alt="A psalm page: antiphon in Gregorian notation with a drop capital, then the psalm verses pointed to tone 8G" width="42%">
 </p>
 
 <p align="center"><sub>St. Lambert, Second Vespers — shown here as a
@@ -408,12 +411,17 @@ Notes for whoever keeps the Bremen booklets going.
 
 ## Credits and licence
 
-The code and templates are [0BSD](LICENSE). The repository also carries
-third-party material under its own terms — GregoBase's CC0 chant, the
-public-domain Clementine psalter, Ben Bloomfield's Unlicense psalm-tone engine,
-the border artwork and the hymn translations. All of it is listed, with what the
-licence does and does not cover, in [CREDITS.md](CREDITS.md).
+The code and templates are
+[0BSD](https://github.com/OmarEjjeh/libellus/blob/main/LICENSE). The repository
+also carries third-party material under its own terms — GregoBase's CC0 chant,
+the public-domain Clementine psalter, Ben Bloomfield's Unlicense psalm-tone
+engine, the border artwork and the hymn translations. All of it is listed, with
+what the licence does and does not cover, in
+[CREDITS.md](https://github.com/OmarEjjeh/libellus/blob/main/CREDITS.md).
 
-Decisions live in [`docs/adr/`](docs/adr/) and the domain vocabulary in
-[`CONTEXT.md`](CONTEXT.md). If you are picking this up cold, read ADR-0001 and
-ADR-0024 first: what a feast spec is, and where the files come from.
+Decisions live in
+[`docs/adr/`](https://github.com/OmarEjjeh/libellus/tree/main/docs/adr) and the
+domain vocabulary in
+[`CONTEXT.md`](https://github.com/OmarEjjeh/libellus/blob/main/CONTEXT.md). If
+you are picking this up cold, read ADR-0001 and ADR-0024 first: what a feast
+spec is, and where the files come from.
