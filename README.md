@@ -74,7 +74,9 @@ calls. You need all of these on `PATH`:
 | **`pdftk`** | rotates alternate pages for duplex printing |
 
 Fonts: **EB Garamond**, **Charis SIL** (the interlinear translation face) and
-**STIXGeneral** (for ✠).
+**XITS** (for ✠). All three ship with TeX Live — as the packages `ebgaramond`,
+`charissil` and `xits` — so nothing needs installing at the system level, and
+the booklet sets the same on Linux as on macOS.
 
 A full TeX Live install covers everything but Node.js and `pdftk`. On Debian or
 Ubuntu: `apt install texlive-full nodejs pdftk-java`. On macOS: MacTeX, then

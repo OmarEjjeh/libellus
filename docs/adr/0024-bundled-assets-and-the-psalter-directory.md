@@ -115,3 +115,13 @@ even when the package sits in a read-only `site-packages`.
   A test that builds paths itself can pass by reading a file the real code would
   never consult — which is exactly how a stale `chant/**/toni/` directory made a
   broken build look green during this work.
+- Bundling the assets is not the whole of portability: the **fonts** are named
+  in the template and resolved from the environment. The first release gate to
+  actually run found the template asking for `STIXGeneral`, which exists only
+  because macOS bundles it — so the published tool could not compile a booklet
+  on Linux at all, for one glyph (✠, used once, in `incipit.gabc`). It now asks
+  for **XITS**, the STIX fork that ships with TeX Live: its U+2720 is the same
+  glyph, byte-identical outline and advance, so no output moved. EB Garamond
+  and Charis SIL were already TeX Live packages and were never the problem.
+  The lesson generalises — a font named in the preamble is a dependency as real
+  as an imported module, and only a build on another platform reveals it.
