@@ -2,7 +2,7 @@
 
 Field names follow the booklet's own liturgical Latin (antiphonae,
 capitulum, hymnus, versiculus, magnificat, oratio) plus plain-English
-glue (title, date, rank, rite, gabc, de). See HANDOFF.md.
+glue (title, date, rank, rite, gabc, de). See ADR-0001 and CONTEXT.md.
 """
 
 from __future__ import annotations

@@ -1,20 +1,20 @@
-# DRAFT — St. Lambert, Vespers I, romanum-cum-precibus (issue #13).
+# DRAFT — St. Lambert, Vespers I, romanum-cum-precibus (issue #14).
 #
 # This file is a first pass, not a finished, signed-off feast spec. It
-# assembles everything already decided in HANDOFF.md ("Lambert content —
-# grilling session"), plus GABC freshly fetched from GregoBase for the
-# five Common-of-Martyrs pieces that weren't in the repo yet (antiphons
-# 1-3/5, hymn). Several German translations below are a first AI draft,
-# not yet seen by Omar or the priest — every such field is flagged with a
-# comment. Do NOT build/print/sing from this without a full review pass.
+# assembles the content settled with the priest over July 2026, plus GABC
+# freshly fetched from GregoBase for the five Common-of-Martyrs pieces that
+# weren't in the repo yet (antiphons 1-3/5, hymn). Several German
+# translations below are a first AI draft, not yet seen by the maintainer or
+# the priest — every such field is flagged with a comment. Do NOT
+# build/print/sing from this without a full review pass.
 #
 # No placeholders left: title, subtitle, rank, date, source, chants, tones
 # and their EUOUAE are all settled. Still genuinely open (not something to
 # guess here):
 #   - the capitulum's per-verse split below is a mechanical re-cut of
 #     the priest-supplied Latin/German at the given Hebr 5 verse
-#     boundaries, not independently re-translated — flagged as
-#     "unresolved" in HANDOFF.md until Omar confirms the cut
+#     boundaries, not independently re-translated — unresolved until the
+#     maintainer confirms the cut
 #   - the German marked "AI draft" below still wants a review pass
 #
 # ADR-0011 (provenance `note`/footnote fields) landed 2026-07-26 (#27) —
@@ -244,7 +244,8 @@ back_cover:
       sei die Ehre, der du dreifaltig und einig lebst und herrschest.
     citation: >- # TODO: fix this
       Vita Landiberti episcopi Traiectensis vetustissima (ed. B. Krusch,
-      MGH SS rer. Merov. 6, 1913, pp. 253-384) — second sentence only
-      search-synthesis-confirmed, worth a by-hand check (see HANDOFF.md)
+      MGH SS rer. Merov. 6, 1913, pp. 253-384) — the first sentence is
+      confirmed against the Narrative Sources database, the second only by
+      search synthesis; worth a by-hand check against the Krusch edition
 
 drollery: auto

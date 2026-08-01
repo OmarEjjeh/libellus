@@ -305,8 +305,8 @@ back_cover:
   image: images/02-benedict/st-benedict-mary-evans.jpg
   # The printed booklet also prints the fineartamerica URL here. Left out:
   # a second credit line overflows the back cover onto a page of its own,
-  # which breaks the mod-4 page count (see HANDOFF.md — the back cover's
-  # height budget wants measuring rather than a fixed cap).
+  # which breaks the mod-4 page count. The back cover's height budget wants
+  # measuring rather than a fixed cap — issue #52.
   credit: >-
     Imago: Saint Benedict of Nursia, ex collectione Mary Evans Picture
     Library deprompta.

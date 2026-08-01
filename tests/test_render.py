@@ -72,7 +72,8 @@ def test_filler_pages_render_with_their_styling(repo_root: Path, benedict_feast:
     """Structured filler pages (plain text in, styling from the partial):
     small-caps title, red block headings, flush-right citation, image +
     caption. The three pages this produces reproduce the printed booklet's
-    pp. 33-35 (see „Item 8 regression comparison" in HANDOFF.md)."""
+    pp. 33-35 — text extraction is byte-identical on the first two, and the
+    third differs only in small-caps flattening (see ADR-0018)."""
     spec = load_spec(benedict_feast)
     resolved = build_context(spec, repo_root)
     tex = render(spec.rite, resolved.context, repo_root)

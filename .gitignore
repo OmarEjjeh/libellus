@@ -23,14 +23,18 @@ repomix-output.xml
 .agents/
 skills-lock.json
 
-# Working state, never published: names people, quotes correspondence, records
-# half-finished reasoning. See "Handoff notes" in AGENTS.md. These stay on disk
-# locally and live on in the private vesper archive; the decisions they settled
-# are restated in docs/adr/ and CREDITS.md, attributed by role.
-HANDOFF.md
+# Never published: names people, quotes correspondence, records half-finished
+# reasoning about them. See "Session state" in AGENTS.md. These stay on disk
+# locally; anything in them worth publishing is restated in the map issue, in
+# docs/adr/ or in CREDITS.md, attributed by role rather than by name.
+private-notes.md
 *-review.html
 lambertus-email-threads.md
 lambertus-hintergrund.md
+# HANDOFF.md was retired 2026-08-02 — its live content became the map issue,
+# the rest is in docs/adr/, the issues and git history. Still ignored so that a
+# stray one can never be committed by accident.
+HANDOFF.md
 
 # Python (libellus package)
 .venv/

@@ -44,5 +44,6 @@ executes the engine verbatim in a `vm` context (only its unused jquery
 import is stubbed from the outside); correctness is pinned byte-exactly by
 the golden fixtures in `tests/data/golden/`.
 
-The German verse translations (`chant/psalmi/*/de.yaml`) are **not**
-generated — they are hand-maintained, see HANDOFF.md.
+The German verse translations are **not** generated — they are a hand-made
+**Psalter**, re-cut psalm by psalm against the Vulgate verse division, and no
+machine can redo that from the source text. See ADR-0024.

@@ -426,9 +426,9 @@ Notes for whoever keeps the Bremen booklets going.
 - **The psalter is Einheitsübersetzung** and must not be published: not in this
   repository, not in the wheel, not in a bundle sent outside the parish.
   `psalter/` is gitignored and CI fails if any of it reaches an artifact.
-- **`HANDOFF.md`** at the root is the running state of work in progress. It is
-  untracked on purpose — it names people and quotes correspondence — and stays
-  that way.
+- **The state of work in progress** is the pinned map issue,
+  [#54](https://github.com/OmarEjjeh/libellus/issues/54) — what shipped, what is
+  next, and what is still unresolved. Every other issue hangs off it.
 - **The Benedict feast pins `psalter_de: eu2016`**, the hand-made re-cuts its
   printed booklet was set from. Leave it pinned.
 - **Adding a picture:** `.gitignore` deliberately ignores `*.png` and `*.jpg`, so

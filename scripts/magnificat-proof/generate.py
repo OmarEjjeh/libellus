@@ -6,13 +6,22 @@ compact booklet prints it, at the booklet's own page size, fonts and gregorio
 settings, so the line breaks on the sheet are the ones that will print. Two
 parts, because the booklet does two different things:
 
-1. The 23 tones with a **two-verse system** — verses 1 and 2 under one line of
+1. The 29 tones with a **two-verse system** — verses 1 and 2 under one line of
    notes, reciting notes hollow, the notes verse 1 has no words for standing
    empty. Read straight from the committed `chant/magnificat/kurzfassung/`.
-2. The 10 tones **without** one, whose first verse is sung to the tone's own
-   festive (solemn) melody, so the two verses cannot share a system: for those
-   the booklet notates both verses in full, and so does this sheet — generated
-   here exactly as the booklet generates them, closed notes and all.
+2. The 4 tones **without** one (`2D`, `8G`, `8G*`, `8c`): for those the booklet
+   notates both verses in full, and so does this sheet — generated here exactly
+   as the booklet generates them, closed notes and all.
+
+Why those four and not ten. Ten tones have a shortened first-half formula for
+„Magníficat", but in all ten the *termination* is identical and only the mediant
+diverges, in two kinds. Six differ in the mediant's **final note** alone („cat"
+on `i.` where verse 2 has `j.`): those two notes stand side by side at the end
+of the line and the tone collapses, so a shared system works. The other four
+differ in the **intonation** (`8G` is `g hg gj` against `g h j`, compound neumes
+against plain), where a merged line would alternate between the verses note by
+note. "The first verse has its own festive melody" was the first explanation
+offered for all ten and holds only for those four — do not restore it.
 
 Run from the repository root:
 
@@ -20,6 +29,13 @@ Run from the repository root:
 
 Not part of the build. The systems themselves come from
 `libellus magnificat-systems`; run that first if the generator changed.
+
+**Checking the sheet for collisions: never by eye, and never with `pdftotext`.**
+It merges glyphs that touch into one word, so an overlap scan finds nothing and
+a 4pt collision passes as clean — that mistake was made twice here, and the
+sheet was twice reported fixed when it was not. Use `pdfplumber` character
+boxes, skip the chant font (neume glyphs legitimately share space), and allow
+about 1.2pt for real kerning pairs („Te", „Ve").
 """
 
 from __future__ import annotations

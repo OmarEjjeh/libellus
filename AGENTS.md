@@ -60,21 +60,34 @@ Default label vocabulary (label string = role name). See
 Single-context: `CONTEXT.md` at the repo root is the domain glossary,
 decisions live in `docs/adr/`. See `docs/agents/domain.md`.
 
-## Handoff notes
+## Session state
 
-This repo has an in-progress, multi-session task (currently: the St. Lambert
-booklet, sung 18 September 2026, and the generator's survivability work).
-`HANDOFF.md` at the repo root tracks what's done, what's pending, and why —
-keep it up to date at the end of any work session that changes this task's
-state (files fetched/moved, decisions made, blockers hit), not only once
-the whole task is finished.
+Work in progress lives in the **map issue** — one pinned GitHub issue labelled
+`wayfinder:map`, currently **#54**, holding the status, the ordered frontier,
+the open problems, and the reasoning that has not earned an ADR. Read it at the
+start of a session (`gh issue view 54`) and update it at the end of any session
+that changes the picture. **Prune it** rather than appending: it replaced a
+3300-line handoff file that grew unreadable precisely because nothing was ever
+removed from it.
 
-`HANDOFF.md` is **untracked and stays that way** (see `.gitignore`). It is
-working state, not documentation: it names people, quotes correspondence, and
-records half-finished reasoning, none of which belongs in a public repo. The
-same goes for any `*-review.html` spotcheck or scratch note. Anything in it
-worth publishing gets restated in `docs/adr/` or `CREDITS.md`, attributed by
-role rather than by name.
+Everything else has a home of its own and belongs there, not in the map:
+
+| what | where |
+|---|---|
+| one piece of work | its own issue, linked to the map as a sub-issue |
+| a decision, with its alternatives | `docs/adr/` — dated records, superseded rather than edited |
+| a domain term | `CONTEXT.md` |
+| a stray idea | `IDEAS.md` |
+| how to run or operate the thing | `README.md` |
+| a gotcha about one file | a comment in that file |
+
+Nothing that names a person, quotes correspondence, or records half-finished
+reasoning about people goes into any of those. That material stays **untracked**
+in `private-notes.md`, `lambertus-email-threads.md`, `lambertus-hintergrund.md`
+and the `*-review.html` spotcheck tools (all gitignored). Those files are source
+material, not a state store — do not let one grow back into a handoff document.
+Anything in them worth publishing gets restated in the map issue, `docs/adr/` or
+`CREDITS.md`, attributed by role rather than by name.
 
 ## Stray ideas
 
