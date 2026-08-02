@@ -11,13 +11,20 @@ its PDF with a request outstanding produces a booklet laid out from the
 Everything runs inside the staged folder (see libellus.stage), which carries a
 Makefile with the identical two steps for latex-only environments — keep the
 two in sync.
+
+*How* the two tools are run is the one host-dependent part, and it is the
+:data:`Runner` seam: child processes by default, WebAssembly in the browser
+application (ADR-0026). Imposition still shells out unconditionally — ADR-0026
+decision 4 replaces pdfjam and pdftk with pdf-lib, which has not happened yet.
 """
 
 from __future__ import annotations
 
 import logging
+import re
 import subprocess
 import time
+from collections.abc import Callable, Sequence
 from pathlib import Path
 
 from pypdf import PdfReader
@@ -26,9 +33,49 @@ logger = logging.getLogger(__name__)
 
 _LUALATEX = ["lualatex", "--interaction=nonstopmode"]
 
+#: Run one toolchain command inside a staged folder and return its stdout.
+#:
+#: Deliberately does not report the exit status, because neither caller may use
+#: it: gregorio exits non-zero for a score it none the less sets usably
+#: (ADR-0032 decision 4), and lualatex under ``-interaction=nonstopmode`` exits
+#: non-zero on an error it recovered from. Both test the artefact instead — the
+#: ``.gtex`` that came out, the log that was written. A backend that cannot run
+#: the command at all raises :class:`CompileError`.
+#:
+#: The folder is the whole interface to the filesystem: everything a command
+#: reads and writes is inside it, which is what lets a host without a shell
+#: satisfy this by copying that one folder into a virtual filesystem and back
+#: (ADR-0026 — WebAssembly in a browser).
+Runner = Callable[[Sequence[str], Path], str]
+
 
 class CompileError(Exception):
     """LaTeX or imposition failure, with a German summary."""
+
+
+def subprocess_runner(command: Sequence[str], folder: Path) -> str:
+    """Run the command as a child process in ``folder``. The default."""
+    result = subprocess.run(
+        list(command), cwd=folder, capture_output=True, text=True, check=False
+    )
+    return result.stdout
+
+
+_runner: Runner = subprocess_runner
+
+
+def set_runner(runner: Runner) -> None:
+    """Point the compile steps at another toolchain.
+
+    The browser application swaps in WebAssembly builds of gregorio and
+    LuaHBTeX, because Pyodide has no ``subprocess`` (ADR-0026). Everything above
+    this line — which scores to set, how many passes the layout may take, when
+    it has settled — is host-independent and stays here. Pass
+    :func:`subprocess_runner` to restore the default.
+    """
+    global _runner  # noqa: PLW0603 — one process-wide toolchain, chosen by the host
+    logger.debug("Satz-Werkzeugkette gewechselt: %s.", getattr(runner, "__name__", runner))
+    _runner = runner
 
 
 def _error_lines(log_file: Path) -> list[str]:
@@ -47,7 +94,7 @@ def _run_pass(tex_file: Path, label: str) -> list[str]:
     command = [*_LUALATEX, tex_file.name]
     logger.debug("LaTeX-Aufruf (%s): %s  [cwd=%s]", label, " ".join(command), tex_file.parent)
     started = time.perf_counter()
-    subprocess.run(command, cwd=tex_file.parent, capture_output=True, check=False)
+    _runner(command, tex_file.parent)
     duration = time.perf_counter() - started
     errors = _error_lines(tex_file.with_suffix(".log"))
     if errors:
@@ -74,7 +121,12 @@ _RERUN_REQUESTS = (
 #: How many passes the layout may take to settle before we stop believing it
 #: will. Two is the norm with the notation pre-made; six leaves room without
 #: letting a genuine oscillation run forever.
-_MAX_PASSES = 6
+#:
+#: Public because a host may have to prepare for the worst case rather than
+#: discover it: the browser pre-creates one LuaTeX instance per possible pass,
+#: since it cannot make another once the synchronous compile has begun
+#: (ADR-0034).
+MAX_PASSES = 6
 
 
 def _rerun_requested(log_file: Path) -> str | None:
@@ -100,9 +152,21 @@ def _gregorio(folder: Path) -> None:
 
     :param folder: The staged folder; ``.gabc`` files are found beneath it.
     """
-    version = subprocess.run(
-        ["gregorio", "--version"], capture_output=True, text=True, check=True
-    ).stdout.split()[1].replace(".", "_")
+    # Matched rather than split on whitespace, because the banner's shape is
+    # not fixed: a gregorio built with kpathsea says "Gregorio 6.1.0 (kpathsea
+    # version 6.4.2)." and one built without it — the WebAssembly build, which
+    # has no kpathsea to ask — says "Gregorio 6.1.0.". Taking the second token
+    # gives "6.1.0." there, hence a "-6_1_0_.gtex" that GregorioTeX will never
+    # look for, and a booklet with every score silently missing.
+    banner = _runner(["gregorio", "--version"], folder)
+    found = re.search(r"(\d+)\.(\d+)\.(\d+)", banner)
+    if found is None:
+        raise CompileError(
+            "gregorio hat seine Version nicht genannt — ohne sie ist der "
+            f"Dateiname der Notation nicht bekannt, den GregorioTeX sucht. "
+            f"Gemeldet wurde: „{banner.strip()[:200]}“."
+        )
+    version = "_".join(found.groups())
 
     scores = sorted(folder.glob("chant/**/*.gabc"))
     for score in scores:
@@ -119,7 +183,7 @@ def _gregorio(folder: Path) -> None:
             "-o", str(gtex), "-l", str(glog), str(score.relative_to(folder)),
         ]
         logger.debug("Gregorio-Aufruf: %s  [cwd=%s]", " ".join(command), folder)
-        subprocess.run(command, cwd=folder, capture_output=True, check=False)
+        _runner(command, folder)
         if not (folder / gtex).is_file() or (folder / gtex).stat().st_size == 0:
             raise CompileError(
                 f"gregorio hat für „{stem}“ keine Notation erzeugt — siehe „{folder / glog}“."
@@ -131,7 +195,7 @@ def _gregorio(folder: Path) -> None:
 
 def _lualatex(tex_file: Path) -> None:
     log_file = tex_file.with_suffix(".log")
-    for attempt in range(1, _MAX_PASSES + 1):
+    for attempt in range(1, MAX_PASSES + 1):
         errors = _run_pass(tex_file, str(attempt))
         if errors:
             for line in errors[:10]:
@@ -145,7 +209,7 @@ def _lualatex(tex_file: Path) -> None:
             return
         logger.info("Durchlauf %d noch nicht stabil („%s“).", attempt, request)
     raise CompileError(
-        f"Der Satz ist nach {_MAX_PASSES} Durchläufen nicht stabil — "
+        f"Der Satz ist nach {MAX_PASSES} Durchläufen nicht stabil — "
         f"siehe „{log_file}“."
     )
 

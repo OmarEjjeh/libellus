@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Libellus — Heft im Browser bauen</title>
+<style>
+  body { font: 15px/1.5 system-ui, sans-serif; margin: 2rem auto; max-width: 52rem; padding: 0 1rem; }
+  h1 { font-size: 1.3rem; }
+  p.lead { color: #444; }
+  button { font: inherit; padding: .4rem .8rem; margin: 0 .4rem .4rem 0; }
+  #log { background: #111; color: #ddd; padding: .8rem; border-radius: 4px;
+         font: 12px/1.45 ui-monospace, monospace; height: 26rem; overflow-y: auto;
+         white-space: pre-wrap; }
+  #results a { display: inline-block; margin-top: .6rem; }
+</style>
+</head>
+<body>
+
+<h1>Libellus — das Heft entsteht in diesem Tab</h1>
+
+<p class="lead">
+  Die vollständige Pipeline läuft hier im Browser: Fest-Datei einlesen, Noten
+  setzen, Heft übersetzen. Keine TeX-Installation, kein Node, kein Server, der
+  rechnet. Der erste Aufruf lädt rund 80 MB Werkzeugkette und legt sie ab;
+  danach beginnt der Satz sofort.
+</p>
+
+<p>
+  <button data-feast="2026-09-18-lambertus" data-compact="false" disabled>
+    St. Lambert — vollständiges Heft
+  </button>
+  <button data-feast="2026-09-18-lambertus" data-compact="true" disabled>
+    St. Lambert — Kurzfassung
+  </button>
+  <button data-feast="2026-07-10-benedictus" data-compact="false" disabled>
+    St. Benedikt
+  </button>
+</p>
+
+<div id="results"></div>
+<div id="log"></div>
+
+<script type="module" src="./main.mjs"></script>
+
+</body>
+</html>
