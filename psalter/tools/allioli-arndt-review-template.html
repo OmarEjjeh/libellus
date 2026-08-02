@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Psalmen-Rückmeldung — Allioli-Arndt 1914 (neuer Psalter, Issue #1)</title>
+<title>Psalmen-Rückmeldung — Allioli-Arndt 1914, __SCOPE_TITLE__ (Issue #1)</title>
 <style>
   :root {
     font-size: 18px;
@@ -281,7 +281,7 @@
 <body>
 
 <header class="topbar">
-  <h1>Psalmen-Rückmeldung — Allioli-Arndt 1914 als neuer Psalter (Issue #1)</h1>
+  <h1>Psalmen-Rückmeldung — Allioli-Arndt 1914, __SCOPE_TITLE__ (Issue #1)</h1>
   <div class="progress-line" id="progressLine">wird geladen…</div>
   <button class="download-btn" id="downloadBtnTop">⬇️ Ergebnisse herunterladen</button>
 </header>
@@ -289,12 +289,14 @@
 <div class="intro">
   <p>Lieber Pater Kraienhorst, es geht um einen möglichen <strong>zweiten,
   frei verwendbaren deutschen Psalter</strong> für libellus: die
-  Allioli-Arndt-Übersetzung von 1914. Hier finden Sie alle 150 Psalmen plus
-  das Magnificat, jeweils Vers für Vers: links der lateinische Text
+  Allioli-Arndt-Übersetzung von 1914. Hier finden Sie __SCOPE_DESCRIPTION__,
+  jeweils Vers für Vers: links der lateinische Text
   (Vulgata, wie er gesungen wird), rechts <strong>zwei</strong> deutsche
   Fassungen zum Vergleich — oben die <strong>neue</strong> (Allioli-Arndt),
   unten zur Einordnung die <strong>bisherige</strong> (Einheitsübersetzung
-  1980, die aktuell in Gebrauch ist).</p>
+  1980, die aktuell in Gebrauch ist). Die gesamten 150 Psalmen plus Magnificat
+  sind auf vier Seiten nach Hore aufgeteilt, damit keine einzelne Seite zu
+  lang wird — diese hier ist __SCOPE_TITLE__.</p>
   <p>Die Versgrenzen von Allioli-Arndt stimmen nicht immer mit den
   gesungenen überein — mal fasst Allioli zwei gesungene Verse zu einem
   zusammen, mal teilt er einen gesungenen Vers in zwei. Ein Programm hat
@@ -347,7 +349,7 @@
 <script>
 const PSALMS = __PSALMS_JSON__;
 
-const STORAGE_KEY = "allioli-arndt-psalm-review-v1";
+const STORAGE_KEY = "allioli-arndt-psalm-review-__SCOPE_KEY__-v1";
 let state = {};
 
 function verseKey(psalmNumber, label) {
@@ -624,7 +626,7 @@ function downloadReport() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "allioli-arndt-rueckmeldung.txt";
+  a.download = "allioli-arndt-rueckmeldung-__SCOPE_KEY__.txt";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
