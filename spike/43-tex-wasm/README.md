@@ -135,29 +135,35 @@ What part 2 *does* narrow: the thing upstream `busytex` would have to match is
 now precisely specified — LuaHBTeX with a buildable `lualatex.fmt`, since
 upstream almost certainly does not ship one either.
 
-## An unrelated find: the shipped booklet is not reproducible
+## An unrelated find: the shipped booklet was not reproducible — fixed since
 
 While establishing the control, the shipped
 `build/2026-09-18-lambertus/2026-09-18-lambertus.pdf` turned out **not to be
-reproducible from its own staged folder** — by any method tried:
+reproducible from its own staged folder** by any method tried: the same ten
+pages — p8, p9, p14, p16, p18, p21, p23, p25, p31, p32 — differed every time,
+by a small vertical offset of otherwise identical content.
 
-| build | vs shipped PDF |
-|---|---|
-| native, cold, 3 passes | 26 / 36 pages identical |
-| native, cold, 6 passes | 26 / 36 |
-| native, the staged `Makefile` recipe verbatim (`--shell-escape`) | 26 / 36 |
+That became **#56**, and it is fixed and merged to `main` (**ADR-0032**). The
+guess recorded here — GregorioTeX's `.gaux` position cache settling somewhere
+else — was wrong. The cache was neither stale nor different; the shipped PDF
+was simply emitted by a pass GregorioTeX had asked to repeat, because the
+`Makefile` loop reran on `!` error lines and never saw `Rerun to fix`. The
+staged folder was converging correctly all along, and the artefact was the
+defective side. It has been rebuilt and re-shipped.
 
-The same ten pages differ every time — p8, p9, p14, p16, p18, p21, p23, p25,
-p31, p32 — and the difference is a small **vertical offset** of otherwise
-identical content, the signature of GregorioTeX's `.gaux` position cache
-settling somewhere else. The Kurzfassung reproduces exactly, so this is
-specific to the full booklet.
+Two things from that work matter to this spike:
 
-This is a pre-existing native issue with nothing to do with WebAssembly, and it
-is why the headline comparison above is WASM against a native build **under
-identical conditions** rather than against the shipped artefact. It deserves
-its own issue: a booklet that cannot be rebuilt from its own staging is a
-survivability problem, which is the whole motive for the all-in-one.
+- **ADR-0026 decision 3 now applies natively too.** `stage.py` and `compile.py`
+  run gregorio before TeX and no longer pass `--shell-escape`, so the native
+  control this spike compares against is the same shape as the WASM path.
+- **`pdfdiff.py` has a permanent home** at `scripts/pdfdiff.py`, and exits
+  non-zero when pages differ. The copy here is the throwaway original;
+  `scripts/rebuild-check.py` is the durable check built on it.
+
+None of this touches the results above: the headline comparison was always WASM
+against a native build **under identical conditions**, never against the
+shipped artefact — which is precisely why the discrepancy was attributed to a
+pre-existing native bug rather than to WebAssembly.
 
 ## Reproducing
 

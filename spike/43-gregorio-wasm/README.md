@@ -79,11 +79,17 @@ error:forced center may not be within an elision
 ```
 
 This is pre-existing and reproduces exactly, so it is not a WASM regression —
-but it is a real error in a shipped booklet's source, currently invisible
-because `gregoriotex`'s autocompile swallows the exit status. It is a plausible
-suspect for the "autocompile can garble one source line per run" comment that
-justifies the 4× `lualatex` retry loop in the staged `Makefile`. Worth its own
-issue.
+but it is a real error in a shipped booklet's source. It became **#55**, still
+open as editorial work.
+
+Two corrections to what was written here first. Autocompile does *not* swallow
+the exit status — `gregoriotex.lua` raises a LaTeX error on a non-zero one. The
+error was invisible for a duller reason: every build kept a warm `tmp-gre/`, so
+gregorio never ran at all. A genuinely cold build had never been done, and the
+old recipe fails outright on one. Since ADR-0032 the notation is made in its own
+step, the `.glog` is echoed every run, and gregorio's exit code is not the gate
+— it writes complete notation here despite exiting 1 — so #55 now announces
+itself on every single build.
 
 ### 2. Hoisting gregorio out of the TeX pass looks sound
 
@@ -92,6 +98,12 @@ issue.
 `tmp-gre/` tree byte-for-byte, which is what ADR-0026 decision 3 assumed. The
 retry loop can only be declared unnecessary once LuaTeX runs against a
 pre-populated `tmp-gre/`, so that confirmation belongs to part 2.
+
+**Confirmed, and shipped natively** (ADR-0032): `stage.py`'s Makefile and
+`compile.py` both make the notation first and drop `--shell-escape`, and the 77
+`.gtex` they produce are byte-identical to autocompile's. The retry loop is
+gone — replaced by one that reruns until the layout stops moving, which is a
+different condition and the one that mattered (#56).
 
 ## Reproducing
 
