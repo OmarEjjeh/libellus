@@ -1,6 +1,7 @@
 import re
 from pathlib import Path
 
+from libellus.compile import _RERUN_REQUESTS
 from libellus.render import render
 from libellus.resolve import build_context, load_spec
 from libellus.stage import stage
@@ -50,6 +51,24 @@ def test_staged_folder_is_self_contained(
         assert (build_dir / image).is_file(), image
     for filler in re.findall(r"\\input\{([^}]+)\}", tex):
         assert (build_dir / filler).is_file(), filler
+
+
+def test_makefile_sets_the_notation_before_tex(repo_root: Path, tmp_path: Path) -> None:
+    """gregorio runs as its own step, so lualatex spawns nothing (ADR-0026 decision 3)."""
+    build_dir = stage("\\documentclass{article}", [], "smoke", repo_root, tmp_path / "smoke")
+
+    makefile = (build_dir / "Makefile").read_text(encoding="utf-8")
+    assert "gregorio -D -W" in makefile
+    assert "--shell-escape" not in makefile
+
+
+def test_makefile_reruns_until_the_layout_settles(repo_root: Path, tmp_path: Path) -> None:
+    """Stopping with a rerun request outstanding is what shipped a stale layout (#56)."""
+    build_dir = stage("\\documentclass{article}", [], "smoke", repo_root, tmp_path / "smoke")
+
+    makefile = (build_dir / "Makefile").read_text(encoding="utf-8")
+    for request in _RERUN_REQUESTS:
+        assert request in makefile
 
 
 def test_stage_wipes_stale_folder(repo_root: Path, tmp_path: Path) -> None:

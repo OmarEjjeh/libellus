@@ -33,8 +33,10 @@ logger = logging.getLogger(__name__)
 app = typer.Typer(help="Vesper-Heft aus einer Fest-YAML-Datei bauen.")
 
 
-#: External tools the compile + imposition steps shell out to.
-LATEX_TOOLS = ("lualatex", "pdfjam", "pdftk")
+#: External tools the compile + imposition steps shell out to. `gregorio` is
+#: called by us now rather than by LuaTeX (ADR-0032), so its absence has to stop
+#: the compile here, where it downgrades to staging, instead of failing mid-run.
+LATEX_TOOLS = ("gregorio", "lualatex", "pdfjam", "pdftk")
 
 
 def build(

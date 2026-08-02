@@ -66,7 +66,7 @@ calls. You need all of these on `PATH`:
 
 | tool | why |
 |---|---|
-| **LuaLaTeX** with `--shell-escape` | typesets the booklet |
+| **LuaLaTeX** | typesets the booklet |
 | **Gregorio** / `gregoriotex` | sets the chant notation (ships with TeX Live) |
 | **`pgfornament`**, `tikz`, `fontspec`, … | ornaments and layout (TeX Live) |
 | **Node.js** or **Bun** | runs the psalm-tone engine, on every build |
@@ -134,7 +134,21 @@ libellus build feasts/2026-09-18-lambertus.yaml
 ```
 
 That stages `build/2026-09-18-lambertus/` — the rendered TeX plus every asset it
-references and a `Makefile` — compiles it, and imposes the result.
+references and a `Makefile` — sets the notation with `gregorio`, compiles it,
+and imposes the result.
+
+Before sending a booklet to be printed, check that its staged folder really does
+stand on its own:
+
+```
+uv run scripts/rebuild-check.py build/2026-09-18-lambertus
+```
+
+That builds the folder twice from cold and compares the two PDFs page by page.
+It takes a few minutes, and it is worth them: the booklet shipped in August 2026
+was emitted by a pass the typesetter had asked to repeat, so ten of its pages
+disagreed with its own sources and nobody noticed, because nothing ever rebuilt
+it (ADR-0032).
 
 A minimal working directory looks like this:
 
