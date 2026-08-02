@@ -1,0 +1,63 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>spike43 — gregorio.wasm in a browser tab</title>
+<pre id="log">loading…</pre>
+<script type="module">
+import createGregorio from "./gregorio-memfs.mjs";
+
+const log = (s) => { document.getElementById("log").textContent += "\n" + s; };
+
+async function run() {
+  const manifest = await (await fetch("./manifest.json")).json();
+  const vowels = new Uint8Array(await (await fetch("./gregorio-vowels.dat")).arrayBuffer());
+  const results = {};
+  let nonzero = 0;
+
+  for (const rel of manifest) {
+    const gabc = new Uint8Array(await (await fetch("./" + rel)).arrayBuffer());
+    const Module = await createGregorio({
+      preRun: [(M) => { M.ENV.GREGORIO_DATA_DIR = "/data"; }],
+      noInitialRun: true,
+      print: () => {},
+      printErr: () => {},
+    });
+    const FS = Module.FS;
+    const mkdirp = (p) => {
+      let cur = "";
+      for (const seg of p.split("/").filter(Boolean)) {
+        cur += "/" + seg;
+        try { FS.mkdir(cur); } catch {}
+      }
+    };
+    mkdirp("/data");
+    FS.writeFile("/data/gregorio-vowels.dat", vowels);
+    mkdirp("/work/" + rel.split("/").slice(0, -1).join("/"));
+    FS.writeFile("/work/" + rel, gabc);
+
+    const out = "/work/" + rel.replace(/\.gabc$/, ".gtex");
+    let code = 0;
+    try {
+      code = Module.callMain(["-D", "-W", "-o", out, "-l", out + ".glog", "/work/" + rel]) ?? 0;
+    } catch (e) { code = e?.status ?? 1; }
+    if (code !== 0) nonzero++;
+
+    // SHA-256 of the produced gtex, so the harness can compare without
+    // shipping the bytes back out of the page.
+    const bytes = FS.readFile(out);
+    const digest = await crypto.subtle.digest("SHA-256", bytes);
+    results[rel] = [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  window.__spike = {
+    results,
+    nonzero,
+    count: manifest.length,
+    crossOriginIsolated: window.crossOriginIsolated,
+    hasSAB: typeof SharedArrayBuffer !== "undefined",
+  };
+  log(`done — ${manifest.length} scores, nonzero exits: ${nonzero}`);
+  log(`crossOriginIsolated=${window.crossOriginIsolated}`);
+}
+
+run().catch(e => { window.__spike = { error: String(e) }; log("ERROR " + e); });
+</script>

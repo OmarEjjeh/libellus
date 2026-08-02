@@ -1,0 +1,33 @@
+--- a/src/support.c	2026-08-02 00:54:32
++++ b/src/support.c	2026-08-02 00:48:41
+@@ -24,6 +24,7 @@
+ #include <stdio.h>
+ #include <stdarg.h>
+ #include <stdlib.h>
++#include <sys/stat.h>
+ #include <string.h>
+ #include <ctype.h>
+ #include <errno.h>
+@@ -212,6 +213,22 @@
+ char **gregorio_kpse_find(const char *filename)
+ {
+     char **filenames;
++    /* SPIKE PATCH (libellus #43): there is no kpsewhich to popen in a
++     * WebAssembly host, so allow the data directory to be named directly. */
++    const char *data_dir = getenv("GREGORIO_DATA_DIR");
++    if (data_dir) {
++        struct stat st;
++        size_t len = strlen(data_dir) + strlen(filename) + 2;
++        char *candidate = gregorio_malloc(len);
++        snprintf(candidate, len, "%s/%s", data_dir, filename);
++        if (stat(candidate, &st) == 0) {
++            filenames = gregorio_malloc(2 * sizeof(char *));
++            filenames[0] = candidate;
++            filenames[1] = NULL;
++            return filenames;
++        }
++        free(candidate);
++    }
+ #ifdef USE_KPSE
+     filenames = kpathsea_find_file_generic(kpse, filename, kpse_tex_format,
+             true, true);
