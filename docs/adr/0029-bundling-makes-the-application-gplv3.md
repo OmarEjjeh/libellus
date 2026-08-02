@@ -1,8 +1,18 @@
 # ADR-0029: Bundling the toolchain makes the distributed application GPLv3; the sources stay 0BSD
 
 Date: 2026-08-01
-Status: accepted
+Status: superseded in part by ADR-0031 (2026-08-02)
 Scopes: ADR-0023 decision 3.
+
+> **Superseded:** decision 2 below is reversed. The application is built on
+> **TeXlyre-BusyTeX** and the distributed artifact is **AGPL-3.0-or-later**, not
+> GPLv3. Decisions 1 and 3 stand — the sources stay 0BSD, and `CREDITS.md`
+> carries the bundle section — with "GPLv3" read as "AGPL-3.0-or-later"
+> throughout.
+>
+> Note what did *not* happen: upstream `busytex` was never compared. ADR-0031
+> sets this argument aside rather than refuting it, and records the experiment
+> that would reopen it.
 
 ## Context
 
