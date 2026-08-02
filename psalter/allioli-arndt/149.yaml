@@ -1,0 +1,25 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 149
+verses:
+  1: Singet dem Herrn ein neues Loblied, sein Lob ertöne in der Versammlung der Heiligen!
+  2: Israel freue sich in seinem Schöpfer, die Kinder Sions sollen frohlocken über
+    ihren König.
+  3: Sie sollen seinen Namen in Chören loben, mit Pauken und Harfen ihm lobsingen;
+  4: Denn der Herr hat Wohlgefallen an seinem Volke und erhöht die Sanftmütigen in
+    Gnadenheil.
+  5: Die Heiligen mögen frohlocken in Herrlichkeit, sich freuen auf ihren Lagern.
+  6: Lobpreisungen Gottes sind in ihrem Munde und zweischneidige Schwerter in ihren
+    Händen,
+  7: um Rache an den Völkern zu vollstrecken, Züchtigung an den Nationen;
+  8: um ihre Könige in Ketten zu werfen, ihre Edlen in eiserne Bande;
+  9: um an ihnen das geschriebene Gericht zu vollstrecken. Ruhm ist dies für seine
+    Heiligen! Alleluja!
+  10: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  11: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

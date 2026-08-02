@@ -1,0 +1,21 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 92
+verses:
+  1: Der Herr ist König, er hat sich mit Herrlichkeit bekleidet; der Herr hat sich
+    mit Macht angetan und umgürtet.
+  2: Denn er hat den Erdkreis gefestigt, dass er nicht wanke.
+  3: Dein Thron ist fest gegründet von ehedem, von Ewigkeit her bist du!
+  4: Es erheben Ströme, o Herr! Es erheben Ströme ihr Brausen.
+  5: Es erheben Ströme ihr Tosen vom Wogensturme großer Wassermassen.
+  6: Wunderbar sind die Brandungen des Meeres, wunderbar der Herr in der Höhe!
+  7: Deine Zeugnisse sind überaus treu bewährt, deinem Hause ziemt Heiligkeit, o Herr!
+    für alle Zeiten.
+  8: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  9: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

@@ -1,0 +1,38 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 131
+verses:
+  1: Gedenke, Herr! Davids und all seiner Geduld,
+  2: 'wie er dem Herrn geschworen, dem Gott Jakobs gelobt hat:'
+  3: Nicht will ich in das Gezelt meines Hauses treten, will nicht das Lager meines
+    Bettes besteigen,
+  4: will meinen Augen keinen Schlaf gönnen noch meinen Augenlidern Schlummer
+  5: und meinen Schläfen keine Ruhe, bis ich eine Stätte gefunden für den Herrn, eine
+    Wohnung für den Gott Jakobs.
+  6: Siehe, wir hörten von ihr in Ephrata; wir fanden sie im Waldgefilde.
+  7: Lasset uns in sein Zelt eingehen, anbeten an dem Orte, wo seine Füße stehen.
+  8: Erhebe dich, Herr! zu deiner Ruhe, du und die Lade deiner Heiligkeit!
+  9: Deine Priester mögen sich in Gerechtigkeit kleiden, deine Heiligen frohlocken!
+  10: Um Davids, deines Dieners, willen weise das Antlitz deines Gesalbten nicht ab!
+  11: 'Der Herr schwor David getreue Verheißung und wird sie nicht brechen: „Von deines
+    Leibes Frucht werde ich auf deinen Thron setzen.“'
+  12: Wenn deine Söhne meinen Bund bewahren und diese meine Zeugnisse, welche ich
+    sie lehre,
+  13: So sollen auch ihre Söhne für und für auf deinem Throne sitzen.
+  14: Ja, der Herr hat Sion auserwählt, hat es auserwählt zu seiner Wohnung.
+  15: Dies ist meine Ruhestätte auf ewig, hier will ich wohnen, denn ich habe sie
+    erkoren.
+  16: Seine Witwen will ich reichlich segnen, seine Armen mit Brot sättigen.
+  17: Seine Priester will ich mit Heil kleiden, seine Heiligen sollen frohlockend
+    jubeln.
+  18: Dort will ich Davids Horn wachsen lassen, eine Leuchte zurichten meinem Gesalbten.
+  19: Seine Feinde will ich in Schmach hüllen, über ihm aber soll meine Heiligung
+    erblühen.
+  20: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  21: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

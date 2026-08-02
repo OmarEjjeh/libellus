@@ -1,0 +1,21 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 86
+verses:
+  1: Seine Grundfesten liegen auf heiligen Bergen,
+  2: Herrliches ist von dir verheißen, o Stadt Gottes!
+  3: Ich will Rahabs gedenken und Babylons als solcher, die mich erkennen.
+  4: Siehe, die Fremdlinge, der Tyrier und das Volk der Äthiopier, sie sind daselbst.
+  5: 'Wird man nicht von Sion sagen: Mensch um Mensch ist in ihm geboren; und der
+    Höchste hat es gegründet?'
+  6: Der Herr verkündet es im Verzeichnis der Völker und Fürsten, derer, die in ihm
+    weilen.
+  7: Dann wird ihr Wohnen in dir sein wie das Wohnen von lauter Frohlockenden.
+  8: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  9: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

@@ -1,0 +1,18 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 150
+verses:
+  1: Lobet den Herrn in seinem Heiligtume, lobet ihn in seiner starken Feste!
+  2: Lobet ihn ob seiner gewaltigen Taten, lobet ihn nach der Fülle seiner Größe!
+  3: Lobet ihn mit Posaunenschall, lobet ihn mit Harfen und Zithern!
+  4: Lobet ihn mit Pauken und Chören, lobet ihn mit Saiten und Schalmeien!
+  5: Lobet ihn mit schallenden Cymbeln, lobet ihn mit Cymbeln hellen Jubels! Alles,
+    was Odem hat, lobe den Herrn! Alleluja!
+  6: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  7: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

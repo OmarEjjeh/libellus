@@ -1,0 +1,21 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 127
+verses:
+  1: Glückselig alle, welche den Herrn fürchten, die auf seinen Wegen wandeln.
+  2: Denn was deine Hände erarbeitet, wirst du genießen; glücklich bist du und es
+    wird dir wohl gehen!
+  3: Dein Weib ist wie ein fruchtbarer Weinstock im Innern deines Hauses.
+  4: Deine Kinder wie Ölbaumschösslinge rings um deinen Tisch her.
+  5: Siehe, so wird der Mann gesegnet, der den Herrn fürchtet!
+  6: Der Herr segne dich von Sion aus und du mögest alle Tage deines Lebens das Glück
+    Jerusalems schauen
+  7: und Kinder deiner Kinder schauen. Friede über Israel!
+  8: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  9: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

@@ -1,0 +1,25 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 110
+verses:
+  1: Ich will dich preisen, Herr! aus ganzem Herzen, im Rate der Gerechten und der
+    Gemeinde.
+  2: Groß sind die Werke des Herrn, auserwählt nach seinem ganzen Liebeswillen.
+  3: Lobwürdig und herrlich ist sein Tun und seine Gerechtigkeit währt in Ewigkeit.
+  4: Er hat ein Gedächtnis seiner Wunder gestiftet, gnädig und barmherzig ist der
+    Herr. Speise gab er denen, die ihn fürchteten,
+  5: gedenkt auf ewig seines Bundes, hat die Kraft seiner Werke seinem Volke kundgetan,
+  6: da er ihnen das Erbe der Völker gab. Die Werke seiner Hände sind Treue und Recht.
+  7: Zuverlässig sind alle seine Satzungen, festgestellt auf immer und ewig, gegeben
+    in Treue und Billigkeit!
+  8: Er hat seinem Volke Erlösung gesandt, auf ewig seinen Bund bestellt;
+  9: heilig und furchtbar ist sein Name! Die Furcht des Herrn ist der Weisheit Anfang.
+  10: Gute Einsicht wird allen, die sie üben; sein Ruhm währt ewig!
+  11: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  12: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

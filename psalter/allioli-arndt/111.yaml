@@ -1,0 +1,29 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 111
+verses:
+  1: Glückselig der Mann, der den Herrn fürchtet, der an seinen Geboten inniges Wohlgefallen
+    hat.
+  2: Mächtig auf Erden wird seine Nachkommenschaft sein, das Geschlecht der Frommen
+    wird gesegnet.
+  3: Ehre und Reichtum sind in seinem Hause und seine Gerechtigkeit währt ewig.
+  4: Den Frommen geht ein Licht auf in der Finsternis, der Gnädige und Barmherzige
+    und Gerechte.
+  5: Glückselig der Mann, der barmherzig ist und darleiht, er wird seine Sachen im
+    Gerichte durchführen, denn ewig wird er nicht wanken!
+  6: In ewigem Gedächtnisse bleibt der Gerechte, er darf sich nicht fürchten vor böser
+    Kunde.
+  7: Sein Herz ist gefasst und hofft auf den Herrn, sein Herz steht fest, er wankt
+    nicht, bis er auf seine Feinde niederschaut.
+  8: Reichlich spendet er den Armen, seine Gerechtigkeit währt ewig, sein Horn wird
+    in Ehren erhöht.
+  9: Der Sünder sieht es und zürnt, knirscht mit den Zähnen und vergeht; das Begehren
+    der Sünder wird zunichte.
+  10: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  11: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

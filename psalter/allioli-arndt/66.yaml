@@ -1,0 +1,22 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 66
+verses:
+  1: Gott erbarme sich unser und segne uns, er lasse sein Angesicht über uns leuchten
+    und erbarme sich unser;
+  2: damit wir auf Erden deinen Weg, unter allen Völkern dein Heil erkennen.
+  3: Es sollen dich die Völker preisen, o Gott! alle Völker sollen dich preisen.
+  4: Es sollen sich freuen und jubeln die Völker, denn du richtest die Völker in Gerechtigkeit
+    und leitest die Nationen auf Erden.
+  5: Es sollen dich die Völker preisen, o Gott! alle Völker sollen dich preisen. Das
+    Land bringt seine Frucht.
+  6: Es segne uns Gott, unser Gott, es segne uns Gott, und alle Enden der Erde sollen
+    ihn fürchten!
+  7: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  8: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

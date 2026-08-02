@@ -1,0 +1,23 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 22
+verses:
+  1: Der Herr ist mein Hirt, mir wird nichts mangeln; auf einem Weideplatze lässt
+    er mich lagern,
+  2: An Wasser der Erquickung leitet er mich; er erquickt meine Seele,
+  3: Führt mich auf Pfaden der Gerechtigkeit, um seines Namens willen.
+  4: Denn ob ich auch mitten durch Todesschatten wandelte, fürchte ich doch kein Unglück;
+    bist du doch bei mir.
+  5: Dein Stecken und dein Stab trösten mich.
+  6: Du deckst vor meinem Angesichte einen Tisch im Angesichte meiner Bedränger,
+  7: Salbst mein Haupt mit Öl, und mein überströmender Becher, wie herrlich ist er!
+  8: Deine Gnade geleitet mich alle Tage meines Lebens.
+  9: Und ich darf wohnen im Hause des Herrn immerdar.
+  10: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  11: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

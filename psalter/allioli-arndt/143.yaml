@@ -1,0 +1,37 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 143
+verses:
+  1: Gepriesen sei der Herr, mein Gott, der meine Hände zum Kampfe unterwies und meine
+    Finger zum Streite.
+  2: Er ist mein Erbarmer und meine Zuflucht, mein Helfer und mein Befreier.
+  3: Mein Schützer, auf ihn vertraue ich; er ist's, der mir mein Volk unterwirft.
+  4: Herr! was ist der Mensch, dass du dich ihm zu erkennen gibst, oder der Menschensohn,
+    dass du seiner achtest?
+  5: Der Mensch ist gleich der Nichtigkeit, seine Tage gehen vorüber wie ein Schatten.
+  6: Neige, Herr! deine Himmel und steige hernieder; rühre die Berge an, dass sie
+    rauchen.
+  7: Lass Blitze leuchten und zerstreue sie, entsende deine Pfeile und verwirre sie!
+  8: Strecke deine Hand aus der Höhe, entreiße mich und errette mich aus mächtigen
+    Wassern, aus der Hand der Söhne der Fremde!
+  9: Ihr Mund redet Trug, ihre Rechte ist eine Rechte des Unrechtes.
+  10: O Gott! ein neues Lied will ich dir singen, auf zehnsaitiger Harfe dir lobsingen.
+  11: Der du den Königen Heil gewährst, der du David, deinen Diener, dem Schwerte
+    des Unheils entrissen hast;
+  12: entreiße mich und errette mich aus der Hand der Söhne der Fremde, deren Mund
+    Trug redet und deren Rechte eine Rechte des Unrechtes ist.
+  13: Ihre Söhne sind wie junge Pflanzen in ihrer Jugendfülle.
+  14: Ihre Töchter geputzt, ringsum in Schmuck gehüllt, gleich einem Tempel.
+  15: Ihre Speicher sind gefüllt, von einem strömt Überfluss in den anderen.
+  16: Ihre Schafe sind fruchtbar und zahllos auf ihren Triften, ihre Rinder sind fett.
+  17: Kein Einsturz, kein Mauerriss noch Klagegeschrei ist auf ihren Gassen.
+  18: Glückselig preist man ein Volk, dem solches zuteil wird, doch glückselig nur
+    das Volk, dessen Gott der Herr ist!
+  19: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  20: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

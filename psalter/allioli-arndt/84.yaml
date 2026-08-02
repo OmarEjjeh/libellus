@@ -1,0 +1,30 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 84
+verses:
+  1: Du hast dein Land gesegnet, o Herr, hast die Gefangenschaft Jakobs gewendet.
+  2: Du hast die Verschuldung deines Volkes nachgelassen, alle ihre Sünden bedeckt.
+  3: Du hast all dein Zürnen gemildert, abgelassen von dem Grimme deines Zornes.
+  4: Stelle uns wieder her, o Gott, unser Heil! und wende deinen Zorn von uns ab.
+  5: Willst du denn ewig über uns zürnen? Oder deinen Zorn von Geschlecht zu Geschlecht
+    ausdehnen?
+  6: Belebe uns, Gott! von neuem, und dein Volk wird sich deiner freuen.
+  7: Lass uns, Herr! dein Erbarmen schauen und schenke uns dein Heil.
+  8: Ich will hören, was Gott, der Herr, in mir redet. Er redet von Frieden zu seinem
+    Volke.
+  9: Und zu seinen Heiligen und zu denen, die sich ihm von Herzen zuwenden.
+  10: Ja, nahe ist sein Heil denen, die ihn fürchten, dass Herrlichkeit in unserm
+    Lande wohne.
+  11: Barmherzigkeit und Treue begegnen einander, Gerechtigkeit und Friede küssen
+    sich.
+  12: Treue sprosst aus der Erde hervor und Gerechtigkeit schaut vom Himmel herab.
+  13: Denn Gutes gewährt der Herr und unsere Erde bringt ihre Frucht.
+  14: Gerechtigkeit geht vor ihm her und schreitet fort auf seinem Wege.
+  15: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  16: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

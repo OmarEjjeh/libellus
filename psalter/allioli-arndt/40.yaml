@@ -1,0 +1,37 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 40
+verses:
+  1: Glückselig, wer des Armen und Dürftigen gedenkt, am Tage des Unglücks wird ihn
+    der Herr erretten.
+  2: Der Herr behüte ihn und erhalte ihn am Leben und mache ihn glücklich im Lande
+    und gebe ihn nicht der Willkür seiner Feinde preis.
+  3: Der Herr bringe ihm auf seinem Schmerzensbette Hilfe, sein ganzes Lager wandelst
+    du bei seiner Krankheit.
+  4: 'Ich sprach: Herr! erbarme dich meiner, heile meine Seele, denn ich habe wider
+    dich gesündigt.'
+  5: 'Meine Feinde redeten wider mich Böses: „Wann wird er sterben und sein Name untergehen?“'
+  6: Und kam jemand, nach mir zu schauen, so redete er Trug und sein Herz sammelte
+    sich Bosheit.
+  7: Er ging hinaus und redete
+  8: davon mit seinen Genossen. Es flüsterten alle meine Feinde wider mich, sie sannen
+    wider mich Unheil.
+  9: 'Sie redeten wider mich ein gottloses Wort: Der jetzt darniederliegt, wird doch
+    nicht wieder aufstehen?'
+  10: Selbst der, mit dem ich in Frieden lebte, auf den ich vertraute, der mein Brot
+    aß, verübte große Hinterlist wider mich.
+  11: Du aber, o Herr! erbarme dich meiner und hilf mir wieder auf, dass ich ihnen
+    vergelte.
+  12: Daran erkenne ich, dass du Wohlgefallen an mir hast, dass mein Feind nicht über
+    mich frohlocken wird.
+  13: Mich aber hast du um meiner Unschuld willen aufrecht gehalten und mich auf ewig
+    vor deinem Angesichte gefestigt.
+  14: Gepriesen sei der Herr, der Gott Israels, von Ewigkeit zu Ewigkeit! Amen, Amen!
+  15: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  16: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

@@ -1,0 +1,28 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 100
+verses:
+  1: Von Erbarmen und Recht will ich dir singen, o Herr! will dir lobsingen.
+  2: Ich will mich einsichtig zeigen durch unbefleckten Wandel, wenn du zu mir kommst.
+  3: Ich will wandeln in der Unschuld meines Herzens inmitten meines Hauses.
+  4: Nicht will ich Unrecht vor meine Augen stellen, die, welche Böses tun, will ich
+    hassen.
+  5: Es soll mir nicht anhängen ein verkehrtes Herz, den Bösen, der sich von mir abwendet,
+    will ich nicht kennen.
+  6: Wer insgeheim seinen Nächsten verleumdet, den will ich verfolgen;
+  7: Wessen Auge stolz ist und wessen Herz unersättlich, mit dem will ich nicht zusammen
+    essen!
+  8: Meine Augen sind auf die Treuen im Lande gerichtet, dass sie bei mir wohnen;
+    wer auf makellosem Wege wandelt, soll mir dienen.
+  9: Nicht soll in meinem Hause wohnen, wer Hochmut übt; wer Unrecht redet, soll nicht
+    bestehen vor meinen Augen.
+  10: Am Morgen will ich alle Frevler im Lande töten, um auszurotten aus der Stadt
+    des Herrn alle Übeltäter.
+  11: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  12: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

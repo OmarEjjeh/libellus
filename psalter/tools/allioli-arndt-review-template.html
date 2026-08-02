@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Psalmen-Rückmeldung — Allioli-Arndt 1914 (neuer Psalter, Issue #1)</title>
+<style>
+  :root {
+    font-size: 18px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    margin: 0;
+    background: #faf8f3;
+    color: #222;
+    line-height: 1.5;
+  }
+  header.topbar {
+    background: #4a2f2f;
+    color: #fff;
+    padding: 1rem 1.2rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  header.topbar h1 {
+    margin: 0 0 0.3rem 0;
+    font-size: 1.3rem;
+  }
+  .progress-line {
+    font-size: 1rem;
+    margin-bottom: 0.6rem;
+  }
+  .download-btn {
+    background: #2e7d32;
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.1rem;
+    font-size: 1.05rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .download-btn:hover { background: #256428; }
+  .intro {
+    max-width: 820px;
+    margin: 1.2rem auto;
+    padding: 0 1.2rem;
+    font-size: 1.05rem;
+  }
+  .intro p { margin: 0.6rem 0; }
+  .intro .hinweis {
+    background: #fff3cd;
+    border: 1px solid #e0c36a;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    margin-top: 0.8rem;
+  }
+  .intro .copyright-hinweis {
+    background: #ffe0e0;
+    border: 1px solid #d88a8a;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    margin-top: 0.8rem;
+  }
+  nav.psalmnav {
+    max-width: 820px;
+    margin: 0 auto 1rem auto;
+    padding: 0 1.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  nav.psalmnav button {
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+    border: 2px solid #ccc;
+    background: #fff;
+    color: #222;
+    cursor: pointer;
+  }
+  nav.psalmnav button.status-progress {
+    background: #fff9c4;
+    border-color: #d9c15a;
+  }
+  nav.psalmnav button.status-done-ok {
+    background: #a5d6a7;
+    border-color: #2e7d32;
+  }
+  nav.psalmnav button.status-done-error {
+    background: #ef9a9a;
+    border-color: #c62828;
+  }
+  nav.psalmnav button.status-progress-error {
+    background: #ffab91;
+    border-color: #d84315;
+  }
+  nav.psalmnav button.status-unresolved {
+    background: #d0d0d0;
+    border-color: #777;
+  }
+  nav.psalmnav button.active {
+    outline: 3px solid #4a2f2f;
+    outline-offset: 1px;
+    font-weight: bold;
+  }
+  .legend {
+    max-width: 820px;
+    margin: 0 auto 0.8rem auto;
+    padding: 0 1.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    font-size: 0.85rem;
+    color: #444;
+  }
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .swatch {
+    display: inline-block;
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 3px;
+    border: 2px solid #999;
+  }
+  .swatch-none { background: #fff; border-color: #ccc; }
+  .swatch-progress { background: #fff9c4; border-color: #d9c15a; }
+  .swatch-done-ok { background: #a5d6a7; border-color: #2e7d32; }
+  .swatch-progress-error { background: #ffab91; border-color: #d84315; }
+  .swatch-done-error { background: #ef9a9a; border-color: #c62828; }
+  .swatch-unresolved { background: #d0d0d0; border-color: #777; }
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 1.2rem 3rem 1.2rem;
+  }
+  .psalm-title {
+    font-size: 1.6rem;
+    margin: 1rem 0 0.2rem 0;
+  }
+  .psalm-header {
+    font-size: 0.95rem;
+    color: #555;
+    font-style: italic;
+    margin-bottom: 0.6rem;
+  }
+  .psalm-notes {
+    background: #fff3cd;
+    border: 1px solid #e0c36a;
+    padding: 0.7rem 0.9rem;
+    border-radius: 8px;
+    margin-bottom: 1.2rem;
+    font-size: 0.92rem;
+  }
+  .psalm-notes ul { margin: 0.3rem 0 0 1.1rem; padding: 0; }
+  .psalm-unresolved {
+    background: #ffe0e0;
+    border: 1px solid #d88a8a;
+    padding: 0.9rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.2rem;
+  }
+  .verse {
+    background: #fff;
+    border: 1px solid #e2ddd0;
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.9rem;
+  }
+  .verse.flagged {
+    border-color: #d9a24a;
+    box-shadow: 0 0 0 2px #fff3cd inset;
+  }
+  .verse .verse-label {
+    font-weight: bold;
+    color: #4a2f2f;
+    margin-bottom: 0.3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .verse .flag-badge {
+    font-size: 0.78rem;
+    font-weight: normal;
+    color: #8a5a00;
+    background: #fff3cd;
+    border: 1px solid #e0c36a;
+    border-radius: 6px;
+    padding: 0.1rem 0.5rem;
+  }
+  .verse .latin {
+    font-style: italic;
+    color: #444;
+    margin-bottom: 0.5rem;
+  }
+  .verse .german-block {
+    margin-bottom: 0.5rem;
+  }
+  .verse .german-block .translation-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #888;
+    margin-bottom: 0.1rem;
+  }
+  .verse .german-block.new .translation-label { color: #2e7d32; }
+  .verse .german-block .translation-text.empty {
+    color: #b23a2f;
+    font-style: italic;
+  }
+  .verse .buttons {
+    display: flex;
+    gap: 0.6rem;
+    margin: 0.6rem 0 0.5rem 0;
+    flex-wrap: wrap;
+  }
+  .verse button.mark {
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    background: #f5f5f5;
+    cursor: pointer;
+  }
+  .verse button.mark.up.selected {
+    background: #2e7d32;
+    border-color: #2e7d32;
+    color: #fff;
+  }
+  .verse button.mark.down.selected {
+    background: #b23a2f;
+    border-color: #b23a2f;
+    color: #fff;
+  }
+  .verse input.comment {
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  .navbuttons {
+    max-width: 820px;
+    margin: 0 auto 2rem auto;
+    padding: 0 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .navbuttons button {
+    font-family: inherit;
+    font-size: 1.05rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 8px;
+    border: 1px solid #4a2f2f;
+    background: #fff;
+    color: #4a2f2f;
+    cursor: pointer;
+  }
+  .navbuttons button:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+  footer.bottom-download {
+    max-width: 820px;
+    margin: 0 auto 3rem auto;
+    padding: 0 1.2rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <h1>Psalmen-Rückmeldung — Allioli-Arndt 1914 als neuer Psalter (Issue #1)</h1>
+  <div class="progress-line" id="progressLine">wird geladen…</div>
+  <button class="download-btn" id="downloadBtnTop">⬇️ Ergebnisse herunterladen</button>
+</header>
+
+<div class="intro">
+  <p>Lieber Pater Kraienhorst, es geht um einen möglichen <strong>zweiten,
+  frei verwendbaren deutschen Psalter</strong> für libellus: die
+  Allioli-Arndt-Übersetzung von 1914. Hier finden Sie alle 150 Psalmen plus
+  das Magnificat, jeweils Vers für Vers: links der lateinische Text
+  (Vulgata, wie er gesungen wird), rechts <strong>zwei</strong> deutsche
+  Fassungen zum Vergleich — oben die <strong>neue</strong> (Allioli-Arndt),
+  unten zur Einordnung die <strong>bisherige</strong> (Einheitsübersetzung
+  1980, die aktuell in Gebrauch ist).</p>
+  <p>Die Versgrenzen von Allioli-Arndt stimmen nicht immer mit den
+  gesungenen überein — mal fasst Allioli zwei gesungene Verse zu einem
+  zusammen, mal teilt er einen gesungenen Vers in zwei. Ein Programm hat
+  das automatisch anhand des lateinischen Wortlauts neu zugeschnitten;
+  Verse, wo das nicht eindeutig ging (<span class="swatch swatch-progress"
+  style="vertical-align:middle"></span>-Rahmen, Hinweis-Kasten am
+  Psalmanfang), <strong>brauchen von Hand eine Aufteilung</strong> — dort
+  steht der volle Allioli-Text beim ersten betroffenen Vers, der Rest ist
+  leer gelassen.</p>
+  <p>Bitte gehen Sie Vers für Vers durch und markieren Sie mit
+  <strong>👍</strong>, wenn Übersetzung und Zuschnitt in Ordnung sind, oder
+  mit <strong>👎</strong>, wenn etwas nicht passt (Zuschnitt, Wortwahl,
+  altertümliches Deutsch, was auch immer). Ein Kommentar ist willkommen,
+  aber nicht nötig.</p>
+  <p>Ihre Markierungen werden automatisch in diesem Browser gespeichert.
+  <strong>Wenn Sie fertig sind</strong>, klicken Sie auf „Ergebnisse
+  herunterladen“ — das lädt eine Textdatei herunter, die Sie mir einfach
+  zurückschicken können.</p>
+  <p class="copyright-hinweis"><strong>Wichtig:</strong> Der Urheberrechtsstatus
+  dieser konkreten Digitalisierung (k-bibel.de) ist noch <strong>nicht</strong>
+  geklärt — das ist eine separate, offene Frage (Issue #1) und hat mit
+  dieser Rückmeldung nichts zu tun. Hier geht es nur darum, ob Übersetzung
+  und Verszuschnitt für den Gesang taugen. Nichts davon ist bereits im
+  eigentlichen Psalter von libellus eingebunden.</p>
+</div>
+
+<div class="legend">
+  <span class="legend-item"><span class="swatch swatch-none"></span> unbearbeitet</span>
+  <span class="legend-item"><span class="swatch swatch-progress"></span> in Bearbeitung</span>
+  <span class="legend-item"><span class="swatch swatch-progress-error"></span> in Bearbeitung, Fehler gefunden</span>
+  <span class="legend-item"><span class="swatch swatch-done-ok"></span> fertig, in Ordnung</span>
+  <span class="legend-item"><span class="swatch swatch-done-error"></span> fertig, Fehler gefunden</span>
+  <span class="legend-item"><span class="swatch swatch-unresolved"></span> unlösbar (Text weicht ab)</span>
+</div>
+
+<nav class="psalmnav" id="psalmNav"></nav>
+
+<main id="psalmView"></main>
+
+<div class="navbuttons">
+  <button id="prevBtn">← Zurück</button>
+  <span id="psalmIndicator"></span>
+  <button id="nextBtn">Weiter →</button>
+</div>
+
+<footer class="bottom-download">
+  <button class="download-btn" id="downloadBtnBottom">⬇️ Ergebnisse herunterladen</button>
+</footer>
+
+<script>
+const PSALMS = __PSALMS_JSON__;
+
+const STORAGE_KEY = "allioli-arndt-psalm-review-v1";
+let state = {};
+
+function verseKey(psalmNumber, label) {
+  return psalmNumber + "|" + label;
+}
+
+function loadPersisted() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+state = loadPersisted();
+
+let currentPsalmIndex = 0;
+
+function updateVerse(psalmNumber, label, mutate) {
+  const k = verseKey(psalmNumber, label);
+  const fresh = loadPersisted();
+  if (!fresh[k]) fresh[k] = { mark: null, comment: "" };
+  mutate(fresh[k]);
+  state = fresh;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) { /* ignore */ }
+}
+
+function totalRows() {
+  return PSALMS.reduce((sum, p) => sum + p.rows.length, 0);
+}
+
+function reviewedRows() {
+  let n = 0;
+  for (const p of PSALMS) {
+    for (const r of p.rows) {
+      const k = verseKey(p.number, r.label);
+      if (state[k] && state[k].mark) n++;
+    }
+  }
+  return n;
+}
+
+function psalmStatus(psalm) {
+  if (psalm.status === "text-differs") return "status-unresolved";
+  let marked = 0, down = 0;
+  for (const r of psalm.rows) {
+    const k = verseKey(psalm.number, r.label);
+    const s = state[k];
+    if (s && s.mark) {
+      marked++;
+      if (s.mark === "down") down++;
+    }
+  }
+  const total = psalm.rows.length;
+  if (marked === 0) return "status-none";
+  if (marked === total) return down === 0 ? "status-done-ok" : "status-done-error";
+  return down === 0 ? "status-progress" : "status-progress-error";
+}
+
+function renderNav() {
+  const nav = document.getElementById("psalmNav");
+  nav.innerHTML = "";
+  PSALMS.forEach((p, idx) => {
+    const btn = document.createElement("button");
+    const status = psalmStatus(p);
+    btn.textContent = "Ps " + p.number + (status === "status-done-ok" ? " ✓" : "");
+    btn.className = status + (idx === currentPsalmIndex ? " active" : "");
+    btn.addEventListener("click", () => {
+      currentPsalmIndex = idx;
+      renderAll();
+      window.scrollTo({top: 0, behavior: "smooth"});
+    });
+    nav.appendChild(btn);
+  });
+}
+
+function renderProgress() {
+  const total = totalRows();
+  const done = reviewedRows();
+  document.getElementById("progressLine").textContent =
+    done + " von " + total + " Versen geprüft";
+}
+
+function germanBlock(label, text, cls) {
+  const block = document.createElement("div");
+  block.className = "german-block" + (cls ? " " + cls : "");
+  const lbl = document.createElement("div");
+  lbl.className = "translation-label";
+  lbl.textContent = label;
+  block.appendChild(lbl);
+  const txt = document.createElement("div");
+  txt.className = "translation-text" + (text.trim() ? "" : " empty");
+  txt.textContent = text.trim() ? text : "(fehlt — siehe Hinweis oben)";
+  block.appendChild(txt);
+  return block;
+}
+
+function renderPsalm() {
+  const p = PSALMS[currentPsalmIndex];
+  const view = document.getElementById("psalmView");
+  view.innerHTML = "";
+
+  const title = document.createElement("div");
+  title.className = "psalm-title";
+  title.textContent = (typeof p.number === "number" ? "Psalm " + p.number : p.number);
+  view.appendChild(title);
+
+  if (p.notes && p.notes.length) {
+    const notesBox = document.createElement("div");
+    notesBox.className = p.status === "text-differs" ? "psalm-unresolved" : "psalm-notes";
+    const strong = document.createElement("strong");
+    strong.textContent = p.status === "text-differs"
+      ? "Konnte nicht automatisch ausgerichtet werden:"
+      : "Automatisch angepasst — bitte besonders prüfen:";
+    notesBox.appendChild(strong);
+    const ul = document.createElement("ul");
+    p.notes.forEach(n => {
+      const li = document.createElement("li");
+      li.textContent = n;
+      ul.appendChild(li);
+    });
+    notesBox.appendChild(ul);
+    view.appendChild(notesBox);
+  }
+
+  p.rows.forEach(r => {
+    const k = verseKey(p.number, r.label);
+    if (!state[k]) state[k] = { mark: null, comment: "" };
+
+    const card = document.createElement("div");
+    card.className = "verse" + (r.needs_review ? " flagged" : "");
+
+    const label = document.createElement("div");
+    label.className = "verse-label";
+    const labelText = document.createElement("span");
+    labelText.textContent = "Vers " + r.label;
+    label.appendChild(labelText);
+    if (r.needs_review) {
+      const badge = document.createElement("span");
+      badge.className = "flag-badge";
+      badge.textContent = "bitte prüfen";
+      label.appendChild(badge);
+    }
+    card.appendChild(label);
+
+    const latin = document.createElement("div");
+    latin.className = "latin";
+    latin.textContent = r.latin;
+    card.appendChild(latin);
+
+    card.appendChild(germanBlock("Allioli-Arndt (neu)", r.allioli, "new"));
+    card.appendChild(germanBlock("Einheitsübersetzung 1980 (bisher)", r.eu1980 || "—", "old"));
+
+    const buttons = document.createElement("div");
+    buttons.className = "buttons";
+
+    const upBtn = document.createElement("button");
+    upBtn.className = "mark up" + (state[k].mark === "up" ? " selected" : "");
+    upBtn.textContent = "👍 In Ordnung";
+    upBtn.addEventListener("click", () => {
+      updateVerse(p.number, r.label, entry => {
+        entry.mark = (entry.mark === "up") ? null : "up";
+      });
+      renderPsalm();
+      renderNav();
+      renderProgress();
+    });
+    buttons.appendChild(upBtn);
+
+    const downBtn = document.createElement("button");
+    downBtn.className = "mark down" + (state[k].mark === "down" ? " selected" : "");
+    downBtn.textContent = "👎 Bitte prüfen";
+    downBtn.addEventListener("click", () => {
+      updateVerse(p.number, r.label, entry => {
+        entry.mark = (entry.mark === "down") ? null : "down";
+      });
+      renderPsalm();
+      renderNav();
+      renderProgress();
+    });
+    buttons.appendChild(downBtn);
+
+    card.appendChild(buttons);
+
+    const comment = document.createElement("input");
+    comment.type = "text";
+    comment.className = "comment";
+    comment.placeholder = "Anmerkung (optional)";
+    comment.value = state[k].comment || "";
+    comment.addEventListener("input", () => {
+      updateVerse(p.number, r.label, entry => {
+        entry.comment = comment.value;
+      });
+    });
+    card.appendChild(comment);
+
+    view.appendChild(card);
+  });
+}
+
+function renderNavButtons() {
+  document.getElementById("prevBtn").disabled = currentPsalmIndex === 0;
+  document.getElementById("nextBtn").disabled = currentPsalmIndex === PSALMS.length - 1;
+  document.getElementById("psalmIndicator").textContent =
+    "Psalm " + (currentPsalmIndex + 1) + " von " + PSALMS.length;
+}
+
+function renderAll() {
+  renderNav();
+  renderPsalm();
+  renderProgress();
+  renderNavButtons();
+}
+
+document.getElementById("prevBtn").addEventListener("click", () => {
+  if (currentPsalmIndex > 0) { currentPsalmIndex--; renderAll(); window.scrollTo({top:0, behavior:"smooth"}); }
+});
+document.getElementById("nextBtn").addEventListener("click", () => {
+  if (currentPsalmIndex < PSALMS.length - 1) { currentPsalmIndex++; renderAll(); window.scrollTo({top:0, behavior:"smooth"}); }
+});
+
+function buildReport() {
+  const total = totalRows();
+  const done = reviewedRows();
+  let up = 0, down = 0, commented = 0;
+  for (const k in state) {
+    if (state[k].mark === "up") up++;
+    if (state[k].mark === "down") down++;
+    if (state[k].comment && state[k].comment.trim()) commented++;
+  }
+
+  let lines = [];
+  lines.push("Allioli-Arndt-Psalter — Rückmeldung");
+  lines.push("Erstellt am: " + new Date().toLocaleString("de-DE"));
+  lines.push("");
+  lines.push("Zusammenfassung: " + done + " von " + total + " Versen geprüft — " +
+    up + " x 👍 in Ordnung, " + down + " x 👎 bitte prüfen, " +
+    commented + " mit Anmerkung.");
+  lines.push("");
+
+  PSALMS.forEach(p => {
+    lines.push("== Psalm " + p.number + (p.status === "text-differs" ? " (UNGELÖST) " : "") + " ==");
+    if (p.notes && p.notes.length) {
+      p.notes.forEach(n => lines.push("  Hinweis: " + n));
+    }
+    p.rows.forEach(r => {
+      const k = verseKey(p.number, r.label);
+      const s = state[k] || {};
+      let markText = "(nicht geprüft)";
+      if (s.mark === "up") markText = "👍 in Ordnung";
+      if (s.mark === "down") markText = "👎 bitte prüfen";
+      lines.push("Vers " + r.label + ": " + markText +
+        (s.comment && s.comment.trim() ? "  —  Anmerkung: " + s.comment.trim() : ""));
+      lines.push("  Latein:          " + r.latin);
+      lines.push("  Allioli (neu):   " + (r.allioli || "(fehlt)"));
+      lines.push("  EÜ 1980 (bisher): " + (r.eu1980 || "—"));
+    });
+    lines.push("");
+  });
+
+  lines.push("---BEGIN-DATA---");
+  lines.push(JSON.stringify(state));
+  lines.push("---END-DATA---");
+
+  return lines.join("\n");
+}
+
+function downloadReport() {
+  const text = "﻿" + buildReport();
+  const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "allioli-arndt-rueckmeldung.txt";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById("downloadBtnTop").addEventListener("click", downloadReport);
+document.getElementById("downloadBtnBottom").addEventListener("click", downloadReport);
+
+renderAll();
+</script>
+
+</body>
+</html>

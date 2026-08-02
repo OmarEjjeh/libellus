@@ -1,0 +1,17 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 130
+verses:
+  1: O Herr! mein Herz hat sich nicht erhoben und meine Augen sind nicht hoffärtig.
+  2: Und ich gehe nicht mit Dingen um, die zu groß und die zu wunderbar für mich sind.
+  3: Fürwahr! demütig war mein Sinn, nicht erhob ich mich in Stolz.
+  4: Wie ein entwöhntes Kind an seiner Mutter, so ist meiner Seele Lohn.
+  5: Hoffe Israel auf den Herrn von nun an bis in Ewigkeit!
+  6: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  7: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

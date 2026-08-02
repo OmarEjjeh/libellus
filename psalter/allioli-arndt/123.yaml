@@ -1,0 +1,22 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 123
+verses:
+  1: Wäre nicht der Herr mit uns gewesen, so sage nun Israel, wäre nicht der Herr
+    mit uns gewesen,
+  2: als die Menschen sich wider uns erhoben, so hätten sie uns wohl lebendig verschlungen;
+  3: als ihr Zorn wider uns entbrannte, hätte uns das Wasser wohl mit sich fortgerissen.
+  4: Dann wäre unsere Seele durch einen Strom gegangen, wohl wäre unsere Seele durch
+    unerträgliche Wasser gegangen.
+  5: Gepriesen sei der Herr, dass er uns ihren Zähnen nicht zum Raube dahingab.
+  6: Unsere Seele entrann gleich einem Vogel aus der Schlinge der Vogelsteller.
+  7: Die Schlinge zerriss und wir wurden frei.
+  8: Unsere Hilfe ist im Namen des Herrn, der Himmel und Erde gemacht hat.
+  9: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  10: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

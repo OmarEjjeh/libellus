@@ -1,0 +1,28 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 98
+verses:
+  1: Der Herr ist König, es mögen die Völker grollen; der auf den Cherubim thront,
+    es bebe die Erde!
+  2: Der Herr ist groß auf Sion und erhaben über alle Völker.
+  3: Sie sollen deinen großen Namen preisen, denn er ist furchtbar und heilig und
+    die Ehre des Königs liebt das Recht.
+  4: Gerade Wege hast du gebahnt, Recht und Gerechtigkeit hast du an Jakob geübt.
+  5: Erhebet den Herrn, unsern Gott, und fallet nieder vor dem Schemel seiner Füße;
+    denn er ist heilig.
+  6: Moses und Aaron waren unter seinen Priestern und Samuel unter denen, die seinen
+    Namen anriefen.
+  7: Sie riefen den Herrn an und er erhörte sie. In der Wolkensäule redete er zu ihnen.
+  8: Sie bewahrten seine Zeugnisse und die Gebote, die er ihnen gegeben.
+  9: Herr, unser Gott, du erhörtest sie, o Gott! du warst ihnen gnädig und rächtest
+    alle Anschläge wider sie.
+  10: Erhebet den Herrn, unsern Gott, und betet an auf seinem heiligen Berge; denn
+    heilig ist der Herr, unser Gott!
+  11: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  12: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

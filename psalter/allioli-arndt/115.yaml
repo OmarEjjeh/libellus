@@ -1,0 +1,24 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 115
+verses:
+  1: (10.) Ich glaube, darum redete ich, doch ich war sehr gebeugt.
+  2: '(11.) Ich sprach in meiner Bestürzung: Alle Menschen sind trügerisch!'
+  3: (12.) Was soll ich dem Herrn vergelten für alles, was er mir erwiesen hat?
+  4: (13.) Ich will den Kelch des Heiles ergreifen und den Namen des Herrn anrufen.
+  5: (14.) Meine Gelübde will ich dem Herrn bezahlen angesichts seines ganzen Volkes.
+    (15.) Kostbar in den Augen des Herrn ist der Tod seiner Heiligen.
+  6: (16.) O Herr! ich bin ja dein Diener, ich bin dein Diener und der Sohn deiner
+    Magd.
+  7: Du hast meine Bande gelöst, (17.) dir will ich ein Lobopfer darbringen und den
+    Namen des Herrn anrufen.
+  8: (18.) Meine Gelübde will ich dem Herrn bezahlen angesichts seines ganzen Volkes
+    (19.) in den Vorhöfen des Hauses des Herrn, in deiner Mitte, Jerusalem!
+  9: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  10: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

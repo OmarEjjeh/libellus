@@ -1,0 +1,24 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 109
+verses:
+  1: 'Es spricht der Herr zu meinem Herrn: Setze dich zu meiner Rechten,'
+  2: bis ich deine Feinde hinlege als Schemel deiner Füße!
+  3: Dein mächtiges Zepter wird der Herr von Sion ausgehen lassen. Herrsche inmitten
+    deiner Feinde!
+  4: Bei dir ist Herrschaft am Tage deiner Macht im Glanze der Heiligen, ich habe
+    dich aus meinem Schoße gezeugt vor dem Morgensterne.
+  5: 'Der Herr hat geschworen, und es wird ihn nicht gereuen: Auf ewig bist du Priester
+    nach der Ordnung Melchisedechs.'
+  6: Der Herr zerschmettert zu deiner Rechten Könige am Tage seines Zornes.
+  7: Er wird Gericht halten über die Völker, wird die Niederlage vollständig machen,
+    die Häupter im Lande vieler zerschmettern.
+  8: Aus dem Bache auf dem Wege wird er trinken, darum wird er das Haupt erheben.
+  9: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  10: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

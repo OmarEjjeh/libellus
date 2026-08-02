@@ -1,0 +1,24 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 114
+verses:
+  1: Liebe erfüllt mich, denn der Herr hat mein lautes Flehen erhört,
+  2: denn er hat mir sein Ohr zugeneigt; mein Leben lang werde ich ihn anrufen.
+  3: Des Todes Schmerzen hatten mich umgeben, es erreichten mich die Gefahren der
+    Unterwelt,
+  4: 'ich war auf Trübsal und Schmerz gestoßen, da rief ich den Namen des Herrn an:'
+  5: O Herr! errette meine Seele. Barmherzig ist der Herr und gerecht, unser Gott
+    erbarmt sich.
+  6: Der Herr bewahrt die Einfältigen, ich war niedergebeugt und er half mir.
+  7: Kehre zurück, meine Seele! zu deiner Ruhe, denn der Herr hat dir wohlgetan,
+  8: denn er hat meine Seele vom Tode befreit, meine Augen von den Tränen, meine Füße
+    vom Sturze.
+  9: Ich will dem Herrn im Lande der Lebendigen wohlgefallen.
+  10: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  11: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

@@ -1,0 +1,21 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 119
+verses:
+  1: Zu dem Herrn rufe ich, da ich in Drangsal bin, und er erhört mich.
+  2: Herr! rette meine Seele von ungerechten Lippen und von trügerischer Zunge!
+  3: Was wird man dir zuteilen oder welche Strafe dir zuteil werden lassen für deine
+    tückische Zunge?
+  4: Scharfe Pfeile des Gewaltigen und versengende Kohlen.
+  5: Wehe mir, dass meine Pilgerschaft so lange dauert, dass ich wohne unter den Bewohnern
+    Kedars! Zu lange schon ist meine Seele ein Fremdling.
+  6: Bei denen, die den Frieden hassen, bin ich friedlich; wenn ich mit ihnen rede,
+    erheben sie Streit wider mich ohne Ursache!
+  7: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  8: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

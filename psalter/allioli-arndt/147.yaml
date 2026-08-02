@@ -1,0 +1,24 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 147
+verses:
+  1: Lobe, Jerusalem, den Herrn! lobe, Sion, deinen Gott!
+  2: Denn er hat die Riegel deiner Tore festgemacht, deine Kinder in dir gesegnet.
+  3: Er hat deinen Marken Frieden gewährt und sättigt dich mit dem Fette des Weizens.
+  4: Er sendet sein Wort aus auf die Erde, gar schnell eilt sein Wort.
+  5: Er gibt Schnee wie Wolle, streut Nebel wie Asche aus.
+  6: Er wirft seine Schloßen wie Bröcklein hernieder, wer kann bestehen vor seinem
+    Froste?
+  7: Er entsendet sein Wort und lässt sie schmelzen; es weht sein Wind, da fließen
+    die Wasser.
+  8: Er tut Jakob sein Wort kund, seine Rechte und seine Satzungen Israel.
+  9: Nicht also hat er irgend einem andern Volke getan und seine Rechte ihnen nicht
+    offenbart. Alleluja!
+  10: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  11: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

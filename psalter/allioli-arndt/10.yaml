@@ -1,0 +1,24 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 10
+verses:
+  1: 'Auf den Herrn vertraue ich; wie mögt ihr zu meiner Seele sagen: Fliehe wie ein
+    Sperling auf das Gebirge?'
+  2: Denn siehe, die Sünder spannen den Bogen, halten ihre Pfeile in dem Köcher bereit,
+    um sie im Dunkeln abzuschießen auf die, welche aufrichtigen Herzens sind;
+  3: denn was du vollbracht hast, zerstören sie, was aber hat der Gerechte ausgerichtet?
+  4: Der Herr ist in seinem heiligen Tempel, der Herr hat im Himmel seinen Thron;
+  5: Seine Augen schauen auf den Armen, seine Wimpern durchforschen die Menschenkinder.
+  6: Der Herr durchforscht den Gerechten und den Gottlosen; wer aber Gewalttat liebt,
+    hasst seine Seele.
+  7: Er lässt über die Gottlosen Schlingen regnen, Feuer und Schwefel und Sturmwind
+    ist der Anteil ihres Bechers.
+  8: Denn der Herr ist gerecht und liebt Rechttun, sein Auge schaut auf die Rechtlichkeit.
+  9: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  10: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

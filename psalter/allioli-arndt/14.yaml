@@ -1,0 +1,23 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 14
+verses:
+  1: O Herr! wer darf weilen in deinem Zelte? oder wer darf wohnen auf deinem heiligen
+    Berge?
+  2: Wer unsträflich wandelt und Gerechtigkeit übt,
+  3: wer Wahrheit spricht in seinem Herzen, wer mit seiner Zunge nicht Trug übt,
+  4: wer seinem Nächsten nichts Übles tut und Schmähung nicht auf seinen Nächsten
+    häuft;
+  5: in wessen Augen der Bösewicht nichts gilt, der aber die, welche den Herrn fürchten,
+    in Ehren hält;
+  6: wer seinem Nächsten schwört und ihn nicht betrügt; wer sein Geld nicht auf Wucher
+    gibt und Geschenke nicht annimmt gegen den Unschuldigen;
+  7: wer so handelt, wird nimmermehr wanken.
+  8: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  9: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

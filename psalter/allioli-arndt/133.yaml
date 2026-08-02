@@ -1,0 +1,16 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 133
+verses:
+  1: Auf! preiset den Herrn, ihr alle Diener des Herrn!
+  2: Die ihr im Hause des Herrn stehet, in dem Vorhofe des Hauses unsers Gottes.
+  3: Erhebet des Nachts eure Hände zum Heiligtume und preiset den Herrn!
+  4: Der Herr segne dich von Sion aus, der Himmel und Erde gemacht hat!
+  5: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  6: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

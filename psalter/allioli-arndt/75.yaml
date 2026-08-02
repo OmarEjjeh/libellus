@@ -1,0 +1,26 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 75
+verses:
+  1: Bekannt ist Gott in Judäa, in Israel ist sein Name groß.
+  2: Im Frieden ist seine Stätte bereitet und seine Wohnung auf Sion.
+  3: Dort zerbrach er die Macht der Bogen, Schild, Schwert und Krieg.
+  4: Als du wunderbar erglänztest von den ewigen Bergen her, erschraken alle Herzensbetörten.
+  5: Sie sanken in Todesschlaf und nichts mehr fanden die Männer des Reichtums in
+    ihren Händen.
+  6: Von deinem Dräuen, o Gott Jakobs! entschliefen, die Rosse bestiegen.
+  7: Du bist furchtbar, und wer vermag dir zu widerstehen, sobald du zürnst?
+  8: Vom Himmel ließest du das Urteil vernehmen, die Erde erbebte und ward still,
+  9: als sich Gott zum Gerichte erhob, um allen Sanftmütigen des Landes zu helfen.
+  10: Denn des Menschen Denken muss dich preisen und seine übrigen Gedanken dich feiern.
+  11: Gelobet und löset dem Herrn, euerm Gott, eure Gelübde, ihr alle, ringsum ihn,
+    bringet Gaben dem Furchtbaren dar und dem,
+  12: der die Fürsten ihres Mutes beraubt, der furchtbar ist für die Könige der Erde.
+  13: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  14: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

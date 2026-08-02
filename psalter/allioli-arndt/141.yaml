@@ -1,0 +1,25 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
+# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
+# einbinden, bevor das geklaert ist.
+psalmus: 141
+verses:
+  1: Mit meiner Stimme rufe ich zu dem Herrn, mit meiner Stimme flehe ich zu dem Herrn.
+  2: Ich schütte vor seinem Angesichte meine Klage aus und tue ihm meine Drangsal
+    kund.
+  3: Wenn mein Geist in mir verzagt, kennst du meine Wege.
+  4: Auf dem Wege, auf dem ich wandle, haben sie mir eine verborgene Schlinge gelegt.
+  5: Schaue ich zur Rechten und blicke aus, so ist niemand, der mich erkennt.
+  6: Versperrt ist mir die Flucht und niemand nimmt sich meiner Seele an!
+  7: 'Zu dir rufe ich, Herr! und spreche: Du bist meine Hoffnung, mein Teil im Lande
+    der Lebendigen!'
+  8: 'Achte auf mein Flehen, denn ich bin tief gebeugt:'
+  9: Errette mich von meinen Verfolgern, denn sie sind mir übermächtig geworden.
+  10: Führe aus dem Kerker meine Seele, damit ich deinen Namen preise; die Gerechten
+    harren meiner, bis du mir vergiltst.
+  11: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  12: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.
