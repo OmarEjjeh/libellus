@@ -1,8 +1,8 @@
 """Stage a self-contained build folder: rendered TeX + assets + Makefile.
 
 The folder needs neither libellus nor the repository — running ``make``
-inside it (lualatex with gregoriotex, pdfjam, pdftk) produces the booklet
-PDFs. This is the unit a Docker build job will consume. Asset paths are
+inside it (gregorio, lualatex with gregoriotex, pdfjam, pdftk) produces the
+booklet PDFs. This is the unit a Docker build job will consume. Asset paths are
 copied under their logical names, unchanged, because the rendered TeX
 references them that way (``\\gregorioscore{chant/...}``) — but those names no
 longer say where the file is *read* from: the chant library comes from the
@@ -20,20 +20,52 @@ from libellus.paths import source_of
 
 logger = logging.getLogger(__name__)
 
-#: `make` in the staged folder = the proven compile loop + imposition.
-#: Mirrors _lualatex()/impose() in libellus.compile — keep the two in sync.
+#: `make` in the staged folder = gregorio, then the compile loop + imposition.
+#: Mirrors _gregorio()/_lualatex()/impose() in libellus.compile — keep in sync.
+#:
+#: The gregorio step is GregorioTeX's own autocompile, hoisted out of the TeX
+#: pass (ADR-0026 decision 3), so lualatex spawns nothing and needs no
+#: --shell-escape. The version suffix and flags are GregorioTeX's, not ours:
+#: it looks for exactly `tmp-gre/<dir>/<base>-<version>.gtex` and uses it when
+#: it is newer than the .gabc. `gregorio` and the installed GregorioTeX must be
+#: the same release, which the suffix enforces by itself.
 _MAKEFILE_BODY = """
+GABC := $(shell find chant -name '*.gabc' 2>/dev/null)
+GREVERSION := $(shell gregorio --version | head -1 | cut -d' ' -f2 | tr . _)
+GTEX := $(patsubst %.gabc,tmp-gre/%-$(GREVERSION).gtex,$(GABC))
+
 all: $(STEM)-pdfjam-duplex.pdf
 
-$(STEM).pdf: $(STEM).tex
-	# gregoriotex autocompile can garble one source line per run; rerun
-	# until the log has no errors (max 4 passes), then one settling pass
-	for i in 1 2 3 4; do \\
-	  lualatex --shell-escape --interaction=nonstopmode $(STEM).tex; \\
-	  grep -q '^!' $(STEM).log || break; \\
-	done
-	@grep -q '^!' $(STEM).log && { echo "LaTeX errors remain after 4 passes"; exit 1; } || true
-	lualatex --shell-escape --interaction=nonstopmode $(STEM).tex
+# gregorio exits non-zero for a score it none the less sets usably — the
+# elision error in sanctorum-meritis.gabc is one, and it is in the booklet that
+# shipped. So the test is whether notation came out, not what the exit code
+# was; anything gregorio had to say is echoed rather than swallowed.
+tmp-gre/%-$(GREVERSION).gtex: %.gabc
+	@mkdir -p $(dir $@)
+	@gregorio -D -W -o $@ -l $(@:.gtex=.glog) $< || true
+	@test -s $@ || { echo "gregorio set nothing for $< — see $(@:.gtex=.glog)"; exit 1; }
+	@test ! -s $(@:.gtex=.glog) || { echo "gregorio on $<:"; sed 's/^/    /' $(@:.gtex=.glog); }
+
+# GregorioTeX asks for a rerun when line heights, brace lengths or soft
+# accidentals have moved; LaTeX asks when a cross-reference has. A pass that
+# emits its PDF with either request outstanding is laid out from the *previous*
+# pass's .gaux — that is how the shipped Lambertus booklet came to differ from
+# its own staged folder on ten pages. Stop only once nothing is outstanding.
+$(STEM).pdf: $(STEM).tex $(GTEX)
+	@set -e; \\
+	for i in 1 2 3 4 5 6; do \\
+	  lualatex --interaction=nonstopmode $(STEM).tex || true; \\
+	  test -f $(STEM).log || { echo "lualatex wrote no log at all"; exit 1; }; \\
+	  if grep -q '^!' $(STEM).log; then \\
+	    echo "LaTeX errors — see $(STEM).log"; grep -m5 '^!' $(STEM).log; exit 1; \\
+	  fi; \\
+	  if ! grep -qE 'Rerun to fix|Rerun to get cross-references right' $(STEM).log; then \\
+	    test -s $(STEM).pdf || { echo "no PDF written — see $(STEM).log"; exit 1; }; \\
+	    exit 0; \\
+	  fi; \\
+	  echo "pass $$i: layout not settled, rerunning"; \\
+	done; \\
+	echo "layout did not settle after 6 passes — see $(STEM).log"; exit 1
 
 $(STEM)-pdfjam.pdf: $(STEM).pdf
 	pdfjam --booklet true --landscape --paper a4paper $(STEM).pdf -o $(STEM)-pdfjam.pdf

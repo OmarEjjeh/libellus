@@ -1,10 +1,16 @@
 """Compile a staged build folder to the final booklet PDFs.
 
-Wraps the proven Makefile logic: gregoriotex's autocompile can garble one
-source line per run, so lualatex is looped until the log is error-free
-(max 4 passes) plus one final settling pass. Everything runs inside the
-staged folder (see libellus.stage), which also carries a Makefile with the
-identical loop for latex-only environments (Docker) — keep the two in sync.
+Two steps. gregorio runs first, over every staged ``.gabc``, so that the TeX
+pass finds the notation already made and never autocompiles (ADR-0026
+decision 3) — which is what lets lualatex run without ``--shell-escape``.
+lualatex then runs until the layout stops moving: GregorioTeX and LaTeX each
+ask for a rerun while their caches are still settling, and a pass that emits
+its PDF with a request outstanding produces a booklet laid out from the
+*previous* pass's cache (#56).
+
+Everything runs inside the staged folder (see libellus.stage), which carries a
+Makefile with the identical two steps for latex-only environments — keep the
+two in sync.
 """
 
 from __future__ import annotations
@@ -18,7 +24,7 @@ from pypdf import PdfReader
 
 logger = logging.getLogger(__name__)
 
-_LUALATEX = ["lualatex", "--shell-escape", "--interaction=nonstopmode"]
+_LUALATEX = ["lualatex", "--interaction=nonstopmode"]
 
 
 class CompileError(Exception):
@@ -55,39 +61,92 @@ def _run_pass(tex_file: Path, label: str) -> list[str]:
     return errors
 
 
-#: How often a pass may fail before the errors are taken to be real.
-#: gregoriotex's autocompile turns each new .gabc into a .gtex *during* a pass,
-#: so a booklet with scores it has never compiled reports errors until they all
-#: exist — one pass per generation of new scores, roughly. Raised from 4 to 8
-#: when the Kurzfassung's Magnificat system (ADR-0022) added a score late in the
-#: file and pushed a from-scratch compact build one pass over the old limit.
-_MAX_ATTEMPTS = 8
+#: A pass that emits its PDF with one of these outstanding used a cache it then
+#: went on to correct, so its PDF is a layout behind. Looping until neither
+#: appears is the whole of the fix for #56; there is no separate settling pass,
+#: because a pass that asks for nothing has by definition laid out what it
+#: computed.
+_RERUN_REQUESTS = (
+    "Rerun to fix",  # GregorioTeX: line heights, brace lengths, soft accidentals
+    "Rerun to get cross-references right",  # LaTeX: labels, page references
+)
+
+#: How many passes the layout may take to settle before we stop believing it
+#: will. Two is the norm with the notation pre-made; six leaves room without
+#: letting a genuine oscillation run forever.
+_MAX_PASSES = 6
+
+
+def _rerun_requested(log_file: Path) -> str | None:
+    """The first outstanding rerun request in a LaTeX log, if any."""
+    log = log_file.read_text(encoding="utf-8", errors="replace")
+    return next((request for request in _RERUN_REQUESTS if request in log), None)
+
+
+def _gregorio(folder: Path) -> None:
+    """Turn every staged ``.gabc`` into the ``.gtex`` GregorioTeX will look for.
+
+    GregorioTeX does this itself during the TeX pass unless the file is already
+    there, which is what forces ``--shell-escape``. The output path and flags
+    are its own (``gregoriotex.lua``): ``tmp-gre/<dir>/<base>-<version>.gtex``,
+    where the version is gregorio's with dots as underscores, and it reuses the
+    file when it is newer than the ``.gabc``.
+
+    gregorio exits non-zero for a score it none the less sets usably — the
+    elision error in ``sanctorum-meritis.gabc`` (#55) is one, and it is in the
+    booklet that shipped. So the test is whether notation came out, not what
+    the exit code was; whatever gregorio had to say is logged either way.
+
+    :param folder: The staged folder; ``.gabc`` files are found beneath it.
+    """
+    version = subprocess.run(
+        ["gregorio", "--version"], capture_output=True, text=True, check=True
+    ).stdout.split()[1].replace(".", "_")
+
+    scores = sorted(folder.glob("chant/**/*.gabc"))
+    for score in scores:
+        stem = score.relative_to(folder).with_suffix("")
+        # kpathsea refuses to write outside the working directory, so gregorio
+        # runs *in* the staged folder and every path it is given is relative.
+        gtex = Path("tmp-gre") / stem.with_name(f"{stem.name}-{version}.gtex")
+        glog = gtex.with_suffix(".glog")
+        (folder / gtex).parent.mkdir(parents=True, exist_ok=True)
+        if (folder / gtex).is_file() and (folder / gtex).stat().st_mtime >= score.stat().st_mtime:
+            continue
+        command = [
+            "gregorio", "-D", "-W",
+            "-o", str(gtex), "-l", str(glog), str(score.relative_to(folder)),
+        ]
+        logger.debug("Gregorio-Aufruf: %s  [cwd=%s]", " ".join(command), folder)
+        subprocess.run(command, cwd=folder, capture_output=True, check=False)
+        if not (folder / gtex).is_file() or (folder / gtex).stat().st_size == 0:
+            raise CompileError(
+                f"gregorio hat für „{stem}“ keine Notation erzeugt — siehe „{folder / glog}“."
+            )
+        for line in (folder / glog).read_text(encoding="utf-8", errors="replace").splitlines():
+            logger.warning("gregorio (%s): %s", stem, line)
+    logger.info("Notation bereit: %d Gesänge (gregorio %s).", len(scores), version)
 
 
 def _lualatex(tex_file: Path) -> None:
     log_file = tex_file.with_suffix(".log")
-    errors: list[str] = []
-    for attempt in range(1, _MAX_ATTEMPTS + 1):
+    for attempt in range(1, _MAX_PASSES + 1):
         errors = _run_pass(tex_file, str(attempt))
-        if not errors:
-            break
-        logger.warning(
-            "Erneuter Versuch (Autocompile-Flattern), Durchlauf %d/%d.",
-            attempt, _MAX_ATTEMPTS,
-        )
-    else:
-        for line in errors[:10]:
-            logger.error("LaTeX: %s", line)
-        raise CompileError(
-            f"LaTeX meldet nach {_MAX_ATTEMPTS} Durchläufen weiterhin Fehler — "
-            f"siehe „{log_file}“."
-        )
-    # One extra pass so cross-references and page counts settle.
-    errors = _run_pass(tex_file, "final")
-    if errors:
-        for line in errors[:10]:
-            logger.error("LaTeX: %s", line)
-        raise CompileError(f"LaTeX meldet Fehler im letzten Durchlauf — siehe „{log_file}“.")
+        if errors:
+            for line in errors[:10]:
+                logger.error("LaTeX: %s", line)
+            raise CompileError(
+                f"LaTeX meldet Fehler in Durchlauf {attempt} — siehe „{log_file}“."
+            )
+        request = _rerun_requested(log_file)
+        if request is None:
+            logger.info("Satz stabil nach %d Durchläufen.", attempt)
+            return
+        logger.info("Durchlauf %d noch nicht stabil („%s“).", attempt, request)
+    raise CompileError(
+        f"Der Satz ist nach {_MAX_PASSES} Durchläufen nicht stabil — "
+        f"siehe „{log_file}“."
+    )
 
 
 def page_count(pdf: Path) -> int:
@@ -98,6 +157,7 @@ def page_count(pdf: Path) -> int:
 
 def compile_pdf(tex_file: Path) -> Path:
     """Compile a staged ``.tex`` (in its own folder) to ``<stem>.pdf``."""
+    _gregorio(tex_file.parent)
     _lualatex(tex_file)
     pdf = tex_file.with_suffix(".pdf")
     if not pdf.is_file():
