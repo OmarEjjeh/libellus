@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 
 import pytest
@@ -44,6 +45,17 @@ requires_psalter = pytest.mark.skipif(
     not _has_real_psalter(),
     reason="needs a Psalter checked out at psalter/ (the committed data island "
     "is Bremen's, listing the psalms its Einheitsübersetzung covers)",
+)
+
+
+#: A real compile needs the Toolchain, which CI deliberately does not install —
+#: it runs the suite on a bare Ubuntu image, and a TeX Live is minutes of setup
+#: for one test. So the one test that compiles rather than renders skips itself
+#: where the tools are absent, and runs for whoever has them (which is anyone
+#: who can build a booklet at all).
+requires_toolchain = pytest.mark.skipif(
+    shutil.which("lualatex") is None or shutil.which("gregorio") is None,
+    reason="needs the Toolchain (gregorio + lualatex with gregoriotex)",
 )
 
 

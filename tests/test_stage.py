@@ -20,7 +20,7 @@ def test_assets_cover_referenced_files(repo_root: Path, smoke_feast: Path) -> No
     # psalm verses come from the shared, cross-feast tone cache (#33)
     assert Path("chant/psalmi/109/toni/8g/v01.gabc") in resolved.assets
     assert Path("chant/ordinarium/incipit.gabc") in resolved.assets
-    assert Path("images/03-lambert/St-Lambert-Liège.jpg") in resolved.assets
+    assert Path("images/03-lambert/St-Lambert-Liege.jpg") in resolved.assets
 
 
 def test_staged_folder_is_self_contained(

@@ -154,6 +154,16 @@ path (the field is a union of both); materialized as a `.gabc` file at
 resolve time so staging and incipit derivation see a normal file.
 _Avoid_: embedded score, gabc blob
 
+**Spec path**:
+Any file a feast spec names — a picture, a `.gabc` score, a hand-written
+`.tex` filler page, a drollery, the `antiphona_bmv` chant. It may hold only
+`A-Z a-z 0-9 . _ - /`; anything else is rejected when the spec is validated
+(ADR-0033). Unlike a text field, a spec path is **not** escaped: it has to
+reach `\includegraphics`, `\input` or `\gregorioscore` intact, so a special
+character has to be kept out rather than neutralized. An embedded `data:`
+image and inline GABC are not spec paths and the rule does not touch them.
+_Avoid_: filename sanitizing, escaping a path
+
 **Psalter translation**:
 One German rendering of the psalter as variant files
 `chant/psalmi/<n>/de-<versio>.yaml` (`eu1980`, `eu2016`, …), selected per

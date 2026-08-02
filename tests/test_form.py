@@ -356,6 +356,38 @@ def test_back_cover_image_pick_names_downloads_and_lands_in_yaml(
     assert gespeichert.read_bytes().startswith(b"\x89PNG")
 
 
+def test_hand_typed_path_with_a_special_character_warns(page: Page, repo_root: Path) -> None:
+    """The path field is editable, so the ADR-0033 rule is echoed here rather
+    than left to surface as a LaTeX failure hours later (#42). A warning, not a
+    block: the build is what rejects it, this only says so earlier."""
+    page.goto(form_url(repo_root))
+
+    page.fill("#backcover-image", "images/Ss_Petri&Pauli.png")
+    warnung = page.locator("#backcover-image-warnung")
+    expect(warnung).to_contain_text("Nicht erlaubt im Pfad: „&“")
+
+    page.fill("#backcover-image", "images/Rückseite von Sankt Lambert.png")
+    expect(warnung).to_contain_text("„ü“")
+    expect(warnung).to_contain_text("Leerzeichen")
+
+    # what the pick flow itself produces passes silently
+    page.fill("#backcover-image", "images/2026-09-18-sancti-lamberti.png")
+    expect(page.locator("#backcover-image-warnung")).to_have_count(0)
+
+
+def test_drollery_path_is_checked_the_same_way(page: Page, repo_root: Path) -> None:
+    """The other free-text path field, and its two keywords, which need no
+    exception from the rule."""
+    page.goto(form_url(repo_root))
+
+    page.fill("#drollery", "hase & jäger.png")
+    expect(page.locator("#drollery-warnung")).to_contain_text("Leerzeichen")
+
+    for keyword in ("auto", "none"):
+        page.fill("#drollery", keyword)
+        expect(page.locator("#drollery-warnung")).to_have_count(0)
+
+
 def test_webp_image_is_converted_to_png_and_narrow_scan_warns(
     page: Page, repo_root: Path, tmp_path: Path
 ) -> None:

@@ -153,7 +153,7 @@ def test_the_decoded_cache_is_kept_out_of_the_form_island(repo_root: Path) -> No
 def test_image_width_reads_png_and_jpeg_headers(repo_root: Path) -> None:
     """Header-only parsing, checked against `magick identify` values."""
     png = repo_root / "images/02-benedict/medal-print.png"
-    jpeg = repo_root / "images/03-lambert/St-Lambert-Liège.jpg"
+    jpeg = repo_root / "images/03-lambert/St-Lambert-Liege.jpg"
     assert image_width(png.read_bytes()) == 764
     assert image_width(jpeg.read_bytes()) == 1280
     assert image_width(TINY_PNG) == 1

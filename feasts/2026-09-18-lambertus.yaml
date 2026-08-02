@@ -225,7 +225,7 @@ antiphona_bmv: salve-regina-simple
 filler: []
 
 back_cover:
-  image: images/03-lambert/St-Lambert-Liège.jpg
+  image: images/03-lambert/St-Lambert-Liege.jpg
   border: gilded
   border_size: normal
   credit: >-

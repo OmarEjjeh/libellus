@@ -8,10 +8,19 @@ glue (title, date, rank, rite, gabc, de). See ADR-0001 and CONTEXT.md.
 from __future__ import annotations
 
 import datetime
+import re
 from pathlib import Path
 from typing import Annotated, Literal
 
-from pydantic import AfterValidator, BaseModel, ConfigDict, Field, model_validator
+from pydantic import (
+    AfterValidator,
+    BaseModel,
+    ConfigDict,
+    Discriminator,
+    Field,
+    Tag,
+    model_validator,
+)
 
 from libellus.gabc import is_inline_gabc
 from libellus.imagedata import decode_inline_image, is_inline_image
@@ -64,10 +73,59 @@ Rank = Literal[
 ]
 
 
+#: Anything a path may NOT contain (ADR-0033). Every path in a feast spec is
+#: interpolated raw into \includegraphics, \input or \gregorioscore — escaping
+#: one would break it, since \includegraphics{a\_b.png} looks for a file that
+#: does not exist — and is copied into the staged folder's Makefile rules. The
+#: four consumers disagree about which characters they survive, so the spec
+#: allows only the ones all of them handle.
+_UNSAFE_PATH_CHARS = re.compile(r"[^A-Za-z0-9._/-]")
+
+#: Offenders that would be invisible between the quotes of an error message.
+_CHAR_NAMES = {" ": "Leerzeichen", "\t": "Tabulator", "\n": "Zeilenumbruch"}
+
+
+def _reject_unsafe_path_characters(value: str) -> None:
+    """Raise a German ValueError naming every character a path may not hold."""
+    # dict.fromkeys, not set(): each offender is named once, in the order it
+    # occurs, so the message reads the way the path does
+    offenders = dict.fromkeys(_UNSAFE_PATH_CHARS.findall(value))
+    if not offenders:
+        return
+    named = ", ".join(_CHAR_NAMES.get(c, f"„{c}“") for c in offenders)
+    raise ValueError(
+        f"Der Pfad „{value}“ enthält Zeichen, die beim Satz nicht sicher "
+        f"sind: {named}. Erlaubt sind nur a–z, A–Z, 0–9, Punkt (.), "
+        "Bindestrich (-), Unterstrich (_) und Schrägstrich (/) — keine "
+        "Umlaute, keine Leerzeichen, keine Sonderzeichen. Bitte die Datei "
+        "umbenennen (die Bildwahl im Formular benennt sie automatisch so)."
+    )
+
+
+def _validate_spec_path(value: str) -> str:
+    """A bare filename or path typed into the feast spec."""
+    _reject_unsafe_path_characters(value)
+    return value
+
+
+def _validate_tex_page_path(value: Path) -> Path:
+    """The hand-authored ``.tex`` filler page, which reaches ``\\input``."""
+    _reject_unsafe_path_characters(value.as_posix())
+    return value
+
+
+#: A path or bare name the rendered TeX reads a file by (ADR-0033).
+SpecPath = Annotated[str, AfterValidator(_validate_spec_path)]
+
+#: The ADR-0001/0002 escape hatch: a filler page written as raw ``.tex``.
+TexPagePath = Annotated[Path, AfterValidator(_validate_tex_page_path)]
+
+
 def _validate_gabc_source(value: str) -> str:
     if is_inline_gabc(value):
         return value
     if "\n" not in value and value.endswith(".gabc"):
+        _reject_unsafe_path_characters(value)
         return value
     raise ValueError(
         "Der Wert ist weder ein Pfad zu einer .gabc-Datei noch GABC-Notation "
@@ -89,6 +147,10 @@ def _validate_image_source(value: str) -> str:
     .webp-conversion hint. The one thing worth catching here is a data URI
     that arrived broken — a truncated paste — since as a "path" it would
     otherwise produce a baffling file-not-found for a 2 MB filename.
+
+    A plain path is additionally held to ADR-0033's character rule. An
+    embedded image is not: it is written to ``images/inline/`` under a name
+    resolution makes up, and the URI itself never reaches the TeX.
     """
     if is_inline_image(value):
         decode_inline_image(value)  # raises InlineImageError (a ValueError)
@@ -98,6 +160,8 @@ def _validate_image_source(value: str) -> str:
             "Base64-Bild-URI — erwartet wird „data:image/png;base64,“ (oder "
             "image/jpeg, application/pdf) und danach die Bilddaten."
         )
+    else:
+        _reject_unsafe_path_characters(value)
     return value
 
 
@@ -313,6 +377,27 @@ class FillerPage(StrictModel):
         return self
 
 
+def _filler_kind(value: object) -> str:
+    """Which arm of the filler union an entry belongs to.
+
+    Told apart by shape, and told apart *before* validating rather than by
+    trying both arms: an undiscriminated union reports the failures of every
+    arm, under a location naming pydantic's internal validator chain. That is
+    unreadable in the GitHub Actions summary a successor reads, which is the
+    one place these messages have to work (errors.german_messages).
+    """
+    return "page" if isinstance(value, dict | FillerPage) else "tex"
+
+
+#: A flavour page: normally structured, or the ADR-0001/0002 escape hatch of a
+#: hand-authored .tex file, copied verbatim (nothing it references is
+#: discovered as an asset, so such a page must be self-contained).
+FillerEntry = Annotated[
+    Annotated[FillerPage, Tag("page")] | Annotated[TexPagePath, Tag("tex")],
+    Discriminator(_filler_kind),
+]
+
+
 class FeastSpec(StrictModel):
     """One celebration = one YAML file. Always self-contained (no commons/includes)."""
 
@@ -341,15 +426,16 @@ class FeastSpec(StrictModel):
     versiculus: Versiculus
     magnificat: Magnificat
     oratio: Oratio
-    antiphona_bmv: str  # ordinarium chant name, e.g. "salve-regina-simple"
+    #: Ordinarium chant name, e.g. "salve-regina-simple" — resolved to
+    #: chant/ordinarium/<name>.gabc, so it reaches \gregorioscore as a path.
+    antiphona_bmv: SpecPath
 
-    #: Optional flavour pages before the back cover. Normally structured
-    #: `FillerPage` entries; a bare path is the power-user escape hatch from
-    #: ADR-0001/0002 — a hand-authored .tex page, copied verbatim, which must
-    #: be self-contained (nothing it references is discovered as an asset).
-    filler: list[FillerPage | Path] = []
+    #: Optional flavour pages before the back cover (see `FillerEntry`).
+    filler: list[FillerEntry] = []
     back_cover: BackCover
-    drollery: str = "auto"  # auto (seeded by date) | none | <filename in images/drollery/>
+    #: auto (seeded by date) | none | <filename in images/drollery/>. The two
+    #: keywords pass the path rule unchanged, so it needs no exception.
+    drollery: SpecPath = "auto"
 
     #: Mark every page as a draft (ADR-0021). `--draft` on the command line
     #: sets the same thing; either alone suffices and neither can clear the
