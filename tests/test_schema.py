@@ -179,6 +179,121 @@ def test_back_cover_requires_exactly_one_of_quote_or_text(repo_root: Path, tmp_p
         assert any("Rückseite" in m and "quote" in m and "text" in m for m in excinfo.value.messages)
 
 
+#: The smallest real PNG (1×1, transparent) as an embedded image — its base64
+#: alphabet includes `+` and `/`, which is why the exemption below matters.
+INLINE_IMAGE = (
+    "data:image/png;base64,"
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk"
+    "YPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+)
+
+
+#: Every path in a feast spec is set by one of these fields, and each reaches
+#: the TeX raw — \includegraphics, \input or \gregorioscore (ADR-0033). The
+#: value is a path the fixture does not have; the character rule runs before
+#: anything looks for the file, which is the point.
+PATH_FIELDS = [
+    pytest.param(
+        lambda data, value: data["back_cover"].__setitem__("image", value),
+        "back_cover → image",
+        id="back-cover-image",
+    ),
+    pytest.param(
+        lambda data, value: data.__setitem__("filler", [{"blocks": [{"text": "x"}], "image": value}]),
+        # "page"/"tex" are the union's discriminator tags, and the same two
+        # words resolve._resolve_filler normalizes the entries to
+        "filler → 1. Eintrag → page → image",
+        id="filler-page-image",
+    ),
+    pytest.param(
+        lambda data, value: data.__setitem__("filler", [value.replace(".png", ".tex")]),
+        "filler → 1. Eintrag",
+        id="filler-tex-page",
+    ),
+    pytest.param(
+        lambda data, value: data["antiphonae"][0].__setitem__("gabc", value.replace(".png", ".gabc")),
+        "antiphonae → 1. Eintrag → gabc",
+        id="gabc-path",
+    ),
+    pytest.param(
+        lambda data, value: data.__setitem__("drollery", value),
+        "drollery",
+        id="drollery",
+    ),
+    pytest.param(
+        lambda data, value: data.__setitem__("antiphona_bmv", value.removesuffix(".png")),
+        "antiphona_bmv",
+        id="antiphona-bmv",
+    ),
+]
+
+
+@pytest.mark.parametrize("set_field,field_path", PATH_FIELDS)
+def test_path_with_latex_specials_is_rejected(
+    repo_root: Path, tmp_path: Path, set_field, field_path: str
+) -> None:
+    """A path is rejected, not escaped: \\includegraphics{a\\_b.png} would look
+    for a file that does not exist, so escaping one breaks the build too (#42)."""
+    data = _smoke_data(repo_root)
+    set_field(data, "images/Ss_Petri&Pauli.png")
+    broken = tmp_path / "broken.yaml"
+    broken.write_text(yaml.dump(data, allow_unicode=True), encoding="utf-8")
+
+    with pytest.raises(FeastFileError) as excinfo:
+        load_spec(broken)
+
+    assert any(
+        field_path in m and "„&“" in m and "umbenennen" in m
+        for m in excinfo.value.messages
+    ), excinfo.value.messages
+
+
+@pytest.mark.parametrize(
+    "value,named",
+    [
+        ("images/back cover.png", "Leerzeichen"),
+        ("images/Rückseite.png", "„ü“"),
+        ("images/St-Lambert-Liège.jpg", "„è“"),
+        ("images/100%-gold.png", "„%“"),
+        ("images/a\\b.png", "„\\“"),
+    ],
+)
+def test_rejected_path_names_the_offending_character(
+    repo_root: Path, tmp_path: Path, value: str, named: str
+) -> None:
+    """The message says which character is at fault — including the ones that
+    are invisible between quotation marks."""
+    data = _smoke_data(repo_root)
+    data["back_cover"]["image"] = value
+    broken = tmp_path / "broken.yaml"
+    broken.write_text(yaml.dump(data, allow_unicode=True), encoding="utf-8")
+
+    with pytest.raises(FeastFileError) as excinfo:
+        load_spec(broken)
+
+    assert any(named in m for m in excinfo.value.messages), excinfo.value.messages
+
+
+def test_path_rule_leaves_ordinary_names_alone(repo_root: Path) -> None:
+    """What the form produces, and what the corpus already holds, still passes."""
+    data = _smoke_data(repo_root)
+    data["back_cover"]["image"] = "images/2026-09-18-sancti-lamberti.png"
+    data["filler"] = ["template/partials/filler.tex.j2"]
+    data["drollery"] = "auto"  # the two keywords need no exception from the rule
+    spec = FeastSpec.model_validate(data)
+    assert spec.back_cover.image.endswith("sancti-lamberti.png")
+    assert spec.drollery == "auto"
+
+
+def test_embedded_image_is_exempt_from_the_path_rule(repo_root: Path) -> None:
+    """A data: URI is written to images/inline/ under a name resolution makes
+    up, so the URI's own base64 (which holds + and /) never reaches the TeX."""
+    data = _smoke_data(repo_root)
+    data["back_cover"]["image"] = INLINE_IMAGE
+    spec = FeastSpec.model_validate(data)
+    assert spec.back_cover.image.startswith("data:image/png;base64,")
+
+
 #: Minimal but complete GABC notation: headers, %% separator, note groups.
 INLINE_GABC = "name:Fuit vir;\nmode:8;\n%%\n(c4) Fu(f)it(fg) vir(g) (::)\n"
 

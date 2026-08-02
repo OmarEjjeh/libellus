@@ -1,10 +1,18 @@
+import re
 from pathlib import Path
+from types import UnionType
+from typing import Literal, TypeVar, Union, get_args, get_origin
 
 import pytest
+from pydantic import BaseModel
 
+from conftest import requires_toolchain
+
+from libellus.compile import compile_pdf, page_count
 from libellus.errors import FeastFileError
 from libellus.render import render
 from libellus.resolve import build_context, load_spec
+from libellus.schema import FeastSpec
 from libellus.stage import stage
 
 from helpers import physical
@@ -605,3 +613,235 @@ def test_final_build_has_no_trace_of_the_draft_marks(
     assert "PRO MANUSCRIPTO" not in tex
     assert "Entwurf" not in tex
     assert "\\AddToShipoutPictureBG{" not in tex
+
+
+# ============================================================
+#  The escaping audit (#42)
+# ============================================================
+
+#: Every `\VAR{}` site in `template/` whose value is interpolated raw, keyed by
+#: the Jinja expression and mapped to the reason it may be.
+#:
+#: Escaping is not a default that could simply be turned on. A path has to
+#: reach `\includegraphics`/`\input`/`\gregorioscore` unescaped or the file is
+#: not found — `\includegraphics{a\_b.png}` looks for a file that does not
+#: exist — and a TeX length has to stay a length. So the ones that carry an
+#: author's *words* are escaped, the rest are pinned here, and a new raw site
+#: fails this test until somebody says which it is.
+#:
+#: ADR-0027 decision 3 retires the convention altogether by moving escaping
+#: into a branded `Tex` type. Until that port lands, this inventory is the net.
+_SCORE = "path: \\gregorioscore, character-checked by the schema (ADR-0033)"
+_PICTURE = "path: \\includegraphics or \\input, character-checked (ADR-0033)"
+_LENGTH = "a TeX length or pgfornament number from the partial's own table"
+_COUNTED = "a number the pipeline counted; no author ever types it"
+_COMPOSED = "Latin the pipeline composed from the date or from a Literal field"
+
+RAW_INTERPOLATIONS: dict[str, str] = {
+    "bmv.gabc": _SCORE,
+    "hymnus.gabc": _SCORE,
+    "magnificat.antiphona.gabc": _SCORE,
+    "magnificat.system": _SCORE,
+    "ps.antiphona.gabc": _SCORE,
+    "responsorium.gabc": _SCORE,
+    "verse.gabc": _SCORE,
+    "versiculus.gabc": _SCORE,
+    "ordinarium['amen'].gabc": _SCORE,
+    "ordinarium['benedicamus-domino'].gabc": _SCORE,
+    "ordinarium['deo-gratias'].gabc": _SCORE,
+    "ordinarium['fidelium-animae'].gabc": _SCORE,
+    "ordinarium['incipit'].gabc": _SCORE,
+    "ordinarium['kyrie-eleison'].gabc": _SCORE,
+    "ordinarium['paternoster'].gabc": _SCORE,
+    "ordinarium['te-rogamus'].gabc": _SCORE,
+    "ordinarium['versicle-domine-exaudi'].gabc": _SCORE,
+    "back_cover_image": _PICTURE,
+    "drollery": _PICTURE,
+    "page.image": _PICTURE,
+    "page.path": _PICTURE,
+    "corner": _LENGTH,
+    "line": _LENGTH,
+    "margin": _LENGTH,
+    "shrink": _LENGTH,
+    "note_reserve": _LENGTH,
+    "gilded_thickness": _LENGTH,
+    "loop.index": _COUNTED,
+    "loop.index + 1": _COUNTED,
+    "ps.index_roman": _COUNTED,
+    "ps.number_roman": _COUNTED,
+    "ps.number_roman|upper": _COUNTED,
+    "v.n": _COUNTED,
+    "verse.number": _COUNTED,
+    "date_latin": _COMPOSED,
+    "feast.vesperae": _COMPOSED,
+    "translata_note": _COMPOSED,
+    "vesperae_label": _COMPOSED,
+}
+
+#: Filters that mark a value as already-LaTeX. `pointing` is the empirical
+#: proof of ADR-0027's branded type: it emits \textbf/\textit around text it
+#: escaped itself, so escaping it again would print the markup.
+_ESCAPING_FILTERS = {"tex", "pointing"}
+
+
+def _interpolations(repo_root: Path) -> list[tuple[str, str, int]]:
+    """Every `\\VAR{expr}` in the templates as (expression, file, line).
+
+    Brace-counted rather than regex-matched: the delimiters are `\\VAR{`/`}`
+    (render.make_environment), and several sites hold a subscript, so a
+    non-greedy `.*?` would cut `ordinarium['amen'].gabc` short at the `]`.
+    """
+    sites: list[tuple[str, str, int]] = []
+    for template in sorted((repo_root / "src/libellus/template").rglob("*.j2")):
+        text = template.read_text(encoding="utf-8")
+        name = template.relative_to(repo_root / "src/libellus/template").as_posix()
+        for opening in re.finditer(r"\\VAR\{", text):
+            cursor, depth = opening.end(), 1
+            while depth:
+                depth += {"{": 1, "}": -1}.get(text[cursor], 0)
+                cursor += 1
+            sites.append((text[opening.end() : cursor - 1], name, text.count("\n", 0, opening.start()) + 1))
+    return sites
+
+
+def test_every_unescaped_interpolation_is_a_known_one(repo_root: Path) -> None:
+    """The #42 audit, pinned: a `\\VAR{}` added without `|tex` has to be
+    classified in RAW_INTERPOLATIONS before this suite goes green again."""
+    sites = _interpolations(repo_root)
+    assert len(sites) > 100, "the templates were not found"
+
+    unclassified = sorted(
+        {
+            f"{expression}   ({name}:{line})"
+            for expression, name, line in sites
+            if not _ESCAPING_FILTERS & {part.strip() for part in expression.split("|")[1:]}
+            and expression not in RAW_INTERPOLATIONS
+        }
+    )
+    assert not unclassified, (
+        "unescaped interpolation sites nobody has classified — escape them "
+        "with |tex, or add them to RAW_INTERPOLATIONS with the reason:\n  "
+        + "\n  ".join(unclassified)
+    )
+
+
+def test_the_raw_inventory_has_no_stale_entries(repo_root: Path) -> None:
+    """The other direction: an entry that no longer matches a site is
+    misleading, because it reads as a hazard that is still there."""
+    live = {expression for expression, _, _ in _interpolations(repo_root)}
+    assert not sorted(set(RAW_INTERPOLATIONS) - live)
+
+
+# ============================================================
+#  The torture fixture (#42, ADR-0027 decision 6)
+# ============================================================
+
+#: Every LaTeX special, in one string an author could plausibly type.
+HOSTILE = r"Backslash \ Klammern {} Tilde ~ Und & Prozent % Raute # Dollar $ Strich _ Dach ^"
+
+#: A picture whose name uses every character ADR-0033 allows beyond the
+#: alphabet — the underscore above all, which is the one the issue named.
+TORTURE_IMAGE = "tests/fixtures/images/Ss_Petri-Pauli.1962.png"
+
+#: String fields that are not prose, and so are not tortured. Everything else
+#: holding a str is plain text (ADR-0002) and is replaced wholesale below — so
+#: a text field added to the schema is tortured by default, and leaves the
+#: torture only by being named here with a reason.
+NON_PROSE_FIELDS: dict[str, str] = {
+    "gabc": "a .gabc path or an inline block of notation",
+    "image": "a path or an embedded data: URI",
+    "drollery": "a filename in images/drollery/",
+    "antiphona_bmv": "an ordinarium chant name, resolved to a path",
+    "psalter_de": "the name of a directory under psalter/",
+    "tonus": "a psalm-tone label the tone engine looks up",
+    "euouae": "gabc neumes, not words",
+}
+
+
+def _is_prose(model: BaseModel, name: str, value: object) -> bool:
+    """Whether a field holds an author's words, and so must survive escaping.
+
+    A Literal field (rite, rank, vesperae, border, …) is a str at runtime but
+    a fixed vocabulary the template branches on, so it is read off the
+    annotation rather than listed by name — one fewer list to keep current.
+    """
+    if not isinstance(value, str) or name in NON_PROSE_FIELDS:
+        return False
+    return not _mentions_literal(type(model).model_fields[name].annotation)
+
+
+def _mentions_literal(annotation: object) -> bool:
+    """Whether an annotation is a Literal, or a union holding one."""
+    origin = get_origin(annotation)
+    if origin is Literal:
+        return True
+    if origin in (Union, UnionType):
+        return any(_mentions_literal(arm) for arm in get_args(annotation))
+    return False
+
+
+Model = TypeVar("Model", bound=BaseModel)
+
+
+def _torture(model: Model) -> Model:
+    """A copy of ``model`` with every prose field replaced by HOSTILE.
+
+    ``model_copy`` rather than re-validation on purpose: the point is to drive
+    hostile text through resolution and rendering, not to re-check the schema.
+    """
+    updates: dict[str, object] = {}
+    for name, value in model:
+        if isinstance(value, BaseModel):
+            updates[name] = _torture(value)
+        elif isinstance(value, list) and value:
+            updates[name] = [
+                _torture(item)
+                if isinstance(item, BaseModel)
+                else (HOSTILE if _is_prose(model, name, item) else item)
+                for item in value
+            ]
+        elif _is_prose(model, name, value):
+            updates[name] = HOSTILE
+    return model.model_copy(update=updates)
+
+
+def _tortured_spec(smoke_feast: Path) -> FeastSpec:
+    """St. Lambert with hostile text everywhere and an awkwardly named picture."""
+    spec = _torture(load_spec(smoke_feast))
+    return spec.model_copy(
+        update={"back_cover": spec.back_cover.model_copy(update={"image": TORTURE_IMAGE})}
+    )
+
+
+def test_every_prose_field_survives_being_hostile(repo_root: Path, smoke_feast: Path) -> None:
+    """The test ADR-0002 always asserted and nothing proved: hostile text in
+    *every* prose field reaches the TeX as literal glyphs, and the underscore
+    in the picture's name reaches \\includegraphics untouched."""
+    spec = _tortured_spec(smoke_feast)
+    tex = render(spec.rite, build_context(spec, repo_root).context, repo_root)
+
+    escaped = (
+        "Backslash \\textbackslash{} Klammern \\{\\} Tilde \\textasciitilde{} "
+        "Und \\& Prozent \\% Raute \\# Dollar \\$ Strich \\_ Dach \\textasciicircum{}"
+    )
+    # every field that renders at all renders escaped, and none renders raw
+    assert tex.count(escaped) > 30
+    assert HOSTILE not in tex
+    # the picture's name is the one thing that must NOT be escaped
+    assert f"{{{TORTURE_IMAGE}}}" in tex
+    assert "Ss\\_Petri" not in tex
+
+
+@requires_toolchain
+def test_a_hostile_feast_still_compiles(repo_root: Path, smoke_feast: Path, tmp_path: Path) -> None:
+    """…and the booklet builds. Escaping that is merely plausible is worth
+    little: the only proof that a special character is neutralized is LuaLaTeX
+    accepting it, which is what nothing checked before #42."""
+    spec = _tortured_spec(smoke_feast)
+    resolved = build_context(spec, repo_root)
+    tex = render(spec.rite, resolved.context, repo_root)
+    build_dir = stage(tex, resolved.assets, "torture", repo_root, tmp_path / "torture")
+
+    pdf = compile_pdf(build_dir / "torture.tex")
+
+    assert page_count(pdf) % 4 == 0  # the booklet invariant still holds

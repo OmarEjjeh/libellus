@@ -358,7 +358,8 @@ embed the Psalter — the German verses still come from your working directory.
 ```
 feasts/                     the feast specs — the artifact you edit
 form/formular.html          self-contained browser form
-images/<feast>/             pictures, one folder per celebration
+images/<feast>/             pictures, one folder per celebration (names:
+                            letters, digits, . _ - only — see ADR-0033)
 psalter/<versio>/           German translations (not in the package)
 src/libellus/
 ├── cli.py schema.py resolve.py render.py stage.py compile.py …

@@ -577,7 +577,7 @@ nie das Formular kaputt — verbindlich prüft weiterhin libellus.
   "image_paths": [
     "images/02-benedict/medal-print.png",
     "images/02-benedict/st-benedict-mary-evans.jpg",
-    "images/03-lambert/St-Lambert-Liège.jpg",
+    "images/03-lambert/St-Lambert-Liege.jpg",
     "images/borders/gilded-corner-ne.png",
     "images/borders/gilded-corner-nw.png",
     "images/borders/gilded-corner-se.png",
@@ -1274,6 +1274,22 @@ function Textfeld({id, label, wert, setze, hinweis, zeilen = 3, gabc = false}) {
 
 const GABC_HINWEIS = "Pfad im Projekt (endet auf .gabc) — oder die Notation "
   + "direkt hier einfügen (Kopfzeilen, eine Zeile „%%“, dann der Text mit Noten).";
+
+// Spiegelt _reject_unsafe_path_characters aus libellus (schema.py): ein Pfad
+// wird nicht maskiert, sondern beschränkt (ADR-0033). Hier nur als Warnung —
+// abgelehnt wird beim Bauen; das Formular soll es bloß früher sagen als LaTeX.
+const UNSICHERE_PFADZEICHEN = /[^A-Za-z0-9._/-]/g;
+const ZEICHENNAMEN = {" ": "Leerzeichen", "\t": "Tabulator"};
+
+function pfadWarnung(wert) {
+  if (!wert) return null;
+  const treffer = [...new Set(wert.match(UNSICHERE_PFADZEICHEN) || [])];
+  if (treffer.length === 0) return null;
+  const benannt = treffer.map((z) => ZEICHENNAMEN[z] || `„${z}“`).join(", ");
+  return `Nicht erlaubt im Pfad: ${benannt}. Erlaubt sind nur a–z, A–Z, 0–9, `
+    + "Punkt, Bindestrich, Unterstrich und Schrägstrich — keine Umlaute, "
+    + "keine Leerzeichen. Bitte die Datei umbenennen.";
+}
 
 // ADR-0011: eine Herkunftsangabe erscheint als nummerierte Fußnote im Heft.
 const NOTE_HINWEIS = "z. B. „Vesperale Romanum, Leodii 1835, Pag. 406–407“ — "
@@ -1992,13 +2008,15 @@ function Formular() {
           hinweis="Pfade zu selbst geschriebenen .tex-Seiten, eine je Zeile; sie kommen nach den Zusatzseiten oben. Solche Seiten müssen für sich stehen — Bilder, die sie einbinden, findet libellus nicht." />
         <${Feld} id="drollery" label="Drolerie" wert=${zustand.drollery}
           setze=${setze("drollery")}
-          hinweis="„auto“ (das Datum wählt eine Randzeichnung), „none“ (keine) oder ein Dateiname aus images/drollery/." breit />
+          hinweis="„auto“ (das Datum wählt eine Randzeichnung), „none“ (keine) oder ein Dateiname aus images/drollery/."
+          warnung=${pfadWarnung(zustand.drollery)} breit />
       </fieldset>
 
       <fieldset>
         <legend>Rückseite</legend>
         <${Feld} id="backcover-image" label="Bild (Pfad im Projekt)" wert=${zustand.back_cover.image}
-          setze=${setze("back_cover", "image")} hinweis="z. B. „images/lambertus.png“." breit />
+          setze=${setze("back_cover", "image")} hinweis="z. B. „images/lambertus.png“."
+          warnung=${pfadWarnung(zustand.back_cover.image)} breit />
         <label class="feld breit" for="backcover-image-datei">
           <span>…oder ein Bild von diesem Rechner wählen</span>
           <input type="file" id="backcover-image-datei" accept="image/*"

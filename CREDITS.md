@@ -42,7 +42,7 @@ commit, SHA-256 and licence recorded in that file's own PROVENANCE comment.
 Per-feast pictures are **not** shipped in the published wheel; they live in the
 repository only. Recorded provenance:
 
-- `images/03-lambert/St-Lambert-Liège.jpg` — "The murder of Saint Lambert"
+- `images/03-lambert/St-Lambert-Liege.jpg` — "The murder of Saint Lambert"
   (Jan van Brussel?, c. 1490), detail of the *Palude diptych*, Musée Grand
   Curtius, Liège.
 - `images/02-benedict/` — see `images/02-benedict/source.md`.
