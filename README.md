@@ -238,6 +238,35 @@ Regenerate it whenever those change:
 libellus export-form-data          # --check only reports staleness
 ```
 
+## The booklet in a browser tab
+
+`app/` is the first slice of the all-in-one (ADR-0026): the whole pipeline —
+resolve, notation, LuaTeX — running in a browser tab, with no TeX Live, no
+Node and nothing installed. It is a tracer bullet, not the finished
+application: it builds the bundled feasts and nothing else, and there is no
+editor yet (#57).
+
+It needs the **Toolchain** — LuaHBTeX and gregorio as WebAssembly plus a
+46 MB texmf tree — which is built once from pinned upstream releases and a
+local TeX Live:
+
+```
+scripts/toolchain/build.sh         # ~80 MB into toolchain/, gitignored
+uv run app/serve.py                # http://127.0.0.1:8017/app/
+```
+
+The first visit downloads the Toolchain into the origin's private filesystem
+(OPFS) and builds a `lualatex.fmt` inside the WebAssembly, because
+TeXlyre-BusyTeX ships none; every visit after that starts from the cache. A
+full 36-page booklet takes about two minutes, in two LuaTeX passes.
+
+Eventually the Toolchain becomes a published, versioned release asset and none
+of this local building is needed (ADR-0026 decision 8). Two things are worth
+knowing before serving this anywhere: the distributed application is
+**AGPL-3.0-or-later** (ADR-0031, and `CREDITS.md` on what that asks of you),
+and the dev server hands your `psalter/` to the page — Bremen's is the
+Einheitsübersetzung, which is not redistributable.
+
 ## Choosing a Psalter
 
 A **Psalter** is one translator's complete German for the sung verses: one
@@ -358,6 +387,12 @@ embed the Psalter — the German verses still come from your working directory.
 ```
 feasts/                     the feast specs — the artifact you edit
 form/formular.html          self-contained browser form
+app/                        the whole pipeline in a browser tab (ADR-0026/0034)
+├── worker.mjs              where it all runs — and it must be a Worker
+├── engines.mjs             gregorio + LuaHBTeX behind a synchronous seam
+├── psalmengine.mjs         the jgabc engine, in the page instead of in node
+└── serve.py                dev server; deliberately sends no COOP/COEP
+toolchain/                  WebAssembly + texmf tree (built, gitignored)
 images/<feast>/             pictures, one folder per celebration (names:
                             letters, digits, . _ - only — see ADR-0033)
 psalter/<versio>/           German translations (not in the package)
