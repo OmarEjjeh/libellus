@@ -68,3 +68,11 @@ scripts/psalter-german/cache/
 # against — which is committed, and must be, or the suite fails everywhere but
 # this working copy.
 /psalter/
+
+# The Toolchain: LuaHBTeX and gregorio as WebAssembly plus the minimal texmf
+# tree, assembled by scripts/toolchain/build.sh. ~80 MB of binaries built from
+# pinned upstream releases, so they are reproducible rather than precious.
+# ADR-0026 decision 8 makes this a separately versioned GitHub release asset
+# eventually — never a tracked directory, on either plan.
+/toolchain/
+scripts/toolchain/.cache/
