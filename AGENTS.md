@@ -31,6 +31,18 @@ meant to land as-is uses `spike/` instead, e.g.
 `spike/43-browser-tex-toolchain`. The type is a promise about the branch, not
 about every commit on it.
 
+**Never work an issue from `main`.** Before the first edit, check whether the
+issue's branch already exists — locally with `git branch --list '*/<n>-*'`, and
+remotely with `git branch -r --list 'origin/*/<n>-*'`. Switch to it if it does;
+otherwise create it from an up-to-date `main` and switch to it:
+
+```
+git switch -c <type>/<issue-number>-<slug> main
+```
+
+Do this at the start of the work, not at the end — a branch cut afterwards
+means the work already happened on `main`.
+
 Releasing is deliberate and local: run `cz bump`, review the version,
 `CHANGELOG.md` and tag it produced, then `git push --follow-tags`. Pushing
 the tag is what triggers `release.yml` to publish to PyPI, so a release never
