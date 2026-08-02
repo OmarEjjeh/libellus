@@ -223,7 +223,9 @@ _Avoid_: termination (bare, ambiguous with the cadence itself); euouae
 
 **Staging**:
 Producing a self-contained build folder that compiles to the booklet
-without libellus or the rest of the repo.
+without libellus or the rest of the repo — and compiles to the *same*
+booklet every time, which is a promise that has to be tested rather than
+assumed (`scripts/rebuild-check.py`, ADR-0032).
 _Avoid_: export, bundling
 
 **Working directory**:
