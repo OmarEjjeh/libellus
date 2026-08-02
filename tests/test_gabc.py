@@ -1,3 +1,4 @@
+import re
 import tempfile
 from pathlib import Path
 
@@ -15,6 +16,7 @@ from libellus.gabc import (
     pointed_halves,
     read_headers,
 )
+from libellus.paths import PACKAGE_ROOT
 from libellus.psalmtone import euouae_per_tonus
 
 from helpers import physical
@@ -24,6 +26,35 @@ from helpers import physical
 #: test_resolve.GOLDEN). The hand-split gabc these tests used to read was
 #: retired with vesper.tex on 2026-07-28.
 PSALM_VERSE = "tests/data/golden/psalm109-8g-v01.gabc"
+
+#: The text of one elision. gabc elisions do not nest, so a non-greedy match is
+#: the whole of the parsing needed.
+_ELISION = re.compile(r"<e>(.*?)</e>")
+
+#: A gabc comment: ``%`` to end of line. Stripped before the scan below, because
+#: sanctorum-meritis.gabc documents the spelling it was fixed away from and a
+#: quoted mistake is not one.
+_COMMENT = re.compile(r"%.*$", re.MULTILINE)
+
+
+def test_no_forced_centre_inside_an_elision() -> None:
+    """No bundled score puts a forced centre ``{…}`` inside an elision ``<e>…</e>``.
+
+    gregorio rejects that combination ("forced center may not be within an
+    elision") but recovers and sets the score anyway, so it exits non-zero
+    without failing the build (ADR-0032 decision 4) — which is how one hymn
+    shipped with it in every booklet for months (#55). The centre belongs
+    around the elision: ``r{<e>u</e>}<e>m</e>``, not ``r<e>{u}m</e>``.
+    """
+    offenders = [
+        str(score.relative_to(PACKAGE_ROOT))
+        for score in sorted(PACKAGE_ROOT.rglob("*.gabc"))
+        for elision in _ELISION.findall(
+            _COMMENT.sub("", score.read_text(encoding="utf-8"))
+        )
+        if "{" in elision or "}" in elision
+    ]
+    assert offenders == []
 
 
 def test_read_headers(repo_root: Path) -> None:

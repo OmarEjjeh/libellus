@@ -36,10 +36,11 @@ GTEX := $(patsubst %.gabc,tmp-gre/%-$(GREVERSION).gtex,$(GABC))
 
 all: $(STEM)-pdfjam-duplex.pdf
 
-# gregorio exits non-zero for a score it none the less sets usably — the
-# elision error in sanctorum-meritis.gabc is one, and it is in the booklet that
-# shipped. So the test is whether notation came out, not what the exit code
-# was; anything gregorio had to say is echoed rather than swallowed.
+# gregorio exits non-zero for a score it none the less sets usably, so the test
+# is whether notation came out, not what the exit code was (ADR-0032 decision 4);
+# anything gregorio had to say is echoed rather than swallowed. The one known
+# case, the elision error in sanctorum-meritis.gabc, is fixed (#55) — the corpus
+# compiles silently now, so anything echoed here is new.
 tmp-gre/%-$(GREVERSION).gtex: %.gabc
 	@mkdir -p $(dir $@)
 	@gregorio -D -W -o $@ -l $(@:.gtex=.glog) $< || true
