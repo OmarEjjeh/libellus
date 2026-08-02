@@ -9,7 +9,9 @@ The verses are generated at resolve time into the ``build/.cache/`` copy of
 ``chant/**/toni/`` — nothing generated is ever stored, in the package or in the
 repository.
 
-Requires a JavaScript runtime: ``node`` (preferred) or ``bun``.
+Requires a JavaScript runtime. By default that is an installed ``node``
+(preferred) or ``bun``, reached through a subprocess; a host that is itself a
+JavaScript runtime supplies its own via :func:`set_engine`.
 """
 
 from __future__ import annotations
@@ -18,6 +20,7 @@ import json
 import logging
 import shutil
 import subprocess
+from collections.abc import Callable, Sequence
 from functools import cache
 from pathlib import Path
 from typing import Any
@@ -29,6 +32,17 @@ logger = logging.getLogger(__name__)
 #: Absolute: the engine ships in the package, so it is found the same way
 #: whether libellus runs from a checkout or from site-packages.
 GENERATOR = bundled("psalm-library", "generate.js")
+
+#: Run ``generate.js`` with these arguments; return ``(exit code, stdout,
+#: stderr)`` exactly as a process would. Everything the caller does with that —
+#: which exit codes are legitimate, the JSON, the German messages — stays on
+#: this side, so a host only has to know how to run the engine.
+#:
+#: The engine is already JavaScript, and ``generate.js`` needs no npm packages.
+#: A host that *is* a JavaScript runtime calls it directly and deletes the
+#: subprocess rather than emulating one (ADR-0027); the default below is the
+#: subprocess, for the CLI against an installed node or bun.
+Engine = Callable[[Sequence[str]], tuple[int, str, str]]
 
 
 class PsalmToneError(Exception):
@@ -46,16 +60,38 @@ def _runtime() -> str:
     )
 
 
-def _run(*args: str) -> Any:
+def subprocess_engine(args: Sequence[str]) -> tuple[int, str, str]:
+    """Run the generator under an installed ``node`` or ``bun``. The default."""
     command = [_runtime(), str(GENERATOR), *args]
     result = subprocess.run(command, capture_output=True, text=True, check=False)
-    if result.returncode not in (0, 2) or not result.stdout.strip():
+    return result.returncode, result.stdout, result.stderr
+
+
+_engine: Engine = subprocess_engine
+
+
+def set_engine(engine: Engine) -> None:
+    """Point psalm-tone generation at another JavaScript runtime.
+
+    The browser application runs the engine in the page rather than in a
+    process, because Pyodide has no ``subprocess`` and the engine is JavaScript
+    already (ADR-0027). Pass :func:`subprocess_engine` to restore the default.
+    """
+    global _engine  # noqa: PLW0603 — one process-wide toolchain, chosen by the host
+    logger.debug("Psalmnoten-Laufzeit gewechselt: %s.", getattr(engine, "__name__", engine))
+    _engine = engine
+    euouae_per_tonus.cache_clear()
+
+
+def _run(*args: str) -> Any:
+    returncode, stdout, stderr = _engine(args)
+    if returncode not in (0, 2) or not stdout.strip():
         raise PsalmToneError(
             f"Der Notengenerator „{GENERATOR}“ ist fehlgeschlagen "
-            f"({' '.join(args)}): {result.stderr.strip() or 'keine Ausgabe'}"
+            f"({' '.join(args)}): {stderr.strip() or 'keine Ausgabe'}"
         )
-    payload = json.loads(result.stdout)
-    if result.returncode == 2:
+    payload = json.loads(stdout)
+    if returncode == 2:
         raise PsalmToneError(_german_error(payload))
     return payload
 
