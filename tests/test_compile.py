@@ -143,6 +143,36 @@ def test_the_version_suffix_comes_from_the_toolchain_that_will_read_it(
     assert (tmp_path / "smoke" / "tmp-gre" / "chant" / "ant" / "one-7_2_1.gtex").is_file()
 
 
+#: The same gregorio announces itself differently depending on whether it was
+#: built with kpathsea. The WebAssembly build has none — that is what
+#: `$GREGORIO_DATA_DIR` replaces — so it prints the short form.
+@pytest.mark.parametrize(
+    "banner",
+    [
+        "Gregorio 6.1.0 (kpathsea version 6.4.2).",
+        "Gregorio 6.1.0.",
+        "Gregorio 6.1.0",
+    ],
+    ids=["with-kpathsea", "without-kpathsea", "bare"],
+)
+def test_the_version_survives_every_banner_gregorio_prints(
+    toolchain: FakeToolchain, tmp_path: Path, banner: str
+) -> None:
+    """A booklet whose notation is named wrongly loses every score in silence.
+
+    Taking the banner's second token gives "6.1.0." for the kpathsea-less
+    build, so the notation lands at `-6_1_0_.gtex`, GregorioTeX looks for
+    `-6_1_0.gtex`, finds nothing, tries to autocompile, and cannot. The result
+    is a booklet that is merely much shorter — no LaTeX error, nothing raised.
+    """
+    toolchain.version = banner
+    tex = staged(tmp_path / "smoke", "ant/one")
+
+    compile_pdf(tex)
+
+    assert (tmp_path / "smoke" / "tmp-gre" / "chant" / "ant" / "one-6_1_0.gtex").is_file()
+
+
 def test_a_toolchain_that_names_no_version_is_a_german_error(
     toolchain: FakeToolchain, tmp_path: Path
 ) -> None:

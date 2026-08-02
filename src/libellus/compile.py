@@ -21,6 +21,7 @@ decision 4 replaces pdfjam and pdftk with pdf-lib, which has not happened yet.
 from __future__ import annotations
 
 import logging
+import re
 import subprocess
 import time
 from collections.abc import Callable, Sequence
@@ -151,13 +152,21 @@ def _gregorio(folder: Path) -> None:
 
     :param folder: The staged folder; ``.gabc`` files are found beneath it.
     """
+    # Matched rather than split on whitespace, because the banner's shape is
+    # not fixed: a gregorio built with kpathsea says "Gregorio 6.1.0 (kpathsea
+    # version 6.4.2)." and one built without it — the WebAssembly build, which
+    # has no kpathsea to ask — says "Gregorio 6.1.0.". Taking the second token
+    # gives "6.1.0." there, hence a "-6_1_0_.gtex" that GregorioTeX will never
+    # look for, and a booklet with every score silently missing.
     banner = _runner(["gregorio", "--version"], folder)
-    if len(banner.split()) < 2:
+    found = re.search(r"(\d+)\.(\d+)\.(\d+)", banner)
+    if found is None:
         raise CompileError(
             "gregorio hat seine Version nicht genannt — ohne sie ist der "
-            "Dateiname der Notation nicht bekannt, den GregorioTeX sucht."
+            f"Dateiname der Notation nicht bekannt, den GregorioTeX sucht. "
+            f"Gemeldet wurde: „{banner.strip()[:200]}“."
         )
-    version = banner.split()[1].replace(".", "_")
+    version = "_".join(found.groups())
 
     scores = sorted(folder.glob("chant/**/*.gabc"))
     for score in scores:
