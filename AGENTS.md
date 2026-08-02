@@ -24,6 +24,13 @@ change bumps the minor too rather than reaching 1.0.0. Content-only changes
 under `feasts/`, `images/` or `psalter/` bump the version like any other —
 one repo, one version.
 
+Branches are named `<type>/<issue-number>-<slug>`, where `<type>` is the
+Conventional Commits type the work will land as — so `fix/56-cold-rebuild`,
+`feat/30-psalm-by-incipit`, `docs/48-runbook`. Exploratory work that is not
+meant to land as-is uses `spike/` instead, e.g.
+`spike/43-browser-tex-toolchain`. The type is a promise about the branch, not
+about every commit on it.
+
 Releasing is deliberate and local: run `cz bump`, review the version,
 `CHANGELOG.md` and tag it produced, then `git push --follow-tags`. Pushing
 the tag is what triggers `release.yml` to publish to PyPI, so a release never
