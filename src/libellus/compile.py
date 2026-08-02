@@ -92,10 +92,11 @@ def _gregorio(folder: Path) -> None:
     where the version is gregorio's with dots as underscores, and it reuses the
     file when it is newer than the ``.gabc``.
 
-    gregorio exits non-zero for a score it none the less sets usably — the
-    elision error in ``sanctorum-meritis.gabc`` (#55) is one, and it is in the
-    booklet that shipped. So the test is whether notation came out, not what
-    the exit code was; whatever gregorio had to say is logged either way.
+    gregorio exits non-zero for a score it none the less sets usably, so the
+    test is whether notation came out, not what the exit code was (ADR-0032
+    decision 4); whatever gregorio had to say is logged either way. The one
+    known case, the elision error in ``sanctorum-meritis.gabc``, is fixed
+    (#55) — the corpus compiles silently now, so anything logged here is new.
 
     :param folder: The staged folder; ``.gabc`` files are found beneath it.
     """
