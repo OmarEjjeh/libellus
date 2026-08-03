@@ -15,18 +15,24 @@
 // finish before the compile is entered, because the Runner that Python calls
 // is an ordinary synchronous function and cannot await.
 
-import { loadPyodide } from "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.mjs";
-
 import { Engines } from "./engines.mjs";
 import { psalmEngine } from "./psalmengine.mjs";
 import { cachedFormat, fetchToolchain } from "./toolchain.mjs";
 
-// Pyodide itself is still fetched from its CDN rather than bundled. That is
-// the one piece of ADR-0026 decision 8 this issue does not implement: when the
-// Toolchain becomes a published, versioned release asset, Pyodide belongs in
-// it, and then the application is genuinely offline-capable.
-const PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/";
+// The Toolchain is always fetched same-origin, at "/toolchain" — the dev
+// server serves it from the local build, and a deployed page needs it served
+// from that same path, from wherever the "toolchain-vN" release actually
+// lands (#58, ADR-0026 decision 8). It cannot be a cross-origin release-asset
+// URL instead: GitHub's release assets send no `Access-Control-Allow-Origin`,
+// which blocks both `fetch()` and a module `import()` from any other origin.
+// Pyodide comes from that same path too — jsdelivr's CDN is gone entirely,
+// not just made optional.
+//
+// TOOLCHAIN_VERSION_PIN is the floor `boot()` checks the fetched manifest
+// against: the "minimum version in the code" decision 8 asks for. It only
+// ever rejects a stale same-origin deployment, never selects a URL.
 const TOOLCHAIN = "/toolchain";
+const TOOLCHAIN_VERSION_PIN = 1;
 
 /** Pyodide's own distribution carries the rest of libellus' dependencies. */
 const VENDORED_WHEELS = ["typer", "pypdf", "shellingham"];
@@ -35,21 +41,33 @@ const log = (message) => self.postMessage({ type: "log", message });
 
 /** Everything that has to happen once, before any booklet can be built. */
 async function boot() {
+  const { manifest, files } = await fetchToolchain(TOOLCHAIN, log);
+
+  // "dev" is the local build's own version (scripts/toolchain/build.sh's
+  // default) and never fails this check — only a published release asset
+  // is pinned. Numeric because a git tag ("toolchain-v3") isn't what
+  // manifest.json carries; the tag's trailing number is.
+  if (manifest.version !== "dev" && Number(manifest.version) < TOOLCHAIN_VERSION_PIN) {
+    throw new Error(
+      `Werkzeugkette veraltet: ${manifest.version} < ${TOOLCHAIN_VERSION_PIN}`
+    );
+  }
+
   log("Lade Pyodide…");
-  const pyodide = await loadPyodide({ indexURL: PYODIDE });
+  const { loadPyodide } = await import(`${TOOLCHAIN}/pyodide.mjs`);
+  const pyodide = await loadPyodide({ indexURL: `${TOOLCHAIN}/` });
 
   log("Installiere libellus…");
   await pyodide.loadPackage("micropip");
   const micropip = pyodide.pyimport("micropip");
   const wheels = await (await fetch("./wheels.json")).json();
   for (const name of VENDORED_WHEELS) {
-    await micropip.install(`${TOOLCHAIN}/wheels/${wheels[name]}`);
+    await micropip.install(`${TOOLCHAIN}/${wheels[name]}`);
   }
   await micropip.install(`/dist/${wheels.libellus}`);
 
   await loadWorkingDirectory(pyodide);
 
-  const { manifest, files } = await fetchToolchain(TOOLCHAIN, log);
   const engines = new Engines(log);
   await engines.load(files);
   await engines.prepareFormat(await cachedFormat(manifest.busytex));

@@ -1,0 +1,88 @@
+name: Toolchain release
+
+# The Toolchain (#58, ADR-0026 decision 8) is published on its own cadence,
+# separate from the app's own `v*` tags and release.yml — "two artifacts on
+# two cadences", because rebuilding and re-uploading ~100 MB on every `fix:`
+# commit buys nothing. Pushing a `toolchain-vN` tag is what triggers this.
+on:
+  push:
+    tags: ['toolchain-v*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # texlive/texlive:latest carries the TeX Live 2026 that scripts/toolchain/
+    # build.sh's texmf-tree step reads from; TEXLIVE_ROOT's default
+    # (/usr/local/texlive/2026) already matches this image's layout.
+    container:
+      image: texlive/texlive:latest
+    permissions:
+      contents: write # gh release create, and the push to toolchain-assets
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Install gregorio's build dependencies
+        # bison/flex/patch for spike/43-gregorio-wasm/build.sh's autotools
+        # build; bzip2 for it and for build.sh's own Pyodide .tar.bz2 fetches
+        # (this image has neither preinstalled, only xz and gzip).
+        run: |
+          apt-get update -qq
+          apt-get install -y --no-install-recommends \
+            bison flex patch bzip2 git curl ca-certificates
+
+      - name: Install the GitHub CLI
+        # `container:` jobs run inside the image, not on the runner host, so
+        # none of the runner's preinstalled tools (gh included) carry over.
+        run: |
+          curl -sSL "https://github.com/cli/cli/releases/download/v2.97.0/gh_2.97.0_linux_amd64.tar.gz" \
+            | tar xz -C /usr/local --strip-components=1 gh_2.97.0_linux_amd64/bin/gh
+
+      - name: Install and activate emsdk
+        # gregorio.wasm is never committed, so it is built fresh here every
+        # time — nothing to cache it against between releases.
+        run: |
+          git clone --depth 1 https://github.com/emscripten-core/emsdk.git /opt/emsdk
+          /opt/emsdk/emsdk install latest
+          /opt/emsdk/emsdk activate latest
+
+      - name: Assemble the Toolchain
+        env:
+          TOOLCHAIN_VERSION: ${{ github.ref_name }}
+        run: |
+          source /opt/emsdk/emsdk_env.sh
+          TOOLCHAIN_VERSION="${TOOLCHAIN_VERSION#toolchain-v}"
+          scripts/toolchain/build.sh toolchain
+
+      - name: Publish the GitHub release
+        # For the CLI and Electron (ADR-0026 decision 8): neither is subject to
+        # browser CORS, so they fetch this asset directly. The browser cannot
+        # — GitHub's release assets send no Access-Control-Allow-Origin — which
+        # is why the same build also goes to the toolchain-assets branch below.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" toolchain/* \
+            --title "Toolchain ${{ github.ref_name }}" \
+            --notes "Built from $(git rev-parse HEAD)."
+
+      - name: Publish to the toolchain-assets branch
+        # Same-origin serving for the browser (#58): whatever eventually
+        # deploys the app can serve this branch's tree at /toolchain, on the
+        # app's own origin, sidestepping the release asset's CORS gap. Each
+        # release replaces the branch's tip rather than accumulating history —
+        # this is a served artifact, not a record to keep.
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          rm -rf /tmp/toolchain-assets
+          mkdir /tmp/toolchain-assets
+          cp toolchain/* /tmp/toolchain-assets/
+          cd /tmp/toolchain-assets
+          git init -q
+          git add .
+          git commit -q -m "Toolchain ${{ github.ref_name }}"
+          git push --force \
+            "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" \
+            HEAD:toolchain-assets
