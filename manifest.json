@@ -1,0 +1,15 @@
+{
+  "version": "1",
+  "busytex": "1.2.3",
+  "gregorio": "6.1.0",
+  "pyodide": "0.28.3",
+  "texlive": "2026",
+  "files": {
+    "busytex.js": 271047,
+    "busytex.wasm": 32501975,
+    "gregorio.mjs": 64310,
+    "gregorio.wasm": 689654,
+    "gregorio-vowels.dat": 4546,
+    "texmf.tar": 47441920
+  }
+}
