@@ -13,6 +13,13 @@ Against a native build made *here*, never against the shipped PDF. That
 distinction is what let spike #43 attribute a discrepancy to a pre-existing
 native bug instead of to WebAssembly, and it is why #56 was found at all.
 
+The two Montage outputs (#59) are checked differently: by extracted page text
+and rotation, not a raster diff. `pdf-lib` and `pdfpages` (what `pdfjam`
+wraps) land on different sub-point scale factors imposing the same booklet —
+`pdfpages`' own internal fixed-point arithmetic, not a bug either side needs
+to reproduce — so a pixel diff would fail on noise rather than on an actual
+pairing or rotation mistake (ADR-0037).
+
 Skipped unless the Toolchain has been assembled (`scripts/toolchain/build.sh`)
 and a native TeX Live is present, so an ordinary `pytest` run — and CI, which
 has neither — is unaffected.
@@ -27,6 +34,7 @@ from collections.abc import Iterator
 from pathlib import Path
 
 import pytest
+from pypdf import PdfReader
 
 pytest.importorskip("playwright.sync_api", reason="needs playwright")
 from playwright.sync_api import sync_playwright  # noqa: E402
@@ -99,17 +107,18 @@ def page_context(server: str):
         browser.close()
 
 
-def build_in_browser(page, feast: str, compact: bool, into: Path) -> Path:
-    """Build one booklet in the tab and write the bytes out for comparison."""
-    result = page.evaluate(
-        """async ([feast, compact]) => {
-             const built = await globalThis.libellus.build(feast, compact);
-             return { stem: built.stem, bytes: built.bytes };
-           }""",
+def build_in_browser(page, feast: str, compact: bool) -> dict:
+    """Build one booklet in the tab; returns the plain PDF plus both Montage outputs."""
+    return page.evaluate(
+        """async ([feast, compact]) => globalThis.libellus.build(feast, compact)""",
         [feast, compact],
     )
-    pdf = into / f"{result['stem']}-browser.pdf"
-    pdf.write_bytes(bytes(result["bytes"]))
+
+
+def write_pdf(part: dict, into: Path) -> Path:
+    """Write one ``{stem, bytes}`` part — the plain booklet or a Montage output."""
+    pdf = into / f"{part['stem']}-browser.pdf"
+    pdf.write_bytes(bytes(part["bytes"]))
     return pdf
 
 
@@ -126,22 +135,74 @@ def build_natively(repo_root: Path, feast: str, compact: bool) -> Path:
     return repo_root / "build" / stem / f"{stem}.pdf"
 
 
-@pytest.mark.parametrize("compact", [False, True], ids=["full", "kurzfassung"])
-def test_the_browser_booklet_is_pixel_identical_to_a_native_one(
-    page_context, repo_root: Path, tmp_path: Path, compact: bool
-) -> None:
-    page, _context, problems = page_context
-    feast = "2026-09-18-lambertus"
-
-    from_browser = build_in_browser(page, feast, compact, tmp_path)
-    from_toolchain = build_natively(repo_root, feast, compact)
-
+def assert_pixel_identical(repo_root: Path, native: Path, browser: Path) -> None:
     comparison = subprocess.run(
-        ["uv", "run", "scripts/pdfdiff.py", str(from_toolchain), str(from_browser)],
+        ["uv", "run", "scripts/pdfdiff.py", str(native), str(browser)],
         cwd=repo_root, capture_output=True, text=True, check=False,
     )
     assert comparison.returncode == 0, comparison.stdout + comparison.stderr
     assert "ALL PAGES PIXEL-IDENTICAL" in comparison.stdout
+
+
+def signature_pairs(page_count: int) -> list[tuple[int, int]]:
+    """Mirrors ``app/impose.mjs``'s ``signaturePairs`` — the 1-indexed source
+    page pairs each Montage output page should carry, in order.
+    """
+    pairs = []
+    for sheet in range(page_count // 4):
+        pairs.append((page_count - 2 * sheet, 1 + 2 * sheet))
+        pairs.append((2 + 2 * sheet, page_count - 1 - 2 * sheet))
+    return pairs
+
+
+def assert_montage_pairs_the_right_pages(plain: Path, montage: Path) -> None:
+    """Every Montage page carries the two source pages `signature_pairs` predicts.
+
+    Checked by extracted text rather than a raster diff (ADR-0037): `pdf-lib`
+    and `pdfpages` (what `pdfjam` wraps) both scale-and-center each source page
+    into its half of the sheet, but land on different sub-point scale factors
+    doing it — `pdfpages`' own internal fixed-point arithmetic, not a bug
+    either side needs to reproduce. Extracted text does not see that noise;
+    which two pages ended up on which sheet is the thing that can actually be
+    wrong.
+    """
+    plain_pages = PdfReader(plain).pages
+    montage_pages = PdfReader(montage).pages
+    assert len(montage_pages) == len(plain_pages) // 2
+
+    for index, (left, right) in enumerate(signature_pairs(len(plain_pages))):
+        sheet_text = montage_pages[index].extract_text()
+        assert plain_pages[left - 1].extract_text().strip() in sheet_text
+        assert plain_pages[right - 1].extract_text().strip() in sheet_text
+
+
+def assert_every_second_page_is_rotated(duplex: Path) -> None:
+    """The duplex variant's back sides (every second page) are rotated 180°."""
+    rotations = [page.rotation for page in PdfReader(duplex).pages]
+    assert rotations == [180 if index % 2 else 0 for index in range(len(rotations))]
+
+
+@pytest.mark.parametrize("compact", [False, True], ids=["full", "kurzfassung"])
+def test_the_browser_booklet_is_pixel_identical_to_a_native_one(
+    page_context, repo_root: Path, tmp_path: Path, compact: bool
+) -> None:
+    """The plain booklet, pixel for pixel — and, #59, both Montage outputs
+    imposed correctly from it.
+    """
+    page, _context, problems = page_context
+    feast = "2026-09-18-lambertus"
+
+    result = build_in_browser(page, feast, compact)
+    from_toolchain = build_natively(repo_root, feast, compact)
+
+    browser_plain = write_pdf(result, tmp_path)
+    assert_pixel_identical(repo_root, from_toolchain, browser_plain)
+
+    assert_montage_pairs_the_right_pages(browser_plain, write_pdf(result["montage"], tmp_path))
+    browser_duplex = write_pdf(result["montageDuplex"], tmp_path)
+    assert_montage_pairs_the_right_pages(browser_plain, browser_duplex)
+    assert_every_second_page_is_rotated(browser_duplex)
+
     assert not problems, problems
 
 

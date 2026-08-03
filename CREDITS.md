@@ -63,6 +63,7 @@ The AGPL specifically, rather than GPLv3, comes from the WebAssembly TeX build:
 |---|---|---|
 | [Gregorio](https://gregorio-project.github.io/) + GregorioTeX, compiled to WebAssembly | Turns `.gabc` into chant notation | **GPLv3** |
 | LuaHBTeX and the texmf tree, via [TeXlyre-BusyTeX](https://github.com/TeXlyre/texlyre-busytex) | Typesets the booklet in the browser | **AGPL-3.0-or-later** (the busytex fork); TeX Live's own components GPL and various |
+| [pdf-lib](https://pdf-lib.js.org/) 1.17.1, vendored at `app/vendor/pdf-lib.esm.min.js` | Booklet (Montage) imposition — replaces `pdfjam`/`pdftk` (ADR-0026 decision 4) | **MIT** |
 | `pgfornament` | Vector ornaments and the non-photographic border | LPPL |
 | greciliae, greextra | The chant fonts | **OFL** (GregorioTeX's fonts are OFL even though its code is GPLv3) |
 | EB Garamond, Charis SIL, XITS, Latin Modern | Body, translation, symbol and fallback text faces | **OFL** |

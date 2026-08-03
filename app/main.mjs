@@ -26,7 +26,10 @@ const booted = new Promise((resolve) => {
     } else if (data.type === "ready") {
       resolve();
     } else if (data.type === "built") {
-      pending.get(data.id)?.resolve({ stem: data.stem, bytes: data.bytes });
+      pending.get(data.id)?.resolve({
+        stem: data.stem, bytes: data.bytes,
+        montage: data.montage, montageDuplex: data.montageDuplex,
+      });
       pending.delete(data.id);
     } else if (data.type === "file") {
       pending.get(data.id)?.resolve(data.text);
@@ -64,9 +67,15 @@ booted.then(() => {
   // them against a native build, page by page.
   globalThis.libellus = {
     build: async (feast, compact) => {
-      const { stem, bytes } = await build(feast, compact);
+      const { stem, bytes, montage, montageDuplex } = await build(feast, compact);
       offerDownload(stem, bytes);
-      return { stem, bytes: Array.from(bytes) };
+      offerDownload(montage.stem, montage.bytes);
+      offerDownload(montageDuplex.stem, montageDuplex.bytes);
+      return {
+        stem, bytes: Array.from(bytes),
+        montage: { stem: montage.stem, bytes: Array.from(montage.bytes) },
+        montageDuplex: { stem: montageDuplex.stem, bytes: Array.from(montageDuplex.bytes) },
+      };
     },
     /** Read a file out of the staged folder — the LaTeX log, for diagnosis. */
     readFile: (path) => {

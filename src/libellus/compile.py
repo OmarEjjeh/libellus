@@ -14,8 +14,19 @@ two in sync.
 
 *How* the two tools are run is the one host-dependent part, and it is the
 :data:`Runner` seam: child processes by default, WebAssembly in the browser
-application (ADR-0026). Imposition still shells out unconditionally — ADR-0026
-decision 4 replaces pdfjam and pdftk with pdf-lib, which has not happened yet.
+application (ADR-0026).
+
+Imposition (:data:`Imposer`, :func:`impose`) is a second, separate seam rather
+than another use of ``Runner`` — deliberately, because it cannot be the same
+kind of seam. ``pdf-lib``, the browser's replacement for ``pdfjam``/``pdftk``
+(ADR-0026 decision 4), returns a promise from every call, including ones that
+do no real I/O at all; there is no way to unwrap that synchronously without
+``SharedArrayBuffer``, which ADR-0034 already ruled out for this project. So
+``impose`` is ``async`` and awaits its imposer, which the browser satisfies
+through Pyodide's ``runPythonAsync`` — the ordinary top-level-await bridge to
+the page's own event loop, not the mid-loop synchronous call ``Runner`` needs.
+Nothing here is nested in a retry loop the way gregorio/LuaTeX are, which is
+what makes that bridge sufficient.
 """
 
 from __future__ import annotations
@@ -24,7 +35,7 @@ import logging
 import re
 import subprocess
 import time
-from collections.abc import Callable, Sequence
+from collections.abc import Awaitable, Callable, Sequence
 from pathlib import Path
 
 from pypdf import PdfReader
@@ -233,10 +244,16 @@ def compile_pdf(tex_file: Path) -> Path:
     return pdf
 
 
-def impose(pdf: Path) -> tuple[Path, Path]:
-    """Booklet imposition (pdfjam) + the duplex-rotated variant (pdftk)."""
-    booklet = pdf.with_name(f"{pdf.stem}-pdfjam.pdf")
-    duplex = pdf.with_name(f"{pdf.stem}-pdfjam-duplex.pdf")
+#: Impose one compiled booklet PDF into the two Montage outputs and return
+#: their paths. Unlike :data:`Runner`, this is ``async`` — see the module
+#: docstring for why the two seams cannot share a shape.
+Imposer = Callable[[Path], Awaitable[tuple[Path, Path]]]
+
+
+async def subprocess_impose(pdf: Path) -> tuple[Path, Path]:
+    """Booklet imposition (pdfjam) + the duplex-rotated variant (pdftk). The default."""
+    booklet = pdf.with_name(f"{pdf.stem}-montage.pdf")
+    duplex = pdf.with_name(f"{pdf.stem}-montage-duplex.pdf")
     commands = [
         ["pdfjam", "--booklet", "true", "--landscape", "--paper", "a4paper",
          pdf.name, "-o", booklet.name],
@@ -256,3 +273,24 @@ def impose(pdf: Path) -> tuple[Path, Path]:
             ) from exc
         logger.info("Montage-Schritt „%s“ fertig nach %.1f s.", command[0], time.perf_counter() - started)
     return booklet, duplex
+
+
+_imposer: Imposer = subprocess_impose
+
+
+def set_imposer(imposer: Imposer) -> None:
+    """Point booklet imposition at another backend.
+
+    The browser application swaps in a ``pdf-lib`` implementation running in
+    JavaScript, because neither ``pdfjam`` nor ``pdftk`` exist as WebAssembly
+    and pdf-lib reimplements the same two steps directly (ADR-0026 decision
+    4). Pass :func:`subprocess_impose` to restore the default.
+    """
+    global _imposer  # noqa: PLW0603 — one process-wide toolchain, chosen by the host
+    logger.debug("Montage-Werkzeugkette gewechselt: %s.", getattr(imposer, "__name__", imposer))
+    _imposer = imposer
+
+
+async def impose(pdf: Path) -> tuple[Path, Path]:
+    """Booklet imposition + the duplex-rotated variant, via whichever imposer is set."""
+    return await _imposer(pdf)
