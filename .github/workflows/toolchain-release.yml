@@ -25,12 +25,12 @@ jobs:
 
       - name: Install gregorio's build dependencies
         # bison/flex/patch for spike/43-gregorio-wasm/build.sh's autotools
-        # build; bzip2 for it and for build.sh's own Pyodide .tar.bz2 fetches
-        # (this image has neither preinstalled, only xz and gzip).
+        # build; bzip2 for it and for build.sh's own Pyodide .tar.bz2 fetches;
+        # xz-utils for emsdk's own downloads. None of the three preinstalled.
         run: |
           apt-get update -qq
           apt-get install -y --no-install-recommends \
-            bison flex patch bzip2 git curl ca-certificates
+            bison flex patch bzip2 xz-utils git curl ca-certificates
 
       - name: Install the GitHub CLI
         # `container:` jobs run inside the image, not on the runner host, so
