@@ -37,6 +37,7 @@ def test_staged_folder_is_self_contained(
     makefile = (build_dir / "Makefile").read_text(encoding="utf-8")
     assert "STEM := smoke" in makefile
     assert "lualatex" in makefile and "pdfjam" in makefile and "pdftk" in makefile
+    assert "$(STEM)-montage.pdf" in makefile and "$(STEM)-montage-duplex.pdf" in makefile
     for score in re.findall(r"\\gregorioscore\{([^}]+)\}", tex):
         assert (build_dir / f"{score}.gabc").is_file(), score
     # Scan the document body only, not the preamble: preamble.tex.j2 defines

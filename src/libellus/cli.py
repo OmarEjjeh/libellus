@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import datetime
 import logging
 import shutil
@@ -110,7 +111,7 @@ def build(
             f"Seitenzahl {pages} ist nicht durch 4 teilbar — die "
             f"Zierseiten-Logik in der Vorlage greift nicht."
         )
-    booklet, duplex = impose(pdf)
+    booklet, duplex = asyncio.run(impose(pdf))
     print(f"Fertig: {pdf} ({pages} Seiten), {booklet.name}, {duplex.name}")
     return pdf
 

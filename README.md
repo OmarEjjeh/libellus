@@ -47,8 +47,8 @@ you like with it, no attribution required.
 <p align="center"><sub>St. Lambert, Second Vespers — shown here as a
 <a href="#latin-only-booklets">Latin-only</a> booklet.</sub></p>
 
-Three PDFs per build: the booklet itself, a `-pdfjam` imposition for booklet
-printing, and a `-pdfjam-duplex` variant that rotates every second page for
+Three PDFs per build: the booklet itself, a `-montage` imposition for booklet
+printing, and a `-montage-duplex` variant that rotates every second page for
 duplex printers without a binding-edge option.
 
 A booklet contains the whole office in order — incipit, five antiphons each with
@@ -485,8 +485,8 @@ Notes for whoever keeps the Bremen booklets going.
   a new image is invisible until you add it explicitly with `git add -f`. If a
   feast will not build on a fresh clone, this is why.
 - **Before printing:** build without `--draft`, check the page count is a
-  multiple of four, and print the `-pdfjam-duplex` PDF on a duplex printer
-  without a binding-edge option, or `-pdfjam` otherwise.
+  multiple of four, and print the `-montage-duplex` PDF on a duplex printer
+  without a binding-edge option, or `-montage` otherwise.
 
 ## Credits and licence
 

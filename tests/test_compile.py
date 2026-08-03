@@ -1,3 +1,5 @@
+import asyncio
+import subprocess
 from collections.abc import Iterator, Sequence
 from pathlib import Path
 
@@ -8,7 +10,10 @@ from libellus.compile import (
     CompileError,
     _rerun_requested,
     compile_pdf,
+    impose,
+    set_imposer,
     set_runner,
+    subprocess_impose,
     subprocess_runner,
 )
 
@@ -189,3 +194,87 @@ def test_the_default_runner_is_the_subprocess_one() -> None:
     import libellus.compile
 
     assert libellus.compile._runner is subprocess_runner
+
+
+class FakeImposer:
+    """An imposer that fabricates the two Montage files without any subprocess.
+
+    Async because :data:`libellus.compile.Imposer` must be — see the module
+    docstring's explanation of why imposition cannot share ``Runner``'s
+    synchronous shape.
+    """
+
+    def __init__(self) -> None:
+        self.calls: list[Path] = []
+
+    async def __call__(self, pdf: Path) -> tuple[Path, Path]:
+        self.calls.append(pdf)
+        booklet = pdf.with_name(f"{pdf.stem}-montage.pdf")
+        duplex = pdf.with_name(f"{pdf.stem}-montage-duplex.pdf")
+        booklet.write_bytes(b"%PDF-booklet")
+        duplex.write_bytes(b"%PDF-duplex")
+        return booklet, duplex
+
+
+@pytest.fixture
+def imposer() -> Iterator[FakeImposer]:
+    """A fake imposer, always uninstalled again — it is process-wide state."""
+    fake = FakeImposer()
+    set_imposer(fake)
+    yield fake
+    set_imposer(subprocess_impose)
+
+
+def test_impose_awaits_whichever_imposer_is_set(imposer: FakeImposer, tmp_path: Path) -> None:
+    pdf = tmp_path / "smoke.pdf"
+    pdf.write_bytes(b"%PDF-1.4")
+
+    booklet, duplex = asyncio.run(impose(pdf))
+
+    assert imposer.calls == [pdf]
+    assert booklet.name == "smoke-montage.pdf"
+    assert duplex.name == "smoke-montage-duplex.pdf"
+
+
+def test_the_default_imposer_is_the_subprocess_one() -> None:
+    """A host opts in to something else; nobody has to opt in to the shell."""
+    import libellus.compile
+
+    assert libellus.compile._imposer is subprocess_impose
+
+
+def test_subprocess_impose_names_its_outputs_montage(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """Renamed from -pdfjam*/-pdfjam-duplex* — the tools are retired, not just relabeled."""
+    calls: list[list[str]] = []
+
+    def fake_run(command: list[str], cwd: Path, **_kwargs: object) -> subprocess.CompletedProcess:
+        calls.append(command)
+        marker = "-o" if "-o" in command else "output"
+        (cwd / command[command.index(marker) + 1]).write_bytes(b"%PDF-fake")
+        return subprocess.CompletedProcess(command, 0)
+
+    monkeypatch.setattr("libellus.compile.subprocess.run", fake_run)
+    pdf = tmp_path / "smoke.pdf"
+    pdf.write_bytes(b"%PDF-1.4")
+
+    booklet, duplex = asyncio.run(subprocess_impose(pdf))
+
+    assert booklet == tmp_path / "smoke-montage.pdf"
+    assert duplex == tmp_path / "smoke-montage-duplex.pdf"
+    assert calls[0][0] == "pdfjam" and calls[1][0] == "pdftk"
+
+
+def test_subprocess_impose_reports_a_failing_tool_in_german(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    def fake_run(command: list[str], **_kwargs: object) -> None:
+        raise subprocess.CalledProcessError(1, command, stderr=b"pdfjam: command not found")
+
+    monkeypatch.setattr("libellus.compile.subprocess.run", fake_run)
+    pdf = tmp_path / "smoke.pdf"
+    pdf.write_bytes(b"%PDF-1.4")
+
+    with pytest.raises(CompileError, match="Montage"):
+        asyncio.run(subprocess_impose(pdf))

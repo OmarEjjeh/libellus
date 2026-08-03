@@ -238,6 +238,16 @@ booklet every time, which is a promise that has to be tested rather than
 assumed (`scripts/rebuild-check.py`, ADR-0032).
 _Avoid_: export, bundling
 
+**Montage**:
+The 2-up landscape a4paper imposition of a compiled booklet, plus the variant
+with every second page rotated 180° for duplex printers without a
+binding-edge option — Bremen prints the latter. Named after the tools it
+replaced (`-pdfjam.pdf`/`-pdfjam-duplex.pdf` are now `-montage.pdf`/
+`-montage-duplex.pdf`), produced by `pdf-lib` in the app and by `pdfjam`
++ `pdftk` on the CLI (ADR-0026 decision 4).
+_Avoid_: imposition (fine as a description of what it does, not as its name),
+pdfjam, booklet printing
+
 **Working directory**:
 The folder Libellus works in: the feast specs, the pictures, any **Psalter**
 supplied by hand, and the builds. What the app opens, what the CLI runs in, and
