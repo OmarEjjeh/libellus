@@ -249,8 +249,11 @@ _Avoid_: workspace, project, library (that word is taken twice over — see
 
 **Toolchain**:
 The versioned WebAssembly payload Libellus typesets with: LuaTeX, gregorio, the
-minimal texmf tree and its four fonts. Downloaded once and cached rather than
-shipped inside a package, being far too large for one (ADR-0026).
+minimal texmf tree and its four fonts, and — for the browser — Pyodide's
+runtime plus the handful of packages libellus itself needs. Downloaded once
+and cached rather than shipped inside a package, being far too large for one
+(ADR-0026), and published as its own versioned GitHub release asset on its own
+cadence, separate from the application's (#58).
 _Avoid_: bundle (a **Bündel** is a feast spec), payload, distro, TeX Live
 
 **Bundled data**:

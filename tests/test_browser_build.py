@@ -172,7 +172,14 @@ def test_the_toolchain_is_cached_rather_than_refetched(page_context, server: str
     reloaded.wait_for_function("globalThis.libellus?.ready === true", timeout=BUILD_TIMEOUT_MS)
 
     # The manifest is always read — it is what the cache is validated against.
-    # The payload behind it must not be.
-    heavy = [url for url in fetched if not url.endswith(("manifest.json", ".whl"))]
+    # The payload behind it must not be. Pyodide's own runtime files are
+    # fetched by its bootstrap directly against indexURL, same as the vendored
+    # .whl files below — neither goes through fetchToolchain's OPFS cache, so
+    # neither is held to it here (#58).
+    exempt = (
+        "manifest.json", ".whl", "pyodide.mjs", "pyodide.asm.js",
+        "pyodide.asm.wasm", "python_stdlib.zip", "pyodide-lock.json",
+    )
+    heavy = [url for url in fetched if not url.endswith(exempt)]
     assert heavy == [], heavy
     reloaded.close()
