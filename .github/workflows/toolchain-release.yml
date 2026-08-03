@@ -18,6 +18,11 @@ jobs:
       image: texlive/texlive:latest
     permissions:
       contents: write # gh release create, and the push to toolchain-assets
+    # This container job's default shell is `sh` (dash), which doesn't have
+    # `source` — needed below to pick up emsdk's environment.
+    defaults:
+      run:
+        shell: bash
     steps:
       - uses: actions/checkout@v4
 
