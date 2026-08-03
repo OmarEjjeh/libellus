@@ -86,8 +86,11 @@ jobs:
         # release replaces the branch's tip rather than accumulating history —
         # this is a served artifact, not a record to keep.
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # --global, not a local config: the commit below happens in the
+          # fresh `git init` at /tmp/toolchain-assets, a different repository
+          # from whichever one a local config here would have applied to.
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           rm -rf /tmp/toolchain-assets
           mkdir /tmp/toolchain-assets
           cp toolchain/* /tmp/toolchain-assets/
