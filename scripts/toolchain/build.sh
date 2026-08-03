@@ -64,7 +64,11 @@ if [[ ! -s "$OUT/gregorio.wasm" ]]; then
     echo "building gregorio $GREGORIO_VERSION as WebAssembly (needs emsdk on PATH)…"
     command -v emcc >/dev/null || {
       echo "emcc not found — run 'source ~/emsdk/emsdk_env.sh' first" >&2; exit 1; }
-    "$REPO/spike/43-gregorio-wasm/build.sh"
+    # Explicit, not the spike script's own default ($(pwd)/work): that default
+    # is relative to the CALLER's cwd, which is wherever this script itself
+    # was invoked from, not spike/43-gregorio-wasm/ — and $built above assumes
+    # the latter.
+    "$REPO/spike/43-gregorio-wasm/build.sh" "$REPO/spike/43-gregorio-wasm/work"
   fi
   cp "$built/gregorio-memfs.mjs" "$OUT/gregorio.mjs"
   cp "$built/gregorio-memfs.wasm" "$OUT/gregorio.wasm"
