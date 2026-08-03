@@ -26,6 +26,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Trust the checkout
+        # Container jobs check the repo out as a different uid than the one
+        # steps run as; git 2.35.2+ refuses to touch it ("dubious ownership")
+        # without this. actions/checkout arranges it automatically outside a
+        # container, but not inside one.
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
       - uses: astral-sh/setup-uv@v5
 
       - name: Install gregorio's build dependencies
