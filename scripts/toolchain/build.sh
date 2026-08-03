@@ -69,7 +69,11 @@ if [[ ! -s "$OUT/gregorio.wasm" ]]; then
   cp "$built/gregorio-memfs.mjs" "$OUT/gregorio.mjs"
   cp "$built/gregorio-memfs.wasm" "$OUT/gregorio.wasm"
   # The .mjs resolves its sibling .wasm by the name it was built under.
-  sed -i '' 's/gregorio-memfs\.wasm/gregorio.wasm/g' "$OUT/gregorio.mjs"
+  # `sed -i` without `mv` on the side: BSD sed (macOS) requires the in-place
+  # suffix as its own argument, GNU sed (CI's Linux) reads that argument as
+  # the script instead — this form works identically on both.
+  sed 's/gregorio-memfs\.wasm/gregorio.wasm/g' "$OUT/gregorio.mjs" > "$OUT/gregorio.mjs.tmp"
+  mv "$OUT/gregorio.mjs.tmp" "$OUT/gregorio.mjs"
 fi
 
 # gregorio-vowels.dat is a runtime data dependency of gregorio itself, not just
@@ -98,10 +102,16 @@ mkdir -p "$TREE/texmf-dist/web2c" "$TREE/texmf-var/web2c/luahbtex"
 
 while IFS= read -r rel; do
   [[ -n "$rel" ]] || continue
-  # texmf-config holds one generated config file; busytex expects it in dist.
+  # texmf-config holds one generated config file on a TeX Live that has
+  # personalized it (e.g. after a format build) — busytex expects it in dist
+  # regardless, so the destination is always remapped there. Not every TeX
+  # Live has generated that copy, though (a fresh install hasn't), so the
+  # source falls back to the texmf-dist original the same file started as.
   dest="${rel/#texmf-config\//texmf-dist/}"
   mkdir -p "$TREE/$(dirname "$dest")"
-  cp "$TL/$rel" "$TREE/$dest"
+  src="$TL/$rel"
+  [[ -e "$src" ]] || src="$TL/$dest"
+  cp "$src" "$TREE/$dest"
 done < "$HERE/texmf-files.txt"
 
 # kpathsea finds its own configuration through TEXMFCNF rather than by opening
