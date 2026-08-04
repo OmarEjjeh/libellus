@@ -1,6 +1,13 @@
 name:Martyres Domini;
 office-part:Antiphona;
 mode:p;
+% Annotation ausgeschrieben, 2026-07-31 (Anmerkung des Pastors zu S. 15): aus
+% "mode:p" setzt gregorio von selbst ein einzelnes "P" über die Initiale, das
+% niemand als Tonus peregrinus liest. Die beiden annotation-Zeilen (mehr als
+% zwei nimmt gregorio nicht) ersetzen es durch den ausgeschriebenen Namen; die
+% übrigen Antiphonen behalten ihre Modusziffer, weil eine Ziffer eindeutig ist.
+annotation:Tonus;
+annotation:peregrínus;
 book:Liber antiphonarius, 1960, p. [42]; via GregoBase (gregobase.selapa.net), chant id 13045;
 transcriber:Andrew Hinkley;
 % Abweichung von der Vorlage, 2026-07-30: die Vorlage schreibt "MAr(d)ty(c')res(d)"
