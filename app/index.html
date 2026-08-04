@@ -26,15 +26,15 @@
 </p>
 
 <p>
-  <button data-feast="2026-09-18-lambertus" data-compact="false" disabled>
-    St. Lambert — vollständiges Heft
-  </button>
-  <button data-feast="2026-09-18-lambertus" data-compact="true" disabled>
-    St. Lambert — Kurzfassung
-  </button>
-  <button data-feast="2026-07-10-benedictus" data-compact="false" disabled>
-    St. Benedikt
-  </button>
+  <button id="open-workdir" hidden>Arbeitsverzeichnis öffnen…</button>
+</p>
+
+<p id="empty-state" hidden>Kein Fest im Arbeitsverzeichnis.</p>
+
+<p>
+  <select id="feast" disabled></select>
+  <label><input type="checkbox" id="compact"> Kurzfassung</label>
+  <button id="build" disabled>Heft bauen</button>
 </p>
 
 <div id="results"></div>
