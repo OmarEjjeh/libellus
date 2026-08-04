@@ -577,3 +577,35 @@ def test_compact_defaults_to_false_and_accepts_true(repo_root: Path, tmp_path: P
     short = tmp_path / "kurzfassung.yaml"
     short.write_text(yaml.dump(data, allow_unicode=True), encoding="utf-8")
     assert load_spec(short).compact is True
+
+
+def test_praenotanda_is_read_from_the_feast(repo_root: Path) -> None:
+    """The front-matter rubric (ADR-0038): Latin in `text`, German in `de`."""
+    spec = load_spec(repo_root / SMOKE_FEAST)
+    assert spec.praenotanda is not None
+    assert spec.praenotanda.text.startswith("Antiphonae, Hymnus et Versiculi de Communi")
+    assert spec.praenotanda.de is not None
+    assert "Commune mehrerer Märtyrer" in spec.praenotanda.de
+
+
+def test_praenotanda_is_optional(repo_root: Path) -> None:
+    """A feast whose cover names its one source states nothing twice — the
+    Benedict office sets no rubric (ADR-0038)."""
+    assert load_spec(repo_root / BENEDICT_FEAST).praenotanda is None
+
+    data = _smoke_data(repo_root)
+    del data["praenotanda"]
+    assert FeastSpec.model_validate(data).praenotanda is None
+
+
+def test_praenotanda_without_german_is_rejected_unless_latin_only(repo_root: Path) -> None:
+    """Like every other text, the rubric needs its translation (ADR-0025) —
+    and is named in the same collected message."""
+    data = _smoke_data(repo_root)
+    del data["praenotanda"]["de"]
+    with pytest.raises(ValidationError) as excinfo:
+        FeastSpec.model_validate(data)
+    assert "Praenotanda" in str(excinfo.value)
+
+    data["latin_only"] = True
+    assert FeastSpec.model_validate(data).praenotanda is not None

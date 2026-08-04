@@ -3,7 +3,28 @@
 % ============================================================
 \newpage
 \thispagestyle{plain}
-\null\vfill
+% One \vbox of exactly \textheight, centring its contents with \vfil at both
+% ends — not the usual \null\vfill … \vfill\null, and not \vspace*{\fill}
+% either. Both of those centre by page glue, and this page is too full for
+% them once it also carries the praenotanda rubric:
+%
+%   \null\vfill … \vfill\null — the two \null boxes each occupy a
+%     \baselineskip that must itself fit, costing this page ~55pt. Over
+%     budget, TeX ships the leading \null as a blank page, the block as the
+%     next, and the trailing \null as a third: one page becomes three.
+%   \vspace*{\fill} at the end — survives the page break by design, so with
+%     the \newpage that opens the Initium it lands on a page of its own,
+%     leaving a blank page 4. (A plain trailing \vfill is discarded instead,
+%     which avoids the blank but sends every bit of slack to the top and
+%     pushes the closing ornament below the text block.)
+%
+% Centring inside a box sidesteps all of it, and fails loudly: content taller
+% than \textheight is an "Overfull \vbox" in the log rather than a silently
+% longer booklet. \textheight is the right height because `plain` pages carry
+% no running head — subtracting \headheight here overfulls by design.
+%
+% Keep footnotes off this page: \footnote inside a \vbox does not come out.
+\vbox to \textheight{\vfil
 \begin{center}
   \pgfornament[width=2.5cm,color=rubricred]{84}\\[1.5em]
   {\footnotesize\scshape Ordo Vesperarum}\\[0.8em]
@@ -29,9 +50,26 @@
     \rubric{Orátio}                 & \textit{\VAR{oratio_incipit|tex}\ldots} \\
     \textsc{Antiphona B.M.V.}       & \textit{\VAR{bmv.name|tex}} \\[3pt]
   \end{tabular}}\\[1.5em]
+\BLOCK{if feast.praenotanda}
+  % Front-matter provenance rubric (ADR-0038): the Ordo lists exactly the
+  % pieces the rubric speaks about, so it stands under the table rather than
+  % on a page of its own — which would shift every page number.
+  %
+  % Set as ordinary paragraphs, deliberately not in a minipage: a box here is
+  % a single unbreakable item that the page builder cannot fit alongside the
+  % table, and it triggers the same silent three-page split described above.
+  % The enclosing `center` already centres each line, which is what a rubric
+  % wants anyway.
+  {\footnotesize\itshape \VAR{feast.praenotanda.text|tex}\par}
+\BLOCK{if not latin_only}
+  \smallskip
+  {\scriptsize \VAR{feast.praenotanda.de|tex}\par}
+\BLOCK{endif}
+  \vspace{1.5em}
+\BLOCK{endif}
 \BLOCK{if drollery}
   \includegraphics[height=1.6cm]{\VAR{drollery}}\\[0.8em]
 \BLOCK{endif}
   \pgfornament[width=2.5cm,color=rubricred]{84}
 \end{center}
-\vfill\null
+\vfil}
