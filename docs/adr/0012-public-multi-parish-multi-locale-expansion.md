@@ -109,7 +109,9 @@ the Office roadmap.
   generates content (psalm/canticle tone pointing via the vendored jgabc
   engine) is already hardened (sha-verified vendoring, golden fixtures
   checked against hand transcriptions and sung ground truth). No
-  architecture change follows from this comparison.
+  architecture change follows from this comparison. The *output format* half
+  of the same comparison — HTML + print CSS instead of LaTeX — is not treated
+  here at all; ADR-0039 settles it.
 - **Designing Mass support now:** rejected as premature/speculative;
   revisit once the Hours roadmap (Compline → Little Hours → Lauds) is
   done. Mass stays *inside this project* when it happens, not a separate
