@@ -22,17 +22,18 @@ you like with it, no attribution required.
 4. [Quickstart](#quickstart)
 5. [The feast spec](#the-feast-spec)
 6. [The browser form](#the-browser-form)
-7. [Choosing a Psalter](#choosing-a-psalter)
-8. [Latin-only booklets](#latin-only-booklets)
-9. [The Kurzfassung](#the-kurzfassung)
-10. [Draft booklets](#draft-booklets)
-11. [Bundling a feast](#bundling-a-feast)
-12. [Transcribing text to gabc](#transcribing-text-to-gabc)
-13. [Repository layout](#repository-layout)
-14. [Working on libellus](#working-on-libellus)
-15. [Releasing](#releasing)
-16. [Bremen operations](#bremen-operations)
-17. [Credits and licence](#credits-and-licence)
+7. [The Electron shell](#the-electron-shell)
+8. [Choosing a Psalter](#choosing-a-psalter)
+9. [Latin-only booklets](#latin-only-booklets)
+10. [The Kurzfassung](#the-kurzfassung)
+11. [Draft booklets](#draft-booklets)
+12. [Bundling a feast](#bundling-a-feast)
+13. [Transcribing text to gabc](#transcribing-text-to-gabc)
+14. [Repository layout](#repository-layout)
+15. [Working on libellus](#working-on-libellus)
+16. [Releasing](#releasing)
+17. [Bremen operations](#bremen-operations)
+18. [Credits and licence](#credits-and-licence)
 
 ## What it produces
 
@@ -267,6 +268,45 @@ knowing before serving this anywhere: the distributed application is
 and the dev server hands your `psalter/` to the page — Bremen's is the
 Einheitsübersetzung, which is not redistributable.
 
+## The Electron shell
+
+`electron/` is the second host (#60, ADR-0035): the exact same `app/*.mjs`
+pipeline, running in a `BrowserWindow` instead of a browser tab, fetching the
+**Toolchain** from its published GitHub release rather than a local build.
+
+```
+uv build --wheel --out-dir dist    # or: npm run predist
+npm install
+npm start
+```
+
+The window loads `app/index.html` over a privileged `libellus://` scheme that
+serves `app/`, the wheel and the Working directory straight off disk, and
+proxies `/toolchain/…` to the real `toolchain-vN` release asset — the main
+process is not subject to browser CORS, so it fetches that asset directly,
+which is exactly why this host does not need the browser's same-origin
+`toolchain-assets` workaround (#58). `worker.mjs`, `engines.mjs` and
+`toolchain.mjs` run completely unchanged.
+
+Two things any Electron app with a CPU-bound Worker needs and this one sets
+explicitly: `backgroundThrottling: false` and a `powerSaveBlocker`. Without
+both, Chromium's own background-tab throttling and macOS App Nap — both aimed
+at idle apps, neither aware a Worker is mid-compile — can slow a two-minute
+build to four times that or worse, with no error and no sign beyond high CPU
+and no forward progress. This is a general Electron gotcha, not particular to
+this pipeline.
+
+**v1's Working directory is read-only and dev-only**, same content and same
+caveat as the browser: `feasts/`, `images/` and `psalter/` straight off the
+checkout, so a packaged installer — which deliberately does not bundle
+`psalter/`, for the same copyright reason `serve.py`'s own comment gives —
+ships with no feast to build until a real folder-picker replaces this. That
+picker is the next piece of work, not yet built.
+
+`npm run dist` packages unsigned installers for macOS, Windows and Linux via
+`electron-builder` (ADR-0035); expect the usual Gatekeeper/SmartScreen
+workaround on first launch until signing is set up.
+
 ## Choosing a Psalter
 
 A **Psalter** is one translator's complete German for the sung verses: one
@@ -387,11 +427,14 @@ embed the Psalter — the German verses still come from your working directory.
 ```
 feasts/                     the feast specs — the artifact you edit
 form/formular.html          self-contained browser form
-app/                        the whole pipeline in a browser tab (ADR-0026/0034)
+app/                        the whole pipeline, shared by both hosts below
 ├── worker.mjs              where it all runs — and it must be a Worker
 ├── engines.mjs             gregorio + LuaHBTeX behind a synchronous seam
 ├── psalmengine.mjs         the jgabc engine, in the page instead of in node
-└── serve.py                dev server; deliberately sends no COOP/COEP
+└── serve.py                browser dev server; deliberately sends no COOP/COEP
+electron/                   the Electron shell (#60, ADR-0035)
+└── main.mjs                BrowserWindow + the libellus:// protocol handler
+package.json                electron / electron-builder, npm start / npm run dist
 toolchain/                  WebAssembly + texmf tree (built, gitignored)
 images/<feast>/             pictures, one folder per celebration (names:
                             letters, digits, . _ - only — see ADR-0033)
