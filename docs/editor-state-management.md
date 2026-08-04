@@ -1,16 +1,12 @@
-# Editor State Management — Design Discussion Handoff
+# Editor state management — design record
 
-Context: `libellus` project (`~/repos-local/libellus`), rewriting the Vespers booklet
-generation pipeline from Python to JS/TS. This covers the design of a new editor UI
-for the `FeastSpec` model (currently a Pydantic model, being translated to Zod), with
-undo/redo and GABC chant rendering via exsurge.js.
+The design of an editor UI over the `FeastSpec` model for the JS/TS side of the
+port (ADR-0027): the Pydantic model translated to Zod, undo/redo, and GABC chant
+rendering via exsurge.js.
 
-**Not yet applied to the repo.** No ADRs or `CONTEXT.md` entries were written —
-attempts to pull the actual repo contents (`CONTEXT.md`, `docs/adr/` listing, current
-Zod model) into this session failed (upload issue, unresolved). Next session should
-retry that handoff and formalize the decisions below as ADRs (next number after
-whatever is currently highest in `docs/adr/` — referenced in the Pydantic model's
-docstring as up to ADR-0038) and `CONTEXT.md` entries.
+**Recorded, not yet decided.** None of this has earned an ADR or a `CONTEXT.md`
+term, and none of it is implemented. Formalising it is the next step; the ADRs
+would begin at **ADR-0041**, ADR-0040 being the current highest.
 
 ## Decisions made
 
@@ -87,8 +83,9 @@ on first keystroke? This is a state transition (path → inline) that changes wh
 gets serialized back out, and should be an explicit store action, not implicit UI
 behavior. **Needs a decision before implementation.**
 
-## Suggested skills for next session
-- `domain-modeling` — to formalize the above as ADRs and `CONTEXT.md` entries once
-  repo access works.
-- `grill-with-docs` — to resume the interview on the open question above and any
-  further design decisions (e.g. resolving the path→inline transition).
+## What this still needs
+
+- The open question above answered. It is the one item here that blocks
+  implementation rather than merely wanting to be written down.
+- The decisions above turned into ADRs from ADR-0041 onward, and any new terms
+  they introduce added to `CONTEXT.md`.
