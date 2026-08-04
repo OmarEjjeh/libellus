@@ -20,8 +20,8 @@
 // than a repo checkout, and packaging deliberately leaves the Working
 // directory empty — see the licensing note below.
 
-import { app, BrowserWindow, net, powerSaveBlocker, protocol } from "electron";
-import { existsSync } from "node:fs";
+import { app, BrowserWindow, dialog, ipcMain, net, powerSaveBlocker, protocol } from "electron";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -38,20 +38,50 @@ function resourceRoot(name) {
 }
 
 /**
- * The Working directory this v1 shell reads from — `feasts/`, `images/` and
- * `psalter/`, same as `app/serve.py`'s dev server.
+ * The Working directory this shell reads from — `feasts/`, `images/` and
+ * `psalter/`, same as `app/serve.py`'s dev server. Mutable: `openWorkdir()`
+ * (#70) repoints it at whatever folder the user picks, over IPC.
  *
- * Deliberately **not** part of `extraResources` (see package.json): both demo
- * feasts resolve German from `psalter/`, which is the Einheitsübersetzung, ©
- * Katholische Bibelanstalt and not redistributable (ADR-0007, ADR-0023;
- * `serve.py`'s own comment says the same). Shipping it in a distributed
- * installer would be exactly the "publishing this directory" its comment
- * warns against — reading it off the maintainer's own disk in dev is not. A
+ * Defaults to `resourcesPath` packaged, `REPO_ROOT` in dev — deliberately not
+ * a bundled feast: both demo feasts resolve German from `psalter/`, which is
+ * the Einheitsübersetzung, © Katholische Bibelanstalt and not redistributable
+ * (ADR-0007, ADR-0023; `serve.py`'s own comment says the same), and it is not
+ * part of `extraResources` (see package.json) for exactly that reason. A
  * packaged build therefore finds no `feasts/`/`images/`/`psalter/` under
- * `resourcesPath` and reports an empty Working directory, honestly, until a
- * real folder-picker (the very next piece of work) replaces this constant.
+ * `resourcesPath` and reports an empty Working directory, honestly, until the
+ * user opens one — restored from `settings.json` (below) if they have
+ * already opened one in a previous session.
  */
-const WORKDIR_ROOT = app.isPackaged ? process.resourcesPath : REPO_ROOT;
+let workdirRoot = app.isPackaged ? process.resourcesPath : REPO_ROOT;
+
+/** Where the last-opened Working directory is remembered across launches. */
+function settingsPath() {
+  return path.join(app.getPath("userData"), "settings.json");
+}
+
+/** The persisted Working directory, if `settings.json` names one that still exists. */
+function loadPersistedWorkdirRoot() {
+  try {
+    const { workdirRoot: persisted } = JSON.parse(readFileSync(settingsPath(), "utf8"));
+    if (persisted && existsSync(persisted)) return persisted;
+  } catch {
+    /* no settings.json yet, or unreadable — keep the default above */
+  }
+  return null;
+}
+
+function persistWorkdirRoot(root) {
+  writeFileSync(settingsPath(), JSON.stringify({ workdirRoot: root }));
+}
+
+/** Show the native folder-picker; if the user picks one, adopt and remember it. */
+async function openWorkdir() {
+  const result = await dialog.showOpenDialog({ properties: ["openDirectory"] });
+  if (result.canceled || result.filePaths.length === 0) return null;
+  workdirRoot = result.filePaths[0];
+  persistWorkdirRoot(workdirRoot);
+  return workdirRoot;
+}
 
 // Fetched fresh from the pinned release on every `/toolchain/…` request, the
 // same way `app/serve.py` serves `manifest.json` fresh on every visit — only
@@ -114,7 +144,7 @@ async function listContentFiles(root, directory, suffix) {
 
 async function workdirJson() {
   const files = await Promise.all(
-    WORKDIR_CONTENT.map(([directory, suffix]) => listContentFiles(WORKDIR_ROOT, directory, suffix))
+    WORKDIR_CONTENT.map(([directory, suffix]) => listContentFiles(workdirRoot, directory, suffix))
   );
   return JSON.stringify(files.flat());
 }
@@ -170,7 +200,7 @@ async function route(pathname) {
     return serveFile(safeJoin(resourceRoot("dist"), pathname.slice("/dist".length)));
   }
   if (pathname.startsWith("/feasts/") || pathname.startsWith("/images/") || pathname.startsWith("/psalter/")) {
-    return serveFile(safeJoin(WORKDIR_ROOT, pathname));
+    return serveFile(safeJoin(workdirRoot, pathname));
   }
   if (pathname.startsWith("/toolchain/")) {
     return net.fetch(`${TOOLCHAIN_RELEASE}${pathname.slice("/toolchain".length)}`);
@@ -190,10 +220,14 @@ protocol.registerSchemesAsPrivileged([
 ]);
 
 app.whenReady().then(() => {
+  workdirRoot = loadPersistedWorkdirRoot() ?? workdirRoot;
+
   protocol.handle("libellus", async (request) => {
     const { pathname } = new URL(request.url);
     return withContentType(await route(pathname), pathname);
   });
+
+  ipcMain.handle("workdir:open", () => openWorkdir());
 
   createWindow();
 });
@@ -215,6 +249,7 @@ function createWindow() {
       nodeIntegration: false,
       sandbox: true,
       backgroundThrottling: false,
+      preload: path.join(__dirname, "preload.cjs"),
     },
   });
   // `main.mjs`'s `log()` already prints every pipeline message to `console.log`
