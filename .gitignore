@@ -76,3 +76,9 @@ scripts/psalter-german/cache/
 # eventually — never a tracked directory, on either plan.
 /toolchain/
 scripts/toolchain/.cache/
+
+# The Electron shell (#60, ADR-0035): node_modules is resolved from
+# package.json, /release/ is electron-builder's output directory (kept
+# distinct from dist/, which is the Python wheel's own output).
+/node_modules/
+/release/

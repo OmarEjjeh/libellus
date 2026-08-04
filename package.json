@@ -1,0 +1,47 @@
+{
+  "name": "libellus-electron",
+  "version": "0.1.0",
+  "description": "Libellus — the booklet pipeline in an Electron shell (ADR-0035)",
+  "private": true,
+  "main": "electron/main.mjs",
+  "type": "module",
+  "scripts": {
+    "start": "electron .",
+    "predist": "uv build --wheel --out-dir dist",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^43.2.0",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "de.bremen-schola.libellus",
+    "productName": "Libellus",
+    "asar": true,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      { "from": "app", "to": "app", "filter": ["**/*", "!serve.py"] },
+      { "from": "dist", "to": "dist", "filter": ["libellus-*.whl"] }
+    ],
+    "mac": {
+      "target": ["dmg"],
+      "identity": null,
+      "sign": null,
+      "category": "public.app-category.education"
+    },
+    "win": {
+      "target": ["nsis"],
+      "signAndEditExecutable": false
+    },
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Office"
+    }
+  }
+}
