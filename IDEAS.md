@@ -33,3 +33,4 @@
 - ADR-0033's path rule permits `..`, so a feast spec can name a file above the working directory. Never in scope for #42 (which was about escaping) and harmless where the spec is your own, but the browser application of ADR-0026 makes a spec something you might be *sent*
 - trim the 46 MB texmf tree: shipping a prebuilt luaotfload font-name database would remove the cold-start scan that forces `luaotfload`, `lualibs`, `lua-uni-algos` and `unicode-data` into the tree whole. Explicitly out of scope for #57, which only needed the tree to be *correct*; the size is a first-visit download, not a per-build cost
 - the browser pre-creates one LuaTeX instance per possible pass (ADR-0034) because it cannot make another mid-compile. If `MAX_PASSES` ever rises, that is ~25 MB each — a reason to keep the ceiling low, or to find a way to instantiate lazily
+- integrate the current UI into the web application for all in one function
