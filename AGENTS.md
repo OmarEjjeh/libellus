@@ -102,6 +102,15 @@ Default label vocabulary (label string = role name). See
 Single-context: `CONTEXT.md` at the repo root is the domain glossary,
 decisions live in `docs/adr/`. See `docs/agents/domain.md`.
 
+### Booklet comparison
+
+Showing a reviewer what changed between two versions of a booklet is done on
+the rendered PDFs with `diff-pdf`, never on the LaTeX with `latexdiff` — the
+notation lives in `.gabc` files the `.tex` only references, so `latexdiff` is
+blind to exactly the corrections a reviewer cares most about. Three files: two
+`diff-pdf` overlays and a `vorher`/`nachher` side-by-side sheet, which is the
+one that gets sent. See `docs/agents/booklet-comparison.md`.
+
 ## Session state
 
 Work in progress lives in the **map issue** — one pinned GitHub issue labelled
