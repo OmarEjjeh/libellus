@@ -34,7 +34,42 @@ about every commit on it.
 Releasing is deliberate and local: run `cz bump`, review the version,
 `CHANGELOG.md` and tag it produced, then `git push --follow-tags`. Pushing
 the tag is what triggers `release.yml` to publish to PyPI, so a release never
-happens by merging alone.
+happens by merging alone. Release from the **main checkout, on `main`** — not
+from a worktree.
+
+### Worktrees: where work happens
+
+**Develop every feature in a worktree.** A new feature, or any other change that
+earns a branch, gets one of its own — never a branch checked out in the main
+checkout, which stays on `main` so that releasing and the shared symlink targets
+have a stable home. Small in-place work that will not branch at all (reading,
+triage, an ADR, answering a question) belongs in the main checkout as before.
+
+Create one only by
+
+```
+scripts/worktree-add.sh feat/30-psalm-by-incipit
+```
+
+which lands it in `../libellus-worktrees/30-psalm-by-incipit` — the branch minus
+its type prefix — and provisions it (ADR-0040). Two ways of getting one are
+wrong. Bare `git worktree add` skips the provisioning: nearly everything a build
+needs is gitignored, so the result resolves no German, has no Toolchain and no
+venv, and fails plausibly rather than loudly. An agent's own worktree tool
+(Claude Code's `EnterWorktree`) is also wrong here — it creates unprovisioned
+worktrees under `.claude/worktrees/`, the location ADR-0040 rejected. Run the
+script and `cd` into what it made.
+
+`toolchain/`, `psalter/`, the private notes and the agent configuration are
+symlinked back to the main checkout and are therefore **shared, mutably** — a
+`git -C psalter pull` or a toolchain rebuild in one worktree is felt in all of
+them. Pass `--own-toolchain` for a branch that changes the Toolchain itself.
+
+Tear one down with `git worktree remove --force <dir> && git branch -d
+<branch>`; `--force` is expected, since `.venv/` and `build/` are untracked.
+
+Anything newly gitignored that a build needs must be added to the script's
+`shared` list, or every future worktree quietly lacks it.
 
 ## Python
 

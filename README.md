@@ -490,6 +490,38 @@ Commit messages are [Conventional Commits](https://www.conventionalcommits.org/)
 and that is load-bearing: `commitizen` derives the version and the changelog from
 them.
 
+### Working on several things at once
+
+One **git worktree** per line of work, created by the script that provisions it:
+
+```
+scripts/worktree-add.sh feat/30-psalm-by-incipit
+cd ../libellus-worktrees/30-psalm-by-incipit && direnv allow
+```
+
+The directory name is the branch minus its type prefix. Do not use bare
+`git worktree add` here — almost everything a build needs is gitignored
+(`toolchain/`, `psalter/`, `.venv/`, `node_modules/`), so an unprovisioned
+worktree resolves no German and cannot run the application, without saying so.
+The script symlinks the expensive, stable parts back to the main checkout and
+syncs the rest; a provisioned worktree costs about 9 MB of real disk and passes
+the full suite. Add `npm install` only if the work touches the Electron shell.
+
+`toolchain/` and `psalter/` are shared, so a `git -C psalter pull` or a
+toolchain rebuild in one worktree is felt in all of them. Pass
+`--own-toolchain` for a branch that changes the Toolchain itself. When the
+branch merges:
+
+```
+git worktree remove --force ../libellus-worktrees/30-psalm-by-incipit
+git branch -d feat/30-psalm-by-incipit
+```
+
+`--force` is expected rather than alarming — `.venv/` and `build/` are
+untracked, so git refuses without it. It unlinks the symlinks instead of
+deleting through them. Release from the main checkout, on `main`, never from a
+worktree.
+
 ## Releasing
 
 ```
