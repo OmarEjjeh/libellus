@@ -31,6 +31,7 @@ private-notes.md
 *-review.html
 lambertus-email-threads.md
 lambertus-hintergrund.md
+lambert-corrections.md
 # HANDOFF.md was retired 2026-08-02 — its live content became the map issue,
 # the rest is in docs/adr/, the issues and git history. Still ignored so that a
 # stray one can never be committed by accident.

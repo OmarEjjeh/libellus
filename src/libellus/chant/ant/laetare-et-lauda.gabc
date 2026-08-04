@@ -1,7 +1,21 @@
 name:Laetare et lauda Deum, Legia;
 office-part:Antiphona ad Magnificat;
 mode:6;
-book:Priest's notated PDF ("Laetare et lauda....pdf", email thread 1, 2026-07-22) — no further bibliographic citation yet, see HANDOFF.md;
+book:Vesperale Romanum sive Antiphonale Romanum abbreviatum cum Psalterio, Leodii 1835, pp. 406-407;
 transcriber:Omar Ejjeh;
+% Pausenzeichen gesetzt nach der Verteilung der Vorlage, 2026-07-31 (Anmerkung
+% des Pastors zu S. 24 — als Vorschlag geäußert: "Gerne kann man anderer
+% Meinung sein."). Alle vier Grade kommen vor, und zwar so:
+%   Legia,                                  divisio minima  (,)
+%   … Lamberti praesentia.                  divisio minor   (;)
+%   Cujus sanguine consecrari,              divisio minima  (,)
+%   cujus corpore ditari meruisti.          divisio maior   (:)
+%   O amator castitatis,                    divisio minima  (,)
+%   o defensor veritatis,                   divisio minor   (;)
+%   Christi martyr et sacerdos, Lamberte,   divisio minima  (,)
+%   pro nobis apud Deum intercede.          divisio finalis (::)
+% Vorher fehlten die beiden Minima nach "Legia," und "Lamberte,", "veritatis,"
+% trug nur eine Virgula (`), und die beiden inneren Zäsuren standen einen Grad
+% zu niedrig (minima statt minor, minor statt maior).
 %%
-(c4) Lae(f)ta(g)re(f) et(d) lau(e)da(fg) De(gf)um,(f) Le(gihg)gi(F)a,(f) de(f) pa(g)tro(hj)ni(g) tu(h)i(g) Lam(f)ber(gh)ti(ih) prae(gf)sen(d)ti(e)a.(f,) Cu(f)jus(g) san(ih)gui(G)ne(f) con(fv)se(E)cra(ed)ri,(c,) cu(c)jus(d) cor(fvg)po(F)re(f) di(de)ta(f)ri(c) me(f)ru(ghg)i(f)sti.(f) (;) O(c) a(f)ma(e)tor(d) ca(e)sti(F)ta(gh)tis,(g,) o(f) de(i)fen(h)sor(g) ve(fv)ri(F)ta(ed)tis,(c`) Chri(c)sti(ff) mar(gh)tyr(d) et(d) sa(gv)cer(g)dos,(g) Lam(fg)ber(hg)te,(f) pro(d) no(f)bis(c) a(d)pud(e) De(fef)um(g) in(f)ter(ghg)ce(f)de.(f) (::)
+(c4) Lae(f)ta(g)re(f) et(d) lau(e)da(fg) De(gf)um,(f) Le(gixihg)gi(F)a,(f,) de(f) pa(g)tro(hj)ni(g) tu(h)i(g) Lam(f)ber(gh)ti(ixih) prae(gf)sen(d)ti(e)a.(f;) Cu(f)jus(g) san(ixih)gui(G)ne(f) con(fv)se(E)cra(ed)ri,(c,) cu(c)jus(d) cor(fvg)po(F)re(f) di(de)ta(f)ri(c) me(f)ru(ghg)i(f)sti.(f) (:) O(c) a(f)ma(e)tor(d) ca(e)sti(F)ta(gh)tis,(g,) o(f) de(ixi)fen(h)sor(g) ve(fv)ri(F)ta(ed)tis,(c;) Chri(c)sti(ff) mar(gh)tyr(d) et(d) sa(gv)cer(g)dos,(g) Lam(fg)ber(hg)te,(f,) pro(d) no(f)bis(c) a(d)pud(e) De(fef)um(g) in(f)ter(ghg)ce(f)de.(f) (::)

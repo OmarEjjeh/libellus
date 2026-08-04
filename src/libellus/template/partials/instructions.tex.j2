@@ -3,7 +3,21 @@
 % ============================================================
 \newpage
 \thispagestyle{plain}
-\null\vfill
+% One \vbox of exactly \textheight, centred with \vfil at both ends, for the
+% same reason as the Ordo page — see ordo-table.tex.j2 for the full account.
+% The short version: \null\vfill … \vfill\null needs both \null boxes to fit
+% alongside the content, which costs this page ~55pt it does not have. A
+% Kurzfassung adds the `compact` paragraph below about only the first verse
+% being notated, that paragraph went over the edge, and TeX broke the page
+% after the heading — so the Kurzfassung printed the ornament and the title
+% alone at the foot of one page and the whole body on the next, shifting every
+% folio after it by one. A \vbox cannot be broken, so the page holds together,
+% and an overlong one says "Overfull \vbox" in the log instead of reflowing.
+%
+% Do not quote that paragraph's wording here: a comment still reaches the
+% rendered .tex, and test_a_full_build_has_no_trace_of_the_compact_layout
+% checks that its opening words appear in no non-compact build.
+\vbox to \textheight{\vfil
 \begin{center}
   \pgfornament[width=2.5cm,color=rubricred]{84}\\[1.2em]
   {\footnotesize\scshape Zum Gebrauch dieses Heftes}\\[1.2em]
@@ -70,4 +84,4 @@ auf denselben Ton gesungen — beim Hymnus ebenso nur die erste Strophe.\par\big
 \begin{center}
   \pgfornament[width=2.5cm,color=rubricred]{84}
 \end{center}
-\vfill\null
+\vfil}
