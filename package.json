@@ -4,7 +4,6 @@
   "description": "Libellus — the booklet pipeline in an Electron shell (ADR-0035)",
   "private": true,
   "main": "electron/main.mjs",
-  "type": "module",
   "scripts": {
     "start": "electron .",
     "predist": "uv build --wheel --out-dir dist",
