@@ -31,6 +31,7 @@ private-notes.md
 *-review.html
 lambertus-email-threads.md
 lambertus-hintergrund.md
+lambert-corrections.md
 # HANDOFF.md was retired 2026-08-02 — its live content became the map issue,
 # the rest is in docs/adr/, the issues and git history. Still ignored so that a
 # stray one can never be committed by accident.
@@ -76,3 +77,9 @@ scripts/psalter-german/cache/
 # eventually — never a tracked directory, on either plan.
 /toolchain/
 scripts/toolchain/.cache/
+
+# The Electron shell (#60, ADR-0035): node_modules is resolved from
+# package.json, /release/ is electron-builder's output directory (kept
+# distinct from dist/, which is the Python wheel's own output).
+/node_modules/
+/release/

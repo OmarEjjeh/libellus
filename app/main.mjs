@@ -26,7 +26,10 @@ const booted = new Promise((resolve) => {
     } else if (data.type === "ready") {
       resolve();
     } else if (data.type === "built") {
-      pending.get(data.id)?.resolve({ stem: data.stem, bytes: data.bytes });
+      pending.get(data.id)?.resolve({
+        stem: data.stem, bytes: data.bytes,
+        montage: data.montage, montageDuplex: data.montageDuplex,
+      });
       pending.delete(data.id);
     } else if (data.type === "file") {
       pending.get(data.id)?.resolve(data.text);
@@ -54,19 +57,85 @@ function offerDownload(stem, bytes) {
   document.getElementById("results").append(link, document.createElement("br"));
 }
 
-const buttons = () => document.querySelectorAll("button[data-feast]");
+const feastSelect = document.getElementById("feast");
+const compactCheckbox = document.getElementById("compact");
+const buildButton = document.getElementById("build");
+const openWorkdirButton = document.getElementById("open-workdir");
+const emptyState = document.getElementById("empty-state");
+
+let pipelineReady = false;
+let hasFeasts = false;
+
+function updateBuildAvailability() {
+  buildButton.disabled = !(pipelineReady && hasFeasts);
+}
+
+/**
+ * Feast ids found in the Working directory, from the same `workdir.json`
+ * `worker.mjs` stages into Pyodide — replaces #60's two hardcoded demo
+ * buttons, which only made sense against the bundled checkout (#70).
+ */
+async function loadFeasts() {
+  const files = await (await fetch("./workdir.json")).json();
+  return [...new Set(
+    files
+      .filter((file) => file.startsWith("feasts/") && file.endsWith(".yaml"))
+      .map((file) => file.slice("feasts/".length, -".yaml".length))
+  )].sort();
+}
+
+async function refreshFeastPicker() {
+  const feasts = await loadFeasts();
+  feastSelect.replaceChildren(
+    ...feasts.map((feast) => {
+      const option = document.createElement("option");
+      option.value = feast;
+      option.textContent = feast;
+      return option;
+    })
+  );
+  hasFeasts = feasts.length > 0;
+  feastSelect.disabled = !hasFeasts;
+  compactCheckbox.disabled = !hasFeasts;
+  emptyState.hidden = hasFeasts;
+  updateBuildAvailability();
+}
+
+refreshFeastPicker();
+
+// Only Electron exposes this bridge (`electron/preload.cjs`) — the browser
+// host always serves its checkout's Working directory straight off disk,
+// with no picker to offer (ADR-0035).
+if (globalThis.libellusHost) {
+  openWorkdirButton.hidden = false;
+  openWorkdirButton.addEventListener("click", async () => {
+    const chosen = await globalThis.libellusHost.openWorkingDirectory();
+    // A full reload reboots the worker against the new Working directory —
+    // simpler and safer than re-staging Pyodide's filesystem mid-session.
+    if (chosen) location.reload();
+  });
+}
 
 worker.postMessage({ type: "boot" });
 
 booted.then(() => {
+  pipelineReady = true;
+  updateBuildAvailability();
+
   // Exposed so the verification harness can drive the page and take the bytes
   // back out without a download dialog — #57's definition of done compares
   // them against a native build, page by page.
   globalThis.libellus = {
     build: async (feast, compact) => {
-      const { stem, bytes } = await build(feast, compact);
+      const { stem, bytes, montage, montageDuplex } = await build(feast, compact);
       offerDownload(stem, bytes);
-      return { stem, bytes: Array.from(bytes) };
+      offerDownload(montage.stem, montage.bytes);
+      offerDownload(montageDuplex.stem, montageDuplex.bytes);
+      return {
+        stem, bytes: Array.from(bytes),
+        montage: { stem: montage.stem, bytes: Array.from(montage.bytes) },
+        montageDuplex: { stem: montageDuplex.stem, bytes: Array.from(montageDuplex.bytes) },
+      };
     },
     /** Read a file out of the staged folder — the LaTeX log, for diagnosis. */
     readFile: (path) => {
@@ -79,19 +148,14 @@ booted.then(() => {
     ready: true,
   };
 
-  for (const button of buttons()) {
-    button.disabled = false;
-    button.addEventListener("click", async () => {
-      buttons().forEach((other) => (other.disabled = true));
-      try {
-        await globalThis.libellus.build(
-          button.dataset.feast, button.dataset.compact === "true"
-        );
-      } catch (error) {
-        log(`FEHLER: ${error}`);
-        console.error(error);
-      }
-      buttons().forEach((other) => (other.disabled = false));
-    });
-  }
+  buildButton.addEventListener("click", async () => {
+    buildButton.disabled = true;
+    try {
+      await globalThis.libellus.build(feastSelect.value, compactCheckbox.checked);
+    } catch (error) {
+      log(`FEHLER: ${error}`);
+      console.error(error);
+    }
+    updateBuildAvailability();
+  });
 });

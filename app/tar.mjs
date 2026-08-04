@@ -43,7 +43,21 @@ export function untar(buffer) {
     offset += BLOCK;
     // "0" and "" are both a regular file; anything else (directory, symlink,
     // the GNU extensions) carries no bytes we need.
-    if (typeflag === "0" || typeflag === "") {
+    //
+    // A basename of "._<name>" is macOS's own tar (bsdtar) writing an
+    // AppleDouble sidecar to preserve extended attributes it has no other
+    // way to store in a plain archive — one per directory, paired with a
+    // PaxHeader entry, whenever the tree being archived lives on an
+    // HFS+/APFS volume. bsdtar's own reader (and `tar tf`) knows to hide
+    // both from a listing; this parser doesn't, and treats the sidecar as
+    // an ordinary regular file — real bytes, wrong content — which doubled
+    // the apparent file count of a Toolchain built on macOS and, worse,
+    // mounted ~500 pieces of filesystem cruft into the WASM engines
+    // alongside the texmf tree they actually need. A `texmf.tar` built by
+    // GNU tar (the CI container) never has this problem; only a local,
+    // macOS-built one does.
+    const base = path.split("/").pop();
+    if ((typeflag === "0" || typeflag === "") && !base.startsWith("._")) {
       files.push({ name: path, data: bytes.subarray(offset, offset + size) });
     }
     offset += Math.ceil(size / BLOCK) * BLOCK;

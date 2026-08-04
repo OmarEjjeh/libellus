@@ -3,26 +3,27 @@
 #
 #   scripts/toolchain/build.sh [outdir]      # default: ./toolchain
 #
-# Three components, none of which belongs in git:
+# None of it belongs in git:
 #
 #   busytex.js/.wasm      LuaHBTeX (TeX Live 2026) as WebAssembly, from
 #                         TeXlyre-BusyTeX. Downloaded.
 #   gregorio.mjs/.wasm    gregorio 6.1.0 as WebAssembly. Built from the upstream
 #                         release with emsdk (spike/43-gregorio-wasm/build.sh).
 #   texmf.tar             The minimal texmf tree, cut from a local TeX Live.
+#   pyodide.*, *.whl      Pyodide's runtime plus the handful of packages
+#                         libellus and its own vendored wheels need (#58,
+#                         ADR-0034 decision 4). Mirrored from Pyodide's own
+#                         GitHub releases, not jsdelivr.
 #
-# WHERE THIS IS GOING (ADR-0026 decision 8): the Toolchain is meant to be a
-# separately versioned GitHub release asset — built once, published, pinned by
-# a minimum version in the code, downloaded on first use and cached. That is
-# the goal, and it is deliberately NOT what this script does yet. Building it
-# locally keeps the tracer bullet (#57) from depending on a publishing step
-# before the thing is known to work end to end. When it is, this script becomes
-# the release job and the application fetches from the release URL instead of
-# from the dev server; the layout and the manifest below are already the shape
-# that needs, so nothing about the page has to change.
+# This is now also the release job (ADR-0026 decision 8, #58):
+# toolchain-release.yml runs this same script and uploads $OUT's files as a
+# GitHub release asset under a `toolchain-vN` tag; the application fetches
+# from that release URL in place of the dev server, keyed on $OUT staying
+# flat (no subdirectories — a release asset cannot have any) and on the
+# "version" field in the manifest below.
 #
-# Needs: curl, tar. A TeX Live 2026 for the tree. emsdk only if gregorio.wasm
-# is not already built.
+# Needs: curl, tar, uv. A TeX Live 2026 for the tree. emsdk only if
+# gregorio.wasm is not already built.
 set -euo pipefail
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -33,6 +34,12 @@ CACHE="$HERE/.cache"
 TL="${TEXLIVE_ROOT:-/usr/local/texlive/2026}"
 BUSYTEX_VERSION=1.2.3
 GREGORIO_VERSION=6.1.0
+PYODIDE_VERSION=0.28.3
+# The Toolchain's own release version (ADR-0026 decision 8) — a plain
+# incrementing integer, set by toolchain-release.yml from the `toolchain-vN`
+# tag. "dev" outside that workflow: worker.mjs's minimum-version check only
+# runs against the published asset, never against a local build.
+TOOLCHAIN_VERSION="${TOOLCHAIN_VERSION:-dev}"
 
 mkdir -p "$OUT" "$CACHE"
 
@@ -57,12 +64,20 @@ if [[ ! -s "$OUT/gregorio.wasm" ]]; then
     echo "building gregorio $GREGORIO_VERSION as WebAssembly (needs emsdk on PATH)…"
     command -v emcc >/dev/null || {
       echo "emcc not found — run 'source ~/emsdk/emsdk_env.sh' first" >&2; exit 1; }
-    "$REPO/spike/43-gregorio-wasm/build.sh"
+    # Explicit, not the spike script's own default ($(pwd)/work): that default
+    # is relative to the CALLER's cwd, which is wherever this script itself
+    # was invoked from, not spike/43-gregorio-wasm/ — and $built above assumes
+    # the latter.
+    "$REPO/spike/43-gregorio-wasm/build.sh" "$REPO/spike/43-gregorio-wasm/work"
   fi
   cp "$built/gregorio-memfs.mjs" "$OUT/gregorio.mjs"
   cp "$built/gregorio-memfs.wasm" "$OUT/gregorio.wasm"
   # The .mjs resolves its sibling .wasm by the name it was built under.
-  sed -i '' 's/gregorio-memfs\.wasm/gregorio.wasm/g' "$OUT/gregorio.mjs"
+  # `sed -i` without `mv` on the side: BSD sed (macOS) requires the in-place
+  # suffix as its own argument, GNU sed (CI's Linux) reads that argument as
+  # the script instead — this form works identically on both.
+  sed 's/gregorio-memfs\.wasm/gregorio.wasm/g' "$OUT/gregorio.mjs" > "$OUT/gregorio.mjs.tmp"
+  mv "$OUT/gregorio.mjs.tmp" "$OUT/gregorio.mjs"
 fi
 
 # gregorio-vowels.dat is a runtime data dependency of gregorio itself, not just
@@ -91,10 +106,16 @@ mkdir -p "$TREE/texmf-dist/web2c" "$TREE/texmf-var/web2c/luahbtex"
 
 while IFS= read -r rel; do
   [[ -n "$rel" ]] || continue
-  # texmf-config holds one generated config file; busytex expects it in dist.
+  # texmf-config holds one generated config file on a TeX Live that has
+  # personalized it (e.g. after a format build) — busytex expects it in dist
+  # regardless, so the destination is always remapped there. Not every TeX
+  # Live has generated that copy, though (a fresh install hasn't), so the
+  # source falls back to the texmf-dist original the same file started as.
   dest="${rel/#texmf-config\//texmf-dist/}"
   mkdir -p "$TREE/$(dirname "$dest")"
-  cp "$TL/$rel" "$TREE/$dest"
+  src="$TL/$rel"
+  [[ -e "$src" ]] || src="$TL/$dest"
+  cp "$src" "$TREE/$dest"
 done < "$HERE/texmf-files.txt"
 
 # kpathsea finds its own configuration through TEXMFCNF rather than by opening
@@ -159,20 +180,75 @@ tar cf "$OUT/texmf.tar" -C "$TREE" texmf-dist texmf-var
 # fetched once rather than resolved from PyPI on every page load — which would
 # make an offline build impossible and the verification test depend on the
 # network.
-if [[ ! -d "$OUT/wheels" ]]; then
-  mkdir -p "$OUT/wheels"
+#
+# Flat, not $OUT/wheels/: a GitHub release asset has no subdirectories, and
+# this same $OUT becomes the release's file list (see the manifest below).
+if ! compgen -G "$OUT/typer-*.whl" > /dev/null; then
   uv run --with pip -- python -m pip download --no-deps --quiet \
-    --dest "$OUT/wheels" typer pypdf shellingham
+    --dest "$OUT" typer pypdf shellingham
+fi
+
+# ------------------------------------------------------------------ pyodide
+# ADR-0034 decision 4: Pyodide belongs in the same release asset, not on
+# jsdelivr's CDN. "full" is kept for this round (deferring a trimmed flavor,
+# see the issue) but only its *runtime* files plus the specific packages
+# libellus actually installs are mirrored — not the ~200-package archive,
+# which is 352 MB compressed and would blow well past the OPFS budget decision
+# 5 was written around for a 200 MB toolchain.
+#
+# PYODIDE_PACKAGES is the transitive closure — via pyodide-lock.json's
+# `depends` field — of jinja2, pydantic, pyyaml, click and micropip, the only
+# top-level packages the boot sequence installs from Pyodide's own repository.
+# Re-derive it by hand (walk pyodide-lock.json's `depends` from that seed list)
+# whenever PYODIDE_VERSION changes.
+PYODIDE_PACKAGES=(
+  annotated_types-0.7.0-py3-none-any.whl
+  click-8.2.1-py3-none-any.whl
+  jinja2-3.1.6-py3-none-any.whl
+  markupsafe-3.0.2-cp313-cp313-pyodide_2025_0_wasm32.whl
+  micropip-0.10.1-py3-none-any.whl
+  pydantic-2.10.6-py3-none-any.whl
+  pydantic_core-2.27.2-cp313-cp313-pyodide_2025_0_wasm32.whl
+  pyyaml-6.0.2-cp313-cp313-pyodide_2025_0_wasm32.whl
+  typing_extensions-4.14.1-py3-none-any.whl
+)
+
+if [[ ! -s "$OUT/pyodide.asm.wasm" ]]; then
+  echo "downloading Pyodide $PYODIDE_VERSION core (runtime only, ~5 MB)…"
+  curl -sSL --fail \
+    "https://github.com/pyodide/pyodide/releases/download/$PYODIDE_VERSION/pyodide-core-$PYODIDE_VERSION.tar.bz2" \
+    | tar xj -C "$OUT" --strip-components=1 \
+      pyodide/pyodide.mjs pyodide/pyodide.asm.js pyodide/pyodide.asm.wasm \
+      pyodide/python_stdlib.zip pyodide/pyodide-lock.json
+fi
+
+missing_packages=()
+for whl in "${PYODIDE_PACKAGES[@]}"; do
+  [[ -s "$OUT/$whl" ]] || missing_packages+=("pyodide/$whl")
+done
+if [[ ${#missing_packages[@]} -gt 0 ]]; then
+  # One 352 MB archive holds every package "full" carries; only the packages
+  # above are kept, streamed straight out of the download like busytex above.
+  echo "downloading Pyodide $PYODIDE_VERSION packages (streaming ~352 MB, keeping a few MB)…"
+  curl -sSL --fail \
+    "https://github.com/pyodide/pyodide/releases/download/$PYODIDE_VERSION/pyodide-$PYODIDE_VERSION.tar.bz2" \
+    | tar xj -C "$OUT" --strip-components=1 "${missing_packages[@]}"
 fi
 
 # ---------------------------------------------------------------- manifest
 # The page keys its OPFS cache on version + size, so a rebuilt Toolchain
-# invalidates it. When this becomes a release asset the same file is what the
-# minimum-version pin reads.
+# invalidates it. "version" is what the minimum-version pin in worker.mjs
+# reads (ADR-0026 decision 8) — it is the Toolchain's own release version, not
+# any component's. Pyodide's runtime and packages are deliberately not listed
+# under "files": they are fetched by Pyodide's own bootstrap and by micropip,
+# relative to the same base URL, exactly as the vendored wheels below already
+# are — neither goes through this manifest's OPFS-caching loop.
 {
   echo '{'
+  echo "  \"version\": \"$TOOLCHAIN_VERSION\","
   echo "  \"busytex\": \"$BUSYTEX_VERSION\","
   echo "  \"gregorio\": \"$GREGORIO_VERSION\","
+  echo "  \"pyodide\": \"$PYODIDE_VERSION\","
   echo "  \"texlive\": \"$(basename "$TL")\","
   echo '  "files": {'
   first=1

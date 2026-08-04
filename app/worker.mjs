@@ -15,18 +15,25 @@
 // finish before the compile is entered, because the Runner that Python calls
 // is an ordinary synchronous function and cannot await.
 
-import { loadPyodide } from "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/pyodide.mjs";
-
 import { Engines } from "./engines.mjs";
+import { imposer } from "./impose.mjs";
 import { psalmEngine } from "./psalmengine.mjs";
 import { cachedFormat, fetchToolchain } from "./toolchain.mjs";
 
-// Pyodide itself is still fetched from its CDN rather than bundled. That is
-// the one piece of ADR-0026 decision 8 this issue does not implement: when the
-// Toolchain becomes a published, versioned release asset, Pyodide belongs in
-// it, and then the application is genuinely offline-capable.
-const PYODIDE = "https://cdn.jsdelivr.net/pyodide/v0.28.3/full/";
+// The Toolchain is always fetched same-origin, at "/toolchain" — the dev
+// server serves it from the local build, and a deployed page needs it served
+// from that same path, from wherever the "toolchain-vN" release actually
+// lands (#58, ADR-0026 decision 8). It cannot be a cross-origin release-asset
+// URL instead: GitHub's release assets send no `Access-Control-Allow-Origin`,
+// which blocks both `fetch()` and a module `import()` from any other origin.
+// Pyodide comes from that same path too — jsdelivr's CDN is gone entirely,
+// not just made optional.
+//
+// TOOLCHAIN_VERSION_PIN is the floor `boot()` checks the fetched manifest
+// against: the "minimum version in the code" decision 8 asks for. It only
+// ever rejects a stale same-origin deployment, never selects a URL.
 const TOOLCHAIN = "/toolchain";
+const TOOLCHAIN_VERSION_PIN = 1;
 
 /** Pyodide's own distribution carries the rest of libellus' dependencies. */
 const VENDORED_WHEELS = ["typer", "pypdf", "shellingham"];
@@ -35,43 +42,64 @@ const log = (message) => self.postMessage({ type: "log", message });
 
 /** Everything that has to happen once, before any booklet can be built. */
 async function boot() {
+  const { manifest, files } = await fetchToolchain(TOOLCHAIN, log);
+
+  // "dev" is the local build's own version (scripts/toolchain/build.sh's
+  // default) and never fails this check — only a published release asset
+  // is pinned. Numeric because a git tag ("toolchain-v3") isn't what
+  // manifest.json carries; the tag's trailing number is.
+  if (manifest.version !== "dev" && Number(manifest.version) < TOOLCHAIN_VERSION_PIN) {
+    throw new Error(
+      `Werkzeugkette veraltet: ${manifest.version} < ${TOOLCHAIN_VERSION_PIN}`
+    );
+  }
+
   log("Lade Pyodide…");
-  const pyodide = await loadPyodide({ indexURL: PYODIDE });
+  const { loadPyodide } = await import(`${TOOLCHAIN}/pyodide.mjs`);
+  const pyodide = await loadPyodide({ indexURL: `${TOOLCHAIN}/` });
 
   log("Installiere libellus…");
   await pyodide.loadPackage("micropip");
   const micropip = pyodide.pyimport("micropip");
   const wheels = await (await fetch("./wheels.json")).json();
   for (const name of VENDORED_WHEELS) {
-    await micropip.install(`${TOOLCHAIN}/wheels/${wheels[name]}`);
+    await micropip.install(`${TOOLCHAIN}/${wheels[name]}`);
   }
   await micropip.install(`/dist/${wheels.libellus}`);
 
   await loadWorkingDirectory(pyodide);
 
-  const { manifest, files } = await fetchToolchain(TOOLCHAIN, log);
   const engines = new Engines(log);
   await engines.load(files);
   await engines.prepareFormat(await cachedFormat(manifest.busytex));
 
-  // Both seams are installed once. The psalm-tone engine is pure JavaScript
-  // and needs nothing prepared; the compile runner draws on pools that are
-  // refilled per booklet, but the function itself never changes.
+  // All three seams are installed once. The psalm-tone engine is pure
+  // JavaScript and needs nothing prepared; the compile runner draws on pools
+  // that are refilled per booklet; the imposer needs nothing prepared either
+  // (pdf-lib has no WebAssembly to instantiate) but is `async`, unlike the
+  // other two — see impose.mjs for why it cannot be a third use of `Runner`.
   pyodide.registerJsModule("libellus_host", {
     psalmEngine: psalmEngine(pyodide),
     runner: engines.runner(pyodide.FS),
+    imposer: imposer(pyodide.FS),
   });
   pyodide.runPython(`
 import libellus.compile
 import libellus.psalmtone
-from libellus_host import psalmEngine, runner
+from pathlib import Path
+from libellus_host import psalmEngine, runner, imposer
 
 def _browser_engine(args):
     returncode, stdout, stderr = psalmEngine(list(args))
     return returncode, stdout, stderr
 
+async def _browser_imposer(pdf):
+    booklet, duplex = await imposer(str(pdf))
+    return Path(booklet), Path(duplex)
+
 libellus.psalmtone.set_engine(_browser_engine)
 libellus.compile.set_runner(lambda command, folder: runner(list(command), str(folder)))
+libellus.compile.set_imposer(_browser_imposer)
 `);
 
   // The pipeline says a great deal through `logging` — which scores were set,
@@ -182,10 +210,31 @@ pdf = compile_pdf(Path("${stagedFolder}") / "${stem}.tex")
 print(f"{pdf} — {page_count(pdf)} Seiten")
 `);
 
+  // A separate call, and `runPythonAsync` rather than `runPython`: `impose()`
+  // is the one `async` step in the pipeline (impose.mjs explains why), and
+  // this is a single top-level await, not something nested in a retry loop —
+  // exactly what `runPythonAsync`'s ordinary top-level-await bridge covers,
+  // with no `SharedArrayBuffer` involved (ADR-0034 is about the *other* seam).
+  log("Montage (2-up, Duplex)…");
+  const montagePaths = await pyodide.runPythonAsync(`
+import json
+from libellus.compile import impose
+booklet, duplex = await impose(Path("${stagedFolder}") / "${stem}.pdf")
+json.dumps({"booklet": str(booklet), "duplex": str(duplex)})
+`);
+  const { booklet, duplex } = JSON.parse(montagePaths);
+
   const bytes = pyodide.FS.readFile(`${stagedFolder}/${stem}.pdf`);
+  const montageBytes = pyodide.FS.readFile(booklet);
+  const duplexBytes = pyodide.FS.readFile(duplex);
   const seconds = ((performance.now() - started) / 1000).toFixed(1);
   log(`Fertig in ${seconds} s — ${(bytes.length / 1048576).toFixed(2)} MB.`);
-  return { stem, bytes };
+  return {
+    stem,
+    bytes,
+    montage: { stem: booklet.split("/").pop().replace(/\.pdf$/, ""), bytes: montageBytes },
+    montageDuplex: { stem: duplex.split("/").pop().replace(/\.pdf$/, ""), bytes: duplexBytes },
+  };
 }
 
 // --------------------------------------------------------------- messages
@@ -227,10 +276,15 @@ self.onmessage = ({ data }) => {
         }
         self.postMessage({ type: "file", id: data.id, path: data.path, text });
       } else if (data.type === "build") {
-        const { stem, bytes } = await buildBooklet(host, data.feast, data.compact);
-        // Transferred rather than copied: a booklet is a couple of megabytes
-        // and this is the one big thing crossing back.
-        self.postMessage({ type: "built", id: data.id, stem, bytes }, [bytes.buffer]);
+        const { stem, bytes, montage, montageDuplex } = await buildBooklet(
+          host, data.feast, data.compact
+        );
+        // Transferred rather than copied: three PDFs, a couple of megabytes
+        // each, and this is the one big thing crossing back.
+        self.postMessage(
+          { type: "built", id: data.id, stem, bytes, montage, montageDuplex },
+          [bytes.buffer, montage.bytes.buffer, montageDuplex.bytes.buffer]
+        );
       }
     } catch (error) {
       log(`FEHLER: ${error}`);

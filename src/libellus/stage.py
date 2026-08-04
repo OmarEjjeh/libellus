@@ -34,7 +34,7 @@ GABC := $(shell find chant -name '*.gabc' 2>/dev/null)
 GREVERSION := $(shell gregorio --version | head -1 | cut -d' ' -f2 | tr . _)
 GTEX := $(patsubst %.gabc,tmp-gre/%-$(GREVERSION).gtex,$(GABC))
 
-all: $(STEM)-pdfjam-duplex.pdf
+all: $(STEM)-montage-duplex.pdf
 
 # gregorio exits non-zero for a score it none the less sets usably, so the test
 # is whether notation came out, not what the exit code was (ADR-0032 decision 4);
@@ -68,13 +68,13 @@ $(STEM).pdf: $(STEM).tex $(GTEX)
 	done; \\
 	echo "layout did not settle after 6 passes — see $(STEM).log"; exit 1
 
-$(STEM)-pdfjam.pdf: $(STEM).pdf
-	pdfjam --booklet true --landscape --paper a4paper $(STEM).pdf -o $(STEM)-pdfjam.pdf
+$(STEM)-montage.pdf: $(STEM).pdf
+	pdfjam --booklet true --landscape --paper a4paper $(STEM).pdf -o $(STEM)-montage.pdf
 
 # duplex printers without a binding-edge option flip the back side upside
 # down; rotate every second page 180 degrees to compensate
-$(STEM)-pdfjam-duplex.pdf: $(STEM)-pdfjam.pdf
-	pdftk $(STEM)-pdfjam.pdf rotate 1-endevensouth output $(STEM)-pdfjam-duplex.pdf
+$(STEM)-montage-duplex.pdf: $(STEM)-montage.pdf
+	pdftk $(STEM)-montage.pdf rotate 1-endevensouth output $(STEM)-montage-duplex.pdf
 
 clean:
 	rm -rf *.pdf *.aux *.log *.gaux *.gtex tmp-gre/

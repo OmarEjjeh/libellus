@@ -59,9 +59,13 @@ def build_wheel() -> str:
 
 def manifests(libellus_wheel: str) -> dict[str, str]:
     """The two JSON files the page asks for, generated so they cannot go stale."""
+    # Flat, alongside the rest of the Toolchain — not toolchain/wheels/, which
+    # a GitHub release asset cannot have (#58). Pyodide's own package wheels
+    # live in the same directory; harmless here since only VENDORED_WHEELS'
+    # names are ever looked up from this dict.
     vendored = {
         path.name.split("-")[0]: path.name
-        for path in sorted((ROOT / "toolchain" / "wheels").glob("*.whl"))
+        for path in sorted((ROOT / "toolchain").glob("*.whl"))
     }
     files = []
     for directory, pattern in CONTENT:

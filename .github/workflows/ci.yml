@@ -15,6 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # cz check's --rev-range needs the base commit reachable, which a
+          # shallow (default) checkout doesn't give it.
+          fetch-depth: 0
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5

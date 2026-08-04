@@ -845,3 +845,76 @@ def test_a_hostile_feast_still_compiles(repo_root: Path, smoke_feast: Path, tmp_
     pdf = compile_pdf(build_dir / "torture.tex")
 
     assert page_count(pdf) % 4 == 0  # the booklet invariant still holds
+
+
+def _ordo_page(tex: str) -> str:
+    """The rendered Ordo page alone, with its TeX comments stripped.
+
+    The comments have to go: `ordo-table.tex.j2` explains at length why the
+    page avoids `\\null\\vfill` and a `minipage`, so it names both, and an
+    assertion that they are absent would match the explanation.
+    """
+    after = tex.split("%  ORDO VESPERARUM", 1)[1]
+    start = after.index("\\newpage")
+    body = after[start : after.index("% ==", start)]
+    return "\n".join(
+        line for line in body.splitlines() if not line.lstrip().startswith("%")
+    )
+
+
+def test_praenotanda_renders_under_the_ordo_table(repo_root: Path, smoke_feast: Path) -> None:
+    """The front-matter rubric (ADR-0038) stands between the Ordo table and the
+    page's closing ornament, Latin above its German."""
+    spec = load_spec(smoke_feast)
+    resolved = build_context(spec, repo_root)
+    tex = render(spec.rite, resolved.context, repo_root)
+
+    ordo = _ordo_page(tex)
+    assert "Antiphonae, Hymnus et Versiculi de Communi" in ordo
+    assert "Die Antiphonen, der Hymnus und die Versikel" in ordo
+    assert ordo.index("\\end{tabular}") < ordo.index("Antiphonae, Hymnus")
+    assert ordo.index("Antiphonae, Hymnus") < ordo.index("Die Antiphonen")
+    # Set as paragraphs, never in a box: a minipage here cannot be fitted
+    # beside the table and silently splits the page in three.
+    assert "minipage" not in ordo and "parbox" not in ordo
+    # The page centres inside one \vbox rather than by page glue — the glue
+    # forms cost room this page no longer has, or spill onto a blank page.
+    assert "\\null\\vfill" not in ordo and "\\vspace*{\\fill}" not in ordo
+    assert "\\vbox to \\textheight{\\vfil" in ordo and ordo.count("\\vfil}") == 1
+
+
+def test_praenotanda_absent_leaves_the_ordo_page_as_it_was(
+    repo_root: Path, benedict_feast: Path
+) -> None:
+    """No rubric set → nothing between table and ornament (ADR-0038)."""
+    spec = load_spec(benedict_feast)
+    assert spec.praenotanda is None
+    resolved = build_context(spec, repo_root)
+    tex = render(spec.rite, resolved.context, repo_root)
+
+    ordo = _ordo_page(tex)
+    # the rubric's signature — italic Latin as its own paragraph — never appears
+    assert "\\footnotesize\\itshape" not in ordo
+    table_end = ordo.index("\\end{tabular}")
+    assert "\\pgfornament" in ordo[table_end:]
+
+
+def test_praenotanda_drops_its_german_when_latin_only(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    """The rubric follows ADR-0025 like every other text: the Latin stays, the
+    German goes."""
+    spec = load_spec(smoke_feast)
+    assert spec.praenotanda is not None
+    spec = spec.model_copy(
+        update={
+            "latin_only": True,
+            "praenotanda": spec.praenotanda.model_copy(update={"de": None}),
+        }
+    )
+    resolved = build_context(spec, repo_root)
+    tex = render(spec.rite, resolved.context, repo_root)
+
+    ordo = _ordo_page(tex)
+    assert "Antiphonae, Hymnus et Versiculi de Communi" in ordo
+    assert "Die Antiphonen, der Hymnus und die Versikel" not in ordo

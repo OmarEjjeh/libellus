@@ -208,6 +208,22 @@ class OrdoItem(Notable):
     incipit: str | None = None
 
 
+class Praenotanda(StrictModel):
+    """The booklet's front-matter provenance rubric, printed under the Ordo.
+
+    States once, positively, which books the ordinary run of the propers is
+    taken from, so that a proper departing from them needs only its own
+    ``note:`` and no proper needs a negation ("nicht die Antiphon aus dem
+    Commune") to say where it is *not* from — ADR-0038.
+    """
+
+    text: str
+    #: German translation. Required unless the feast is `latin_only`
+    #: (ADR-0025); FeastSpec._german_present_unless_latin_only enforces that,
+    #: because a nested model cannot see the top-level flag.
+    de: str | None = None
+
+
 class AntiphonaCumPsalmo(OrdoItem):
     """One antiphon with its psalm: gabc + German + (psalm, tone) library key."""
 
@@ -413,6 +429,9 @@ class FeastSpec(StrictModel):
     liturgical_date: datetime.date | None = None  # proper date, if transferred
     rite: Rite
     source: str
+    #: Optional front-matter rubric naming the books the propers come from
+    #: (ADR-0038). Absent for a feast whose `source:` line says it all.
+    praenotanda: Praenotanda | None = None
 
     #: Which German psalter translation the psalm/Magnificat verses use
     #: (variant files chant/psalmi/<n>/de-<versio>.yaml, e.g. "eu1980",
@@ -474,7 +493,10 @@ class FeastSpec(StrictModel):
         """
         if self.latin_only:
             return self
-        missing = [
+        missing = ["Praenotanda"] if (
+            self.praenotanda is not None and self.praenotanda.de is None
+        ) else []
+        missing += [
             f"Antiphon {index}" for index, ant in enumerate(self.antiphonae, start=1)
             if ant.de is None
         ]

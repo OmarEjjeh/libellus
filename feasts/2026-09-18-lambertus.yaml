@@ -22,6 +22,16 @@
 # Commune, swapped Magnificat antiphon, versiculus from the Antiphonale
 # Monasticum) now carry real `note:` fields that print as footnotes, not
 # just YAML comments.
+#
+# The priest's page-by-page annotations of 2026-07-30/31 are applied: the
+# `praenotanda` rubric below replaces the four "nicht … aus dem Commune"
+# negations his notes called placeholders, every `note:` carries the sources
+# he supplied, and the antiphon translations for pp. 8 and 12 are the ones he
+# settled. His remaining points are not in this file: the accents
+# (Mártyres/Mártyrum, ínclyta) and the Ordo incipits live in the gabc and in
+# ADR-0020, the spelled-out Tonus peregrinus in chant/ant/martyres-domini.gabc,
+# and "Fidelium animae" in chant/ordinarium/de.yaml. Still awaiting his word:
+# the back-cover picture and its caption.
 title: Sancti Lamberti
 subtitle: Episcopi et Martyris
 vesperae: I
@@ -42,6 +52,20 @@ rite: romanum-cum-precibus
 source: >-
   Liber Usualis, Solesmis 1961; titulus et gradus ex Officiis propriis
   Sanctorum Dioecesis Osnabrugensis, Osnabrugi 1905, pag. 7*
+# Settled with the priest 2026-07-30 (also by telephone) and printed under the
+# Ordo: one positive statement of where the Commune pieces come from, in place
+# of a "nicht die Antiphon aus dem Commune" on each proper that departs from it
+# (ADR-0038). "Romae" is a locative genitive, "Solesmis" a locative ablative —
+# both are the priest's own wording and neither is a typo.
+praenotanda:
+  text: >-
+    Antiphonae, Hymnus et Versiculi de Communi plurimorum martyrum secundum
+    Antiphonale Romanum (Romae 1912) et Librum Usualem (Solesmis 1961), nisi
+    aliter notetur.
+  de: >-
+    Die Antiphonen, der Hymnus und die Versikel sind aus dem Commune mehrerer
+    Märtyrer gemäß dem Antiphonale Romanum (1912) und dem Liber Usualis
+    (Solesmes 1961), wenn es nicht anders vermerkt ist.
 antiphonae:
   - gabc: chant/ant/omnes-sancti-quanta-passi.gabc
     de: >-  # TODO: AI draft, not yet reviewed
@@ -50,7 +74,11 @@ antiphonae:
     psalmus: 109
     tonus: 8G
   - gabc: chant/ant/cum-palma-ad-regna.gabc
-    de: >-  # TODO: AI draft, not yet reviewed
+    # Reviewed and kept 2026-07-31 (priest's annotations, S. 8): the literal
+    # rendering is his preference over the Tagzeitenbuch OSB (S. 1478) and the
+    # aegidien.de versions, which he supplied only for comparison. "regna"
+    # carries an overtone of "regna caelorum" that "Reich" keeps.
+    de: >-
       Mit der Palme gelangten die Heiligen zum Reich; die Kronen der
       Zier haben sie aus der Hand Gottes verdient.
     psalmus: 110
@@ -59,9 +87,12 @@ antiphonae:
     tonus: 8G
     euouae: j j i j h g.  # what the LU prints; cross-checks tonus (issue #33)
   - gabc: chant/ant/corpora-sanctorum-in-pace.gabc
-    de: >-  # TODO: AI draft, not yet reviewed
-      Die Leiber der Heiligen sind im Frieden begraben, und ihr Name
-      lebt in Ewigkeit.
+    # Replaced 2026-07-31 (priest's annotations, S. 12): the Tagzeitenbuch OSB
+    # rendering of the second half, because "nomina eorum" is plural and
+    # "ihre Namen" carries that where a singular "ihr Name" does not.
+    de: >-
+      Die Leiber der Heiligen sind im Frieden begraben, doch ihre Namen
+      leben fort auf ewig.
     psalmus: 111
     # was a guess (1D, "tied with 1D-") until 2026-07-27; the euouae below
     # settles it as 1f — 1D ends with the climacus "gvFED." (issue #33, #23)
@@ -93,9 +124,8 @@ capitulum:
         Menschen eingesetzt zum Dienst vor Gott, um Gaben und Opfer für
         die Sünden darzubringen.
       note: >-
-        Hebr 5, 1-6 — die Epistel aus der Messe für Lambertus im Proprium Missarum
-        Leodiense der Diözese Lüttich (17. September), nicht die
-        Capitulum-Lesung aus dem Commune.
+        Hebr 5, 1-6 — die Epistel der Lambertus-Messe im Bistum Lüttich
+        (Missae propriae … dioecesis Leodiensis, 17. September).
     - n: 2
       text: >-
         qui condolére possit iis, qui ignórant, et errant: quóniam et
@@ -173,10 +203,11 @@ hymnus:
       ab, was uns bedrückt an Schuld; lass uns Freunde dir sein, dass wir
       in Ewigkeit besingen deine Herrlichkeit. Amen.
   note: >-
-    Vollständiger sechsstrophiger Hymnus; die dritte Strophe (Verse 9-13)
-    fehlt in der Liturgia horarum von 1971/72 und in den ihr folgenden
-    Büchern. Übertragung: Stanislaus Stephan, Das römische Brevier,
-    München-Regensburg 1926, Bd. I, S. 49.
+    Der Hymnus wird mitunter Rabanus Maurus OSB (780-856) zugeschrieben und
+    ist seit dem 10. Jahrhundert bezeugt. Vollständiger sechsstrophiger
+    Hymnus; die dritte Strophe (Verse 9-13) fehlt in der Liturgia horarum von
+    1971/72 und in den ihr folgenden Büchern. Übertragung: Stanislaus Stephan,
+    Das römische Brevier, München-Regensburg 1926, Bd. I, S. 49.
 
 versiculus:
   gabc: chant/vers/laetamini-in-domino.gabc
@@ -184,8 +215,7 @@ versiculus:
     ℣. Freuet euch im Herrn und frohlocket, ihr Gerechten. ℟. Und
     rühmet euch, alle, die aufrichtigen Herzens seid.
   note: >-
-    Feierliche Melodie aus dem Antiphonale Monasticum, Solesmes 1934,
-    S. 1172 — nicht die Fassung des Liber Usualis.
+    Feierliche Melodie aus dem Antiphonale Monasticum, Solesmes 1934, S. 1172.
 
 magnificat:
   antiphona:
@@ -200,9 +230,9 @@ magnificat:
       bereichert zu werden verdient hast. O Liebhaber der Keuschheit, o
       Verteidiger der Wahrheit, Märtyrer und Priester Christi, Lambertus,
       tritt für uns bei Gott ein.
-    note: >- # TODO: add the proper provenance from the lambert missal
-      Antiphona propria (des Priesters eigene handschriftliche Notierung,
-      transkribiert von Omar Ejjeh) — nicht die Antiphon aus dem Commune.
+    note: >-
+      Eigene Antiphon aus dem Vesperale Romanum sive Antiphonale Romanum
+      abbreviatum cum Psalterio, Lüttich 1835, S. 406-407.
   tonus: 6F
 
 oratio:
@@ -216,9 +246,10 @@ oratio:
     Gerechtigkeit zu versöhnen und unseren Dienst dir wohlgefällig zu
     machen. Durch Jesus Christus…
   note: >-
-    Eigene Oration des hl. Lambertus (Collectarium Osnabrück, 15. Jh.;
-    heute im Proprium Missarum Leodiense der Diözese Lüttich, 17.
-    September) — nicht die Oration aus dem Commune.
+    Eigene Oration des hl. Lambertus, im Mittelalter am Lambertusfest im
+    Bistum Osnabrück gebetet (Collectarium des Osnabrücker Doms, 15. Jh.;
+    Diözesanarchiv Osnabrück, Ma 4) und heute Tagesgebet der Lambertus-Messe
+    im Bistum Lüttich (17. September).
 
 antiphona_bmv: salve-regina-simple
 
