@@ -40,6 +40,12 @@ rank: Semiduplex
 date: 2026-09-18
 liturgical_date: 2026-09-17
 rite: romanum-cum-precibus
+# Pinned when Allioli-Arndt became the default psalter (ADR-0041). Bremen sings
+# this booklet from the Einheitsübersetzung, and it is sung on 18 September 2026;
+# inheriting the new default would silently retranslate every psalm verse in a
+# booklet already under review by the priest. Switching it is a deliberate edit
+# of this line, never a side effect of a constant in resolve.py.
+psalter_de: [eu1980, eu2016]  # eu2016 only for the Magnificat, which eu1980 lacks
 # Settled 2026-07-27. Chant: the Liber Usualis for the antiphons and hymn.
 # Two pieces come from elsewhere and carry their own footnotes instead of
 # crowding this line — the versiculus (Antiphonale Monasticum 1934, solemn

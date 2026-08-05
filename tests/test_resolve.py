@@ -611,3 +611,53 @@ def test_latin_only_renders_no_german_but_keeps_the_rubrics(repo_root: Path) -> 
     # the rubrics, and the Latin itself, are untouched
     assert "\\stagenote{Schola}{Man steht}" in tex
     assert "\\gregorioscore{chant/psalmi/109/toni/8g/v01}" in tex
+
+
+def test_psalter_de_list_resolves_each_item_to_the_first_that_has_it(
+    repo_root: Path,
+) -> None:
+    """ADR-0041: `psalter_de` may name several translations in order, because a
+    translation can be incomplete. Bremen's eu1980 has all 150 psalms and no
+    Magnificat, so St. Lambert names both and takes one from each."""
+    spec = FeastSpec.model_validate(_smoke_data(repo_root))
+    assert spec.psalter_de == ["eu1980", "eu2016"]
+    resolved = build_context(spec, repo_root)
+
+    for psalm in resolved.context["psalmi"]:
+        assert psalm["verses"][0]["de"].startswith("Probevers")
+    assert resolved.context["magnificat"]["verses"][0]["de"].startswith("Vergleichsvers")
+
+
+def test_psalter_de_naming_nothing_usable_never_falls_back(repo_root: Path) -> None:
+    """A feast that names translations gets those and no others. Falling through
+    to PSALTER_DE_PREFERENCE would mean editing the default silently
+    retranslates a booklet that had already chosen (ADR-0041)."""
+    data = _smoke_data(repo_root)
+    data["psalter_de"] = ["gibt-es-nicht"]
+    spec = FeastSpec.model_validate(data)
+    with pytest.raises(FeastFileError) as excinfo:
+        build_context(spec, repo_root)
+    message = "\n".join(excinfo.value.messages)
+    assert "gibt-es-nicht" in message
+    # the probe psalter is right there and is deliberately not substituted
+    assert "probe" in message
+
+
+def test_a_single_name_still_works_and_stays_exact(repo_root: Path) -> None:
+    """One name is the ordinary case (the Benedict booklet), and it is not
+    widened into a search: eu2016 has what that feast needs."""
+    spec = FeastSpec.model_validate(_benedict_data(repo_root))
+    assert spec.psalter_de == "eu2016"
+    resolved = build_context(spec, repo_root)
+    for psalm in resolved.context["psalmi"]:
+        assert psalm["verses"][0]["de"].startswith("Vergleichsvers")
+
+
+def test_an_unnamed_feast_prefers_the_public_domain_psalter() -> None:
+    """The shipped default is Allioli-Arndt, the only translation a fresh
+    install may legally have (ADR-0041). Read from conftest, because the probe
+    psalter has already replaced the live constant by the time a test runs."""
+    from conftest import REAL_PSALTER_DE_PREFERENCE
+
+    assert REAL_PSALTER_DE_PREFERENCE[0] == "allioli-arndt"
+    assert set(REAL_PSALTER_DE_PREFERENCE) >= {"eu1980", "eu2016"}

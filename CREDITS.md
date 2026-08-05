@@ -130,10 +130,16 @@ choosing one.
   kirchliche Stundengebet oder Das römische Brevier*, München-Regensburg 1926,
   Bd. I, p. 49. Chosen because it renders all six stanzas, which the post-1971
   books do not; two typos corrected editorially. Cited in the feast spec.
-- A **public-domain German psalter** is wanted and not yet done — the open issue
-  for it is the intended long-term default, replacing the gated
-  Einheitsübersetzung for anyone outside Bremen (ADR-0012 names Allioli-Arndt as
-  the candidate).
+- **Allioli-Arndt 1914** — Joseph Franz von Allioli's translation in Augustin
+  Arndt's 1914 revision, the **default** German psalter since ADR-0041 and the
+  only one a fresh install may legally have. The 1914 text is long out of
+  copyright. The digitization used is k-bibel.de's Bible-app data, realigned to
+  the sung Vulgate verse boundaries by `psalter/tools/scrape_allioli_arndt.py`.
+  Two caveats, both recorded in issue #1 and in every psalm file's own header:
+  the priest has **not yet reviewed** the translation, and the copyright status
+  of **that particular digitization** — as distinct from Allioli's text — has
+  not been judged. Neither is settled by making it the default; errors found
+  meanwhile are fixed as their own corrections.
 
 ## Known exception
 

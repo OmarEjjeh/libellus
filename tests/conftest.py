@@ -1,3 +1,4 @@
+import importlib
 import shutil
 from pathlib import Path
 
@@ -13,6 +14,13 @@ def repo_root() -> Path:
 #: The probe Psalter: synthetic German, one line per sung verse, generated with
 #: verse counts taken from the psalm-tone engine.
 PROBE_PSALTER_DIR = Path("tests/fixtures/psalter")
+
+#: The shipped preference order, captured before `probe_psalter` overrides it.
+#: A test that wants to assert what a real install prefers cannot read the
+#: constant directly — the autouse fixture below has already replaced it.
+REAL_PSALTER_DE_PREFERENCE = importlib.import_module(
+    "libellus.resolve"
+).PSALTER_DE_PREFERENCE
 
 
 @pytest.fixture(autouse=True)

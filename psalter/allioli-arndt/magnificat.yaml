@@ -2,9 +2,12 @@
 # Versgrenzen des gesungenen Magnificat ausgerichtet und in einem zweiten
 # Durchgang von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut
 # unveraendert, nur die Versgrenze verschoben. PRIESTER-REVIEW ausstehend.
-# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
-# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
-# einbinden, bevor das geklaert ist.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
 canticum: magnificat
 verses:
   1: Hoch preiset meine Seele den Herrn,
