@@ -101,3 +101,15 @@ def test_the_default_engine_is_the_subprocess_one() -> None:
     import libellus.psalmtone
 
     assert libellus.psalmtone._engine is subprocess_engine
+
+
+def test_the_euouae_table_is_written_in_one_canonical_clef() -> None:
+    """The engine writes each tone's *verses* in the clef that suits it — c4,
+    c3 or f3 — but a EUOUAE is printed on the antiphon's stave, never on the
+    verse stave it was derived from. So the table is handed out transposed
+    into the one canonical frame, c4, which is what every consumer of it
+    already assumed (#45)."""
+    table = euouae_per_tonus()
+    assert table["8G"] == "j j i j h g."  # written c4: unchanged
+    assert table["7b"] == "k k l k j i."  # written c3: two positions up
+    assert table["2D"] == "m m m l j k."  # written f3: five positions up

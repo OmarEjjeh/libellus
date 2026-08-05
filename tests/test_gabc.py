@@ -3,9 +3,11 @@ import tempfile
 from pathlib import Path
 
 from libellus.gabc import (
+    CANONICAL_CLEF,
     build_euouae_gabc,
     chant_name,
     differentia_candidates,
+    find_clef,
     find_euouae,
     first_stanza_gabc,
     hymn_incipit,
@@ -235,6 +237,47 @@ def test_normalize_euouae_ignores_mora_spelling() -> None:
     assert normalize_euouae("j j h j k j.") == normalize_euouae("j j h j k j")
 
 
+def test_find_clef_reads_the_clef_the_score_opens_with() -> None:
+    """gabc pitch letters are staff positions, not absolute notes, so nothing
+    about a EUOUAE can be compared until its clef is known (#45)."""
+    benedict = physical("chant/ant/beatus-vir-benedictus.gabc")
+    assert find_clef(benedict.read_text(encoding="utf-8")) == "c4"
+    assert find_clef("name:X;\n%%\n(f3) Lau(h)dá(h)te(h) (::)") == "f3"
+    assert find_clef("name:X;\n%%\n(cb3) Lau(h)dá(h)te(h) (::)") == "cb3"
+    # a header may say anything; only the body's clef is notation
+    assert find_clef("name:Psalm (c2);\n%%\n(c3) Lau(h)dá(h)te(h) (::)") == "c3"
+    assert find_clef("name:X;\n%%\n Lau(h)dá(h)te(h) (::)") is None
+    # … and without the separator there is no body to read a clef out of
+    assert find_clef("name:Psalm (c2);") is None
+
+
+def test_normalize_euouae_reads_the_same_ending_under_any_clef() -> None:
+    """The defect #45 names: a clef change moves every letter, so the three
+    transcriptions of tone 8G below are one ending, not three. The shifts are
+    spelled out here rather than computed — a clef line is two positions, so
+    c4 → c3 writes everything two letters lower, c4 → c2 four."""
+    assert (
+        normalize_euouae("j j i j h g.", "c4")
+        == normalize_euouae("h h g h f e.", "c3")
+        == normalize_euouae("f f e f d c.", "c2")
+    )
+
+
+def test_normalize_euouae_ignores_the_octave_it_is_written_in() -> None:
+    """Chant notation fixes no octave, and the engine is not itself
+    consistent about one — mode 1's EUOUAE lies below its "do", mode 2's
+    above it — so transposing into a single clef can land a whole octave
+    from the same ending's other spelling (#45)."""
+    assert normalize_euouae("m m m l j k.") == normalize_euouae("f f f e c d.")
+
+
+def test_normalize_euouae_defaults_to_the_canonical_clef() -> None:
+    """The frame the whole comparison happens in, named once (#45)."""
+    assert normalize_euouae("j j i j h g.") == normalize_euouae(
+        "j j i j h g.", CANONICAL_CLEF
+    )
+
+
 def test_differentia_candidates_identifies_an_ending(repo_root: Path) -> None:
     """A EUOUAE names its ending uniquely; a EUOUAE differing only in the
     final neume narrows to that ending's neighbourhood instead (#33)."""
@@ -247,6 +290,18 @@ def test_differentia_candidates_identifies_an_ending(repo_root: Path) -> None:
     # an ornamented final neume: no exact ending, but the right neighbourhood
     exact, leading = differentia_candidates("j j i j h ghg", table)
     assert exact == [] and leading == ["8G", "8G*"]
+
+
+def test_differentia_candidates_identifies_an_ending_under_another_clef(
+    repo_root: Path,
+) -> None:
+    """GregoBase transcriptions routinely use c3, c2, c1 and f3; before #45
+    the first such antiphon failed its tone check on correct notation."""
+    table = euouae_per_tonus()
+    assert differentia_candidates("h h g h f e.", table, "c3")[0] == ["8G"]
+    assert differentia_candidates("f f e f d c.", table, "c2")[0] == ["8G"]
+    # tone 2D, the one ending the engine itself writes under an f clef
+    assert differentia_candidates("h h h g e f.", table, "f3")[0] == ["2D"]
 
 
 def test_incipit_extends_past_a_governing_word(repo_root: Path) -> None:

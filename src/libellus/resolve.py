@@ -23,9 +23,11 @@ from pydantic import BaseModel, ValidationError
 
 from libellus.errors import FeastFileError, german_messages
 from libellus.gabc import (
+    CANONICAL_CLEF,
     build_euouae_gabc,
     chant_name,
     differentia_candidates,
+    find_clef,
     find_euouae,
     first_stanza_gabc,
     hymn_incipit,
@@ -278,7 +280,7 @@ def _warn_about_print_size(data: bytes, subject: str, path: Path) -> None:
 
 
 def _verify_tonus(
-    euouae: str, source: str, tonus: str, what: str, problems: list[str]
+    euouae: str, clef: str, source: str, tonus: str, what: str, problems: list[str]
 ) -> None:
     """Check a EUOUAE against ``tonus:`` — they must name the same ending.
 
@@ -287,6 +289,9 @@ def _verify_tonus(
     non-exact EUOUAE is accepted when the leading neumes still admit the
     stated tone. Anything else is a German error: a EUOUAE and a tone that
     disagree mean the printed cue and the sung psalm ending would diverge.
+
+    :param clef: The clef ``euouae`` is written under — without it the pitch
+        letters mean nothing, since they are staff positions (issue #45).
     """
     try:
         table = euouae_per_tonus()
@@ -295,7 +300,7 @@ def _verify_tonus(
         return
     if tonus not in table:
         return  # an unknown tone is reported once, by verse generation
-    exact, leading = differentia_candidates(euouae, table)
+    exact, leading = differentia_candidates(euouae, table, clef)
     if exact == [tonus] or (not exact and tonus in leading):
         return
     if exact:
@@ -314,6 +319,26 @@ def _verify_tonus(
             f"{what}: {source} passt zu keinem bekannten Psalmton "
             f"(angegeben: „{tonus}“) — bitte die Noten prüfen."
         )
+
+
+def _antiphon_clef(content: str, gabc_path: Path) -> str:
+    """The clef the antiphon is notated in — the frame its EUOUAE is spelled
+    in, and the frame a feast spec's ``euouae:`` assertion is spelled in too,
+    since that records what the antiphon's own printed source shows.
+
+    A score naming no clef cannot be typeset by gregorio either, so stopping
+    the build here would only add a second, worse-worded complaint about it:
+    the canonical clef is assumed instead, and said out loud (issue #45).
+    """
+    clef = find_clef(content)
+    if clef is None:
+        if content:  # empty means the file is missing, already reported as such
+            logger.warning(
+                "„%s“ hat keinen Notenschlüssel — zum Prüfen der Schlussformel "
+                "wird „%s“ angenommen.", gabc_path, CANONICAL_CLEF,
+            )
+        return CANONICAL_CLEF
+    return clef
 
 
 def _resolve_euouae(
@@ -343,10 +368,16 @@ def _resolve_euouae(
     content = full_path.read_text(encoding="utf-8") if full_path.is_file() else ""
     own = find_euouae(content)
     if own is not None:
-        _verify_tonus(own, "Die Schlussformel der Antiphon", tonus, what, problems)
+        _verify_tonus(
+            own, _antiphon_clef(content, gabc_path),
+            "Die Schlussformel der Antiphon", tonus, what, problems,
+        )
         return gabc_path
     if euouae_field is not None:
-        _verify_tonus(euouae_field, "Das Feld „euouae“", tonus, what, problems)
+        _verify_tonus(
+            euouae_field, _antiphon_clef(content, gabc_path),
+            "Das Feld „euouae“", tonus, what, problems,
+        )
     try:
         table = euouae_per_tonus()
     except PsalmToneError as exc:

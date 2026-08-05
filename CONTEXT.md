@@ -223,7 +223,9 @@ The termination cue printed at an antiphon's end — the vowels of
 cadence, so the schola can pitch the psalm that follows (in practice: they
 whistle it). Fully determined by the `Tonus`: every one of the engine's 33
 endings has a distinct EUOUAE, so a EUOUAE identifies its ending uniquely
-and vice versa. Consequently it is always *derived*, never authored.
+and vice versa. Comparing two of them means normalising both to the
+canonical `Clef` and one octave first — the letters alone name no pitch
+(ADR-0042). Consequently it is always *derived*, never authored.
 Where an antiphon's own `gabc:` already prints one — tagged
 (`<eu>...</eu>`) or bare/untagged, both occur in the wild — it is kept as
 transcribed; where it prints none, the ending's notes are appended to the
@@ -235,6 +237,20 @@ typesetting (ADR-0016, superseded).
 _Avoid_: ending (ambiguous); termination override (the EUOUAE cannot
 override anything — see `Termination formula`); differentia (that's the
 tone's *label*, e.g. `8G`, of which the euouae is the audible realization)
+
+**Clef**:
+Which staff position a score calls "do" (`c1`–`c4`) or "fa" (`f1`–`f4`),
+written as the first note group of a gabc body: `(c4)`, `(f3)`, `(cb3)`
+with a flat. It is load-bearing rather than decorative, because gabc's
+pitch letters `a`–`m` are staff *positions* counted from the bottom, not
+notes — the same melody under another clef spells entirely different
+letters. The corpus is all `c4`; GregoBase routinely uses `c3`, `c2`, `c1`
+and `f3`, and the psalm-tone engine writes each tone's verses in whichever
+of `c4`, `c3`, `f3` suits it. Anything comparing notation across sources
+therefore normalises to one frame first: `c4`, `gabc.CANONICAL_CLEF`
+(ADR-0042).
+_Avoid_: key (that is the flat a clef may carry, `cb3`); pitch (a letter is
+only a pitch once a clef has said so)
 
 **Termination formula**:
 How the psalm-tone engine actually stores an ending: an accent-aware

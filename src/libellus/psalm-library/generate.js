@@ -19,9 +19,10 @@
 //
 //   node generate.js euouae
 //     -> JSON {"8G": "j j i j h g.", "1f": "h h g f gh gf..", ...}: the
-//        EUOUAE (termination cue) of every named ending. Mode plus
-//        differentia fully determine these notes, so they are derived
-//        here, never hand-supplied (issue #33).
+//        EUOUAE (termination cue) of every named ending, all written under
+//        one canonical clef, c4 (issue #45). Mode plus differentia fully
+//        determine these notes, so they are derived here, never
+//        hand-supplied (issue #33).
 //
 // Tone labels are matched case-insensitively, ignoring spaces and dots, with
 // "*" also spellable as "star" — so "8 G", "8g" and "8G" are the same tone.
@@ -124,6 +125,44 @@ function differentiaLabel(ending) {
 // which note lands where (issue #33).
 const EUOUAE_SYLLABLES = 6;
 
+// gabc pitch letters are staff *positions*, not notes: what they sound is
+// decided by the clef, and the tone table uses three of them (c4, c3, f3).
+// A EUOUAE is printed on the *antiphon's* stave, never on the verse stave it
+// was derived from, so handing it out in the verse's clef leaves every
+// consumer to guess; it is transposed into one canonical frame instead
+// (issue #45). Mirrored by gabc.py's CANONICAL_CLEF.
+const CANONICAL_CLEF = 'c4';
+
+// The four staff lines, bottom to top, as staff positions: d f h j. A c clef
+// marks "do" on its own line; an f clef marks "fa", three positions above
+// "do" (do-re-mi-fa).
+const LINE = [3, 5, 7, 9];
+
+function doPosition(clef) {
+  const m = /^([cf])(b?)([1-4])$/.exec(clef);
+  if (!m) throw new Error(`unreadable clef "${clef}"`);
+  // A flat lowers a pitch without moving a staff position, so gabc.py's
+  // _do_position reads past one — it only ever *compares* positions. This is
+  // the stricter job: rewriting notation out of a flat clef would silently
+  // drop the flat, so refuse rather than guess. No tone uses one today.
+  if (m[2]) throw new Error(`cannot transpose out of the flat clef "${clef}"`);
+  const line = LINE[Number(m[3]) - 1];
+  return m[1] === 'c' ? line : line - 3;
+}
+
+function underCanonicalClef(neumes, clef) {
+  const shift = doPosition(CANONICAL_CLEF) - doPosition(clef);
+  if (shift === 0) return neumes;
+  return neumes.replace(/[a-mA-M]/g, (letter) => {
+    const moved = letter.toLowerCase().charCodeAt(0) + shift;
+    if (moved < 97 || moved > 109) {
+      throw new Error(`"${neumes}" leaves the staff moving ${clef} -> ${CANONICAL_CLEF}`);
+    }
+    const canonical = String.fromCharCode(moved);
+    return letter === letter.toLowerCase() ? canonical : canonical.toUpperCase();
+  });
+}
+
 function euouaeOf(tone, ending) {
   const verses = generateVerses(pt.gloria_patri, tone, ending, false, false);
   const secondHalf = verses[verses.length - 1].split('*(:)')[1];
@@ -133,7 +172,8 @@ function euouaeOf(tone, ending) {
   while ((m = re.exec(secondHalf))) {
     if (/[a-mA-M]/.test(m[1])) notes.push(m[1]);
   }
-  return notes.slice(-EUOUAE_SYLLABLES).join(' ');
+  const euouae = notes.slice(-EUOUAE_SYLLABLES).join(' ');
+  return underCanonicalClef(euouae, pt.g_tones[tone.key].clef);
 }
 
 function allEuouae() {

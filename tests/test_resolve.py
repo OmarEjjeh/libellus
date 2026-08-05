@@ -1,3 +1,4 @@
+import logging
 import re
 from pathlib import Path
 
@@ -11,6 +12,7 @@ from libellus.render import render
 from libellus.gabc import (
     build_euouae_gabc,
     differentia_candidates,
+    find_clef,
     find_euouae,
     normalize_euouae,
 )
@@ -439,16 +441,106 @@ def test_ornamented_final_neume_is_tolerated(repo_root: Path) -> None:
 
 
 def test_unrecognizable_euouae_gives_german_message(repo_root: Path) -> None:
-    """Notes matching no ending at all, not even on the leading neumes."""
+    """Notes matching no ending at all, not even on the leading neumes.
+
+    The nonsense has to *alternate*: since the comparison ignores the octave
+    (ADR-0042), a flat line of six identical notes at any height now shares
+    the leading neumes of 4g's flat recitation, and would be reported as that
+    neighbourhood rather than as unrecognizable.
+    """
     data = _smoke_data(repo_root)
     data["antiphonae"][1]["gabc"] = "chant/ant/cum-palma-ad-regna.gabc"
-    data["antiphonae"][1]["euouae"] = "a a a a a a"
+    data["antiphonae"][1]["euouae"] = "a c a c a c"
     spec = FeastSpec.model_validate(data)
     with pytest.raises(FeastFileError) as excinfo:
         build_context(spec, repo_root)
     message = next(m for m in excinfo.value.messages if "euouae" in m)
     assert "Antiphon 2" in message
     assert "keinem bekannten Psalmton" in message
+
+
+#: How far a clef change moves every note. A staff line is two positions, so
+#: rewriting a score from c4 to c3 writes it two letters lower, to c2 four.
+#: Spelled out here rather than imported, so that these tests are an oracle
+#: for gabc.py's clef arithmetic and not a second copy of it.
+_CLEF_SHIFT = {"c3": -2, "c2": -4}
+
+
+def _rewritten_under_clef(gabc: str, clef: str) -> str:
+    """The same melody notated under another clef — what a GregoBase
+    transcription in c3 or c2 looks like. Only note groups are touched; the
+    sung text around them is left alone."""
+    shift = _CLEF_SHIFT[clef]
+    head, separator, body = gabc.partition("%%")
+
+    def move(match: re.Match[str]) -> str:
+        group = match.group(1)
+        if re.fullmatch(r"[cf]b?[1-4]", group):
+            return f"({clef})"
+        moved = re.sub(r"[a-mA-M]", lambda p: chr(ord(p.group()) + shift), group)
+        return f"({moved})"
+
+    return head + separator + re.sub(r"\(([^()]*)\)", move, body)
+
+
+def test_an_antiphon_in_another_clef_still_matches_its_tone(repo_root: Path) -> None:
+    """#45's trigger. Every antiphon in the corpus is (c4) and the check
+    compared pitch letters, which are staff positions rather than notes — so
+    the first GregoBase transcription in c3 or c2 (routine there) failed its
+    tone check on notation that is completely correct, and told the author to
+    check notes that were fine. The fixture is a real corpus antiphon
+    rewritten under another clef, not a synthetic one.
+
+    Resolving green is half of it; the three clefs must also name the *same*
+    ending, which is what the c4 original is here to pin down.
+    """
+    source = physical("chant/ant/fuit-vir-vitae-venerabilis.gabc")
+    original = source.read_text(encoding="utf-8")
+    table = euouae_per_tonus()
+
+    def candidates(notation: str) -> tuple[list[str], list[str]]:
+        own = find_euouae(notation)
+        assert own is not None
+        clef = find_clef(notation)
+        assert clef is not None
+        return differentia_candidates(own, table, clef)
+
+    expected = candidates(original)
+    assert expected == ([], ["8G", "8G*"])  # its final neume is ornamented
+
+    for clef in ("c3", "c2"):
+        rewritten = _rewritten_under_clef(original, clef)
+        assert find_clef(rewritten) == clef
+        assert candidates(rewritten) == expected, f"{clef} named another ending"
+
+        data = _smoke_data(repo_root)  # smoke antiphon 1 is this chant, tonus 8G
+        data["antiphonae"][0]["gabc"] = rewritten
+        spec = FeastSpec.model_validate(data)
+        resolved = build_context(spec, repo_root)
+        assert resolved.context["psalmi"][0]["verses"], f"{clef} was rejected"
+
+
+def test_an_antiphon_with_no_clef_is_not_a_build_failure(
+    repo_root: Path, caplog: pytest.LogCaptureFixture
+) -> None:
+    """A score with no clef at all cannot be typeset by gregorio either, so
+    stopping the build here would only add a second, worse-worded complaint
+    about it. The canonical clef is assumed — and said out loud (#45)."""
+    data = _smoke_data(repo_root)
+    data["antiphonae"][1]["gabc"] = (
+        "name:Ohne Schlüssel;\n%%\n"
+        "Lau(j)dá(j)te(i) *(,) Dó(j)mi(h)num.(g) (::) "
+        "<eu>E(j) u(j) o(i) u(j) a(h) e.(g.)</eu>(::)\n"
+    )
+    data["antiphonae"][1]["tonus"] = "8G"
+    spec = FeastSpec.model_validate(data)
+
+    with caplog.at_level(logging.WARNING, logger="libellus.resolve"):
+        resolved = build_context(spec, repo_root)
+
+    assert resolved.context["psalmi"][1]["verses"]
+    warnings = [r.getMessage() for r in caplog.records if r.levelno == logging.WARNING]
+    assert any("Notenschlüssel" in message and "c4" in message for message in warnings)
 
 
 def test_psalm_incipits_cover_the_whole_psalter(repo_root: Path) -> None:
