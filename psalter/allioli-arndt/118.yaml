@@ -1,12 +1,15 @@
 # Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen und auf
 # die Versgrenzen des gesungenen Psalters ausgerichtet (Issue #1). Diese
 # Ausrichtung ist automatisch neu gruppiert (Wortfolge identisch, Verszahl urspruenglich verschieden) - siehe Anmerkungen.
-# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
-# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
-# einbinden, bevor das geklaert ist.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
 psalmus: 118
 verses:
-  1: Glückselig, deren Weg makellos, die nach dem Gesetze des Herrn wandeln!
+  1: Aleph. Glückselig, deren Weg makellos, die nach dem Gesetze des Herrn wandeln!
   2: Glückselig, die seine Zeugnisse durchforschen, ihn von ganzem Herzen suchen.
   3: Denn die, welche Unrecht tun, wandeln nicht auf seinen Wegen.
   4: Du hast anbefohlen, deine Gebote strenge zu halten.
@@ -14,9 +17,9 @@ verses:
   6: Dann werde ich nicht zuschanden, wenn ich auf alle deine Gebote blicke.
   7: Ich will dich mit redlichem Herzen preisen, weil ich die Rechte deiner Gerechtigkeit
     gelernt.
-  8: Deine Satzungen will ich halten, verlass mich nicht gänzlich. Beth.
-  9: Wodurch kann ein Jüngling seinen Wandel gerade erhalten? Indem er deine Worte
-    befolgt.
+  8: Deine Satzungen will ich halten, verlass mich nicht gänzlich.
+  9: Beth. Wodurch kann ein Jüngling seinen Wandel gerade erhalten? Indem er deine
+    Worte befolgt.
   10: Mit meinem ganzen Herzen suche ich dich, lass mich nicht abirren von deinen
     Geboten!
   11: Tief in meinem Herzen bewahre ich deine Aussprüche, damit ich nicht wider dich
@@ -25,9 +28,9 @@ verses:
   13: Mit meinen Lippen mache ich alle Rechte deines Mundes kund.
   14: An dem Wege deiner Zeugnisse habe ich Freude wie an reichen Schätzen.
   15: Deine Gebote will ich eifrig betrachten und deinen Wegen nachsinnen.
-  16: Deine Satzungen will ich betrachten, deine Worte nimmermehr vergessen. Gimel.
-  17: Erweise deinem Diener Gutes und erhalte mich am Leben, so will ich deine Worte
-    bewahren.
+  16: Deine Satzungen will ich betrachten, deine Worte nimmermehr vergessen.
+  17: Gimel. Erweise deinem Diener Gutes und erhalte mich am Leben, so will ich deine
+    Worte bewahren.
   18: Öffne meine Augen, dass ich die Wunder deines Gesetzes schaue.
   19: Ein Fremdling bin ich auf Erden, verbirg deine Gebote nicht vor mir!
   20: Es verzehrt sich meine Seele im Verlangen nach deinen Satzungen allezeit.
@@ -36,8 +39,7 @@ verses:
   23: Ob auch Fürsten sich setzen, wider mich zu reden, so sinnt dein Diener doch
     in deinen Satzungen;
   24: denn deine Zeugnisse sind meine Betrachtung und deine Satzungen meine Ratgeber.
-    Daleth.
-  25: Es klebt am Boden meine Seele, belebe mich nach deinem Worte.
+  25: Daleth. Es klebt am Boden meine Seele, belebe mich nach deinem Worte.
   26: Ich tat meine Wege kund und du erhörtest mich, lehre mich deine Satzungen.
   27: Lass mich den Weg deiner Satzungen verstehen, so will ich über deine Wunder
     nachsinnen.
@@ -45,8 +47,8 @@ verses:
   29: Den Weg des Unrechtes halte fern von mir und mit deinem Gesetze begnadige mich.
   30: Den Weg der Wahrheit habe ich erwählt, deine Rechte nicht vergessen.
   31: Ich hänge an deinen Zeugnissen, Herr! lass mich nicht zuschanden werden.
-  32: Den Weg deiner Gebote will ich laufen, wenn du mir das Herz weit gemacht. He.
-  33: Mache mir, Herr! den Weg deiner Satzungen zum Gesetze, so will ich ihn allezeit
+  32: Den Weg deiner Gebote will ich laufen, wenn du mir das Herz weit gemacht.
+  33: He. Mache mir, Herr! den Weg deiner Satzungen zum Gesetze, so will ich ihn allezeit
     suchen.
   34: Gib mir Einsicht, so will ich in deinem Gesetze forschen und es von ganzem Herzen
     beobachten.
@@ -58,8 +60,7 @@ verses:
   39: Nimm weg von mir die Schmach, vor der ich mich fürchte, denn deine Rechte sind
     süß.
   40: Siehe, mich verlangt nach deinen Geboten, belebe mich durch deine Gerechtigkeit!
-    Vau.
-  41: Deine Gnade komme über mich, Herr! dein Heil nach deiner Verheißung.
+  41: Vau. Deine Gnade komme über mich, Herr! dein Heil nach deiner Verheißung.
   42: So will ich Rede stehen denen, die mich höhnen; denn ich hoffe auf deine Worte.
   43: Entziehe nicht ganz meinem Munde das Wort der Wahrheit, denn auf deine Gerichte
     setze ich alle meine Hoffnung.
@@ -68,16 +69,17 @@ verses:
   46: Und ich will von deinen Zeugnissen vor Königen reden und mich nicht schämen.
   47: Und will deine Gebote betrachten, die ich liebe,
   48: und meine Hände zu deinen Geboten erheben, die ich liebe, und mich in deinen
-    Satzungen üben. Zain.
-  49: Sei eingedenk deiner Verheißung deinem Diener, in der du mir Hoffnung gegeben!
+    Satzungen üben.
+  49: Zain. Sei eingedenk deiner Verheißung deinem Diener, in der du mir Hoffnung
+    gegeben!
   50: Dies ist mein Trost in meinem Elende, denn dein Wort belebt mich.
   51: Übermütige frevelten allenthalben, ich aber bin von deinem Gesetze nicht abgewichen.
   52: Ich gedachte deiner Gerichte von Anbeginn, Herr! und fand Trost.
   53: Unmut hat mich erfasst um der Sünder willen, die dein Gesetz verlassen.
   54: Lobpreis sind mir deine Satzungen am Orte meiner Pilgerschaft.
   55: Des Nachts bin ich deines Namens eingedenk, o Herr! und beobachte dein Gesetz.
-  56: Dies ward mein Teil, denn ich habe deinen Satzungen nachgestrebt. Heth.
-  57: Mein Anteil, o Herr! bist du, dein Gesetz zu halten verspreche ich.
+  56: Dies ward mein Teil, denn ich habe deinen Satzungen nachgestrebt.
+  57: Heth. Mein Anteil, o Herr! bist du, dein Gesetz zu halten verspreche ich.
   58: Aus meinem ganzen Herzen flehe ich zu dir empor, erbarme dich meiner nach deiner
     Verheißung.
   59: Ich überdenke meine Wege und lenke meine Füße deinen Zeugnissen zu.
@@ -85,8 +87,8 @@ verses:
   61: Die Schlingen der Sünder haben mich umfasst, doch dein Gesetz vergesse ich nicht.
   62: Ich stehe um Mitternacht auf, dich zu preisen deiner gerechten Gebote wegen.
   63: Ich bin der Genosse aller, die dich fürchten, und derer, die deine Gebote beobachten.
-  64: Die Erde, o Herr! ist voll von deiner Huld, deine Satzungen lehre mich! Teth.
-  65: Du hast deinem Diener Gutes erwiesen, Herr! gemäß deinem Worte.
+  64: Die Erde, o Herr! ist voll von deiner Huld, deine Satzungen lehre mich!
+  65: Teth. Du hast deinem Diener Gutes erwiesen, Herr! gemäß deinem Worte.
   66: Lehre mich Güte, Zucht und Erkenntnis, denn auf deine Gebote setze ich mein
     Vertrauen.
   67: Bevor ich gebeugt ward, habe ich gefehlt, darum beobachte ich dein Wort.
@@ -96,9 +98,8 @@ verses:
   70: Geronnen ist wie Milch ihr Herz; ich aber betrachte dein Gesetz.
   71: Es ist mir heilsam, dass ich gedemütigt ward, damit ich deine Satzungen lernte.
   72: Besser ist für mich das Gesetz deines Mundes als Tausende Goldes und Silbers.
-    Jod.
-  73: Deine Hände haben mich gemacht und gebildet; gib mir Einsicht, dass ich deine
-    Gebote lerne.
+  73: Jod. Deine Hände haben mich gemacht und gebildet; gib mir Einsicht, dass ich
+    deine Gebote lerne.
   74: Die dich fürchten, werden mich sehen und sich freuen, denn auf deine Worte setze
     ich alle meine Hoffnung.
   75: Ich weiß, Herr! dass deine Gerichte gerecht sind, dass du mich in deiner Treue
@@ -110,9 +111,9 @@ verses:
     Ursache, ich aber befleißige mich deiner Gebote.
   79: Es mögen sich zu mir wenden, die dich fürchten und die deine Zeugnisse kennen.
   80: Möge mein Herz in deinen Satzungen unsträflich sein, auf dass ich nicht zuschanden
-    werde. Kaph.
-  81: Meine Seele schmachtet nach deinem Heile und auf dein Wort setze ich alle meine
-    Hoffnung.
+    werde.
+  81: Kaph. Meine Seele schmachtet nach deinem Heile und auf dein Wort setze ich alle
+    meine Hoffnung.
   82: 'Meine Augen schmachten nach deinem Worte und sagen: Wann wirst du mich trösten?'
   83: Denn ich bin wie ein Schlauch im Reife geworden, deine Satzungen habe ich nicht
     vergessen.
@@ -124,8 +125,7 @@ verses:
   87: Gar leicht hätten sie mich auf Erden vernichtet, doch ich verließ deine Satzungen
     nicht.
   88: Nach deiner Huld belebe mich, so will ich die Zeugnisse deines Mundes bewahren.
-    Lamed.
-  89: Auf ewig, o Herr! steht dein Wort im Himmel fest.
+  89: Lamed. Auf ewig, o Herr! steht dein Wort im Himmel fest.
   90: Von Geschlecht zu Geschlecht währt deine Treue, du hast die Erde gegründet und
     sie dauert fort.
   91: Durch deine Anordnung steht die Zeit fest, denn alles dient dir.
@@ -137,8 +137,8 @@ verses:
   95: Die Sünder lauern mir auf, um mich zu verderben; aber ich richte meinen Sinn
     auf deine Zeugnisse.
   96: Aller geschaffenen Dinge sah ich ein Ende, aber dein Gebot ist überaus weitreichend.
-    Mem.
-  97: Wie liebe ich dein Gesetz so sehr, o Herr! den ganzen Tag ist es meine Betrachtung.
+  97: Mem. Wie liebe ich dein Gesetz so sehr, o Herr! den ganzen Tag ist es meine
+    Betrachtung.
   98: Du machst mich weiser als meine Feinde durch dein Gebot, denn immerdar bleibt
     es bei mir.
   99: Weiser bin ich als alle, die mich lehrten, denn deine Zeugnisse sind mein Sinnen.
@@ -147,8 +147,7 @@ verses:
   102: Von deinen Ordnungen wich ich nicht, denn du gabst sie mir als Gesetz.
   103: Wie süß sind deine Worte meinem Gaumen, süßer meinem Munde als Honig!
   104: Aus deinen Geboten ward ich einsichtig, darum hasse ich jeden Weg des Unrechts.
-    Nun.
-  105: Dein Wort ist meinen Füßen eine Leuchte und ein Licht auf meinen Wegen.
+  105: Nun. Dein Wort ist meinen Füßen eine Leuchte und ein Licht auf meinen Wegen.
   106: Ich schwur und nahm mir vor, deine gerechten Ordnungen zu beobachten.
   107: Ich bin schwer gebeugt, o Herr! belebe mich nach deinem Worte.
   108: Lass dir, Herr! die freiwilligen Opfer meines Mundes wohlgefällig sein und
@@ -160,8 +159,8 @@ verses:
   111: Deine Zeugnisse habe ich zum Erbe erlangt auf immer, denn sie sind das Frohlocken
     meines Herzens.
   112: Meines Herzens Neigung richtete ich darauf, deine Satzungen auf immer zu tun
-    um der Vergeltung willen. Samech.
-  113: Die Ungerechten hasse ich, doch dein Gesetz habe ich lieb.
+    um der Vergeltung willen.
+  113: Samech. Die Ungerechten hasse ich, doch dein Gesetz habe ich lieb.
   114: Du bist mein Helfer und mein Beschirmer und auf dein Wort setze ich alle meine
     Hoffnung.
   115: Weichet von mir, ihr Bösewichter! denn ich will die Gebote meines Gottes durchforschen.
@@ -172,9 +171,9 @@ verses:
   118: Du verwirfst alle, die von deinen Satzungen abirren, denn ihr Sinnen ist ungerecht.
   119: Für Übertreter erachte ich alle Sünder auf Erden, darum liebe ich deine Zeugnisse.
   120: Durchbohre mit der Furcht vor dir mein Fleisch! denn ich fürchte mich vor deinen
-    Gerichten. Ain.
-  121: Ich habe Recht und Gerechtigkeit geübt, gib mich nicht denen preis, die mir
-    Gewalt antun!
+    Gerichten.
+  121: Ain. Ich habe Recht und Gerechtigkeit geübt, gib mich nicht denen preis, die
+    mir Gewalt antun!
   122: Tritt ein für deinen Diener zu seinem Heile, dass die Stolzen mich nicht unterdrücken!
   123: Meine Augen schmachten nach deinem Heile und nach der Zusage deiner Gerechtigkeit.
   124: Verfahre mit deinem Diener deiner Huld gemäß und deine Satzungen lehre mich!
@@ -182,8 +181,7 @@ verses:
   126: Zeit ist es, zu handeln, o Herr! sie haben dein Gesetz zunichte gemacht.
   127: Darum liebe ich deine Gebote mehr als Gold und Edelsteine.
   128: Darum richte ich mich nach allen deinen Geboten, hasse alle ungerechten Wege.
-    Phe.
-  129: Gar wunderbar sind deine Zeugnisse, darum hat meine Seele sie erforscht.
+  129: Phe. Gar wunderbar sind deine Zeugnisse, darum hat meine Seele sie erforscht.
   130: Die Belehrung deiner Worte erleuchtet und gibt den Unmündigen Einsicht.
   131: Ich öffne meinen Mund und atme lechzend, denn nach deinen Geboten verlangt
     mich.
@@ -194,16 +192,16 @@ verses:
   134: Erlöse mich von den Bedrückungen der Menschen, dass ich deine Gebote halte.
   135: Lass dein Angesicht leuchten über deinen Diener und lehre mich deine Satzungen!
   136: Wasserbäche sind meinen Augen entströmt, weil sie dein Gesetz nicht beobachtet
-    haben. Sade.
-  137: Du bist gerecht, o Herr! und recht sind deine Gerichte.
+    haben.
+  137: Sade. Du bist gerecht, o Herr! und recht sind deine Gerichte.
   138: Du hast als Gerechtigkeit deine Zeugnisse geboten und deine Treue gar sehr.
   139: Mein Eifer verzehrt mich, weil meine Feinde deine Worte vergessen haben.
   140: Gar sehr ist dein Ausspruch in Feuer erprobt und dein Diener hat ihn lieb.
   141: Ich bin jung und verachtet, aber deine Satzungen vergesse ich nicht.
   142: Deine Gerechtigkeit ist Gerechtigkeit auf ewig und dein Gesetz Wahrheit.
   143: Trübsal und Bedrängnis haben mich betroffen, deine Gebote sind meine Betrachtung.
-  144: Ewig sind deine Zeugnisse gerecht; gib mir Einsicht, so werde ich leben. Koph.
-  145: Aus ganzem Herzen rufe ich, erhöre mich, Herr! so will ich deinen Satzungen
+  144: Ewig sind deine Zeugnisse gerecht; gib mir Einsicht, so werde ich leben.
+  145: Koph. Aus ganzem Herzen rufe ich, erhöre mich, Herr! so will ich deinen Satzungen
     nachforschen.
   146: Ich rufe zu dir, hilf mir, dass ich deine Gebote beobachte!
   147: Schon früh nahe ich dir und rufe, denn ich hoffe gar sehr auf deine Worte.
@@ -215,9 +213,8 @@ verses:
     sie fern.
   151: Nahe bist du, Herr! und alle deine Wege sind Wahrheit.
   152: Längst weiß ich aus deinen Zeugnissen, dass du sie auf ewig gegründet hast.
-    Resch.
-  153: Siehe meine Niedrigkeit an und errette mich, denn dein Gesetz habe ich nicht
-    vergessen.
+  153: Resch. Siehe meine Niedrigkeit an und errette mich, denn dein Gesetz habe ich
+    nicht vergessen.
   154: Entscheide meinen Handel und erlöse mich, um deiner Verheißung willen belebe
     mich!
   155: Fern ist von den Sündern Heil, denn sie suchen deine Satzungen nicht.
@@ -228,8 +225,8 @@ verses:
     beobachten.
   159: Siehe, Herr! dass ich deine Gebote liebe, nach deiner Huld belebe mich.
   160: Auf Wahrheit beruhen alle deine Worte, ewig währen alle Satzungen deiner Gerechtigkeit.
-    Sin.
-  161: Fürsten verfolgen mich ohne Ursache, doch vor deinen Worten bebt mein Herz.
+  161: Sin. Fürsten verfolgen mich ohne Ursache, doch vor deinen Worten bebt mein
+    Herz.
   162: Ich freue mich über deine Verheißungen, wie einer, der auf große Beute trifft.
   163: Ich hasse das Unrecht und verabscheue es, doch dein Gesetz liebe ich.
   164: Siebenmal des Tages spreche ich dein Lob wegen deiner gerechten Satzungen.
@@ -237,8 +234,7 @@ verses:
   166: Ich harre auf dein Heil, o Herr! und liebe deine Gebote.
   167: Meine Seele beobachtet deine Zeugnisse und liebt sie gar sehr.
   168: Ich halte deine Gebote und deine Zeugnisse; denn alle meine Wege sind dir offenbar.
-    Tau.
-  169: Lass mein Flehen vor dein Angesicht gelangen, o Herr! nach deiner Verheißung
+  169: Tau. Lass mein Flehen vor dein Angesicht gelangen, o Herr! nach deiner Verheißung
     gib mir Einsicht.
   170: Lass meine Bitte vor dein Angesicht kommen, nach deiner Verheißung errette
     mich!

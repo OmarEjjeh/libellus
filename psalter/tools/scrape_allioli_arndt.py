@@ -21,10 +21,13 @@ verse boundaries automatically and flags the regrouping for review. Where
 the underlying Latin text itself differs, no automatic recut is attempted —
 the psalm is flagged whole and left for manual alignment.
 
-**Copyright status of this specific digitization has not been verified.**
-This script produces working/review material only (``psalter/allioli-arndt/``
-is not wired into ``PSALTER_DE_PREFERENCE`` and is not credited in
-CREDITS.md) — see issue #1's ready-for-human copyright judgement.
+Allioli-Arndt is the **default** German psalter since ADR-0041: it is first in
+``PSALTER_DE_PREFERENCE`` and credited in CREDITS.md. Two things are still open
+and neither is closed by that decision (issue #1): the priest has not reviewed
+the translation, and **the copyright status of this specific digitization has
+not been verified** — the 1914 text is long out of copyright, k-bibel.de's
+edition of it is what remains unjudged. Errors found meanwhile are fixed as
+their own corrections rather than by holding the default back.
 
 Rerunnable and resumable: fetched pages are cached in ``cache/`` (delete to
 re-fetch); output YAML files are always regenerated from the cache.
@@ -72,15 +75,30 @@ YAML_HEADER_TEMPLATE = """\
 # Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen und auf
 # die Versgrenzen des gesungenen Psalters ausgerichtet (Issue #1). Diese
 # Ausrichtung ist {alignment_note}.
-# UNGEPRUEFT: Der Urheberrechtsstatus dieser konkreten Digitalisierung ist
-# noch nicht bestaetigt (siehe Issue #1) - nicht als Standard-Psalter
-# einbinden, bevor das geklaert ist.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
 """
 
+#: `vnumber` is deliberately `\d*`, matching the unnumbered verses too — see
+#: `parse_chapter`, which needs them for Psalm 118's Aleph even though it
+#: stores nothing for them.
 _VERSE_RE = re.compile(
-    r'<VERS vnumber="(\d+)" Language="(German|Latin)" class="BibleVerse"[^>]*>(.*?)</VERS>',
+    r'<VERS vnumber="(\d*)" Language="(German|Latin)" class="BibleVerse"[^>]*>(.*?)</VERS>',
     re.S,
 )
+
+#: Psalm 118's Hebrew-alphabet stanza headings (Aleph, Beth, … Tau), the only
+#: place k-bibel uses this class. It marks them as headings in their own right,
+#: but nests each one *inside the verse before the stanza it heads* — "Beth."
+#: closes verse 8, and heads verse 9 — and puts Aleph in an unnumbered verse
+#: next to "Alleluja". Stripping tags naively therefore glues each letter to
+#: the end of the wrong verse and loses Aleph altogether, which is what the
+#: first pass over this psalm did.
+_HEBREW_HEADING_RE = re.compile(r'<p class="HebrewAlphabetWord">(.*?)</p>', re.S)
 
 
 def clean_verse_html(body: str) -> str:
@@ -102,16 +120,31 @@ def clean_german_verse(text: str) -> str:
 
 
 def parse_chapter(xml_text: str) -> tuple[dict[int, str], dict[int, str]]:
-    """Return ``({verse_number: german}, {verse_number: latin})`` for one chapter."""
+    """Return ``({verse_number: german}, {verse_number: latin})`` for one chapter.
+
+    A Hebrew-alphabet heading is moved off the verse it is nested in and onto
+    the next German verse, which is the one it actually heads
+    (``_HEBREW_HEADING_RE``). The Latin side's copy is dropped rather than
+    carried: the sung text comes from the Clementine, which prints no letters,
+    and k-bibel's Latin is only ever used to align against it — so keeping
+    "BETH." would put a word in one side of that comparison and not the other.
+    """
     german: dict[int, str] = {}
     latin: dict[int, str] = {}
+    pending_heading = ""
     for match in _VERSE_RE.finditer(xml_text):
-        number, language, body = int(match.group(1)), match.group(2), match.group(3)
-        text = clean_verse_html(body)
+        raw_number, language, body = match.group(1), match.group(2), match.group(3)
+        headings = [clean_verse_html(h) for h in _HEBREW_HEADING_RE.findall(body)]
+        text = clean_verse_html(_HEBREW_HEADING_RE.sub("", body))
         if language == "German":
-            german[number] = clean_german_verse(text)
-        else:
-            latin[number] = text
+            if raw_number:
+                verse = clean_german_verse(text)
+                german[int(raw_number)] = f"{pending_heading} {verse}".strip()
+            # Whatever this verse carried heads the *next* one — including the
+            # Aleph of the unnumbered verse this branch stores nothing for.
+            pending_heading = " ".join(heading for heading in headings if heading)
+        elif raw_number:
+            latin[int(raw_number)] = text
     return german, latin
 
 
