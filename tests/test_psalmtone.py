@@ -10,6 +10,7 @@ from libellus.psalmtone import (
     euouae_per_tonus,
     generate_verses,
     list_toni,
+    mediationes_per_tonus,
     set_engine,
     subprocess_engine,
 )
@@ -65,6 +66,41 @@ def test_open_notes_reaches_the_engine(engine: FakeEngine) -> None:
     assert "--open-notes" in engine.calls[0]
 
 
+def test_mediatio_reaches_the_engine(engine: FakeEngine) -> None:
+    """Which of a tone's mediations to sing, where the books offer a choice
+    (ADR-0043). Omitted entirely when unset, so 32 of 33 tones never see it."""
+    engine.stdout = json.dumps({"folder": "6f-ut-in-tono-i", "verses": ["v1"]})
+
+    generate_verses("magnificat", "6F", mediatio="ut-in-tono-i")
+    assert engine.calls[0][-2:] == ["--mediatio", "ut-in-tono-i"]
+
+    generate_verses("magnificat", "6F")
+    assert "--mediatio" not in engine.calls[1]
+
+
+def test_a_rejected_mediatio_is_a_german_message(engine: FakeEngine) -> None:
+    """Exit 2 carries a structured error, and the German is built on this side."""
+    engine.returncode = 2
+    engine.stdout = json.dumps(
+        {"error": 'unknown mediatio "antiquior"', "mediationes": ["recentior"]}
+    )
+
+    with pytest.raises(PsalmToneError, match="recentior"):
+        generate_verses("magnificat", "6F", mediatio="antiquior")
+
+
+def test_a_tone_without_a_choice_of_mediatio_is_a_german_message(
+    engine: FakeEngine,
+) -> None:
+    """32 of the 33 tones have one mediation, so naming one is a mistake worth
+    reporting rather than ignoring."""
+    engine.returncode = 2
+    engine.stdout = json.dumps({"error": 'no mediationes for tone "1D"'})
+
+    with pytest.raises(PsalmToneError, match="nur eine Mediatio"):
+        generate_verses("magnificat", "1D", mediatio="ut-in-tono-i")
+
+
 def test_a_rejected_tone_is_still_a_german_message(engine: FakeEngine) -> None:
     """Exit 2 carries a structured error, and the German is built on this side."""
     engine.returncode = 2
@@ -94,6 +130,18 @@ def test_swapping_the_engine_drops_the_cached_euouae(engine: FakeEngine) -> None
     set_engine(replacement)
 
     assert euouae_per_tonus() == {"1D": "h h g f gh gf.."}
+
+
+def test_swapping_the_engine_drops_the_cached_mediationes(engine: FakeEngine) -> None:
+    """Cached for the same reason and invalidated on the same event."""
+    engine.stdout = json.dumps({"6F": ["recentior"]})
+    assert mediationes_per_tonus() == {"6F": ["recentior"]}
+
+    replacement = FakeEngine()
+    replacement.stdout = json.dumps({})
+    set_engine(replacement)
+
+    assert mediationes_per_tonus() == {}
 
 
 def test_the_default_engine_is_the_subprocess_one() -> None:

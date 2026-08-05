@@ -217,13 +217,28 @@ A psalm-tone label as printed in the Liber Usualis (e.g. `8G`, `1 D2`,
 `peregrinus`), naming intonation/tenor/cadences for singing a psalm.
 _Avoid_: melody, tone number
 
+**Mediatio**:
+The cadence at the middle of a verse, before the asterisk — the other
+half of a `Tonus` from the `Termination formula`. Normally the `Tonus`
+fixes it, so it needs no name of its own. Tone VI is the exception the
+term exists for: LU p. 117 prints *two* mediations under one "VI" with the
+same differentia `F`, *ut in I. Ton* and *juxta recentiorem usum*, so the
+label cannot say which is sung. The Magnificat's optional `mediatio:`
+field picks (`recentior`, the default, or `ut-in-tono-i`); it is a field
+of its own rather than a second `Tonus` because the two share a
+`Termination formula`, and therefore a `Euouae` — two labels would have
+broken the uniqueness the `Euouae` entry below rests on (ADR-0043).
+_Avoid_: mediant variant, alternative tone (it is one tone, two cadences)
+
 **Euouae**:
 The termination cue printed at an antiphon's end — the vowels of
 "saeculOrUm. AmEn", six syllables carrying the psalm tone's closing
 cadence, so the schola can pitch the psalm that follows (in practice: they
 whistle it). Fully determined by the `Tonus`: every one of the engine's 33
 endings has a distinct EUOUAE, so a EUOUAE identifies its ending uniquely
-and vice versa. Comparing two of them means normalising both to the
+and vice versa. (It says nothing about the `Mediatio` — the two cadences
+lie at opposite ends of the verse, and tone VI's two mediations share this
+one.) Comparing two of them means normalising both to the
 canonical `Clef` and one octave first — the letters alone name no pitch
 (ADR-0042). Consequently it is always *derived*, never authored.
 Where an antiphon's own `gabc:` already prints one — tagged

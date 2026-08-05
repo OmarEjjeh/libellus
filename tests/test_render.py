@@ -511,6 +511,25 @@ def test_compact_magnificat_puts_its_first_two_verses_on_one_system(
     assert "\\kern\\dimexpr\\wd\\gretransbox-\\wd\\gre@box@syllabletext\\relax" in tex
 
 
+def test_compact_magnificat_system_follows_the_mediatio(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    """Same tone label, different melody, so a system of its own — the file name
+    is the cache folder, which carries the mediation (ADR-0043)."""
+    spec = load_spec(smoke_feast)
+    spec = spec.model_copy(
+        update={
+            "magnificat": spec.magnificat.model_copy(update={"mediatio": "ut-in-tono-i"})
+        }
+    )
+    resolved = build_context(spec, repo_root, compact=True)
+    tex = render(spec.rite, resolved.context, repo_root)
+
+    assert "\\gregorioscore{chant/magnificat/kurzfassung/6f-ut-in-tono-i}" in tex
+    assert Path("chant/magnificat/kurzfassung/6f-ut-in-tono-i.gabc") in resolved.assets
+    assert Path("chant/magnificat/kurzfassung/6f.gabc") not in resolved.assets
+
+
 def test_compact_magnificat_notates_both_verses_when_the_tone_has_no_system(
     repo_root: Path, smoke_feast: Path
 ) -> None:

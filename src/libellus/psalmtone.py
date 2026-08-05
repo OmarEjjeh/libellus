@@ -81,6 +81,7 @@ def set_engine(engine: Engine) -> None:
     logger.debug("Psalmnoten-Laufzeit gewechselt: %s.", getattr(engine, "__name__", engine))
     _engine = engine
     euouae_per_tonus.cache_clear()
+    mediationes_per_tonus.cache_clear()
 
 
 def _run(*args: str) -> Any:
@@ -107,6 +108,17 @@ def _german_error(payload: dict) -> str:
         return (
             f"Den Psalm {error.split('psalm ')[1]} gibt es nicht "
             f"(gültig: 1–150 oder „magnificat“)."
+        )
+    if error.startswith("unknown mediatio"):
+        return (
+            f"Die Mediatio {error.split('mediatio ')[1]} gibt es nicht. "
+            f"Möglich sind: {', '.join(payload.get('mediationes', []))}."
+        )
+    if error.startswith("no mediationes"):
+        return (
+            f"Der Ton {error.split('tone ')[1]} hat nur eine Mediatio, "
+            f"also ist „mediatio:“ hier gegenstandslos — bitte das Feld "
+            f"weglassen."
         )
     return f"Der Notengenerator meldet: {error}"
 
@@ -136,8 +148,29 @@ def euouae_per_tonus() -> dict[str, str]:
     return _run("euouae")
 
 
+@cache
+def mediationes_per_tonus() -> dict[str, list[str]]:
+    """Tone label → the mediations it may be sung from, **first one the default**.
+
+    Only the tones whose mediation the books leave open appear — today that is
+    ``6F`` alone, where the Liber Usualis p. 117 prints two under one label
+    (ADR-0043). A tone with a single mediation is absent rather than listed
+    with one entry, so "is there a choice here" is one membership test.
+
+    Derived from the engine for the same reason the EUOUAE table is: the tone
+    table is the engine's, and a second copy on this side would be a second
+    thing to keep true.
+
+    :raises PsalmToneError: German message when no JS runtime is installed.
+    """
+    return _run("list-mediationes")
+
+
 def generate_verses(
-    psalmus: int | str, tonus: str, open_notes: bool = False
+    psalmus: int | str,
+    tonus: str,
+    open_notes: bool = False,
+    mediatio: str | None = None,
 ) -> tuple[str, list[str]]:
     """Generate all verses of a psalm (or ``"magnificat"``) in a tone.
 
@@ -146,15 +179,23 @@ def generate_verses(
     :param open_notes: Draw every reciting note the verse puts no syllable on
         as a hollow note, as the Liber prints a tone. Only the two-verse
         Magnificat system needs this (ADR-0022); booklet verses are closed.
+    :param mediatio: Which mediation to sing, where the tone offers a choice —
+        see :func:`mediationes_per_tonus`. ``None`` takes the tone's default.
+        Naming one on a tone that has none is an error, not a no-op.
     :return: ``(folder, verses)`` — the canonical tone folder name (e.g.
-        ``8gstar``) and one complete gabc file content per verse.
-    :raises PsalmToneError: German message (unknown tone/psalm, no runtime).
+        ``8gstar``, or ``6f-ut-in-tono-i`` for a non-default mediation) and
+        one complete gabc file content per verse.
+    :raises PsalmToneError: German message (unknown tone/psalm/mediatio, no
+        runtime).
     """
     extra = ["--open-notes"] if open_notes else []
+    if mediatio:
+        extra += ["--mediatio", mediatio]
     payload = _run("verses", "--psalmus", str(psalmus), "--tonus", tonus, *extra)
     logger.debug(
-        "Psalmnoten erzeugt: %s im Ton %s (%d Verse, Ordner %s).",
-        psalmus, tonus, len(payload["verses"]), payload["folder"],
+        "Psalmnoten erzeugt: %s im Ton %s%s (%d Verse, Ordner %s).",
+        psalmus, tonus, f" (Mediatio {mediatio})" if mediatio else "",
+        len(payload["verses"]), payload["folder"],
     )
     return payload["folder"], payload["verses"]
 

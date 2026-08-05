@@ -214,6 +214,10 @@ Key fields:
 - **`tonus:`** — a tone label the way the books print it: `8G`, `8 G`, `8G*`,
   `peregrinus`. Mode plus differentia fully determine the ending, so the EUOUAE
   cue is derived rather than typed (ADR-0016/0017).
+- **`mediatio:`** — on the Magnificat only, and only where the books print more
+  than one mediation under one label. Today that is `6F` alone, whose two
+  Liber Usualis p. 117 forms share a differentia: `recentior` (the default, and
+  what the schola sings) or `ut-in-tono-i` (ADR-0043).
 - **`psalmus:`** — any psalm 1–150 in Vulgate numbering, plus the Magnificat.
   Nothing is pre-generated: the notation is produced on demand for whatever
   `(psalm, tone)` you ask for.

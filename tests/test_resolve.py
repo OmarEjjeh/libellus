@@ -17,7 +17,12 @@ from libellus.gabc import (
     normalize_euouae,
 )
 from libellus import resolve
-from libellus.psalmtone import euouae_per_tonus, generate_verses
+from libellus.psalmtone import (
+    PsalmToneError,
+    euouae_per_tonus,
+    generate_verses,
+    mediationes_per_tonus,
+)
 from libellus.resolve import (
     PSALM_INCIPITS_FILE,
     _select_de_file,
@@ -76,6 +81,90 @@ def test_magnificat_repeats_intonation(repo_root: Path) -> None:
     assert "Et(f) ex(gh)sul(h)" in verses[1]
 
 
+def test_tone_six_sings_the_recentior_usus_mediant(repo_root: Path) -> None:
+    """The Liber Usualis (1932) p. 117 gives tone VI two mediations under one
+    label — *ut in I. Ton* (p. 108) and *juxta recentiorem usum* — and the
+    differentia F does not tell them apart. libellus sings the second, which
+    is what the schola sings (ADR-0043): F-centred, no B-flat, cadencing on
+    F, against tone I's B-flat and cadence on A.
+
+    The termination is shared, so the EUOUAE is the same either way and the
+    label stays ``6F``.
+    """
+    _, verses = generate_verses("magnificat", "6F")
+    mediant = verses[1].split("%%\n", 1)[1].split("*(:)", 1)[0]
+
+    # "ixi" is the B-flat of tone I's mediant — the recentior usus has none
+    assert "ixi" not in mediant
+    assert mediant.rstrip().endswith("(f.)")
+    assert euouae_per_tonus()["6F"] == "h h f gh g f."
+
+
+def test_the_older_tone_six_mediant_is_reachable_by_mediatio(repo_root: Path) -> None:
+    """Both of LU p. 117's mediations are offered; ``mediatio:`` picks, and the
+    default is the *recentior usus* (ADR-0043). The older one recites on A,
+    touches B-flat (``ixi``) and cadences on A, exactly as tone I does.
+
+    It gets a cache folder of its own — same label, different melody, so ``6f``
+    could not hold both.
+    """
+    folder, verses = generate_verses("magnificat", "6F", mediatio="ut-in-tono-i")
+    mediant = verses[1].split("%%\n", 1)[1].split("*(:)", 1)[0]
+
+    assert folder == "6f-ut-in-tono-i"
+    assert "ixi" in mediant
+    assert mediant.rstrip().endswith("(h.)")
+
+
+def test_naming_the_default_mediatio_changes_nothing(repo_root: Path) -> None:
+    """The first mediation listed is the tone's default — the contract
+    ``list-mediationes`` documents and the engine's only record of it. Naming
+    it says out loud what already happens, so it must share the default's cache
+    folder rather than fork one."""
+    default = mediationes_per_tonus()["6F"][0]
+    assert default == "recentior"
+    assert generate_verses("magnificat", "6F", mediatio=default) == generate_verses(
+        "magnificat", "6F"
+    )
+
+
+def test_both_tone_six_mediations_share_one_euouae(repo_root: Path) -> None:
+    """Why ``mediatio:`` is a field of its own and not a second tone label: the
+    two mediations run into the *same* termination, so they cannot be told
+    apart by their EUOUAE. Putting the choice in the label would have made two
+    labels share one — breaking the premise ``differentia_candidates`` rests on
+    (#33, ADR-0042). On this axis the table is untouched, and still 33 for 33.
+    """
+    table = euouae_per_tonus()
+    assert table["6F"] == "h h f gh g f."
+    assert len(table) == 33
+
+
+def test_the_offered_mediationes_come_from_the_engine(repo_root: Path) -> None:
+    """Only tone 6 has a choice today, and the engine is the one that says so —
+    nothing hand-lists it on the Python side."""
+    assert mediationes_per_tonus() == {"6F": ["recentior", "ut-in-tono-i"]}
+
+
+def test_a_mediatio_the_tone_does_not_have_is_a_german_error(repo_root: Path) -> None:
+    """Tone 1 has one mediation, so naming one is a mistake worth reporting —
+    silently ignoring it would print a booklet nobody asked for."""
+    with pytest.raises(PsalmToneError) as excinfo:
+        generate_verses("magnificat", "1D", mediatio="ut-in-tono-i")
+    assert "1D" in str(excinfo.value) and "nur eine Mediatio" in str(excinfo.value)
+
+
+def test_an_unknown_mediatio_lists_the_real_ones(repo_root: Path) -> None:
+    """And says so in German: the engine's own wording is English and must be
+    translated rather than spliced into a German sentence."""
+    with pytest.raises(PsalmToneError) as excinfo:
+        generate_verses("magnificat", "6F", mediatio="antiquior")
+
+    message = str(excinfo.value)
+    assert "recentior" in message and "ut-in-tono-i" in message
+    assert "unknown" not in message and "for tone" not in message
+
+
 #: Golden fixtures pinning the engine's output byte-exactly. Each covers a
 #: distinct engine behavior; 109/8G and the Magnificat are additionally
 #: validated against external ground truth (the hand-transcribed Benedict
@@ -119,6 +208,58 @@ def test_every_endings_euouae_is_unique(repo_root: Path) -> None:
     table = euouae_per_tonus()
     normalized = [normalize_euouae(euouae) for euouae in table.values()]
     assert len(set(normalized)) == len(table) == 33
+
+
+def test_magnificat_mediatio_chooses_the_verses(repo_root: Path) -> None:
+    """``mediatio:`` is a field of the Magnificat, not of every antiphon: it is
+    the canticle whose mediation the books leave open, and the solemn tones
+    that will eventually join it on this axis are a canticle affair too
+    (ADR-0043). St. Lambert sings ``6F``, so it is the one spec that can
+    exercise the choice.
+    """
+    data = _smoke_data(repo_root)
+    data["magnificat"]["mediatio"] = "ut-in-tono-i"
+    resolved = build_context(FeastSpec.model_validate(data), repo_root)
+
+    paths = [path.as_posix() for path in resolved.assets]
+    assert any("magnificat/toni/6f-ut-in-tono-i/" in path for path in paths)
+    assert not any("magnificat/toni/6f/" in path for path in paths)
+
+
+def test_the_magnificat_mediatio_defaults_to_the_recentior_usus(repo_root: Path) -> None:
+    """A spec that says nothing gets what the schola sings, and the plain cache
+    folder — the default is not a named fork of it (#85)."""
+    resolved = build_context(FeastSpec.model_validate(_smoke_data(repo_root)), repo_root)
+
+    paths = [path.as_posix() for path in resolved.assets]
+    assert any("magnificat/toni/6f/" in path for path in paths)
+
+
+def test_a_mediatio_on_a_tone_that_has_none_is_a_german_error(repo_root: Path) -> None:
+    """Ignoring it would set a booklet from a melody nobody chose."""
+    data = _smoke_data(repo_root)
+    data["magnificat"]["tonus"] = "1D"
+    data["magnificat"]["mediatio"] = "ut-in-tono-i"
+
+    with pytest.raises(FeastFileError) as excinfo:
+        build_context(FeastSpec.model_validate(data), repo_root)
+
+    message = next(m for m in excinfo.value.messages if "Mediatio" in m)
+    assert "1D" in message and "nur eine Mediatio" in message
+
+
+def test_the_magnificat_antiphon_is_still_checked_against_the_bare_tonus(
+    repo_root: Path,
+) -> None:
+    """The two mediations share a termination, so the antiphon's EUOUAE says
+    nothing about which is sung — and the cross-check must not start demanding
+    that it does. Naming a mediation leaves ``_verify_tonus`` alone."""
+    data = _smoke_data(repo_root)
+    data["magnificat"]["mediatio"] = "ut-in-tono-i"
+    data["magnificat"]["antiphona"]["euouae"] = euouae_per_tonus()["6F"]
+
+    resolved = build_context(FeastSpec.model_validate(data), repo_root)
+    assert resolved.context["magnificat"]["verses"]
 
 
 def test_unknown_tone_gives_german_message(repo_root: Path) -> None:

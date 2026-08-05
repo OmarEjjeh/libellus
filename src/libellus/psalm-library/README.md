@@ -29,9 +29,28 @@ a JSON error listing all valid labels.
 - Bold = accented cadence syllable, italic = preparatory syllables — the
   same conventions as the tone-1D Magnificat the schola has sung from.
 
-Not offered (add if ever needed): solemn tone variants, jgabc's
-alternative tone-6 mediant ("6 alt"), divided psalms (135, 138, 143,
-144 — ferial Thursday–Saturday only).
+Not offered (add if ever needed): solemn tone variants, divided psalms
+(135, 138, 143, 144 — ferial Thursday–Saturday only).
+
+## Mediations
+
+Where the books print more than one mediation under a single label,
+`list-mediationes` names them and `verses --mediatio <name>` picks:
+
+```
+node generate.js list-mediationes
+  -> {"6F": ["recentior", "ut-in-tono-i"]}
+node generate.js verses --psalmus magnificat --tonus 6F --mediatio ut-in-tono-i
+```
+
+Tone 6 is the only one today. LU p. 117 gives it both *ut in I. Ton*
+(p. 108) and *juxta recentiorem usum* under one "VI" with the same
+differentia `F` — which is why jgabc's `6.` row is byte-identical to `1.`.
+The first name listed is the default; here that is `recentior`, the one
+the schola sings. Because the same label then spells two melodies, a
+non-default mediation gets a cache folder of its own (`6f-ut-in-tono-i`).
+The EUOUAE is unaffected either way — both run into the same termination.
+See ADR-0043.
 
 ## Provenance & license
 
