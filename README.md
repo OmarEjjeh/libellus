@@ -296,12 +296,23 @@ build to four times that or worse, with no error and no sign beyond high CPU
 and no forward progress. This is a general Electron gotcha, not particular to
 this pipeline.
 
-**v1's Working directory is read-only and dev-only**, same content and same
-caveat as the browser: `feasts/`, `images/` and `psalter/` straight off the
-checkout, so a packaged installer — which deliberately does not bundle
-`psalter/`, for the same copyright reason `serve.py`'s own comment gives —
-ships with no feast to build until a real folder-picker replaces this. That
-picker is the next piece of work, not yet built.
+**The Working directory is whichever folder you point the app at** (#70). Run
+from the checkout it defaults to the checkout, same content as the browser —
+`feasts/`, `images/` and `psalter/` read straight off disk. A packaged
+installer defaults to its own resources, which carry `app/` and the wheel but
+no content, so it opens on an empty feast list until you pick a folder. The
+picker is a native directory dialog, offered only by this host — the browser
+page shares `app/main.mjs` and simply hides the button — and the folder it
+returns is remembered across launches in `settings.json` under Electron's
+`userData`. Changing it reloads the page rather than re-staging Pyodide's
+filesystem in place.
+
+`extraResources` bundles `app/` and the wheel and deliberately stops there:
+neither `feasts/` nor `psalter/` ships inside an installer. Since ADR-0041 that
+is no longer a copyright limit — `psalter/allioli-arndt/` is public domain and
+tracked — but both shipped feasts name their translation explicitly
+(`eu1980`/`eu2016`), so bundling the public-domain Psalter alone would still
+build nothing. What an installer should carry as a demo is open (#78).
 
 `npm run dist` packages unsigned installers for macOS, Windows and Linux via
 `electron-builder` (ADR-0035); expect the usual Gatekeeper/SmartScreen
