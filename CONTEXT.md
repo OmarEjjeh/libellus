@@ -112,6 +112,22 @@ verse already prints it in the lyrics under its neumes — which is why a
 **Kurzfassung** can drop the neumes and still set the same words the same way.
 _Avoid_: Punktierung, accents, markup
 
+**Forced centre**:
+The braces gabc puts around the letters of a syllable a neume is to centre on,
+when the syllable contains markup and gabc can no longer find them itself:
+`s{<sp>'ae</sp>}cula`. Notation, together with the `<sp>` **special** it usually
+wraps — both come off when a score is read as text, and what they wrap stays
+(#38).
+_Avoid_: letter group, braces, custom centering
+
+**Special**:
+How gabc spells a character its plain text cannot carry: `<sp>'ae</sp>` is ǽ,
+`<sp>oe</sp>` is œ. A tag by its looks, a character by its meaning — deleting it
+as markup punches a hole in the word. The two versicle marks ℣./℟. have legacy
+`<sp>` spellings too (`<sp>V/</sp>`), and those really are rubric: they are
+dropped rather than spelled out.
+_Avoid_: sp tag, entity, escape
+
 **Versus**:
 A numbered verse `{n, text, de}` inside the capitulum.
 _Avoid_: verse line, paragraph

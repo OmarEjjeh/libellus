@@ -48,9 +48,11 @@ def lyrics(path: Path) -> str:
     Strips the note groups ``(...)``, markup tags like ``<b>``/``<i>``, the
     euouae block, a leading verse number such as ``1.``, and ℣./℟. rubric
     markers (the newer Unicode-character convention — equivalent to the
-    legacy ``<sp>V/</sp>``/``<sp>R/</sp>`` tags, which the ``<sp>`` strip
-    below already removes). The mid-verse markers ``*`` and ``†`` are kept
-    (incipit uses them as cut points).
+    legacy ``<sp>V/</sp>``/``<sp>R/</sp>`` tags, which
+    :data:`_RUBRIC_SPECIALS` drops). What is notation only for want of a
+    character comes out as that character rather than deleted: the ``<sp>``
+    specials and the forced centre around one (#38). The mid-verse markers
+    ``*`` and ``†`` are kept (incipit uses them as cut points).
     """
     return _plain_text(_body(path))
 
@@ -60,24 +62,49 @@ def _body(path: Path) -> str:
     return path.read_text(encoding="utf-8").split("%%", 1)[-1]
 
 
+#: How gabc spells a character its plain text cannot carry: ``<sp>'ae</sp>``
+#: is ǽ. A tag by its looks, a character by its meaning — which is why
+#: deleting it along with the markup left "sæculórum" as "s{}culórum" (#38).
+#: Only what the chants a booklet touches actually contain — psalm verses and
+#: hymn stanzas. Anything else falls back to its own inner text rather than
+#: vanishing.
+_SPECIALS = {"'ae": "ǽ", "ae": "æ", "'oe": "œ́", "oe": "œ", "+": "†", "*": "*"}
+_SPECIAL = re.compile(r"<sp>\s*(.*?)\s*</sp>", re.DOTALL)
+
+#: The ``<sp>`` spellings that are rubric, not text: the legacy way of writing
+#: the ℣./℟. versicle marks. These really are dropped — spelled out as "V/"
+#: one would read as the chant's first word and truncate its incipit (#31).
+_RUBRIC_SPECIALS = frozenset({"V/", "R/"})
+
+#: The forced centre: braces around the letters of a syllable the neume is to
+#: centre on, which gabc cannot find for itself once the syllable contains
+#: markup (``s{<sp>'ae</sp>}cula``). Notation — but what it wraps are ordinary
+#: letters of the word, so the braces come off and the letters stay.
+_FORCED_CENTRE = re.compile(r"[{}]")
+
+
+def _spelled_out(special: re.Match[str]) -> str:
+    """The character a ``<sp>…</sp>`` match stands for; see :data:`_SPECIALS`."""
+    spelling = special.group(1)
+    if spelling in _RUBRIC_SPECIALS:
+        return ""
+    glyph = _SPECIALS.get(spelling, spelling)
+    # A special character sits inside a syllable (s<sp>'ae</sp>cula), but the
+    # mid-verse markers are words of their own to incipit()'s tokenizer.
+    return f" {glyph} " if glyph in {"*", "†"} else glyph
+
+
 def _plain_text(body: str) -> str:
     """Strip notation and markup from a gabc body; see :func:`lyrics`."""
     body = re.sub(r"<eu>.*?</eu>", "", body, flags=re.DOTALL)
-    body = re.sub(r"<sp>\s*([*†])\s*</sp>", r" \1 ", body)
-    body = re.sub(r"<sp>.*?</sp>", "", body, flags=re.DOTALL)
+    body = _SPECIAL.sub(_spelled_out, body)
     body = re.sub(r"[℣℟]\.", "", body)
     body = re.sub(r"\([^)]*\)", "", body)
     body = re.sub(r"<[^>]+>", "", body)
+    body = _FORCED_CENTRE.sub("", body)
     body = re.sub(r"^\s*\d+\.\s*", "", body.strip())
     return re.sub(r"\s+", " ", body).strip()
 
-
-#: GABC's ``<sp>`` special characters, spelled out as the glyph each stands
-#: for. Only what the chants a Kurzfassung touches actually contain — psalm
-#: verses and hymn stanzas. Anything else falls back to its own inner text
-#: rather than vanishing, which is what ``_plain_text`` does and why
-#: "sæculórum" came out of it as "s{}culórum".
-_SPECIALS = {"'ae": "ǽ", "ae": "æ", "'oe": "œ́", "oe": "œ", "+": "†", "*": "*"}
 
 #: Where a stanza ends: the divisio finalis. Metrical lines inside it end at
 #: the divisio minor or maior — the same unit :func:`hymn_incipit` cuts on.
@@ -96,19 +123,14 @@ def _pointed_text(body: str) -> str:
     Unlike :func:`_plain_text`, which reduces a chant to bare words for an
     incipit, this keeps everything a singer needs when the neumes are gone:
     the ``<b>`` accent and ``<i>`` preparation marks the tone engine writes,
-    and the mid-verse ``*``/``†``. Notation-only spellings are resolved to
-    their glyphs — ``<sp>`` specials, the ``<e>`` elision tag, and the braces
-    that group a syllable containing markup (``s{<sp>'ae</sp>}cula``).
+    and the mid-verse ``*``/``†``. Notation-only spellings are resolved the
+    same way there — ``<sp>`` specials, the forced centre, and the ``<e>``
+    elision tag.
     """
-    body = re.sub(
-        r"<sp>\s*(.*?)\s*</sp>",
-        lambda m: _SPECIALS.get(m.group(1), m.group(1)),
-        body,
-        flags=re.DOTALL,
-    )
+    body = _SPECIAL.sub(_spelled_out, body)
     body = re.sub(r"<e>(.*?)</e>", r"\1", body, flags=re.DOTALL)
     body = re.sub(r"\([^)]*\)", "", body)
-    body = body.replace("{", "").replace("}", "")
+    body = _FORCED_CENTRE.sub("", body)
     # Note groups split a word into syllables, so adjacent runs of the same
     # tag are one bold or italic passage: \textit{dex}\textit{tris} would set
     # identically but reads as two.
