@@ -329,7 +329,7 @@ nie das Formular kaputt — verbindlich prüft weiterhin libellus.
     "1a": "h h g f g h.",
     "1a2": "h h g f g gh..",
     "1a3": "h h g f gh gh..",
-    "2D": "h h h g e f.",
+    "2D": "m m m l j k.",
     "3b": "j j j h j i.",
     "3a": "j j j h j ih..",
     "3a2": "j j ji hi h gh..",
@@ -337,17 +337,17 @@ nie das Formular kaputt — verbindlich prüft weiterhin libellus.
     "3g2": "j h j i h g.",
     "4g": "h h h h h g.",
     "4E": "h g h ih gf e.",
-    "4c": "i i i i i h.",
-    "4A": "i h i j h f.",
-    "4A*": "i h i j h fg..",
-    "4d": "i h i j h i.",
-    "5a": "h h i g h f.",
+    "4c": "k k k k k j.",
+    "4A": "k j k l j h.",
+    "4A*": "k j k l j hi..",
+    "4d": "k j k l j k.",
+    "5a": "j j k i j h.",
     "6F": "h h f gh g f.",
-    "7a": "i i j i h gf..",
-    "7b": "i i j i h g.",
-    "7c": "i i j i h gh..",
-    "7c2": "i i j i h ih..",
-    "7d": "i i j i h gi..",
+    "7a": "k k l k j ih..",
+    "7b": "k k l k j i.",
+    "7c": "k k l k j ij..",
+    "7c2": "k k l k j kj..",
+    "7d": "k k l k j ik..",
     "8G": "j j i j h g.",
     "8G*": "j j i j h gh..",
     "8c": "j j h j k j.",
@@ -1459,7 +1459,11 @@ const EUOUAE_NACH_SCHLUESSEL = Object.fromEntries(
 const euouaeZumTon = (ton) => EUOUAE_NACH_SCHLUESSEL[tonSchluessel(ton || "")] ?? null;
 
 // Zeichnet eine Schlussformel (sechs Neumen) auf eine Notenzeile; null,
-// wenn es nichts zu zeichnen gibt.
+// wenn es nichts zu zeichnen gibt. Der Notengenerator liefert die Neumen in
+// einem festen Notenschlüssel, c4 (ADR-0042) — darum steht der hier fest.
+// Töne, die die Bücher in c3 oder f3 drucken (2D, 4c, 4A, 4A*, 4d, 5a,
+// 7a–7d), stimmen so in der Tonhöhe, sitzen in c4 aber hoch über den Linien
+// — offen als issue #80.
 function EuouaeNoten({neumen}) {
   const behaelter = useRef(null);
   const [fehler, setzeFehler] = useState(false);

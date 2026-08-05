@@ -219,12 +219,96 @@ _EUOUAE_SYLLABLES = ("E", "u", "o", "u", "a", "e.")
 _EUOUAE_LEADING = 5
 
 
+#: The clef a gabc score opens with: ``c`` or ``f``, optionally carrying a
+#: flat (``cb3``), on one of the four staff lines.
+_CLEF = re.compile(r"\(([cf]b?[1-4])\)")
+
+#: A staff position. gabc spells them ``a``–``m`` from the bottom, uppercase
+#: for an inclinatum — case is a note *shape*, never a different pitch. Every
+#: other letter a note group may carry (``v`` virga, ``w`` quilisma, ``o``
+#: oriscus, ``r``, ``s``, ``x`` flat, ``y`` natural) sorts after ``m``, so
+#: this matches pitches and only pitches.
+_PITCH = re.compile(r"[a-mA-M]")
+
+_A = ord("a")
+
+#: The four staff lines, bottom to top, as staff positions: ``d f h j``.
+_LINE = (3, 5, 7, 9)
+
+#: The frame every EUOUAE is compared in (issue #45). gabc names no absolute
+#: pitches, so a comparison needs one agreed clef, and ``c4`` is it: the
+#: psalm-tone engine hands out its EUOUAE table transposed into it, the form
+#: draws its preview under it, and every antiphon in the corpus is written
+#: in it. ``psalm-library/generate.js`` names the same frame — but only to
+#: *rewrite* notation into it, which is a stricter job than reading one, so
+#: the two treat a flat clef differently. See :func:`_do_position`.
+CANONICAL_CLEF = "c4"
+
+
+def find_clef(text: str) -> str | None:
+    """The clef a gabc score opens with, e.g. ``"c4"``, ``"f3"``, ``"cb3"``.
+
+    Only the body is searched, so a header that happens to spell one out is
+    not mistaken for notation — and a score with no ``%%`` separator has no
+    body at all. Within the body the first clef found wins, wherever it
+    stands: a clef change part way through does not move the notes already
+    written, and no chant here has one.
+
+    :return: The clef as written, or ``None`` if the score names none.
+    """
+    _, separator, body = text.partition("%%")
+    if not separator:
+        return None
+    match = _CLEF.search(body)
+    return None if match is None else match.group(1)
+
+
+def _do_position(clef: str) -> int:
+    """Which staff position the clef calls "do".
+
+    A ``c`` clef marks "do" on its own line; an ``f`` clef marks "fa", three
+    positions above "do" (do–re–mi–fa).
+
+    A flat in the clef (``cb3``) is read past: it lowers a pitch, it does not
+    move a staff position, so it cannot change which ending a EUOUAE is.
+    ``generate.js`` refuses the same clef instead — not an inconsistency, but
+    the difference between reading notation and rewriting it: transposing
+    *out* of a flat clef would silently drop the flat.
+
+    :raises ValueError: when ``clef`` is not a gabc clef.
+    """
+    match = re.fullmatch(r"([cf])b?([1-4])", clef)
+    if match is None:
+        raise ValueError(f"not a gabc clef: {clef!r}")
+    line = _LINE[int(match.group(2)) - 1]
+    return line if match.group(1) == "c" else line - 3
+
+
+def _octave_shift_onto_the_staff(reciting: int | None) -> int:
+    """How far to move a EUOUAE, in whole octaves, to put its reciting tone
+    (its first pitch) on the staff — the register every spelling of the same
+    ending is compared in."""
+    if reciting is None:
+        return 0
+    octave = 0
+    while reciting + octave > _LINE[-1]:
+        octave -= 7
+    while reciting + octave < _LINE[0]:
+        octave += 7
+    return octave
+
+
 def build_euouae_gabc(neumes: str) -> str | None:
     """Splice an ending's termination neumes onto the fixed EUOUAE syllables.
 
     The neumes come from the psalm-tone engine (``euouae_per_tonus``) —
     mode plus differentia fully determine them, so they are never
     hand-supplied (issue #33). The syllable text never varies.
+
+    They arrive in :data:`CANONICAL_CLEF` and are spliced through as they
+    are, so the result belongs on a ``c4`` stave. An antiphon notated under
+    any other clef would need them transposed into *its* clef first — which
+    nothing does yet (issue #80).
 
     :param neumes: Six whitespace-separated neume tokens, e.g.
         ``"j j i j h g."``.
@@ -239,19 +323,55 @@ def build_euouae_gabc(neumes: str) -> str | None:
     )
 
 
-def normalize_euouae(euouae: str) -> str:
-    """A EUOUAE reduced to what is reliably comparable: its pitches.
+def normalize_euouae(euouae: str, clef: str = CANONICAL_CLEF) -> str:
+    """A EUOUAE reduced to what identifies its ending, in the canonical frame.
 
-    Mora dots are dropped. They carry no differentia information but are
-    spelled inconsistently in the wild: jgabc writes two moraed notes as
-    ``gf..`` where hand transcriptions write ``g.f.``, and transcribers
-    routinely omit the final mora altogether (issue #33).
+    gabc pitch letters are staff *positions*, not notes: what they sound is
+    decided by the clef, so the same ending transcribed under another clef
+    spells entirely different letters (issue #45). The comparison therefore
+    happens in one agreed frame — :data:`CANONICAL_CLEF` — into which both
+    sides are transposed. The psalm-tone engine hands out its table in that
+    frame already (``generate.js``'s ``euouaeOf``), which is why ``clef``
+    defaults to it.
+
+    What survives is the six neumes' pitch positions and nothing else:
+
+    * **Mora dots go.** They carry no differentia information but are spelled
+      inconsistently in the wild: jgabc writes two moraed notes as ``gf..``
+      where hand transcriptions write ``g.f.``, and transcribers routinely
+      omit the final mora altogether (issue #33).
+    * **Note shapes go** — the ``v`` of a climacus ``gvFED``, quilismata,
+      liquescents. They are a transcriber's reading of the same pitches.
+    * **The octave goes.** Chant notation fixes none, and the engine is not
+      consistent about one either: mode 1's EUOUAE lies below its "do" and
+      mode 2's above it, so a transposition into one clef can land a whole
+      octave from the same ending's other spelling. The six pitches are
+      shifted together until the first — the reciting tone — sits on the
+      staff.
+
+    All 33 of the engine's endings stay distinct under this (asserted by
+    ``test_every_endings_euouae_is_unique``), and so do the 17 distinct
+    leading-neume neighbourhoods :func:`differentia_candidates` accepts on —
+    a whole-octave shift merges no two of them.
+
+    :param euouae: Six whitespace-separated neumes, e.g. ``"j j i j h g."``.
+    :param clef: The clef they are written under, e.g. ``"c3"``, ``"f3"`` —
+        from :func:`find_clef`.
+    :return: An opaque comparison key — staff positions, not playable gabc.
     """
-    return " ".join(token.replace(".", "") for token in euouae.split())
+    shift = _do_position(CANONICAL_CLEF) - _do_position(clef)
+    neumes = [
+        [ord(pitch.lower()) - _A + shift for pitch in _PITCH.findall(neume)]
+        for neume in euouae.split()
+    ]
+    octave = _octave_shift_onto_the_staff(next((n[0] for n in neumes if n), None))
+    return " ".join(
+        ",".join(str(pitch + octave) for pitch in neume) for neume in neumes
+    )
 
 
 def differentia_candidates(
-    euouae: str, euouae_per_tonus: dict[str, str]
+    euouae: str, euouae_per_tonus: dict[str, str], clef: str = CANONICAL_CLEF
 ) -> tuple[list[str], list[str]]:
     """Which endings a EUOUAE could belong to.
 
@@ -261,12 +381,13 @@ def differentia_candidates(
     :param euouae: The EUOUAE to identify (an antiphon's own, or a feast
         spec's ``euouae:`` assertion).
     :param euouae_per_tonus: Tone label → canonical EUOUAE, from
-        ``psalmtone.euouae_per_tonus``.
+        ``psalmtone.euouae_per_tonus`` — written in :data:`CANONICAL_CLEF`.
+    :param clef: The clef ``euouae`` itself is written under (issue #45).
     :return: ``(exact, leading)`` — labels matching completely, and labels
         agreeing on the leading neumes only (a superset used to accept
         ornamented final neumes).
     """
-    wanted = normalize_euouae(euouae)
+    wanted = normalize_euouae(euouae, clef)
     head = " ".join(wanted.split()[:_EUOUAE_LEADING])
     exact = [
         label for label, other in euouae_per_tonus.items()
