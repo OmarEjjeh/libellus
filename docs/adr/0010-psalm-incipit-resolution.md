@@ -1,7 +1,7 @@
 # ADR-0010: Shared Latin-incipit data, surfaced in the form and an agent skill
 
 Date: 2026-07-23
-Status: accepted
+Status: accepted; second consumer (the agent skill) retired 2026-08-05
 
 ## Context
 
@@ -26,7 +26,8 @@ consumers read it, neither duplicates it:
   either the bare number or an incipit substring, always displaying the
   resolved incipit as a label.
 - The incipit-filling agent skill references the same file instead of
-  bundling a private copy.
+  bundling a private copy. **Retired 2026-08-05 — see the amendment
+  below.**
 
 Matching is Latin-incipit-only, not German. German psalm-opening words
 vary by the selected `psalter_de` variant (eu1980 vs. eu2016, ADR-0008)
@@ -57,3 +58,18 @@ look up in the first place); German-inclusive search (edition-dependent).
 - The agent skill's job narrows to *using* the shared table plus walking
   the user through the rest of the feast-spec fields — not maintaining
   its own psalm data.
+- **Amended 2026-08-05 (see ADR-0028): the agent skill is dropped, and
+  with it this ADR's second consumer.** ADR-0028 decided that the
+  application absorbs the form, on the argument that *maintaining two
+  editors against one schema has no remaining payer*. A skill that fills
+  feast-spec fields conversationally is a third authoring surface and
+  falls to the same argument — it would have to track the schema, the
+  vocabularies and the German warnings independently of the editor that
+  now owns them. Hand-editing without the application stays supported by
+  ADR-0028's documented floor ("the YAML still documents intent and the
+  template can be filled by hand"), which needs no skill to hold it up.
+
+  Nothing else in this ADR changes. `incipits.yaml` was never justified
+  by the skill: it exists, accented and complete, and has two live
+  consumers in the Ordo table (ADR-0020) and the editor's psalm field.
+  Issue #30 is closed; the field itself remains open as #17/#29.

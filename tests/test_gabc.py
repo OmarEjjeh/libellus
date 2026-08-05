@@ -19,7 +19,7 @@ from libellus.gabc import (
     read_headers,
 )
 from libellus.paths import PACKAGE_ROOT
-from libellus.psalmtone import euouae_per_tonus
+from libellus.psalmtone import euouae_per_tonus, generate_verses
 
 from helpers import physical
 
@@ -111,6 +111,41 @@ def test_psalm_verse_lyrics_strip_notes_and_number(repo_root: Path) -> None:
     text = lyrics(repo_root / PSALM_VERSE)
     assert text.startswith("Dixit Dóminus")
     assert "(" not in text
+
+
+def test_lyrics_resolve_gabc_specials(tmp_path: Path) -> None:
+    """``<sp>'ae</sp>`` is the character ǽ, not markup, and the forced centre
+    around it is notation: the doxology reads "et in sǽcula sæculórum", never
+    "et in s{}cula sæculórum" (#38).
+
+    Read from the tone engine rather than from a hand-typed copy of it: the
+    spelling under test is the engine's own, and the file the issue names —
+    ``chant/psalmi/109/toni/8g/v10.gabc`` — is generated, not tracked
+    (ADR-0024), so no corpus guard can watch it.
+    """
+    _, verses = generate_verses(109, "8G")
+    sicut_erat = verses[9]
+    assert "s{<sp>'ae</sp>}" in sicut_erat
+    path = tmp_path / "v10.gabc"
+    path.write_text(sicut_erat, encoding="utf-8")
+
+    assert lyrics(path) == (
+        "Sicut erat in princípio, et nunc, et semper, * "
+        "et in sǽcula sæculórum. Amen."
+    )
+
+
+def test_no_bundled_score_yields_braces_in_its_lyrics() -> None:
+    """The forced centre never reaches the text: no bundled score's ``lyrics()``
+    still carries a ``{`` or ``}`` (#38). Guards the corpus, not one file —
+    ``Allelú{ia}`` in the ordinarium and ``d{<e>e</e>}`` in the hymn are the
+    same bug in two spellings."""
+    offenders = [
+        str(score.relative_to(PACKAGE_ROOT))
+        for score in sorted(PACKAGE_ROOT.rglob("*.gabc"))
+        if "{" in lyrics(score) or "}" in lyrics(score)
+    ]
+    assert offenders == []
 
 
 def test_find_euouae_reads_tagged_form(repo_root: Path) -> None:
