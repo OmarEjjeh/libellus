@@ -57,6 +57,23 @@ plausibly, and later.
    `.venv/` (branch-specific dependencies, and cheap — see below), `build/`
    (output), `node_modules/`.
 
+   - **Amended 2026-08-05 (see #83): a shared item the checkout already
+     provides is shared entry by entry, not as one symlink.** `ln -s X D`
+     puts the link *inside* `D` when `D` is a directory, and ADR-0041 made
+     `psalter/` one — git checks the tracked public Allioli-Arndt out into it.
+     The shared Psalter therefore landed as `psalter/psalter`, so every
+     worktree created after that silently resolved no Einheitsübersetzung
+     while looking provisioned. `link_into` now links the entries the checkout
+     does not already have, and skips dotfiles — which is what keeps the
+     companion repository's own `.git` from being linked into the worktree.
+
+     This has a cost the whole-directory symlink did not: the shared
+     translations are now symlinked *directories*, and a walk that does not
+     follow symlinks steps straight over them. Both hosts had to be taught to
+     follow one (`app/serve.py`'s `content_files`, `electron/main.mjs`'s
+     `listContentFiles`), because `Path.glob`'s `**` and a `Dirent`'s
+     `isDirectory()` each answer no by default.
+
 4. **`node_modules/` is installed on demand, never symlinked.** It is the
    largest item and the least often needed — only Electron work touches it —
    and an `npm install` through a shared symlink would rewrite the directory

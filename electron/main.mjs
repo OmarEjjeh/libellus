@@ -22,7 +22,7 @@
 
 import { app, BrowserWindow, dialog, ipcMain, net, powerSaveBlocker, protocol } from "electron";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
-import { readdir } from "node:fs/promises";
+import { readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -133,8 +133,16 @@ async function listContentFiles(root, directory, suffix) {
   const walk = async (dir, prefix) => {
     for (const entry of await readdir(dir, { withFileTypes: true })) {
       if (entry.name.startsWith(".")) continue;
+      const full = path.join(dir, entry.name);
       const relative = prefix ? `${prefix}/${entry.name}` : entry.name;
-      if (entry.isDirectory()) await walk(path.join(dir, entry.name), relative);
+      // A Dirent reports isDirectory() === false for a symlink even when it
+      // points at a directory, and a worktree shares the private Psalter one
+      // symlink per translation (#83) — so resolve rather than trust the dirent,
+      // or eu1980/ is classified as a file, fails the suffix test, and vanishes.
+      const isDirectory =
+        entry.isDirectory() ||
+        (entry.isSymbolicLink() && (await stat(full).catch(() => null))?.isDirectory());
+      if (isDirectory) await walk(full, relative);
       else if (!suffix || entry.name.endsWith(suffix)) found.push(`${directory}/${relative}`);
     }
   };

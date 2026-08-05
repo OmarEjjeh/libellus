@@ -30,6 +30,7 @@ import argparse
 import json
 import subprocess
 import sys
+from collections.abc import Iterator
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -57,6 +58,26 @@ def build_wheel() -> str:
     return wheels[-1].name
 
 
+def content_files(base: Path, pattern: str) -> Iterator[Path]:
+    """Paths under ``base`` matching ``pattern``, descending into symlinked directories.
+
+    ``Path.glob``'s ``**`` deliberately does not recurse into symlinks, and
+    ``recurse_symlinks`` is 3.13+ while this supports 3.12. A worktree shares the
+    private Psalter one symlink per translation (``scripts/worktree-add.sh``), so
+    without this it serves only the tracked public Allioli-Arndt and every feast
+    naming the Einheitsübersetzung fails to resolve its German — on a checkout
+    that looks provisioned (#83).
+
+    One level down is enough, and is the point: the symlinks are the immediate
+    children of a shared directory, and what they point at is ordinary.
+    """
+    yield from base.glob(pattern)
+    if pattern.startswith("**") and base.is_dir():
+        for entry in base.iterdir():
+            if entry.is_symlink() and entry.is_dir():
+                yield from entry.glob(pattern)
+
+
 def manifests(libellus_wheel: str) -> dict[str, str]:
     """The two JSON files the page asks for, generated so they cannot go stale."""
     # Flat, alongside the rest of the Toolchain — not toolchain/wheels/, which
@@ -69,7 +90,7 @@ def manifests(libellus_wheel: str) -> dict[str, str]:
     }
     files = []
     for directory, pattern in CONTENT:
-        for path in sorted((ROOT / directory).glob(pattern)):
+        for path in sorted(content_files(ROOT / directory, pattern)):
             if path.is_file() and not path.name.startswith("."):
                 files.append(path.relative_to(ROOT).as_posix())
     return {
