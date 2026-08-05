@@ -1,0 +1,88 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 9
+verses:
+  1: Lobsingen will ich dir, o Herr! aus ganzem Herzen, verkünden alle deine Wunder.
+  2: Ich will mich freuen und frohlocken in dir, ich will deinem Namen, o Allerhöchster!
+    lobsingen.
+  3: Du machtest flüchtig meine Feinde, ermattet kamen sie um vor deinem Angesichte,
+  4: denn du hast meine Sache und meinen Streit geführt, du hast dich auf den Thron
+    gesetzt, der du mit Gerechtigkeit richtest.
+  5: Du hast die Heiden bedräut und unterging der Frevler, du hast ihren Namen auf
+    immer und ewig ausgetilgt.
+  6: Des Feindes Schwerter sind niedergesunken auf immer und ihre Städte hast du zerstört.
+  7: Verschwunden ist ihr Gedächtnis wie ein Schall. Doch der Herr bleibt in Ewigkeit,
+  8: er hat seinen Thron aufgestellt zum Gerichte und er richtet den Erdkreis mit
+    Billigkeit, richtet die Völker mit Gerechtigkeit.
+  9: So ist der Herr des Armen Zuflucht, ein Helfer zur rechten Zeit in der Drangsal.
+  10: Darum mögen auf dich vertrauen, die deinen Namen kennen, denn du verlässest
+    jene nicht, die dich suchen, Herr!
+  11: Lobsinget dem Herrn, der auf Sion wohnt! verkündet unter den Völkern seine Großtaten,
+  12: denn er, der Rächer ihres Blutes, gedachte ihrer, vergaß nicht das Rufen der
+    Bedrängten.
+  13: Erbarme dich meiner, Herr! siehe meine Erniedrigung durch meine Feinde,
+  14: der du mich emporhebst aus den Toren des Todes, auf dass ich deine Ruhmestaten
+    verkünde an den Toren der Tochter Sion.
+  15: Ich will frohlocken ob deines Heiles. Dahingesunken sind die Heiden ins Verderben,
+    das sie mir bereiteten.
+  16: In dem Fallstricke, den sie heimlich gelegt, verwickelte sich ihr eigener Fuß.
+  17: Der Herr wird kund werden, da er Gericht hält, in seiner Hände Werke verstrickt
+    sich der Sünder.
+  18: Die Sünder sollen in die Unterwelt gestürzt werden, alle Völker, die Gottes
+    vergessen.
+  19: Denn nicht auf immer wird der Arme vergessen sein, die Geduld der Bedrängten
+    nicht auf immer verloren sein.
+  20: Erhebe dich, o Herr! nicht überhebe sich der Mensch, vor deinem Angesichte sollen
+    die Völker gerichtet werden.
+  21: Setze einen Gesetzgeber über sie, o Herr! damit die Völker erkennen, dass sie
+    Menschen sind.
+  22: (1.) Warum, o Herr! hast du dich zurückgezogen in die Ferne, siehest nicht her,
+    da es doch Zeit ist, in der Drangsal?
+  23: (2.) Da der Gottlose Übermut treibt, wird der Arme gequält, aber jene werden
+    gefangen in den Anschlägen, die sie ersinnen.
+  24: (3.) Denn der Sünder rühmt sich ob der Gelüste seiner Seele und der Frevler
+    segnet sich.
+  25: (4.) Der Sünder erbittert den Herrn und wegen seines großen Zornes frägt er
+    nichts nach ihm.
+  26: (5.) Gott steht ihm nicht vor Augen, seine Wege sind befleckt zu jeder Zeit.
+  27: Deine Gerichte sind seinem Blicke entrückt, alle seine Feinde knechtet er.
+  28: '(6.) Denn er spricht in seinem Herzen: Nicht werde ich je wanken, ich bleibe
+    vor Unglück bewahrt von Geschlecht zu Geschlecht.'
+  29: (7.) Von Lästerung ist sein Mund voll, von Kränkung und Trug, unter seiner Zunge
+    ist Mühsal und Schmerz.
+  30: (8.) Er liegt im Hinterhalt mit den Reichen im Verborgenen, um den Unschuldigen
+    zu morden.
+  31: (9.) Seine Augen spähen auf den Armen, er liegt im Verborgenen auf der Lauer,
+    wie ein Löwe in seiner Höhle.
+  32: Er liegt auf der Lauer, um den Armen zu erhaschen, zu erhaschen den Armen, indem
+    er ihn zu sich zieht.
+  33: (10.) In seiner Schlinge wirft er ihn zu Boden, er bückt sich und stürzt auf
+    ihn, wenn er der Armen Herr geworden.
+  34: '(11.) Denn er spricht in seinem Herzen: Gott vergisst es, er wendet sein Angesicht
+    ab, zu schauen nimmermehr.'
+  35: (12.) Stehe auf, o Herr, Gott! es erhebe sich deine Hand, vergiss nicht der
+    Mühseligen.
+  36: '(13.) Warum erbittert der Gottlose Gott? denn er spricht in seinem Herzen:
+    Er ahndet es nicht!'
+  37: (14.) Du siehst es, denn du achtest auf Mühsal und Schmerz, um sie in deine
+    Hand zu nehmen.
+  38: Dir ist der Arme anheim gegeben, der Waise bist du Helfer.
+  39: (15.) Zerbrich den Arm des Sünders und des Bösen, dass man seine Sünde suche
+    und sie nimmer finde.
+  40: (16.) Der Herr ist König immer und in alle Ewigkeit, ihr Heiden werdet aus seinem
+    Lande vertilgt.
+  41: (17.) Das Verlangen der Armen erhört der Herr, ihres Herzens Begehren hört dein
+    Ohr,
+  42: (18.) so dass du der Waise und dem Niedrigen Recht schaffst, damit hierfür niemand
+    mehr vermessen großtue auf Erden.
+  43: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  44: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

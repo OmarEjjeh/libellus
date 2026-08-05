@@ -1,0 +1,33 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 59
+verses:
+  1: O Gott! du hast uns verstoßen und zerrüttet, du zürntest, doch du wirst dich
+    wieder unser erbarmen.
+  2: Du hast das Land bewegt und es erschüttert; heile seine Brüche, denn es wankt.
+  3: Du hast dein Volk Hartes erfahren lassen, hast uns mit Schmerzenswein getränkt.
+  4: Doch denen, die dich fürchten, gabst du ein Panier, vor dem Bogen zu flüchten.
+  5: Auf dass deine Geliebten gerettet werden. Hilf nun mit deiner Rechten und erhöre
+    mich!
+  6: 'Gott hat verheißen in seiner Heiligkeit: Jauchzen werde ich, austeilen Sichem
+    und vermessen das Tal der Gezelte.'
+  7: Mein ist Galaad und mein ist Manasses und Ephraim ist die Schutzwehr meines Hauptes,
+  8: Juda mein König, Moab der Topf meiner Hoffnung,
+  9: über Edom strecke ich meinen Schuh, mir sind die Fremdlinge untertan.
+  10: Wer führt mich in die feste Stadt? wer geleitet mich bis nach Edom?
+  11: Nicht du, o Gott! der uns verstoßen, und wirst du nicht, o Gott! mit unsern
+    Heeren ausziehen?
+  12: Schaffe uns Hilfe, Herr! in der Not, denn Menschenhilfe ist nichtig.
+  13: Mit Gott wollen wir große Taten vollbringen und er wird unsere Bedränger zunichte
+    machen!
+  14: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  15: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

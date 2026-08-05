@@ -1,0 +1,43 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 134
+verses:
+  1: Lobet den Namen des Herrn, lobet ihr Diener den Herrn,
+  2: die ihr im Hause des Herrn stehet, in den Vorhöfen des Hauses unsers Gottes!
+  3: Lobet den Herrn, denn der Herr ist gütig; lobsinget seinem Namen, denn er ist
+    lieblich!
+  4: Denn der Herr hat sich Jakob auserwählt, Israel zu seinem Eigentum.
+  5: Denn ich weiß, dass der Herr groß und unser Gott über alle Götter erhaben ist.
+  6: Alles, was er immer will, führt der Herr aus im Himmel, auf Erden, im Meere und
+    in allen Tiefen;
+  7: der Wolken herbeiführt vom Ende der Erde her, Blitze zum Regen schafft,
+  8: der die Winde aus seinen Schatzkammern hervorholt, der die Erstgeburt Ägyptens
+    schlug, Menschen wie Vieh;
+  9: der Zeichen und Wunder in deine Mitte sandte, Ägypten! wider Pharao und wider
+    alle seine Knechte;
+  10: der viele Völker schlug und mächtige Könige tötete,
+  11: Sehon, den König der Amorrhiter, Og, den König von Basan, und alle Reiche Kanaans,
+  12: und ihr Land zum Erbe gab, zum Erbe seinem Volke Israel.
+  13: Dein Name, o Herr! währt ewig, dein Gedenken, o Herr, geht von Geschlecht zu
+    Geschlecht.
+  14: Denn der Herr schafft seinem Volke Recht und lässt sich erbitten über seine
+    Diener.
+  15: Die Götzen der Heiden sind Silber und Gold, Gebilde von Menschenhänden.
+  16: Sie haben einen Mund und reden nicht, sie haben Augen und sehen nicht.
+  17: Sie haben Ohren und hören nicht und kein Odem ist in ihrem Munde.
+  18: Es mögen ihnen gleich werden, die sie machen, und alle, die auf sie ihr Vertrauen
+    setzen.
+  19: Haus Israel, preiset den Herrn! Haus Aaron, preiset den Herrn!
+  20: Haus Levi, preiset den Herrn! die ihr den Herrn fürchtet, preiset den Herrn!
+  21: Gepriesen sei der Herr von Sion aus, er, der in Jerusalem wohnt!
+  22: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  23: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

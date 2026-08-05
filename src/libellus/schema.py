@@ -433,10 +433,14 @@ class FeastSpec(StrictModel):
     #: (ADR-0038). Absent for a feast whose `source:` line says it all.
     praenotanda: Praenotanda | None = None
 
-    #: Which German psalter translation the psalm/Magnificat verses use
-    #: (variant files chant/psalmi/<n>/de-<versio>.yaml, e.g. "eu1980",
-    #: "eu2016"). Default: eu1980, else eu2016, else the single available.
-    psalter_de: str | None = None
+    #: Which German psalter translation the psalm/Magnificat verses use —
+    #: one directory name under ``psalter/``, or an ordered list of them when
+    #: no single translation is complete (ADR-0041). ``[eu1980, eu2016]`` means
+    #: "eu1980, and eu2016 for what eu1980 lacks"; Bremen needs it because its
+    #: eu1980 has no Magnificat. A feast that names translations gets those and
+    #: no others. Omitted, the feast inherits ``PSALTER_DE_PREFERENCE``, which
+    #: starts at the public-domain Allioli-Arndt.
+    psalter_de: str | list[str] | None = None
 
     antiphonae: list[AntiphonaCumPsalmo]
     capitulum: Capitulum

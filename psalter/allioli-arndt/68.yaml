@@ -1,0 +1,73 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 68
+verses:
+  1: Hilf mir, o Gott! denn die Wasser dringen bis an meine Seele.
+  2: Ich versinke in tiefem Schlamme und kein Grund ist da,
+  3: ich bin in die Tiefe des Meeres geraten und der Sturm hat mich versenkt.
+  4: Ich habe mich müde gerufen, heiser ist meine Kehle geworden; meine Augen schmachten,
+    während ich auf meinen Gott harre.
+  5: Mehr denn meines Hauptes Haare sind, die mich ohne Ursache hassen;
+  6: stark geworden sind meine Feinde, die mich ungerecht verfolgen; was ich nicht
+    raubte, soll ich nun erstatten.
+  7: O Gott! du kennst meine Torheit und meine Verschuldungen sind vor dir nicht verborgen.
+  8: Lass nicht in mir zuschanden werden, die auf dich hoffen, o Herr, Herr der Heerscharen!
+  9: Lass in mir nicht zuschanden werden, die dich suchen, o Gott Israels!
+  10: Denn um deinetwillen trage ich Schmach, bedeckt Scham mein Angesicht.
+  11: Ich bin meinen Brüdern fremd geworden und den Kindern meiner Mutter fernstehend.
+  12: Denn der Eifer für dein Haus hat mich verzehrt und die Schmähungen derer, die
+    dich schmähten, trafen mich.
+  13: Ich hüllte meine Seele in Fasten und dies ward zur Schmach für mich.
+  14: Ich machte ein Bußgewand zu meinem Kleide und ward ihnen zum Gespött.
+  15: Es redeten wider mich, die am Tore sitzen, und die Zecher sangen Spottlieder
+    auf mich.
+  16: Ich aber, o Herr! richte mein Gebet zu dir, die Zeit des Wohlgefallens, o Gott!
+    ist gekommen.
+  17: Nach der Menge deiner Erbarmungen erhöre mich in deiner treuen Hilfe.
+  18: Rette mich aus dem Schlamme, dass ich nicht versinke; befreie mich von denen,
+    die mich hassen, und aus der Wassertiefe.
+  19: Lass die Wasserflut mich nicht überströmen und die Tiefe mich nicht verschlingen
+    noch den Abgrund seinen Rachen über mir schließen!
+  20: Erhöre mich, o Herr! denn gütig ist dein Erbarmen, nach der Fülle deiner Erbarmungen
+    schaue auf mich!
+  21: Und wende dein Antlitz nicht ab von deinem Diener, denn ich bin in Drangsal,
+    eilends erhöre mich!
+  22: Habe acht auf meine Seele und befreie sie, um meiner Feinde willen rette mich!
+  23: Du kennst meine Beschimpfung und meine Schande und meine Beschämung.
+  24: Vor deinem Angesichte sind alle, die mich bedrängen. Mein Herz ist gewärtig
+    der Schmach und des Elends.
+  25: Ich wartete, ob jemand Mitleid hätte, und es fand sich keiner; ob einer Trost
+    spendete, und ich fand keinen.
+  26: Sie gaben mir Galle zur Speise und in meinem Durste tränkten sie mich mit Essig.
+  27: Möge ihr Tisch vor ihnen zum Fallstricke werden und zur Vergeltung und zum Verderben!
+  28: Ihre Augen mögen dunkel werden, dass sie nicht sehen, und ihren Rücken beuge
+    immerdar!
+  29: Gieße deinen Zorn über sie aus und der Grimm deines Zornes treffe sie!
+  30: Möge ihre Wohnung wüst werden und in ihren Hütten niemand mehr wohnen!
+  31: Denn den du geschlagen, verfolgten sie und zu dem Schmerz meiner Wunden haben
+    sie neue hinzugefügt.
+  32: Lass sie aus einer Sünde in die andere fallen und lass sie nicht zu deiner Gerechtigkeit
+    gelangen!
+  33: Sie mögen aus dem Buche der Lebendigen getilgt und mit den Gerechten nicht verzeichnet
+    werden!
+  34: Ich bin arm und voller Schmerzen, deine Hilfe, Gott, wird mich schirmen.
+  35: Ich will den Namen Gottes in Liedern preisen und ihn verherrlichen mit Lobgesang.
+  36: Das wird Gott mehr gefallen als ein junger Stier, dem Hörner und Klauen wachsen.
+  37: Die Armen sollen es sehen und sich freuen; suchet Gott, so wird eure Seele aufleben.
+  38: Denn der Herr hört auf die Armen und verachtet seine Gefangenen nicht.
+  39: Es lobe ihn Himmel und Erde, das Meer und alles, was sich darin regt!
+  40: Denn Gott wird Sion helfen und Judas Städte werden aufgebaut werden
+  41: und sie werden daselbst wohnen und es als Erbe in Besitz nehmen.
+  42: Und die Nachkommen seiner Diener werden es zum Besitze erhalten, und die seinen
+    Namen lieben, werden darin wohnen.
+  43: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  44: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

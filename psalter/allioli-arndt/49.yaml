@@ -1,0 +1,49 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 49
+verses:
+  1: Der Herr, der höchste Gott, redet und ruft die Erde auf,
+  2: Vom Aufgang der Sonne bis zu ihrem Niedergange. Von Sion strahlt seiner Schönheit
+    Glanz aus.
+  3: Gott kommt und tut sich kund, unser Gott schweigt nicht.
+  4: Feuer lodert vor ihm auf und um ihn her tobt mächtiges Sturmwetter.
+  5: Er ruft dem Himmel oben zu und ruft die Erde, um über sein Volk Gericht zu halten.
+  6: Versammelt ihm seine Heiligen, die bei Opfern einen Bund mit ihm schließen.
+  7: Die Himmel tun seine Gerechtigkeit kund, denn Gott ist Richter.
+  8: 'Höre mein Volk, ich will reden; Israel, ich will dir bezeugen: Gott, dein Gott
+    bin ich!'
+  9: Nicht um deiner Opfer willen stelle ich dich zur Rede, sind doch deine Brandopfer
+    beständig vor mir.
+  10: Nicht nehme ich aus deinem Hause Farren noch Böcke aus deinen Herden.
+  11: Mein ist ja alles Getier des Waldes, die Tiere auf den Bergen und die Rinder.
+  12: Ich kenne alle Vögel des Himmels und die Zierde des Feldes ist mein Eigentum.
+  13: Wenn mich hungerte, würde ich es dir nicht sagen; denn mein ist der Erdkreis
+    und was ihn erfüllt.
+  14: Soll ich denn das Fleisch der Stiere essen oder das Blut der Böcke trinken?
+  15: Bringe Gott als Opfer Lob dar und löse dem Allerhöchsten deine Gelübde
+  16: und rufe mich an am Tage der Drangsal, so will ich dich erretten und du sollst
+    mich preisen!
+  17: 'Zu dem Sünder hingegen spricht Gott: Warum zählst du meine Satzungen auf und
+    nimmst meinen Bund in deinen Mund,'
+  18: während du doch Zucht hassest und meine Worte hinter dich wirfst?
+  19: Siehst du einen Dieb, so läufst du mit ihm und hältst Gemeinschaft mit den Ehebrechern.
+  20: Dein Mund fließt über von Bosheit und deine Zunge zettelt Betrug an.
+  21: Du sitzest da und redest wider deinen Bruder und legst dem Sohne deiner Mutter
+    Fallstricke. Solches tatest du und ich schwieg.
+  22: Da meintest du in deiner Bosheit, ich sei dir ähnlich, aber ich will dich zur
+    Rechenschaft ziehen und es dir vor Augen stellen.
+  23: Erkennet dies doch, die ihr Gottes vergesset! dass er euch nicht einmal hinwegraffe,
+    ohne dass jemand zu retten vermag.
+  24: Ein Opfer des Lobes ehrt mich und dies ist der Weg, auf dem ich ihm das Heil
+    von Gott zeigen will.
+  25: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  26: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

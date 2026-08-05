@@ -1,0 +1,38 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen und auf
+# die Versgrenzen des gesungenen Psalters ausgerichtet (Issue #1). Diese
+# Ausrichtung ist automatisch neu gruppiert (Wortfolge identisch, Verszahl urspruenglich verschieden) - siehe Anmerkungen.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 80
+verses:
+  1: Frohlocket Gott, unserm Helfer, frohlocket dem Gott Jakobs!
+  2: Stimmet Gesang an und lasset die Pauken ertönen, liebliche Harfe mit der Zither!
+  3: Stoßet am Neumonde in die Posaune, am herrlichen Tage eures Festes!
+  4: denn so ist es Gebot für Israel und eine Satzung des Gottes Jakobs.
+  5: Als ein Zeugnis hat er es festgesetzt in Joseph, als er auszog aus dem Lande
+    Ägypten; eine Sprache, die er nicht kannte, hörte er.
+  6: Er befreite seinen Rücken von den Lasten, da seine Hände dienstbar waren mit
+    dem Lastkorbe.
+  7: In der Drangsal riefst du mich an und ich befreite dich, erhörte dich in dunkler
+    Wetterwolke, prüfte dich bei dem Wasser des Widerspruchs.
+  8: Höre mich, mein Volk! denn ich beschwöre dich, Israel! o dass du auf mich hörtest!
+    Es soll unter dir kein neuer Gott sein noch sollst du einen fremden Gott anbeten.
+  9: Denn ich bin der Herr, dein Gott, der dich aus Ägyptenland geführt hat, tue deinen
+    Mund auf, und ich will ihn füllen.
+  10: Aber mein Volk hörte nicht auf meine Stimme und Israel hatte nicht acht auf
+    mich.
+  11: Da überließ ich sie den Gelüsten ihres Herzens und sie gingen nach ihren Anschlägen
+    dahin.
+  12: O wenn mein Volk auf mich gehört hätte, wenn Israel auf meinen Wegen gewandelt
+    wäre,
+  13: so würde ich wohl wie ein Nichts seine Feinde gedemütigt und wider ihre Bedränger
+    meine Hand gewendet haben.
+  14: Die Feinde des Herrn müssten ihm schmeicheln und ihre Zeit sollte ewig währen,
+  15: und er würde sie mit dem Marke des Weizens speisen und mit Honig aus dem Felsen
+    sättigen.
+  16: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  17: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

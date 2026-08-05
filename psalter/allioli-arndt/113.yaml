@@ -1,0 +1,48 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 113
+verses:
+  1: Als Israel aus Ägypten auszog, Jakobs Geschlecht von fremdem Volke weg,
+  2: ward Juda sein Heiligtum, Israel seine Herrschaft.
+  3: Das Meer sah es und floh, der Jordan wich zurück.
+  4: Die Berge hüpften wie Widder und die Hügel wie junge Lämmer.
+  5: Was ist dir, Meer, dass du fliehest, und dir, Jordan, dass du zurückweichst?
+  6: Euch, ihr Berge, dass ihr hüpft wie Widder und ihr, Hügel, wie junge Lämmer?
+  7: Vor dem Antlitze des Herrn erbebte die Erde, vor dem Antlitze des Gottes Jakobs,
+  8: der den Felsen in Wasserseen verwandelt und die Steine in Wasserquellen.
+  9: (1.) Nicht uns, Herr! nicht uns, sondern deinem Namen gib Ehre,
+  10: '(2.) um deiner Gnade und deiner Treue willen, damit die Völker nicht sagen:
+    Wo ist ihr Gott?'
+  11: (3.) Ist doch unser Gott im Himmel; er vollbringt alles, was er will.
+  12: (4.) Die Götzen der Heiden sind Silber und Gold, Werke von Menschenhänden.
+  13: (5.) Sie haben einen Mund und reden nicht, sie haben Augen und sehen nicht.
+  14: (6.) Sie haben Ohren und hören nicht; sie haben eine Nase und riechen nicht.
+  15: (7.) Sie haben Hände und tasten nicht, sie haben Füße und gehen nicht, sie sprechen
+    nicht mit ihrer Kehle.
+  16: (8.) Es mögen ihnen gleich werden, die sie verfertigen, und alle, die auf sie
+    vertrauen.
+  17: (9.) Das Haus Israel aber hofft auf den Herrn, er ist ihr Helfer und ihr Beschützer.
+  18: (10.) Das Haus Aaron hofft auf den Herrn, er ist ihr Helfer und ihr Beschützer.
+  19: (11.) Die den Herrn fürchten, hoffen auf den Herrn, er ist ihr Helfer und ihr
+    Beschützer.
+  20: (12.) Der Herr ist unser eingedenk und segnet uns;
+  21: er segnet das Haus Israel, er segnet das Haus Aaron.
+  22: (13.) Er segnet alle, welche den Herrn fürchten, die Kleinen wie die Großen.
+  23: (14.) Der Herr möge euch mehren, euch und eure Kinder.
+  24: (15.) Gesegnet seid ihr von dem Herrn, der Himmel und Erde gemacht hat.
+  25: (16.) Der Himmel des Himmels ist des Herrn, die Erde aber hat er den Menschenkindern
+    gegeben.
+  26: (17.) Nicht die Toten loben dich, o Herr! und keiner von denen, die zur Unterwelt
+    hinabfahren.
+  27: (18.) Wir aber, die da leben, wollen den Herrn preisen, von nun an bis in Ewigkeit!
+  28: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  29: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

@@ -1,0 +1,39 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 78
+verses:
+  1: O Gott! Heiden sind in dein Erbe gekommen, haben deinen heiligen Tempel befleckt,
+    Jerusalem einer Wachthütte im Baumgarten gleich gemacht.
+  2: Sie gaben die Leichen deiner Knechte den Vögeln des Himmels zum Fraße, das Fleisch
+    deiner Heiligen den wilden Tieren des Landes.
+  3: Sie vergossen deren Blut wie Wasser rings um Jerusalem und niemand begrub sie.
+  4: Wir sind unsern Nachbarn zur Schmach geworden, ein Spott und Hohn denen, die
+    um uns her sind.
+  5: Wie lange, o Herr! wirst du immerfort zürnen, soll dein Eifer wie Feuer brennen?
+  6: Gieße deinen Zorn über die Heiden aus, welche dich nicht kennen, und auf die
+    Reiche, die deinen Namen nicht anrufen;
+  7: denn sie haben Jakob verschlungen und seine Stätte verwüstet.
+  8: Gedenke nicht unserer alten Sünden, eilends komme uns dein Erbarmen entgegen,
+    denn wir sind überaus elend geworden.
+  9: Hilf uns, o Gott, unser Heil! und um der Ehre deines Namens willen erlöse uns,
+    Herr! und verzeihe unsere Sünden um deines Namens willen,
+  10: 'dass man nicht etwa sage unter den Heiden: Wo ist ihr Gott? und es werde an
+    den Völkern vor unsern Augen'
+  11: Die Rache kund für das Blut deiner Knechte, das vergossen worden, Lass das Seufzen
+    der Gefangenen vor dein Angesicht kommen.
+  12: Nach der Größe deiner Macht nimm als dein Eigen an die Söhne der Getöteten.
+  13: Und vergilt unsern Nachbarn siebenfach in ihren Schoß ihre Lästerung, mit der
+    sie dich gehöhnt haben, o Herr!
+  14: Doch wir, dein Volk und die Schafe deiner Weide, wollen dich ewig preisen.
+  15: Von Geschlecht zu Geschlecht wollen wir dein Lob verkünden.
+  16: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  17: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

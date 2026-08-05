@@ -1,0 +1,45 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 32
+verses:
+  1: Frohlocket, ihr Gerechten, im Herrn! den Rechtschaffenen ziemt Lobgesang.
+  2: Preiset den Herrn mit Zitherspiel, lobsinget ihm auf zehnsaitiger Harfe!
+  3: Singet ihm ein neues Lied, lobsinget ihm lieblich mit Jubelschall!
+  4: Ist ja das Wort des Herrn wahrhaftig und all sein Tun in Treue.
+  5: Er liebt Barmherzigkeit und Recht, die Erde ist voll der Huld des Herrn.
+  6: Durch des Herrn Wort sind die Himmel gefestigt und durch den Hauch seines Mundes
+    all ihr Heer.
+  7: Er sammelt die Wasser des Meeres wie in einem Schlauche, er legt Fluten in Vorratskammern.
+  8: Es fürchte die ganze Erde den Herrn, vor ihm sollen alle Bewohner des Erdkreises
+    erbeben!
+  9: Denn er sprach und es ward, er befahl und es war geschaffen.
+  10: Der Herr macht die Anschläge der Heiden zunichte, vereitelt die Gedanken der
+    Völker und vereitelt die Ratschlüsse der Fürsten.
+  11: Der Ratschluss des Herrn aber bleibt ewig bestehen, die Gedanken seines Herzens
+    von Geschlecht zu Geschlecht.
+  12: Glückselig das Volk, dessen Gott der Herr ist; das Volk, das er sich zum Erbe
+    erwählt hat.
+  13: Vom Himmel schaut der Herr herab, sieht auf die Menschenkinder alle.
+  14: Von seiner wohlbereiteten Wohnung schaut er auf alle, welche die Erde bewohnen.
+  15: Er bildete eines jeden Herz, kennt alle ihre Taten.
+  16: Nicht wird ein König durch seine große Macht geschützt und nicht ein Riese durch
+    die Fülle seiner Kraft.
+  17: Unzuverlässig ist das Ross zum Siege, durch die Fülle seiner Kraft wird er sich
+    nicht retten.
+  18: Siehe, des Herrn Augen sehen auf die, die ihn fürchten, und auf die, welche
+    auf sein Erbarmen hoffen,
+  19: dass er vom Tode ihre Seelen rette und sie bei Hungersnot nähre.
+  20: Unsere Seele harrt auf den Herrn, denn er ist unser Helfer und Beschirmer.
+  21: Ja, in ihm freut sich unser Herz und wir vertrauen auf seinen heiligen Namen.
+  22: Deine Huld, o Herr! komme über uns, wie wir auf dich unsere Hoffnung setzen.
+  23: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  24: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

@@ -1,0 +1,46 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 26
+verses:
+  1: Der Herr ist mein Licht und mein Heil, vor wem sollte ich mich fürchten?
+  2: Der Herr ist der Beschirmer meines Lebens, vor wem sollte ich zagen?
+  3: Wenn Übeltäter mir nahen, mein Fleisch zu verzehren.
+  4: Meine Feinde, die mich bedrängen, so werden sie kraftlos und stürzen zu Boden.
+  5: Wenn ein Heerlager wider mich ersteht, so fürchtet sich mein Herz nicht.
+  6: Wenn Kampf sich wider mich erhebt, so bin ich doch dabei voll Vertrauen.
+  7: Eines erbitte ich vom Herrn, darnach verlangt mich, dass ich im Hause des Herrn
+    alle Tage meines Lebens bleiben dürfe,
+  8: Um die Lieblichkeit des Herrn zu schauen und seinen Tempel zu besuchen.
+  9: Denn er birgt mich in seinem Zelte, er schirmt mich am Tage des Unglücks im Verborgenen
+    seines Zeltes.
+  10: Er hebt mich empor auf einen Felsen und nun erhebt er mein Haupt über meine
+    Feinde.
+  11: Ich trete hin und bringe ein Jubelopfer dar in seinem Zelte, ich singe dem Herrn
+    und sage ihm Preis.
+  12: Erhöre, o Herr! meine Stimme, da ich zu dir rufe; erbarme dich meiner und erhöre
+    mich!
+  13: Zu dir spricht mein Herz, es sucht dich mein Angesicht; dein Antlitz, o Herr!
+    will ich suchen.
+  14: Wende dein Antlitz nicht von mir, kehre dich nicht im Zorne ab von deinem Diener.
+  15: Sei du mein Helfer; verlass mich nicht und verstoße mich nicht, o Gott, mein
+    Retter!
+  16: Denn mein Vater und meine Mutter haben mich verlassen, der Herr aber nimmt mich
+    auf.
+  17: Weise mich, Herr! deinen Weg und leite mich auf rechter Bahn um meiner Feinde
+    willen.
+  18: Gib mich nicht dem Willen meiner Bedränger preis, denn falsche Zeugen haben
+    sich wider mich erhoben; doch die Bosheit hat sich selbst zum Schaden gelogen.
+  19: Ich vertraue fest, dass ich die Güter des Herrn schauen werde im Lande der Lebendigen.
+  20: Harre auf den Herrn, handle männlich; lass dein Herz stark sein und stehe fest
+    im Herrn!
+  21: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  22: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

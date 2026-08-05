@@ -1,0 +1,49 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 93
+verses:
+  1: Der Gott der Rache, der Herr, der Gott der Rache handelt offenkundig.
+  2: Erhebe dich, Richter der Erde, übe Vergeltung an den Übermütigen!
+  3: Wie lange, o Herr! sollen die Gottlosen, wie lange sollen die Gottlosen sich
+    rühmen?
+  4: Dreist reden und ungerechte Reden führen, überheben sich alle, die Unrecht tun?
+  5: Sie beugen dein Volk nieder, Herr! und bedrücken dein Erbe.
+  6: Die Witwe und den Fremdling töten sie und die Waisen morden sie dahin
+  7: 'und sagen: Nicht sieht es der Herr und der Gott Jakobs merkt es nicht!'
+  8: Nehmet doch Einsicht an, ihr Unweisen im Volke, und ihr Toren, werdet einmal
+    verständig!
+  9: Der das Ohr gepflanzt hat, sollte nicht hören? oder der das Auge gebildet hat,
+    sollte nicht sehen?
+  10: Der die Völker züchtigt, sollte nicht strafen? der den Menschen Erkenntnis gibt?
+  11: Der Herr kennt die Gedanken der Menschen, dass sie nichtig sind.
+  12: Glückselig der Mensch, den du unterweisest, o Herr! und ihn aus deinem Gesetze
+    belehrst,
+  13: ihm Linderung zu gewähren in den Tagen des Unglücks, bis dem Sünder die Grube
+    gegraben wird!
+  14: Denn nicht wird der Herr sein Volk verstoßen und sein Erbe nicht im Stich lassen,
+  15: bis die Gerechtigkeit sich zum Gerichte wendet, und mit ihr verbunden sind alle,
+    die aufrichtigen Herzens sind!
+  16: Wer erhebt sich für mich wider die Bösewichter? oder wer steht mit mir auf wider
+    die Übeltäter?
+  17: Wenn nicht der Herr mir geholfen, so hätte meine Seele beinahe in der Unterwelt
+    ihre Wohnung!
+  18: 'Wenn ich sprach: es wankt mein Fuß, so half mir dein Erbarmen, o Herr!'
+  19: Nach der Menge meiner Schmerzen, die mein Herz erlitt, erfreuten deine Tröstungen
+    meine Seele.
+  20: Hat denn der Thron des Unrechts mit dir Gemeinschaft, der du Schweres aussprachest
+    im Gesetze?
+  21: Sie werden dem Leben des Gerechten nachstellen und unschuldiges Blut verdammen.
+  22: Doch der Herr wird meine Zuflucht und mein Gott die Stütze meiner Hoffnung sein
+  23: und er wird ihnen ihre Ungerechtigkeit vergelten und sie in ihrer Bosheit vertilgen,
+    vertilgen wird sie der Herr, unser Gott!
+  24: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  25: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

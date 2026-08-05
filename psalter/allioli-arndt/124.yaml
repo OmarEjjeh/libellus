@@ -1,0 +1,24 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 124
+verses:
+  1: Die auf den Herrn vertrauen, sind wie der Berg Sion; es wankt nicht in Ewigkeit,
+    wer wohnt
+  2: in Jerusalem. Rings um dasselbe sind Berge und der Herr um sein Volk von nun
+    an bis in Ewigkeit.
+  3: Nicht wird der Herr die Zuchtrute der Sünder auf dem Anteile der Gerechten ruhen
+    lassen, dass nicht die Gerechten ihre Hände nach Unrecht ausstrecken.
+  4: Den Guten tue Gutes, Herr! und denen, die aufrichtigen Herzens sind.
+  5: Doch die auf krumme Wege abbiegen, wird der Herr hinwegraffen mit den Übeltätern.
+    Friede komme über Israel!
+  6: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  7: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

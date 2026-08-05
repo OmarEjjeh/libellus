@@ -1,0 +1,29 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 97
+verses:
+  1: Singet dem Herrn ein neues Lied, denn er hat Wunder getan.
+  2: Es half ihm seine Rechte und sein heiliger Arm.
+  3: Der Herr hat sein Heil kundgetan, vor den Augen der Völker seine Gerechtigkeit
+    offenbart.
+  4: Er gedachte seiner Gnade und seiner Treue gegen das Haus Israel.
+  5: Alle Enden der Erde schauten das Heil unsers Gottes.
+  6: Jubelt Gott, alle Lande! singet, frohlocket und lobsinget!
+  7: Lobsinget dem Herrn auf der Zither, auf der Zither mit Psalmengesang, unter dem
+    Schalle der Trompeten und Hörner!
+  8: Jubelt vor dem Könige, dem Herrn! Es brause das Meer und was es erfüllt, der
+    Erdkreis und die darauf wohnen!
+  9: Die Ströme mögen in die Hände klatschen, die Berge allzumal frohlocken vor dem
+    Angesichte des Herrn; denn er kommt, die Erde zu richten.
+  10: Er wird den Erdkreis mit Gerechtigkeit richten und die Völker mit Billigkeit.
+  11: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  12: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

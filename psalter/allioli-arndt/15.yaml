@@ -1,0 +1,34 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 15
+verses:
+  1: 'Behüte mich, Herr! denn auf dich vertraue ich. Ich spreche zu dem Herrn: Mein
+    Gott bist du, denn nicht bedarfst du meiner Güter.'
+  2: Den Heiligen, die in seinem Lande sind, hat er wunderbar alle meine Wünsche zugewendet.
+  3: Gemehrt haben sich ihre Götzen, sie eilen denselben nach.
+  4: Nicht werde ich ihre Versammlungen zusammenrufen zu Blutopfern, noch ihre Namen
+    auf meine Lippen nehmen.
+  5: Der Herr ist mein Erbteil und meines Bechers Anteil; du bist es, der mir mein
+    Erbe verleiht.
+  6: Auf Herrliches ist mir das Los gefallen, denn mein Erbe ist mir herrlich.
+  7: Ich will den Herrn preisen, der mir Einsicht gegeben; dazu mahnt mich selbst
+    bis in die Nacht mein Innerstes.
+  8: Ich sehe den Herrn allezeit vor mir; denn er steht mir zur Rechten, damit ich
+    nicht wanke.
+  9: Darum freut sich mein Herz und frohlockt meine Zunge, und auch mein Leib wird
+    in Zuversicht ruhen;
+  10: denn du wirst meine Seele nicht im Totenreiche lassen noch deinen Heiligen die
+    Verwesung schauen lassen.
+  11: Du wirst mir die Wege des Lebens kundtun, wirst mich mit Wonne erfüllen vor
+    deinem Angesichte, Freude zu deiner Rechten immerdar.
+  12: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  13: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

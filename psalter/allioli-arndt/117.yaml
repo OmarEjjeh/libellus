@@ -1,0 +1,54 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 117
+verses:
+  1: Preiset den Herrn, denn er ist gütig; in Ewigkeit währt seine Gnade!
+  2: 'Es sage also Israel: Er ist gütig, in Ewigkeit währt seine Gnade!'
+  3: 'Es sage also das Haus Aaron: In Ewigkeit währt seine Gnade!'
+  4: 'Es mögen also alle, die den Herrn fürchten, sagen: In Ewigkeit währt seine Gnade!'
+  5: Aus der Trübsal rief ich zu dem Herrn und der Herr erhörte mich und stellte mich
+    auf freien Raum.
+  6: Der Herr ist mein Helfer, ich fürchte nichts, was könnte mir ein Mensch tun?
+  7: Der Herr ist mein Helfer, ich werde auf meine Feinde herabschauen.
+  8: Besser ist es, auf den Herrn zu vertrauen als sich auf Menschen zu verlassen.
+  9: Besser ist es, auf den Herrn zu hoffen als auf Fürsten seine Hoffnung zu setzen.
+  10: Alle Völker umgaben mich, aber im Namen des Herrn räche ich mich an ihnen.
+  11: Sie schlossen mich ringsum ein, aber im Namen des Herrn räche ich mich an ihnen.
+  12: Sie umschwärmten mich wie Bienen und loderten auf wie Feuer in Dornen; aber
+    im Namen des Herrn räche ich mich an ihnen.
+  13: Ich ward gestoßen und ward ins Wanken gebracht, dass ich niederstürzen sollte,
+    aber der Herr half mir.
+  14: Der Herr ist meine Stärke und mein Lob, denn er ward mir zum Heile.
+  15: Rufe des Jubels und des Heiles ertönen in den Hütten der Gerechten.
+  16: Die Rechte des Herrn hat große Taten verrichtet, die Rechte des Herrn hat mich
+    erhöht, die Rechte des Herrn hat große Taten verrichtet.
+  17: Ich werde nicht sterben, sondern leben und die Werke des Herrn verkünden.
+  18: Schwer hat mich der Herr gezüchtigt, aber hat mich dem Tode nicht preisgegeben.
+  19: Machet mir auf die Pforten der Gerechtigkeit! ich will durch sie eingehen und
+    den Herrn preisen. Dies ist die Pforte des Herrn, die Gerechten gehen durch dieselbe
+    ein.
+  20: Ich preise dich, dass du mich erhört hast und mir zum Heile geworden bist.
+  21: Der Stein, den die Bauleute verworfen haben, er ist zum Ecksteine geworden.
+  22: Vom Herrn ist dies geschehen und wunderbar ist es in unsern Augen.
+  23: Dies ist der Tag, den der Herr gemacht hat; lasset uns frohlocken und fröhlich
+    an ihm sein!
+  24: O Herr! errette mich, o Herr! gib Gelingen. Gesegnet sei, der da kommt, im Namen
+    des Herrn;
+  25: wir segnen euch von dem Hause des Herrn aus! Der Herr ist Gott und hat uns Licht
+    gespendet.
+  26: Haltet einen Festtag mit dichtbelaubten Zweigen bis hinauf an die Hörner des
+    Altars!
+  27: Du bist mein Gott, ich will dich preisen; mein Gott bist du, ich will dich erheben!
+  28: Ich will dich preisen, denn du hast mich erhört und bist mir zum Heile geworden.
+  29: Danket dem Herrn, denn er ist gütig, denn seine Gnade währt ewig.
+  30: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  31: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

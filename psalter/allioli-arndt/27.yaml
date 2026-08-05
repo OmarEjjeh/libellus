@@ -1,0 +1,33 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 27
+verses:
+  1: Zu dir, Herr! rufe ich, mein Gott! schweige nicht vor mir; dass ich nicht, wenn
+    du vor mir schweigst, denen gleich werde, die in die Grube hinabfahren.
+  2: Erhöre, Herr! die Stimme meines Flehens, wenn ich zu dir rufe, wenn ich meine
+    Hände zu deinem heiligen Tempel hin erhebe.
+  3: Raffe mich nicht mit den Sündern hinweg und vertilge mich nicht mit den Übeltätern,
+  4: Die mit ihrem Nächsten freundlich reden, während sie Böses im Sinne haben.
+  5: Gib ihnen nach ihrem Tun und nach der Bosheit ihrer Anschläge.
+  6: Nach dem, was ihre Hände verübt, vergilt ihnen, und was sie verdient haben, lass
+    ihnen zuteil werden.
+  7: Denn sie verstehen die Taten des Herrn nicht noch auch die Werke seiner Hände,
+    du wirst sie niederreißen und nicht wieder aufbauen.
+  8: Gepriesen sei der Herr! denn er hat mein lautes Flehen erhört.
+  9: Der Herr ist mein Helfer und mein Beschirmer, auf ihn vertraute mein Herz und
+    es ward mir geholfen.
+  10: So blühte mein Leib wieder auf und mit willigem Herzen will ich ihn preisen.
+  11: Der Herr ist seines Volkes Stärke und der rettende Beschirmer seines Gesalbten.
+  12: Hilf, Herr! deinem Volke und segne dein Erbe und leite sie und trage sie in
+    Ewigkeit.
+  13: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  14: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

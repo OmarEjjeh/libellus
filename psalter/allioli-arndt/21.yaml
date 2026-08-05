@@ -1,0 +1,69 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 21
+verses:
+  1: O Gott, mein Gott! schaue her auf mich, warum hast du mich verlassen? Fern von
+    Hilfe für mich rufe ich ob meiner Sünden.
+  2: Mein Gott! ich rufe des Tages und du erhörst mich nicht; des Nachts, doch nicht
+    soll es mir zur Torheit gereichen.
+  3: Du aber wohnst im Heiligtume, du, der Lobpreis Israels!
+  4: Auf dich hofften unsere Väter, sie hofften und du hast sie gerettet.
+  5: Sie riefen zu dir und wurden errettet, sie hofften auf dich und wurden nicht
+    zuschanden.
+  6: Ich aber bin ein Wurm und nicht ein Mensch, der Leute Spott und die Verachtung
+    des Volkes.
+  7: Alle, die mich sehen, spotten über mich, verziehen die Lippen und schütteln das
+    Haupt.
+  8: Er hat auf den Herrn gehofft, er rette ihn, er helfe ihm, denn er hat sein Wohlgefallen
+    an ihm.
+  9: Ja, du bist es, der mich aus dem Mutterleibe hervorgezogen; du meine Hoffnung
+    von den Brüsten meiner Mutter her. Dir ward ich zugewiesen vom Mutterschoße an,
+  10: Von Mutterleib an warst du mein Gott. Verlasse mich nicht,
+  11: Denn die Drangsal ist nahe und niemand ist, der helfe.
+  12: Viele Farren haben mich umringt, fette Stiere mich umlagert.
+  13: Sie sperren ihren Rachen wider mich auf, wie ein reißender, brüllender Löwe.
+  14: Wie Wasser bin ich hingegossen und aufgelöst sind alle meine Gebeine.
+  15: Mein Herz ist wie zu Wachs zerflossen in meinem Innern.
+  16: Vertrocknet wie eine Scherbe ist meine Kraft und meine Zunge klebt an meinem
+    Gaumen und in den Staub des Todes ließest du mich hinabsinken.
+  17: Denn viele Hunde haben mich umringt, die Rotte der Bösewichter hat mich umlagert.
+  18: Sie haben meine Hände und meine Füße durchbohrt, gezählt all meine Gebeine.
+  19: Und schauen mich nun an und betrachten mich. Sie haben meine Kleider unter sich
+    geteilt und das Los über mein Gewand geworfen.
+  20: Du aber, Herr! lass deine Hilfe nicht fern sein von mir, sei bedacht auf meinen
+    Schutz.
+  21: Errette meine Seele von dem Schwerte, o Gott! und aus der Gewalt des Hundes
+    meine Einzige.
+  22: Rette mich aus dem Rachen des Löwen, mich Erniedrigten von den Hörnern der Einhorne.
+  23: Ich will deinen Namen meinen Brüdern verkünden, inmitten der Versammlung dich
+    lobpreisen.
+  24: Ihr, die ihr den Herrn fürchtet, lobpreiset ihn; alle Kinder Jakobs verherrlichet
+    ihn!
+  25: Es mögen ihn fürchten alle Nachkommen Israels; denn er hat nicht verachtet noch
+    verschmäht er das Flehen des Armen,
+  26: Und hat sein Angesicht nicht von mir abgewendet und mich erhört, da ich zu ihm
+    rief.
+  27: Dich preise ich in zahlreicher Versammlung; im Angesichte derer, die ihn fürchten,
+    will ich meine Gelübde erfüllen.
+  28: Arme werden essen und satt werden und den Herrn loben, die ihn suchen; ihre
+    Herzen werden leben auf ewig.
+  29: Alle Enden der Erde werden des Herrn gedenken und zu ihm zurückkehren,
+  30: Und vor ihm werden alle Geschlechter der Heiden niederfallen.
+  31: Ist ja des Herrn das Königtum und er herrscht über alle Völker.
+  32: Es essen und beten an alle Mächtigen der Erde; vor seinem Angesichte fallen
+    alle nieder, die in den Staub sinken.
+  33: Und meine Seele wird ihm leben und meine Nachkommenschaft ihm dienen.
+  34: Dem Herrn wird angekündigt werden das künftige Geschlecht und die Himmel werden
+    seine Gerechtigkeit dem Volke kundtun, das geboren werden wird, das der Herr erschaffen
+    hat.
+  35: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  36: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

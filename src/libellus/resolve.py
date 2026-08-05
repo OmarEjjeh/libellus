@@ -95,10 +95,14 @@ IMAGE_SUFFIXES = (".png", ".jpg", ".jpeg", ".pdf")
 PSALTER_DIR = Path("psalter")
 
 #: German psalter translations tried in this order when the feast spec
-#: does not choose one via ``psalter_de`` (eu1980 = the Stundenbuch
-#: psalter, ADR-0007; eu2016 = the hand-made re-cuts the Benedict
-#: booklet was printed with).
-PSALTER_DE_PREFERENCE = ("eu1980", "eu2016")
+#: does not choose one via ``psalter_de``. Allioli-Arndt 1914 comes first
+#: because it is the only one a fresh install may legally have (ADR-0041):
+#: the Einheitsübersetzung translations behind it are not redistributable,
+#: so a default naming one was a default nobody outside Bremen could use.
+#: eu1980 = the Stundenbuch psalter (ADR-0007); eu2016 = the hand-made
+#: re-cuts the Benedict booklet was printed with. Both stay reachable, and
+#: both feasts in ``feasts/`` name one explicitly rather than inherit this.
+PSALTER_DE_PREFERENCE = ("allioli-arndt", "eu1980", "eu2016")
 
 #: Ordinarium chants every skeleton needs (chant name → German required?).
 ORDINARIUM_ALWAYS: dict[str, bool] = {
@@ -376,7 +380,7 @@ def _psalter_name(library_dir: Path) -> str:
 
 def _select_de_file(
     library_dir: Path,
-    psalter_de: str | None,
+    psalter_de: str | list[str] | None,
     what: str,
     problems: list[str],
     root: Path,
@@ -391,8 +395,19 @@ def _select_de_file(
     (ADR-0024). A stranger supplies their own directory, or sets
     ``latin_only``.
 
-    Explicit ``psalter_de`` wins; otherwise the ``PSALTER_DE_PREFERENCE``
-    order decides, falling back to a single available translation of any name.
+    ``psalter_de`` may name **one** translation or an ordered list of them,
+    and a list is the whole point (ADR-0041): a translation can be incomplete.
+    Bremen's eu1980 has all 150 psalms and no Magnificat, so the St. Lambert
+    booklet takes its psalms from eu1980 and its Magnificat from eu2016 — which
+    it now says outright, ``psalter_de: [eu1980, eu2016]``, instead of getting
+    it by naming nothing and inheriting whatever ``PSALTER_DE_PREFERENCE``
+    happened to hold. A feast that names translations gets those and no others:
+    falling through to the global default instead would mean that changing the
+    default silently retranslates part of a booklet that had already chosen,
+    which is exactly the accident ADR-0041 was avoiding.
+
+    Resolution is per item, so a feast may legitimately mix translations. That
+    is why each psalm logs the translation it resolved to.
     """
     name = _psalter_name(library_dir)
     psalter_root = root / PSALTER_DIR
@@ -402,12 +417,15 @@ def _select_de_file(
         if folder.is_dir() and (folder / f"{name}.yaml").is_file()
     )
     if psalter_de is not None:
-        candidate = psalter_root / psalter_de / f"{name}.yaml"
-        if candidate.is_file():
-            return candidate
+        chosen = [psalter_de] if isinstance(psalter_de, str) else list(psalter_de)
+        for versio in chosen:
+            candidate = psalter_root / versio / f"{name}.yaml"
+            if candidate.is_file():
+                return candidate
+        named = ", ".join(f"„{versio}“" for versio in chosen)
         problems.append(
-            f"{what}: Die Übersetzung „{psalter_de}“ hat „{name}“ nicht — "
-            f"vorhanden: {', '.join(available) if available else 'keine'}."
+            f"{what}: Keine der im Fest genannten Übersetzungen ({named}) hat "
+            f"„{name}“ — vorhanden: {', '.join(available) if available else 'keine'}."
         )
         return None
     for versio in PSALTER_DE_PREFERENCE:
@@ -479,7 +497,7 @@ def _load_verse_library(
     problems: list[str],
     root: Path,
     assets: set[Path],
-    psalter_de: str | None = None,
+    psalter_de: str | list[str] | None = None,
     latin_only: bool = False,
 ) -> list[dict[str, Any]]:
     """Generate the per-verse gabc on demand and pair it with the German.

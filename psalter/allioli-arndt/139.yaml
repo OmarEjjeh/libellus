@@ -1,0 +1,37 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 139
+verses:
+  1: Rette mich, o Herr, von bösen Menschen, von gottlosen Leuten rette mich,
+  2: die da in ihrem Herzen Böses sinnen und beständig Streit anstiften.
+  3: Sie spitzen ihre Zungen wie die Schlangen, Natterngift ist unter ihren Lippen.
+  4: Beschütze mich, Herr! vor der Hand der Sünder und von gottlosen Menschen errette
+    mich,
+  5: Die darauf sinnen, meine Füße zum Falle zu bringen. Stolze legten mir verborgene
+    Schlingen,
+  6: Breiteten Stricke aus zum Netze, stellten mir eine Falle hart am Wege.
+  7: 'Ich sprach zu dem Herrn: Du bist mein Gott, erhöre, Herr! die Stimme meines
+    Flehens.'
+  8: O Herr, Herr! du Stärke meines Heiles, du beschirmst mein Haupt am Tage des Kampfes.
+  9: Gib mich nicht den Sündern preis, o Herr! wider meinen Willen; sie machen Anschläge
+    wider mich, verlass mich nicht, damit sie sich nicht etwa überheben.
+  10: Das Haupt derer, die mich umlagern, das Unheil ihrer Lippen wird auf sie selber
+    fallen.
+  11: Glühende Kohlen werden auf sie niederfallen, ins Feuer wirst du sie stürzen;
+    ihr Elend werden sie nicht aushalten.
+  12: Der Mann der verleumderischen Zunge wird nicht bestehen auf Erden, den Ungerechten
+    wird Unglück treffen bis zum Untergange.
+  13: Ich weiß, dass der Herr dem Dürftigen Recht schaffen wird und Rache den Armen.
+  14: Doch die Gerechten werden deinen Namen preisen und die Aufrichtigen werden vor
+    deinem Angesichte wohnen.
+  15: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  16: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

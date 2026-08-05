@@ -1,0 +1,42 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 85
+verses:
+  1: Neige, o Herr! dein Ohr und erhöre mich, denn ich bin elend und arm.
+  2: Bewahre meine Seele, denn ich bin heilig; hilf du, mein Gott! deinem Knechte,
+    der auf dich vertraut.
+  3: Erbarme dich meiner, o Herr! denn zu dir rufe ich immerfort. Erfreue die Seele
+    deines Dieners, denn zu dir, o Herr! erhebe ich meine Seele.
+  4: Denn du, o Herr! bist gütig und milde und erbarmungsreich für alle, die dich
+    anrufen.
+  5: Vernimm, o Herr! mein Gebet und habe acht auf die Stimme meines Flehens!
+  6: Am Tage meiner Drangsal rufe ich zu dir, denn du erhörst mich.
+  7: Dir, Herr, ist keiner gleich unter den Mächtigen und nichts gleicht deinen Werken.
+  8: Alle Völker, die du geschaffen hast, werden kommen und dich anbeten, Herr! und
+    deinen Namen verherrlichen.
+  9: Denn du bist groß und tust Wunder, du bist Gott allein.
+  10: Leite mich, Herr! auf deinem Wege, lass mich wandeln in deiner Wahrheit; es
+    freue sich mein Herz, damit ich deinen Namen fürchte.
+  11: Ich will dich preisen, o Herr, mein Gott! von ganzem Herzen und will deinen
+    Namen ewig verherrlichen.
+  12: Denn dein Erbarmen ist groß über mir und du rettest meine Seele aus der Unterwelt
+    Tiefe.
+  13: O Gott! Frevler erheben sich wider mich und die Rotte der Gewaltigen trachtet
+    mir nach dem Leben und haben dich nicht vor Augen.
+  14: Du aber, o Herr, bist ein barmherziger und gnädiger Gott, langmütig und reich
+    an Erbarmung und wahrhaftig.
+  15: Schaue auf mich und erbarme dich meiner, leihe deinem Diener Kraft und hilf
+    dem Sohne deiner Magd!
+  16: Tue an mir ein Zeichen zum Guten, dass es sehen, die mich hassen, und beschämt
+    werden, weil du, Herr! mir beigestanden und mich getröstet hast.
+  17: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  18: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

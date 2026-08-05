@@ -1,0 +1,24 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 126
+verses:
+  1: Wenn der Herr nicht das Haus baut, so mühen sich die Bauleute umsonst.
+  2: Wenn der Herr nicht die Stadt behütet, so wacht der Hüter umsonst.
+  3: Vergeblich ist es für euch, vor Tage aufzustehen; stehet immer auf, nachdem ihr
+    lange gesessen, die ihr das Brot der Schmerzen esset!
+  4: während er seinen Geliebten Schlaf gibt. Sehet, vom Herrn verliehener Besitz
+    sind Kinder, ein Lohn von ihm die Leibesfrucht.
+  5: Wie Pfeile in der Hand eines Helden, so sind die Kinder der Vertriebenen.
+  6: Glückselig der Mann, der sein Verlangen damit erfüllt sieht; er wird nicht zuschanden,
+    wenn er mit seinen Feinden im Tore rechtet.
+  7: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  8: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

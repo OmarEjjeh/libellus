@@ -1,0 +1,45 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 38
+verses:
+  1: 'Ich sprach: Ich will auf meine Wege acht haben, dass ich nicht mit meiner Zunge
+    sündige.'
+  2: Ich setzte meinem Mund eine Hut, da der Sünder sich mir entgegenstellte.
+  3: Ich verstummte und beugte mich und schwieg, fern vom Glück; aber mein Schmerz
+    erneuerte sich.
+  4: Mein Herz erglühte in meinem Innern und durch mein Sinnen entbrannte Feuer.
+  5: 'Ich sprach mit meiner Zunge: Tue mir, Herr! mein Ende kund,'
+  6: und welches die Zahl meiner Tage ist, damit ich wisse, was mir abgeht.
+  7: Siehe, du hast meinen Tagen ein Maß gesetzt und mein Wesen ist wie nichts vor
+    dir!
+  8: Wahrlich, alles ist Eitelkeit, ein jeder Mensch, der lebt!
+  9: Wahrlich, nur als ein Schattenbild geht der Mensch vorüber und umsonst macht
+    er sich Unruhe;
+  10: er häuft Schätze auf und weiß nicht, für wen er sie sammelt!
+  11: Und nun, was ist meine Zuversicht? Ist's nicht der Herr? denn der Grund meiner
+    Festigkeit bist du.
+  12: Von allen meinen Missetaten errette mich, dem Toren ließest du mich zum Hohne
+    werden.
+  13: Ich bin verstummt und tat meinen Mund nicht auf, denn du hast es getan! Nimm
+    deine Plagen von mir!
+  14: Durch die Stärke deiner Hand bin ich kraftlos geworden unter der Züchtigung.
+    Um seiner Missetat willen strafst du den Menschen
+  15: und lässest wie ein Spinnengewebe sein Leben vergehen; fürwahr, umsonst bekümmert
+    sich jeder Mensch!
+  16: Erhöre mein Gebet, o Herr! und mein Flehen, lass mein Weinen zu deinen Ohren
+    dringen.
+  17: Schweige nicht, denn ein Fremdling bin ich bei dir und ein Pilger, wie meine
+    Väter alle.
+  18: Lass ab von mir, dass ich noch Erquickung finde, ehe ich hingehe und nicht mehr
+    bin!
+  19: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  20: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

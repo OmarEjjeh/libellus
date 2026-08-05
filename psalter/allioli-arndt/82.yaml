@@ -1,0 +1,38 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 82
+verses:
+  1: Gott! wer ist dir gleich? o schweige nicht und halte nicht ein, o Gott!
+  2: denn siehe, deine Feinde toben, und die dich hassen, erheben das Haupt.
+  3: Wider dein Volk fassen sie bösen Ratschlag, machen Anschläge wider deine Heiligen.
+  4: 'Sie sprechen: Kommet, lasset uns sie vertilgen, dass sie kein Volk mehr seien,
+    dass Israels Name nicht mehr genannt werde!'
+  5: Denn sie haben sich einmütig beraten, allzumal wider dich einen Bund geschlossen,
+    die Gezelte der Edomiter und die Ismaheliter,
+  6: Moab und die Agarener, Gebal, Ammon und Amalek, die Fremden mit den Bewohnern
+    von Tyrus.
+  7: Auch Assur kommt mit ihnen, sie kommen den Söhnen Lots zu Hilfe.
+  8: Tue ihnen wie Madian und Sisara, wie Jabin am Bache Kison.
+  9: Sie kamen um bei Endor, wurden wie Dünger für das Land.
+  10: 'Mache ihre Fürsten wie Oreb und Zeb, wie Zebee und Salmana:'
+  11: 'Alle ihr Fürsten, sie, die da sprachen: Lasset uns das Heiligtum Gottes als
+    Erbe in Besitz nehmen!'
+  12: Mein Gott! mache sie einem Wirbel gleich und wie Spreu vor dem Winde.
+  13: Wie Feuer, das den Wald entzündet, und wie eine Flamme, die Berge verbrennt,
+  14: so verfolge sie mit deinem Sturme und schrecke sie mit deinem Zorne!
+  15: Erfülle ihr Angesicht mit Schmach, dass sie deinen Namen suchen, o Herr!
+  16: Sie sollen beschämt und verwirrt werden auf immer und zuschanden werden und
+    zugrunde gehen.
+  17: Und sie sollen erkennen, dass Herr dein Name ist, dass du der Höchste allein
+    bist auf der ganzen Erde.
+  18: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  19: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

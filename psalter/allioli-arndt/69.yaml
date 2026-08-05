@@ -1,0 +1,23 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 69
+verses:
+  1: O Gott! habe acht auf meine Hilfe, Herr! eile, mir zu helfen.
+  2: Beschämt und zuschanden mögen werden, die mir nach dem Leben trachten.
+  3: Lass zurückweichen und beschämt werden, die mir Übles wollen;
+  4: 'eilends lass zurückweichen und beschämt werden, die zu mir sprechen: Ha, ha!'
+  5: 'Um deinetwillen aber lass frohlocken und sich freuen alle, die dich suchen;
+    und die dein Heil lieben, mögen immerdar sprechen: Hochgelobt sei der Herr!'
+  6: Ich aber bin elend und arm, o Gott! hilf mir.
+  7: Mein Helfer und mein Erretter bist du; o Herr! säume nicht.
+  8: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  9: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

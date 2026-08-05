@@ -1,0 +1,49 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 102
+verses:
+  1: Preise, meine Seele, den Herrn, und alles, was in mir ist, seinen heiligen Namen!
+  2: Preise, meine Seele, den Herrn und vergiss nicht alle seine Wohltaten!
+  3: der dir all deine Schuld vergibt, der alle deine Gebrechen heilt,
+  4: der dein Leben vor dem Untergange bewahrt, der dich mit Gnade und Erbarmungen
+    krönt,
+  5: der dein Verlangen mit Gutem erfüllt, dass deine Jugend wie die des Adlers sich
+    erneuert.
+  6: Der Herr übt Erbarmen und Recht für alle, die Unrecht leiden.
+  7: Er hat Moses seine Wege kundgetan, den Söhnen Israels seine Ratschlüsse.
+  8: Barmherzig und gnädig ist der Herr, langmütig und reich an Erbarmen.
+  9: Er zürnt nicht immerfort noch grollt er ewig.
+  10: Er verfuhr mit uns nicht nach unsern Sünden, vergalt uns nicht nach unsern Vergehungen.
+  11: Denn so hoch der Himmel über der Erde, so mächtig ist seine Barmherzigkeit über
+    die, die ihn fürchten.
+  12: So weit der Aufgang entfernt ist vom Niedergange, so weit tut er von uns unsere
+    Sünden hinweg.
+  13: Wie ein Vater sich seiner Kinder erbarmt, so erbarmt sich der Herr über die,
+    die ihn fürchten; denn er weiß, welches Gebilde wir sind.
+  14: Er ist eingedenk, dass wir Staub sind. Des Menschen Lebenstage sind wie Gras,
+    wie eine Blume des Feldes, so blüht er auf.
+  15: Es fährt ein Windhauch über sie dahin und sie ist nicht mehr und man kennt nimmermehr
+    ihre Stätte.
+  16: Die Gnade des Herrn aber währt von Ewigkeit zu Ewigkeit über denen, die ihn
+    fürchten,
+  17: und seine Gerechtigkeit auf Kindeskinder denen, die seinen Bund halten,
+  18: und seiner Gebote gedenken, sie zu tun.
+  19: Der Herr hat im Himmel seinen Thron aufgerichtet und sein Königtum herrscht
+    über alles.
+  20: Preiset den Herrn, ihr alle seine Engel; die ihr, gewaltig an Kraft, seinen
+    Befehl vollziehet, gehorchend der Stimme seiner Worte.
+  21: Preiset den Herrn, ihr alle seine Heerscharen, seine Diener, die ihr seinen
+    Willen vollzieht.
+  22: Preiset den Herrn, alle seine Werke; an allen Orten seiner Herrschaft preise,
+    meine Seele, den Herrn!
+  23: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  24: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

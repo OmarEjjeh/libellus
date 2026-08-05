@@ -1,0 +1,16 @@
+# Stand-in for the named "eu1980" translation — KEIN liturgischer Text.
+#
+# The St. Lambert fixture names `psalter_de: [eu1980, eu2016]`, because Bremen
+# sets it from the Einheitsübersetzung and eu1980 has no Magnificat (ADR-0041).
+# The real Einheitsübersetzung is not redistributable, so this stands in.
+#
+# The verse text is deliberately the Probe-Psalter's, so the suite asserts one
+# wording rather than two, and there is deliberately **no magnificat.yaml** —
+# that absence is the whole reason the feast names two translations, and a
+# fixture that quietly had one would stop testing the thing that matters.
+psalmus: 116
+verses:
+  1: Probevers 1 — Psalm 116, kein echter Text.
+  2: Probevers 2 — Psalm 116, kein echter Text.
+  3: Probevers 3 — Psalm 116, kein echter Text.
+  4: Probevers 4 — Psalm 116, kein echter Text.

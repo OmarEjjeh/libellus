@@ -1,0 +1,36 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 95
+verses:
+  1: Singet dem Herrn ein neues Lied, singet dem Herren, alle Lande!
+  2: Singet dem Herrn und preiset seinen Namen, verkündet von einem Tage zum andern
+    sein Heil!
+  3: Verkündet unter den Völkern seine Herrlichkeit, unter allen Nationen seine Wunder!
+  4: Denn groß ist der Herr und überaus preisenswert, furchtbar ist er über alle Götter.
+  5: Denn alle Götter der Heiden sind böse Geister, der Herr aber hat die Himmel geschaffen.
+  6: Lobpreis und Pracht sind vor seinem Angesichte, Heiligkeit und Herrlichkeit in
+    seinem Heiligtume.
+  7: Bringet dem Herrn, ihr Völkerstämme, bringet dem Herrn Preis und Ehre dar! Bringet
+    dem Herrn Verherrlichung seines Namens dar.
+  8: Nehmet Opfer und tretet in seinen Vorhof! Betet den Herrn an in seinem heiligen
+    Vorhofe.
+  9: Es bebe vor seinem Angesichte die ganze Erde! Saget unter den Völkern, dass der
+    Herr König ist.
+  10: Ja, er hat den Erdkreis festgestellt, der nicht wanken wird; er richtet die
+    Völker mit Gerechtigkeit.
+  11: Es freue sich der Himmel und die Erde frohlocke, es brause das Meer und was
+    es erfüllt, es freue sich die Flur und alles, was auf ihr ist.
+  12: Alsdann werden alle Bäume der Wälder jauchzen vor dem Antlitze des Herrn, weil
+    er kommt, weil er kommt, die Erde zu richten!
+  13: Er wird den Erdkreis mit Gerechtigkeit richten und die Völker in seiner Wahrhaftigkeit.
+  14: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  15: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

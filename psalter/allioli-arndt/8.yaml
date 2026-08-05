@@ -1,0 +1,29 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 8
+verses:
+  1: O Herr, unser Herr! wie herrlich ist dein Name auf der ganzen Erde!
+  2: Denn deine Herrlichkeit ist erhabener als die Himmel.
+  3: Aus dem Munde der Kinder und Säuglinge hast du dir Lobpreis bereitet um deiner
+    Feinde willen, um den Feind und den Rachgierigen zu vernichten.
+  4: Wenn ich deine Himmel anschaue, deiner Finger Werk, den Mond und die Sterne,
+    die du gebildet hast,
+  5: was ist da der Mensch, dass du seiner gedenkst, oder der Menschensohn, dass du
+    ihn in Gnaden heimsuchst?
+  6: Nur ein Weniges hast du ihn unter die Engel gestellt, mit Herrlichkeit und Ehre
+    ihn gekrönt und hast ihn über die Werke deiner Hände gesetzt.
+  7: Alles hast du seinen Füßen unterworfen, Schafe und Rinder allzumal, dazu auch
+    die Tiere des Feldes,
+  8: die Vögel des Himmels und die Fische des Meeres, welche die Wege des Meeres durchziehen.
+  9: O Herr, unser Herrscher! wie herrlich ist dein Name auf der ganzen Erde!
+  10: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  11: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

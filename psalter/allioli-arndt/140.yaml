@@ -1,0 +1,35 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 140
+verses:
+  1: Zu dir rufe ich, o Herr! erhöre mich; merke auf meine Stimme, wenn ich zu dir
+    rufe.
+  2: Mein Gebet steige wie Rauchopfer zu dir empor, meiner Hände Erhebung sei wie
+    ein Abendopfer.
+  3: Setze, Herr! meinem Munde eine Wache und feste Tore an meine Lippen ringsum.
+  4: Lass mein Herz sich nicht boshaften Dingen zuneigen, meiner Sünden Entschuldigung
+    zu suchen,
+  5: Wie die Menschen tun, welche Frevel üben; ich will nicht Anteil haben an dem,
+    was sie sich erwählt haben.
+  6: Der Gerechte möge mich züchtigen in Güte und mich rügen, aber des Sünders Öl
+    soll mein Haupt nicht salben,
+  7: Denn noch richtet sich mein Gebet wider das, woran sie ihre Lust haben. Hinabgestürzt
+    wurden von Felsen ihre Richter und zerschmettert,
+  8: Sie werden meine Worte hören, wie gewaltig sie sind. Wie die Erdschollen aufgerissen
+    über den Acker hingeworfen werden,
+  9: Sind unsere Gebeine hingestreut am Rande der Unterwelt. Doch auf dich, Herr,
+    Herr! blicken ja meine Augen; auf dich hoffe ich, raffe mich nicht dahin!
+  10: Bewahre mich vor der Schlinge, die sie mir legen, und vor den Fallstricken der
+    Übeltäter!
+  11: Die Sünder mögen in ihr Netz fallen, ich aber bleibe allein, bis ich daran vorübergegangen.
+  12: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  13: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

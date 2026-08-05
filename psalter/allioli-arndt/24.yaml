@@ -1,0 +1,47 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 24
+verses:
+  1: Zu dir, Herr! erhebe ich meine Seele, auf dich vertraue ich, mein Gott! lass
+    mich nicht zuschanden werden.
+  2: und lass meine Feinde mich nicht verhöhnen; denn alle, welche auf dich harren,
+    werden nicht zuschanden.
+  3: Zuschanden mögen alle werden, die Böses tun freventlich.
+  4: Deine Wege, Herr! zeige mir und deine Pfade lehre mich.
+  5: Leite mich in deiner Wahrheit und lehre mich, denn du bist, o Gott! mein Erretter
+    und auf dich harre ich alle Zeit.
+  6: Gedenke, o Herr! deiner Erbarmungen und deiner Gnaden, die von Ewigkeit her sind.
+  7: Der Sünden meiner Jugend und meiner Verirrungen gedenke nicht.
+  8: Nach deiner Barmherzigkeit gedenke meiner um deiner Güte willen, o Herr!
+  9: Gütig und wahrhaft ist der Herr, darum weist er den Fehlenden den Weg.
+  10: Er führt die Sanftmütigen mit Gerechtigkeit, er lehrt die Milden seine Wege.
+  11: Alle Wege des Herrn sind Erbarmen und Wahrhaftigkeit für die, welche seinen
+    Bund und seine Zeugnisse bewahren.
+  12: Um deines Namens willen, o Herr, vergib mir meine Sünden; denn ihrer sind viele.
+  13: Wer ist der Mann, der den Herrn fürchtet? Er unterweist ihn über den Weg, den
+    er erwählen soll.
+  14: Seine Seele wird im Glücke weilen und seine Nachkommen werden das Land ererben.
+  15: Eine feste Stütze ist der Herr denen, die ihn fürchten, und sein Bund wird ihnen
+    offenbar.
+  16: Meine Augen sind stets auf den Herrn gerichtet, denn er wird meine Füße aus
+    der Schlinge ziehen.
+  17: Blicke auf mich und erbarme dich meiner, denn ich bin einsam und elend.
+  18: Die Bedrängnisse meines Herzens haben sich gemehrt, aus meinen Nöten rette mich.
+  19: Siehe meine Demütigung und meine Mühsal an und vergib alle meine Sünden.
+  20: Siehe an meine Feinde, wie ihrer viele sind, sie hassen mich mit ungerechtem
+    Hasse.
+  21: Bewahre meine Seele und errette mich, nicht möge ich zuschanden werden, denn
+    auf dich hoffe ich.
+  22: Unschuldige und Redliche hangen mir an, denn ich harre auf dich.
+  23: O Gott! erlöse Israel aus allen seinen Drangsalen.
+  24: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  25: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

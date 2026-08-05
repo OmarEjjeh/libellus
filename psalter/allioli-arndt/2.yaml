@@ -1,0 +1,31 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen und auf
+# die Versgrenzen des gesungenen Psalters ausgerichtet (Issue #1). Diese
+# Ausrichtung ist automatisch neu gruppiert (Wortfolge identisch, Verszahl urspruenglich verschieden) - siehe Anmerkungen.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 2
+verses:
+  1: Warum toben die Heiden und sinnen die Völker Eitles?
+  2: Es treten die Könige der Erde auf und die Fürsten kommen zusammen wider den Herrn
+    und wider seinen Gesalbten.
+  3: Lasset uns ihre Fesseln zerreißen und von uns werfen ihr Joch!
+  4: Der im Himmel thront, lacht ihrer und der Herr spottet ihrer.
+  5: Dann redet er zu ihnen in seinem Zorne und schreckt sie in seinem Grimme.
+  6: Ich aber bin von ihm zum König über Sion eingesetzt, seinen heiligen Berg, sein
+    Gesetz zu verkünden.
+  7: 'Der Herr sprach zu mir: Du bist mein Sohn, ich habe dich heute gezeugt.'
+  8: Begehre von mir, so will ich dir die Völker zu deinem Erbe geben und zu deinem
+    Besitztume die Grenzen der Erde.
+  9: Mit eisernem Zepter wirst du sie beherrschen und wie Töpfergeschirr sie zertrümmern.
+  10: Nun denn, ihr Könige! kommet zur Einsicht; lasset euch weisen, ihr Richter der
+    Erde!
+  11: Dienet dem Herrn in Furcht und jauchzet ihm zu mit Zittern!
+  12: Nehmet die Mahnung an, auf dass der Herr nicht etwa zürne und ihr zugrunde gehet,
+    fernab vom rechten Wege.
+  13: Wenn in Bälde sein Zorn entbrennt, glückselig alle, die auf ihn vertrauen!
+  14: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  15: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

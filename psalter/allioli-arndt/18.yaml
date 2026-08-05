@@ -1,0 +1,43 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 18
+verses:
+  1: Zum Ende, ein Psalm Davids. Die Himmel erzählen die Herrlichkeit Gottes und das
+    Firmament verkündet seiner Hände Werke.
+  2: Ein Tag überbringt dem andern das Wort, es gibt eine Nacht der andern die Kunde.
+  3: Es ist keine Sprache, es ist kein Wort, deren Laute man nicht vernähme.
+  4: Über die ganze Erde geht ihr Schall aus und bis an die Enden des Erdkreises ihre
+    Worte.
+  5: Er schlug sein Zelt in der Sonne auf und sie gleicht dem Bräutigam, der aus dem
+    Brautgemache hervorgeht;
+  6: Gleich einem Helden jauchzt sie, ihre Bahn zu laufen. Vom äußersten Himmel geht
+    sie aus,
+  7: Und ihr Lauf geht hin bis zu seiner Grenze, und niemand ist, der sich vor ihrer
+    Glut verbergen könnte.
+  8: Des Herrn Gesetz ist makellos, die Seelen umgestaltend; des Herrn Zeugnis ist
+    verlässig und gibt Weisheit den Einfältigen.
+  9: Die Vorschriften des Herrn sind gerade und erfreuen die Herzen, hellleuchtend
+    ist das Gebot des Herrn und Licht den Augen.
+  10: Die Furcht des Herrn ist heilig und währt in Ewigkeit; die Satzungen des Herrn
+    sind wahr, gerecht befunden insgesamt.
+  11: Wünschenswerter sind sie viel mehr als Gold und viel Edelgestein und süßer als
+    Honig und Honigseim.
+  12: Auch befolgt sie dein Diener, ihre Beobachtung bringt vielfache Vergeltung.
+  13: Wer merkt die Sünden alle? Von meinen verborgenen Sünden reinige mich und vor
+    fremden behüte deinen Diener.
+  14: Wenn sie nicht über mich herrschen, so werde ich unbefleckt bleiben und rein
+    sein von schwerer Schuld.
+  15: Alsdann werden dir die Reden meines Mundes wohlgefallen und meines Herzens Gedanken
+    werden allezeit vor dir sein.
+  16: O Herr, du mein Helfer und mein Erlöser!
+  17: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  18: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

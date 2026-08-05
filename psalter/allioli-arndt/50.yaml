@@ -1,0 +1,49 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 50
+verses:
+  1: Erbarme dich meiner, o Gott! nach deiner großen Barmherzigkeit.
+  2: Und nach der Menge deiner Erbarmungen tilge meine Missetat.
+  3: Gänzlich wasche mich von meiner Verschuldung und von meiner Sünde mache mich
+    rein!
+  4: Denn ich erkenne meine Missetat und meine Sünde steht mir allezeit vor Augen.
+  5: Gegen dich allein habe ich gesündigt und getan, was vor dir böse war; auf dass
+    du gerecht erfunden werdest in deinem Spruche und obsiegest, wenn über dich geurteilt
+    wird.
+  6: Denn siehe, ich bin in Verschuldung empfangen und in Sünde hat mich meine Mutter
+    empfangen.
+  7: Siehe, die Treue liebst du; die geheimen und verborgenen Dinge deiner Weisheit
+    hast du mir offenbart.
+  8: Besprenge mich mit Ysop, so werde ich gereinigt sein; wasche mich, so werde ich
+    weißer als der Schnee.
+  9: Lass mich Freude und Wonne vernehmen, so werden meine geschlagenen Gebeine frohlocken.
+  10: Wende dein Angesicht von meinen Sünden ab und tilge alle meine Missetaten.
+  11: Erschaffe in mir ein reines Herz, o Gott! und erneuere den rechten Geist in
+    meinem Innern.
+  12: Verwirf mich nicht von deinem Angesichte und nimm deinen heiligen Geist nicht
+    von mir.
+  13: Gib mir die Wonne deines Heiles wieder und stütze mich mit dem obsiegenden Geiste.
+  14: Dann will ich die Sünder deine Wege lehren und die Gottlosen werden sich zu
+    dir bekehren.
+  15: Befreie mich von Blutschuld, Gott, du Gott meines Heiles! so wird meine Zunge
+    mit Freuden deine Gerechtigkeit preisen.
+  16: Herr! öffne meine Lippen und mein Mund wird dein Lob verkünden.
+  17: Denn wenn du Opfer wolltest, ich würde sie dir darbringen, an Brandopfern hast
+    du kein Gefallen.
+  18: Ein Opfer für Gott ist ein zerknirschter Geist, ein reuiges und gedemütigtes
+    Herz wirst du, o Gott! nicht verschmähen.
+  19: Nach deiner Huld erweise Sion Gnade, o Herr! damit die Mauern Jerusalems aufgebaut
+    werden.
+  20: Dann wirst du rechte Opfer annehmen, Gaben und Brandopfer; dann wird man junge
+    Rinder auf deinen Altar legen.
+  21: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  22: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

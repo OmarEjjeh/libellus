@@ -1,0 +1,48 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 48
+verses:
+  1: Höret dies, ihr Völker alle, vernehmet es alle Bewohner des Erdkreises,
+  2: alle ihr Erdgeborenen und Menschenkinder, alle miteinander, reich und arm!
+  3: Mein Mund soll Weisheit reden, und meines Herzens Sinnen Einsicht.
+  4: Ich will mein Ohr der Gleichnisrede neigen, will auf der Harfe meinen Rätselspruch
+    kundgeben.
+  5: Warum soll ich mich fürchten am Unglückstage, wenn die Bosheit meiner Nachsteller
+    mich umgibt,
+  6: welche auf ihre Macht vertrauen und der Menge ihrer Reichtümer sich rühmen?
+  7: Es kann kein Bruder loskaufen, kein Mensch, und keiner Gott das Lösegeld für
+    sich erlegen,
+  8: noch für sein Leben einen Lösepreis, wenn er sich auch in Ewigkeit abmühte und
+    lebte für und für.
+  9: Nicht hat er das Ende vor Augen, wenn er Weise sterben sieht; Toren und Unverständige
+    kommen miteinander um.
+  10: Und hinterlassen Fremden ihre Reichtümer. Ihre Gräber sind ihr Haus auf immer.
+  11: Ihre Wohnungen von Geschlecht zu Geschlecht, man preist ihren Namen in ihren
+    Ländern.
+  12: Doch der Mensch erkennt es nicht, da er in Ehren ist, er wird den unverständigen
+    Tieren gleich und wird diesen ähnlich.
+  13: Dieser ihr Wandel bringt sie zu Falle und nachher noch gefallen ihre Reden.
+  14: Wie Schafe fahren sie zur Unterwelt, der Tod rafft sie hinweg.
+  15: Die Gerechten triumphieren über sie gar bald und ihre Hilfe schwindet dahin
+    in der Totenwelt, nachdem ihre Herrlichkeit vergangen.
+  16: Aber Gott wird meine Seele aus der Unterwelt erretten, indem er mich hinnimmt.
+  17: Fürchte nicht, wenn ein Mensch reich wird und wenn sich die Herrlichkeit seines
+    Hauses mehrt,
+  18: denn wenn er stirbt, nimmt er nichts mit sich und seine Herrlichkeit fährt nicht
+    mit ihm hinab.
+  19: Denn wird seine Seele in seinem Leben gepriesen, so pries er dich nur, wenn
+    du ihm Gutes erwiesest.
+  20: Er wird zum Geschlecht seiner Väter hingehen und nimmer das Licht schauen.
+  21: Der Mensch, der in Ehren ist und es nicht erkennt, gleicht unvernünftigen Tieren
+    und wird ihnen ähnlich.
+  22: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  23: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

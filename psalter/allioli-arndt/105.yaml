@@ -1,0 +1,85 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 105
+verses:
+  1: Lobsinget dem Herrn, denn er ist gütig, denn seine Gnade währt ewig!
+  2: Wer kann die Großtaten des Herrn aussprechen, all seinen Ruhm verkünden?
+  3: Glückselig sind, die das Recht beobachten und Gerechtigkeit üben zu aller Zeit!
+  4: Gedenke unser, o Herr! durch deines Volkes Begnadigung; suche uns heim mit deinem
+    Heile,
+  5: dass ich das Glück deiner Auserwählten schaue, mich freue an der Freude deines
+    Volkes, dass du gepriesen werdest mit deinem Erbe.
+  6: Wir haben gesündigt gleich unsern Vätern, Unrecht getan, Böses verübt.
+  7: Unsere Väter in Ägypten merkten nicht auf deine Wunder, waren nicht der Fülle
+    deiner Erbarmung eingedenk
+  8: und reizten dich zum Zorne, da sie am Meere hinaufzogen, am Roten Meere.
+  9: Er aber half ihnen um seines Namens willen, um seine Macht kundzutun.
+  10: Er bedräute das Rote Meer, da ward es trocken, und er führte sie durch die Meerestiefen
+    wie auf Sandboden.
+  11: Er rettete sie aus der Gewalt derer, die sie hassten, und erlöste sie aus der
+    Gewalt des Feindes.
+  12: Das Wasser bedeckte ihre Dränger, nicht einer von ihnen blieb übrig.
+  13: Da glaubten sie seinen Worten und sangen sein Lob.
+  14: Doch schnell vergaßen sie seine Taten und harrten nicht auf seinen Ratschluss.
+  15: Sie entbrannten in Lüsternheit in der Wüste und versuchten Gott an wasserloser
+    Stätte.
+  16: Da erfüllte er ihnen ihr Begehren und sandte ihnen bis zur Übersättigung ihrer
+    Seele.
+  17: Sie reizten Moses im Lager, Aaron, den Heiligen des Herrn.
+  18: Es tat sich die Erde auf und verschlang Dathan und schloss sich über die Rotte
+    Abirons.
+  19: Feuer loderte auf gegen ihre Rotte, die Flamme verzehrte die Sünder.
+  20: Sie machten ein Kalb am Horeb und beteten ein Gussbild an.
+  21: Sie vertauschten ihre Herrlichkeit mit dem Abbilde eines Kalbes, das Gras frisst.
+  22: Sie vergaßen Gott, der sie errettet, der in Ägypten Großes getan, Wunderbares
+    im Lande Chams, Furchtbares am Roten Meere.
+  23: Da gedachte er sie zu vertilgen, wenn nicht Moses, sein Auserwählter, in den
+    Riss vor ihn hingetreten wäre,
+  24: um seinen Grimm abzuwenden, dass er sie nicht vertilgte. Sie verschmähten das
+    herrliche Land
+  25: und glaubten seinem Worte nicht und murrten in ihren Zelten und hörten nicht
+    auf die Stimme des Herrn.
+  26: Da hob er seine Hand über sie auf, sie in der Wüste hinzustrecken
+  27: und ihre Nachkommen unter die Völker zu werfen und sie zu zerstreuen in die
+    Länder.
+  28: Und sie weihten sich dem Beelphegor und aßen von den Opfern der Toten
+  29: und erzürnten ihn durch ihre Taten, da brach ein großes Verderben über sie herein.
+  30: Aber Phinees stand auf und schaffte Sühne und die Plage hörte auf.
+  31: Und es ward ihm zur Gerechtigkeit gerechnet, von Geschlecht zu Geschlecht bis
+    in Ewigkeit.
+  32: Sodann erzürnten sie ihn beim Wasser des Widerspruchs und Moses ward um ihretwillen
+    heimgesucht, denn sie erbitterten sein Gemüt,
+  33: dass er sich verfehlte mit seinen Lippen. Sie vertilgten die Völker nicht, wie
+    ihnen der Herr gesagt hatte.
+  34: Sie vermischten sich mit den Völkern und lernten ihre Werke, sie dienten deren
+    Götzenbildern, und dies ward ihnen zum Fallstrick.
+  35: Sie opferten ihre Söhne und ihre Töchter den bösen Geistern
+  36: und vergossen unschuldiges Blut, das Blut ihrer Söhne und ihrer Töchter, die
+    sie den Götzen Kanaans opferten.
+  37: So ward das Land mit Blut befleckt und verunreinigt durch ihre Werke und sie
+    verübten Buhlerei mit ihren Taten.
+  38: Da entbrannte der Zorn des Herrn gegen sein Volk und er verabscheute sein Erbe.
+  39: Und er gab sie in die Hände der Völker, und die sie hassten, herrschten über
+    sie.
+  40: Und ihre Feinde bedrückten sie und sie wurden unter ihre Gewalt gebeugt. Oftmals
+    errettete er sie,
+  41: sie aber reizten ihn zum Zorn durch ihr Vorhaben und sie wurden erniedrigt durch
+    ihre Verschuldungen.
+  42: Doch er sah ihre Not an und hörte auf ihr Gebet.
+  43: Er gedachte seines Bundes und hatte Mitleid nach der Fülle seiner Erbarmungen.
+  44: Und er ließ sie Erbarmen finden bei allen, die sie gefangen hielten.
+  45: Hilf uns, o Herr, unser Gott! und sammle uns aus den Völkern,
+  46: dass wir deinen heiligen Namen preisen und uns deines Lobpreises rühmen.
+  47: 'Gepriesen sei der Herr, der Gott Israels, von Ewigkeit zu Ewigkeit; und alles
+    Volk spreche: Amen, Amen!'
+  48: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  49: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

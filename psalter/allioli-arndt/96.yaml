@@ -1,0 +1,32 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 96
+verses:
+  1: Der Herr ist König, es frohlocke die Erde, es freue sich der Inseln Zahl!
+  2: Gewölk und Dunkel ist um ihn her, Recht und Gerechtigkeit sind die Grundlagen
+    seines Thrones.
+  3: Feuer geht vor ihm her und verzehrt seine Feinde ringsum.
+  4: Seine Blitze leuchten über den Erdkreis hin, die Erde sieht es und zittert.
+  5: Berge zerfließen wie Wachs vor dem Angesichte des Herrn, die ganze Erde vor dem
+    Angesichte des Herrn.
+  6: Die Himmel verkünden seine Gerechtigkeit und alle Völker schauen seine Herrlichkeit.
+  7: Zuschanden mögen alle werden, die Bilder anbeten und die sich ihrer Götzen rühmen.
+  8: Betet ihn an, ihr alle seine Engel! Es hört und freut sich Sion.
+  9: Und die Töchter Judas frohlocken um deiner Gerichte willen, o Herr!
+  10: Denn du, Herr! bist der Höchste über die ganze Erde, hocherhaben bist du über
+    alle Götter.
+  11: Die ihr den Herrn liebt, hasset das Böse! der Herr bewahrt die Seelen seiner
+    Heiligen, aus der Hand des Sünders rettet er sie.
+  12: Licht geht dem Gerechten auf und Freude denen, die aufrichtigen Herzens sind.
+  13: Freuet euch, ihr Gerechten, über den Herrn und preiset das Denkmal seiner Heiligkeit.
+  14: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  15: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

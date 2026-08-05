@@ -1,0 +1,25 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 112
+verses:
+  1: Lobet den Herrn, ihr Diener! lobet den Namen des Herrn!
+  2: Der Name des Herrn sei gepriesen von nun an bis in Ewigkeit!
+  3: Vom Aufgang der Sonne bis zu ihrem Niedergange ist zu lobpreisen der Name des
+    Herrn.
+  4: Hocherhaben über alle Völker ist der Herr, die Himmel überragt seine Herrlichkeit.
+  5: Wer ist wie der Herr, unser Gott? der in der Höhe thront, der tief herabschaut
+    im Himmel und auf Erden?
+  6: der den Geringen aus dem Staube aufrichtet und den Armen aus dem Kote erhebt,
+  7: um ihn neben die Fürsten, neben die Fürsten seines Volkes zu setzen;
+  8: der die Unfruchtbare im Hause wohnen lässt als fröhliche Mutter von Kindern.
+  9: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  10: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

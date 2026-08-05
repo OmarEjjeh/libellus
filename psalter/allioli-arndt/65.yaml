@@ -1,0 +1,44 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 65
+verses:
+  1: Jauchzet Gott zu, alle Lande, lobsinget seinem Namen, lasset sein Lob herrlich
+    erschallen!
+  2: 'Sprechet zu Gott: Wie furchtbar sind deine Werke, o Herr! Ob der Fülle deiner
+    Macht schmeicheln dir deine Feinde.'
+  3: Alle Länder mögen dich anbeten und dir singen, deinem Namen ein Loblied darbringen.
+  4: Kommet und schauet die Taten Gottes, furchtbar ist er in seinen Ratschlüssen
+    über die Menschenkinder!
+  5: Er wandelte das Meer in trockenes Land, durch den Strom zogen sie zu Fuß; dort
+    freuten wir uns seiner.
+  6: Er herrscht in seiner Stärke für und für, seine Augen schauen auf die Völker.
+    Die gegen ihn widerspenstig sind, mögen sich nicht erheben bei sich!
+  7: Preiset, ihr Völker! unsern Gott und lasset die Stimme seines Lobes hören,
+  8: der meiner Seele Leben verlieh und meine Füße nicht hat straucheln lassen.
+  9: Denn du hast uns geprüft, o Gott! hast uns im Feuer geläutert, wie man Silber
+    läutert.
+  10: Du hast uns in einen Fallstrick geführt, auf unsern Rücken Trübsal gelegt, hast
+    Menschen über unsere Häupter gesetzt.
+  11: Wir gingen durch Feuer und Wasser, aber du führtest uns heraus zur Erquickung.
+  12: Ich will in dein Haus mit Brandopfern kommen, dir meine Gelübde lösen, die meine
+    Lippen ausgesprochen
+  13: und mein Mund in meiner Trübsal verheißen hat.
+  14: Fette Brandopfer will ich dir darbringen mit dem Opferduft von Widdern, Rinder
+    dir opfern samt Böcken.
+  15: Kommet, höret, ihr alle, die ihr Gott fürchtet, so will ich erzählen, was er
+    meiner Seele Großes getan!
+  16: Ich rief zu ihm mit meinem Munde und pries ihn mit meiner Zunge.
+  17: Hätte ich Unrecht ersehen in meinem Herzen, nicht würde der Herr mich erhören.
+  18: Aber Gott hat mich erhört und hat auf die Stimme meines Flehens geachtet.
+  19: Gepriesen sei Gott, der mein Gebet nicht abwies, noch mir sein Erbarmen entzog.
+  20: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  21: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

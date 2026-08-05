@@ -1,0 +1,25 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 128
+verses:
+  1: Oftmals haben sie mich bedrängt von meiner Jugend an, so spreche Israel,
+  2: oftmals haben sie mich bedrängt von meiner Jugend an, doch nicht haben sie mich
+    überwältigt.
+  3: Auf meinem Rücken schmiedeten die Sünder, trieben ihre Bosheit lange fort;
+  4: aber der Herr, der Gerechte, zerbrach der Sünder Nacken. Beschämt müssen werden
+    und zurückweichen alle, die Sion hassen.
+  5: Sie mögen werden wie das Gras auf den Dächern, das welkt, ehe man es noch ausreißt,
+  6: mit dem der Schnitter seine Hand nicht füllt noch der Garbenbinder seinen Schoß.
+  7: 'Und die Vorübergehenden sprechen nicht: Der Segen des Herrn sei über euch, wir
+    segnen euch im Namen des Herrn.'
+  8: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  9: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

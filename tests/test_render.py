@@ -492,9 +492,13 @@ def test_compact_magnificat_puts_its_first_two_verses_on_one_system(
 
     assert "\\gregorioscore{chant/magnificat/kurzfassung/6f}" in tex
     assert Path("chant/magnificat/kurzfassung/6f.gabc") in resolved.assets
-    # both German lines, numbered like the two text lines of the system
-    assert "\\pstrans{1. Probevers 1 — Magnificat" in tex
-    assert "\\pstrans{2. Probevers 2 — Magnificat" in tex
+    # Both German lines, numbered like the two text lines of the system. The
+    # wording is the eu2016 stand-in's ("Vergleichsvers"), not the probe's:
+    # Lambert names `psalter_de: [eu1980, eu2016]` and eu1980 has no Magnificat,
+    # so this canticle resolves to the second translation named while the psalms
+    # above it resolve to the first (ADR-0041).
+    assert "\\pstrans{1. Vergleichsvers 1 — Magnificat" in tex
+    assert "\\pstrans{2. Vergleichsvers 2 — Magnificat" in tex
     # verses 1 and 2 are in the system, so the text verses start at 3
     assert "\\textvers{3}{" in tex
     assert "\\textvers{1}{" not in tex and "\\textvers{2}{Et exsultávit" not in tex

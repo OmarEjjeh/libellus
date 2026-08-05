@@ -1,0 +1,60 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 101
+verses:
+  1: O Herr! erhöre mein Gebet und lass mein Rufen zu dir kommen!
+  2: Wende dein Angesicht nicht von mir ab; wann immer ich in Trübsal bin, neige dein
+    Ohr zu mir;
+  3: Wann immer ich dich anrufe, erhöre mich alsbald!
+  4: Denn meine Tage sind hingeschwunden wie Rauch und mein Gebein ist verdorrt wie
+    dürres Reis.
+  5: Ich bin versengt wie Gras und mein Herz ist verdorrt, denn ich vergesse, mein
+    Brot zu essen.
+  6: Ob meines lauten Seufzens klebt mein Gebein an meinem Fleische.
+  7: Ich gleiche dem Pelikan in der Wüste, ich bin wie eine Eule in öder Behausung.
+  8: Ich bin schlaflos und wie ein einsamer Sperling auf dem Dache.
+  9: Beständig höhnen mich meine Feinde, und die mich zuvor lobten, verschwören sich
+    nun wider mich.
+  10: Denn ich esse Asche wie Brot und mische meinen Trank mit Tränen
+  11: wegen deines Zornes und deines Grimmes, denn du hobst mich empor und schleudertest
+    mich nieder.
+  12: Meine Tage schwinden dahin wie ein Schatten und ich verdorre wie Gras.
+  13: Du aber, o Herr! bleibst in Ewigkeit, und dein Andenken währt von Geschlecht
+    zu Geschlecht.
+  14: Du wirst dich erheben, dich Sions zu erbarmen; denn es ist Zeit, dich seiner
+    zu erbarmen, ja, die Zeit ist gekommen.
+  15: Denn deine Diener haben seine Steine lieb und sie tragen Leid über seinen Schutt.
+  16: Und die Völker werden deinen Namen fürchten, Herr! und alle Könige der Erde
+    deine Herrlichkeit.
+  17: Denn der Herr wird Sion aufbauen und wird in seiner Herrlichkeit erscheinen.
+  18: Er wird sich dem Gebet der Demütigen zuwenden und ihr Flehen nicht verschmähen.
+  19: Aufgeschrieben werde dies dem kommenden Geschlechte und das Volk, das geschaffen
+    werden soll, preise den Herrn,
+  20: dass er von seiner heiligen Höhe herabgeschaut, der Herr vom Himmel auf die
+    Erde herabgeblickt hat,
+  21: um das Seufzen der Gefangenen zu hören, um die Kinder der Erschlagenen zu befreien;
+  22: auf dass sie in Sion den Namen des Herrn verkünden und sein Lob in Jerusalem,
+  23: wenn die Völker dort allzumal zusammenkommen und die Könige, um dem Herrn zu
+    dienen.
+  24: 'Er antwortete ihm inmitten seiner Kraft: Tue mir die geringe Zahl meiner Tage
+    kund!'
+  25: Rufe mich nicht ab in der Hälfte meiner Tage, von Geschlecht zu Geschlecht währen
+    deine Jahre.
+  26: Im Anbeginn hast du, o Herr! die Erde gegründet und das Werk deiner Hände sind
+    die Himmel.
+  27: Sie werden vergehen, du aber bleibst; sie alle werden wie ein Kleid veralten.
+  28: Und wie ein Gewand wirst du sie wechseln und sie werden verändert. Du aber bist
+    stets derselbe und deine Jahre nehmen kein Ende.
+  29: Die Kinder deiner Diener werden wohnen und ihre Nachkommen werden beständig
+    bleiben.
+  30: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  31: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

@@ -1,0 +1,43 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 135
+verses:
+  1: preiset den Herrn, denn er ist gütig, denn ewig währt seine Güte!
+  2: Preiset den Gott der Götter, denn ewig währt seine Güte!
+  3: Preiset den Herrn der Herren, denn ewig währt seine Güte!
+  4: Der allein große Wunder tut, denn ewig währt seine Güte!
+  5: Der die Himmel mit Einsicht schuf, denn ewig währt seine Güte!
+  6: Der die Erde über den Wassern festgegründet hat, denn ewig währt seine Güte!
+  7: Der die großen Lichter schuf, denn ewig währt seine Güte!
+  8: Die Sonne zur Herrschaft über den Tag, denn ewig währt seine Güte!
+  9: Den Mond und die Sterne zur Herrschaft über die Nacht, denn ewig währt seine
+    Güte!
+  10: Der Ägypten mit seinen Eingeborenen schlug, denn ewig währt seine Güte!
+  11: Der Israel aus ihrer Mitte herausführte, denn ewig währt seine Güte!
+  12: Mit mächtiger Hand und erhobenem Arm, denn ewig währt seine Güte!
+  13: Der das Rote Meer in Teile schied, denn ewig währt seine Güte!
+  14: Und Israel mitten hindurchführte, denn ewig währt seine Güte!
+  15: Und Pharao und sein Heer ins Rote Meer stieß, denn ewig währt seine Güte!
+  16: Der sein Volk durch die Wüste geleitete, denn ewig währt seine Güte!
+  17: Der große Könige schlug, denn ewig währt seine Güte!
+  18: Und mächtige Könige tötete, denn ewig währt seine Güte!
+  19: Sehon, den König der Amorrhiter, denn ewig währt seine Güte!
+  20: Und Og, den König von Basan, denn ewig währt seine Güte!
+  21: Und ihr Land zum Erbbesitze gab, denn ewig währt seine Güte!
+  22: Zum Erbbesitze seinem Diener Israel, denn ewig währt seine Güte!
+  23: Der in unserer Niedrigkeit unser gedachte, denn ewig währt seine Güte!
+  24: Und uns von unsern Feinden erlöste, denn ewig währt seine Güte!
+  25: Der allem Fleische Speise gibt, denn ewig währt seine Güte!
+  26: Preiset den Gott des Himmels, denn ewig währt seine Güte!
+  27: Preiset den Herrn der Herren, denn ewig währt seine Güte!
+  28: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  29: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

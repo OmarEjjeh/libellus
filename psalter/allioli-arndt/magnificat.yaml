@@ -1,0 +1,28 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Magnificat ausgerichtet und in einem zweiten
+# Durchgang von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut
+# unveraendert, nur die Versgrenze verschoben. PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+canticum: magnificat
+verses:
+  1: Hoch preiset meine Seele den Herrn,
+  2: und mein Geist frohlocket in Gott, meinem Heilande!
+  3: Weil er die Niedrigkeit seiner Magd angesehen hat; denn siehe, von nun an werden
+    mich selig preisen alle Geschlechter.
+  4: Denn Großes hat an mir getan, der mächtig, und dessen Name heilig ist!
+  5: Und seine Barmherzigkeit währet von Geschlecht zu Geschlecht bei denen, die ihn
+    fürchten.
+  6: Er hat Macht geübt mit seinem Arme, zerstreuet, die da hoffärtig sind in ihres
+    Herzens Sinne.
+  7: Er hat Gewaltige vom Throne gestürzt, und Niedrige hat er erhöhet.
+  8: Hungrige hat er mit Gütern erfüllt, und die Reichen leer ausgehen lassen.
+  9: Er hat sich Israels, seines Knechtes, angenommen, eingedenk seiner Barmherzigkeit;
+  10: wie er zu unsern Vätern gesprochen hat, zu Abraham und seinen Nachkommen in
+    Ewigkeit.
+  11: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  12: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.

@@ -1,0 +1,83 @@
+# Allioli-Arndt 1914, aus k-bibel.de's Bibel-App-Datenquelle bezogen, auf die
+# Versgrenzen des gesungenen Psalters ausgerichtet und dort, wo Allioli-Verse
+# und gesungene Verse nicht 1:1 uebereinstimmten, in einem zweiten Durchgang
+# von Hand (Editor-KI) neu aufgeteilt (Issue #1) - Wortlaut unveraendert, nur
+# die Versgrenze verschoben. Weiterhin PRIESTER-REVIEW ausstehend.
+# STANDARD-PSALTER SEIT ADR-0041, ABER NOCH NICHT ABGENOMMEN: die Durchsicht
+# durch den Pastor steht aus, und der Urheberrechtsstatus dieser konkreten
+# Digitalisierung ist nicht bestaetigt (Issue #1). Gefundene Fehler werden als
+# eigene Korrektur nachgezogen. Ein Heft, das eine geprueft Uebersetzung
+# braucht, setzt "psalter_de:" ausdruecklich - so wie die beiden Hefte in
+# feasts/, die weiter die Einheitsuebersetzung verwenden.
+psalmus: 67
+verses:
+  1: Es erhebe sich Gott, dass seine Feinde zerstreut werden, und die ihn hassen,
+    vor seinem Angesichte fliehen!
+  2: Wie der Rauch zergeht, so mögen sie zergehen, wie Wachs vor dem Feuer zerfließt,
+    mögen die Sünder vor Gottes Angesichte vergehen.
+  3: Die Gerechten aber mögen sich freuen und jauchzen vor Gottes Angesicht und in
+    Wonne frohlocken.
+  4: Lobsinget Gott, bringet seinem Namen ein Loblied, bereitet dem Bahn, der heraufzieht
+    über den Sonnenuntergang! Herr ist sein Name!
+  5: Frohlocket vor seinem Angesichte, vor seinem Angesichte mögen sie erzittern,
+    der ein Vater den Waisen und Richter den Witwen ist,
+  6: Gott in seiner heiligen Stätte, Gott, der Gleichgesinnte zusammenwohnen lässt
+    in einem Hause;
+  7: der die Gefesselten herausführt mit Macht, so wie die Widerspenstigen, die in
+    den Gräbern ihre Stätte haben.
+  8: O Gott! als du auszogst vor deinem Volke her, als du in der Wüste einherzogst,
+  9: bebte die Erde und die Himmel troffen vor Gottes Angesichte, der Sinai vor dem
+    Angesichte des Gottes Israels.
+  10: Gnadenvoll spendetest du, o Gott! deinem Erbe Regen; es war schwach geworden,
+    doch du stärktest es.
+  11: Deine Herde ließ sich darin nieder, du bereitetest es nach deiner Güte für den
+    Armen, o Gott!
+  12: Der Herr gibt Siegeswort den Freudenverkünderinnen mit großer Kraft.
+  13: Er ist der Heere des Vielgeliebten König und der Zierde des Hauses gibt er Beute
+    zu verteilen.
+  14: Wenn ihr in euern Anteilen ruht, gleicht ihr den Silberflügeln der Taube, deren
+    Hinterrücken im blassgelben Golde schimmert.
+  15: Als Gott im Himmel die Könige über das Land zerstreute, ward es auf dem Selmon
+    schneeweiß. Der Berg Gottes ist ein fruchtbarer Berg,
+  16: ein üppiger Berg, ein fruchtbarer Berg. Warum blickt ihr so scheel auf das üppige
+    Gebirge?
+  17: Es ist der Berg, auf dem es Gott wohlgefällt zu wohnen; ja, der Herr wohnt dort
+    auf ewig.
+  18: Der Kriegswagen Gottes sind viele zehntausend, Tausende sind, die jubeln. Der
+    Herr ist unter ihnen auf Sina im Heiligtume.
+  19: Du bist zur Höhe aufgestiegen, hast die Gefangenen fortgeführt, du hast Gaben
+    unter den Menschen empfangen,
+  20: sogar auch die nicht glauben, dass Gott, der Herr, hier wohnt.
+  21: Gepriesen sei der Herr Tag für Tag Gott, in dem all unser Heil ist, er wird
+    unsern Weg glücklich machen!
+  22: Unser Gott ist ein Gott, der helfen kann; ja, Gott des Herrn ist es, dem Tode
+    entrinnen zu lassen.
+  23: Wahrlich, Gott zerschmettert die Häupter seiner Feinde, den Scheitel derer,
+    die in ihren Sünden dahinwandeln.
+  24: 'Der Herr sprach: Aus Basan werde ich sie herbringen, herbringen selbst aus
+    Meerestiefen,'
+  25: damit dein Fuß sich in Blut tauche, die Zunge deiner Hunde das Blut der Feinde
+    lecke.
+  26: Man schaut dein Einherschreiten, o Gott! das Einherschreiten meines Gottes,
+    meines Königs, der im Heiligtume thront.
+  27: Voran gehen die Fürsten, es schließen sich die Sänger an, inmitten von paukenschlagenden
+    Jungfrauen.
+  28: In den Versammlungen preiset Gott, den Herrn, ihr vom Quelle Israels!
+  29: Dort ist Benjamin, der Jüngste, in Geistesentzückung,
+  30: die Fürsten von Juda, ihre Heerführer, die Fürsten von Zabulon, die Fürsten
+    von Nephthali.
+  31: Entbiete, o Gott! deine Macht; bekräftige das, o Gott! was du unter uns gewirkt
+    hast.
+  32: Von deinem Tempel aus zu Jerusalem werden die Könige dir Geschenke bringen!
+  33: Bedrohe die Tiere des Schilfs; es rottet sich zusammen die Schar der Stiere
+    unter den Kühen der Völker, dass sie die verdrängen, die erprobt sind wie Silber.
+  34: Zerstreue die Völker, welche die Kriege lieben! Gesandte werden aus Ägypten
+    kommen, Äthiopien wird seine Hände eilends zu Gott erheben.
+  35: Ihr Reiche der Erde, singet Gott! lobsinget dem Herrn, lobsinget Gott,
+  36: der über den höchsten Himmel hinauffährt dem Aufgange zu!
+  37: Sehet, er lässt seine Stimme, eine gewaltige Stimme, erschallen. Gebet Gott
+    Ehre, dessen Herrlichkeit über Israel und dessen Macht in den Wolken ist!
+  38: Wunderbar ist Gott in seinem Heiligtume, der Gott Israels verleiht seinem Volke
+    Stärke und Kraft. Gepriesen sei Gott.
+  39: Ehre sei dem Vater und dem Sohn und dem Heiligen Geist.
+  40: Wie im Anfang, so auch jetzt und allezeit und in Ewigkeit. Amen.
