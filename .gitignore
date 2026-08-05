@@ -58,17 +58,32 @@ __pycache__/
 # raw HTML fetched by the EÜ-1980 psalter scrape (delete to re-fetch)
 scripts/psalter-german/cache/
 
-# A Psalter is never published from here. The Einheitsübersetzung is
-# © Katholische Bibelanstalt and not redistributable; Bremen's copies live in
-# the private companion repository and are checked out into psalter/
-# (ADR-0023). A public-domain German psalter, once it exists, can be tracked by
-# exception with `git add -f`.
+# psalter/ has two owners: the private companion repository is checked out over
+# it (ADR-0023), and the public-domain Allioli-Arndt is tracked here (ADR-0041).
+# So ignore its contents by default and name the public exceptions, rather than
+# ignoring the whole directory and force-adding past it — the Einheitsübersetzung
+# is © Katholische Bibelanstalt and not redistributable, and `git add -f` is a
+# habit that eventually adds the wrong thing.
 #
-# Anchored to the root on purpose: unanchored, this pattern also swallowed
+# Anchored to the root on purpose: unanchored, these patterns also swallowed
 # tests/fixtures/psalter/, the synthetic probe Psalter the suite resolves
 # against — which is committed, and must be, or the suite fails everywhere but
 # this working copy.
-/psalter/
+#
+# The `*` matters: a directory that is itself excluded cannot have anything
+# re-included from inside it, so each level has to be opened before the next is
+# closed again.
+/psalter/*
+!/psalter/allioli-arndt/
+
+# psalter/tools/ is the companion repository's, and most of it scrapes or reports
+# on the Einheitsübersetzung. Only what produced and reviews Allioli-Arndt is
+# ours, so it is named file by file rather than opened as a directory.
+!/psalter/tools/
+/psalter/tools/*
+!/psalter/tools/allioli-arndt-review-template.html
+!/psalter/tools/scrape_allioli_arndt.py
+!/psalter/tools/split_allioli_arndt_review.py
 
 # The Toolchain: LuaHBTeX and gregorio as WebAssembly plus the minimal texmf
 # tree, assembled by scripts/toolchain/build.sh. ~80 MB of binaries built from

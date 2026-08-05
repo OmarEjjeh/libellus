@@ -96,9 +96,36 @@ shopt -s nullglob
 for f in "$MAIN"/*-review.html; do shared+=("$(basename "$f")"); done
 shopt -u nullglob
 
+# `ln -s X D` puts the link *inside* D when D is already a directory, and since
+# ADR-0041 psalter/ is one: git checks the tracked public Allioli-Arndt out into
+# it. The shared Psalter therefore used to land as psalter/psalter, leaving the
+# Einheitsübersetzung unreachable and every German booklet failing on a checkout
+# that looked provisioned (#83). So link the entries instead, and leave whatever
+# the checkout already provided alone.
+#
+# `"$src"/*` skipping dotfiles is load-bearing rather than incidental: psalter/
+# is a clone of the companion repository, and a symlinked psalter/.git would
+# make this worktree treat it as a nested repository.
+link_into() {
+    local src=$1 dst=$2 entry name
+    for entry in "$src"/*; do
+        [[ -e "$entry" ]] || continue
+        name=$(basename "$entry")
+        [[ -e "$dst/$name" ]] && continue
+        ln -s "$entry" "$dst/$name"
+    done
+}
+
 for item in "${shared[@]}"; do
     [[ -e "$MAIN/$item" ]] || continue
-    ln -s "$MAIN/$item" "$WT/$item"
+    if [[ -L "$WT/$item" || ( -e "$WT/$item" && ! -d "$WT/$item" ) ]]; then
+        echo "worktree-add: $WT/$item already exists and is not a directory" >&2
+        exit 1
+    elif [[ -d "$WT/$item" ]]; then
+        link_into "$MAIN/$item" "$WT/$item"
+    else
+        ln -s "$MAIN/$item" "$WT/$item"
+    fi
 done
 
 # Two lines, gitignored globally, so no worktree ever inherits one.
