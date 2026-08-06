@@ -98,3 +98,8 @@ scripts/toolchain/.cache/
 # distinct from dist/, which is the Python wheel's own output).
 /node_modules/
 /release/
+
+# The application's own build output (#91, ADR-0046). What both hosts serve
+# under /app/ — `vite build` remakes it from app/index.html and app/src/, and
+# copies app/pipeline/ into it verbatim.
+/app/dist/

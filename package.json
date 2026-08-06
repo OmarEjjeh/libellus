@@ -1,17 +1,26 @@
 {
   "name": "libellus-electron",
   "version": "0.1.0",
-  "description": "Libellus — the booklet pipeline in an Electron shell (ADR-0035)",
+  "description": "Libellus — the editing surface and the booklet pipeline, in a browser tab and in an Electron shell (ADR-0028, ADR-0035)",
   "private": true,
   "main": "electron/main.mjs",
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prestart": "npm run build",
     "start": "electron .",
-    "predist": "uv build --wheel --out-dir dist",
+    "predist": "uv build --wheel --out-dir dist && npm run build",
     "dist": "electron-builder"
   },
   "devDependencies": {
+    "@preact/preset-vite": "^2.10.6",
     "electron": "^43.2.0",
-    "electron-builder": "^26.15.3"
+    "electron-builder": "^26.15.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.0",
+    "vitest": "^4.1.10"
   },
   "build": {
     "appId": "de.bremen-schola.libellus",
@@ -25,22 +34,42 @@
       "package.json"
     ],
     "extraResources": [
-      { "from": "app", "to": "app", "filter": ["**/*", "!serve.py"] },
-      { "from": "dist", "to": "dist", "filter": ["libellus-*.whl"] }
+      {
+        "from": "app/dist",
+        "to": "app"
+      },
+      {
+        "from": "dist",
+        "to": "dist",
+        "filter": [
+          "libellus-*.whl"
+        ]
+      }
     ],
     "mac": {
-      "target": ["dmg"],
+      "target": [
+        "dmg"
+      ],
       "identity": null,
       "sign": null,
       "category": "public.app-category.education"
     },
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "signAndEditExecutable": false
     },
     "linux": {
-      "target": ["AppImage", "deb"],
+      "target": [
+        "AppImage",
+        "deb"
+      ],
       "category": "Office"
     }
+  },
+  "dependencies": {
+    "preact": "^10.29.8",
+    "yaml": "^2.9.0"
   }
 }

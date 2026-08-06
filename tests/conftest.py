@@ -1,6 +1,9 @@
 import importlib
+import importlib.util
 import shutil
+import sys
 from pathlib import Path
+from types import ModuleType
 
 import pytest
 
@@ -9,6 +12,18 @@ import pytest
 def repo_root() -> Path:
     """The repository root — the working directory a build runs in."""
     return Path(__file__).resolve().parent.parent
+
+
+@pytest.fixture(scope="module")
+def serve() -> ModuleType:
+    """`app/serve.py`, imported by path — it is a script, not part of the package."""
+    path = Path(__file__).resolve().parent.parent / "app" / "serve.py"
+    spec = importlib.util.spec_from_file_location("libellus_app_serve", path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    return module
 
 
 #: The probe Psalter: synthetic German, one line per sung verse, generated with

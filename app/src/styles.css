@@ -1,0 +1,80 @@
+/* Carried over from the plain-DOM page unchanged, plus what the feast panel
+   needs. Deliberately small and unopinionated: the editing surface's own look
+   is a question for the field tree (#91 slice 3), not for a shell. */
+
+body {
+  font: 15px/1.5 system-ui, sans-serif;
+  margin: 2rem auto;
+  max-width: 52rem;
+  padding: 0 1rem;
+}
+
+h1 {
+  font-size: 1.3rem;
+}
+
+p.lead {
+  color: #444;
+}
+
+button,
+select {
+  font: inherit;
+  padding: 0.4rem 0.8rem;
+  margin: 0 0.4rem 0.4rem 0;
+}
+
+#log {
+  background: #111;
+  color: #ddd;
+  padding: 0.8rem;
+  border-radius: 4px;
+  font: 12px/1.45 ui-monospace, monospace;
+  height: 26rem;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+#results a {
+  display: inline-block;
+  margin-top: 0.6rem;
+}
+
+.feast {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.feast dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.15rem 1rem;
+  margin: 0;
+}
+
+.feast dl > div {
+  display: contents;
+}
+
+.feast dt {
+  color: #666;
+  font: 12px/1.6 ui-monospace, monospace;
+}
+
+.feast dd {
+  margin: 0;
+}
+
+.quiet {
+  color: #666;
+}
+
+.faithful {
+  color: #1a6b2f;
+}
+
+.problem {
+  color: #a11;
+}
