@@ -18,6 +18,7 @@ import re
 from pathlib import Path
 from typing import Any
 
+from libellus.gabc import euouae_on_the_staff
 from libellus.paths import source_of
 from libellus.psalmtone import euouae_per_tonus, list_toni
 from libellus.resolve import (
@@ -56,6 +57,20 @@ def _logical(physical: Path, base: Path, root: Path) -> str:
 #: (images/borders/ is *not* excluded here, so the picker still lists 101 gilded
 #: ornament tiles nobody would choose as a back cover — pre-existing, unrelated.)
 _IMAGE_CACHE_DIRS = {"inline"}
+
+
+def _euouae_previews() -> dict[str, str]:
+    """Every ending as a stave the form can draw without touching a note:
+    ``"4A" → "(c3) E(i) u(h) o(i) u(j) a(h) e.(f.)"``.
+
+    An ending the placement cannot splice is left out rather than shipped
+    half-drawn — the form already falls back to no preview at all.
+    """
+    placed = {
+        tonus: euouae_on_the_staff(neumes)
+        for tonus, neumes in euouae_per_tonus().items()
+    }
+    return {tonus: stave for tonus, stave in placed.items() if stave is not None}
 
 
 def form_data(root: Path) -> dict[str, Any]:
@@ -98,6 +113,11 @@ def form_data(root: Path) -> dict[str, Any]:
         # mode + differentia fully determine an ending's EUOUAE, so the form
         # shows it read-only for the chosen tone instead of asking (issue #33)
         "euouae_per_tonus": euouae_per_tonus(),
+        # the same endings placed to be drawn: a clef and the six spliced
+        # syllables. The form has no antiphon to place a preview against
+        # (ADR-0045), and the clef arithmetic that decides where it reads
+        # best belongs in tested Python, not in the form's JS (ADR-0003)
+        "euouae_preview_per_tonus": _euouae_previews(),
         "ordinarium": ordinarium,
         "psalmi_cum_de": psalmi_cum_de,
         "antiphonae_per_rite": dict(sorted(ANTIPHONAE_PER_RITE.items())),

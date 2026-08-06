@@ -37,6 +37,25 @@ def test_form_data_emits_all_vocabularies(repo_root: Path) -> None:
     assert "images/02-benedict/st-benedict-mary-evans.jpg" in island["image_paths"]
 
 
+@requires_psalter
+def test_form_data_ships_each_ending_ready_to_draw(repo_root: Path) -> None:
+    """The form previews an ending with no antiphon to place it against, so
+    it is placed for legibility here — in Python, where the clef arithmetic
+    is tested, rather than in the form's dependency-free JS (ADR-0003/0045).
+
+    Shipped as a whole stave opening: a clef and the six spliced syllables,
+    so the form has nothing to compute and nothing to splice (#80).
+    """
+    preview = form_data(repo_root)["euouae_preview_per_tonus"]
+
+    assert preview.keys() == form_data(repo_root)["euouae_per_tonus"].keys()
+    # 8G reads well in the canonical clef, as most endings do
+    assert preview["8G"] == "(c4) E(j) u(j) o(i) u(j) a(h) e.(g.)"
+    # 4A does not — it reaches a ledger line above a c4 staff, which is why
+    # the books print it under c3
+    assert preview["4A"] == "(c3) E(i) u(h) o(i) u(j) a(h) e.(f.)"
+
+
 def test_form_data_is_deterministic(repo_root: Path) -> None:
     """Same repo state → byte-identical output, so freshness can be diffed."""
     first = form_data_json(repo_root)

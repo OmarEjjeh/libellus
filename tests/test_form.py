@@ -13,6 +13,7 @@ import json
 import re
 from pathlib import Path
 
+import pytest
 from playwright.sync_api import Page, expect
 
 from libellus.formdata import embedded_island
@@ -545,6 +546,39 @@ def test_euouae_preview_uses_the_data_island(page: Page, repo_root: Path) -> Non
     assert table["8G"] == "j j i j h g."
     assert table["1f"] == "h h g f gh gf.."
     assert len(table) == 33
+
+
+def test_euouae_preview_is_drawn_under_a_clef_that_seats_it(
+    page: Page, repo_root: Path
+) -> None:
+    """Nine of the 33 endings sit too high for the canonical clef — which is
+    why the books print them under another one. The form has no antiphon to
+    place a preview against, so the island ships each ending already placed,
+    clef and all, and the form draws what it is given (#80, ADR-0045).
+
+    The assertion is geometric on purpose: an ending drawn above its staff
+    makes a taller drawing than one drawn on it.
+    """
+    page.goto(form_url(repo_root))
+    previews = page.evaluate(
+        "JSON.parse(document.getElementById('datenblock').textContent)"
+        ".euouae_preview_per_tonus"
+    )
+    assert previews["8G"].startswith("(c4) ")
+    assert previews["4A"].startswith("(c3) ")
+
+    def drawn_height(modus: str, tonus: str) -> float:
+        page.select_option("#ant-1-tonus-modus", modus)
+        page.select_option("#ant-1-tonus-differentia", tonus)
+        staff = page.locator("#ant-1-tonus-vorschau .noten svg").first
+        expect(staff).to_be_visible()
+        box = staff.bounding_box()
+        assert box is not None
+        return box["height"]
+
+    # a ledger line's worth of difference is what this is looking for, so the
+    # tolerance is well under one
+    assert drawn_height("4", "4A") == pytest.approx(drawn_height("8", "8G"), abs=0.25)
 
 
 def test_euouae_assertion_disagreeing_with_tonus_warns(

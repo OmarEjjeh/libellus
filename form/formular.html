@@ -353,6 +353,41 @@ nie das Formular kaputt — verbindlich prüft weiterhin libellus.
     "8c": "j j h j k j.",
     "peregrinus": "g g g d f ed.."
   },
+  "euouae_preview_per_tonus": {
+    "1D": "(c4) E(h) u(h) o(g) u(f) a(gh) e.(gvFED.)",
+    "1D-": "(c4) E(h) u(h) o(g) u(f) a(g) e.(gvFED.)",
+    "1D2": "(c4) E(h) u(h) o(g) u(f) a(gf) e.(d.)",
+    "1f": "(c4) E(h) u(h) o(g) u(f) a(gh) e.(gf..)",
+    "1g": "(c4) E(h) u(h) o(g) u(f) a(gh) e.(g.)",
+    "1g2": "(c4) E(h) u(h) o(g) u(f) a(g) e.(ghg.)",
+    "1g3": "(c4) E(h) u(h) o(g) u(f) a(g) e.(g.)",
+    "1a": "(c4) E(h) u(h) o(g) u(f) a(g) e.(h.)",
+    "1a2": "(c4) E(h) u(h) o(g) u(f) a(g) e.(gh..)",
+    "1a3": "(c4) E(h) u(h) o(g) u(f) a(gh) e.(gh..)",
+    "2D": "(c3) E(k) u(k) o(k) u(j) a(h) e.(i.)",
+    "3b": "(c4) E(j) u(j) o(j) u(h) a(j) e.(i.)",
+    "3a": "(c4) E(j) u(j) o(j) u(h) a(j) e.(ih..)",
+    "3a2": "(c4) E(j) u(j) o(ji) u(hi) a(h) e.(gh..)",
+    "3g": "(c4) E(j) u(j) o(ji) u(hi) a(h) e.(g.)",
+    "3g2": "(c4) E(j) u(h) o(j) u(i) a(h) e.(g.)",
+    "4g": "(c4) E(h) u(h) o(h) u(h) a(h) e.(g.)",
+    "4E": "(c4) E(h) u(g) o(h) u(ih) a(gf) e.(e.)",
+    "4c": "(c4) E(k) u(k) o(k) u(k) a(k) e.(j.)",
+    "4A": "(c3) E(i) u(h) o(i) u(j) a(h) e.(f.)",
+    "4A*": "(c3) E(i) u(h) o(i) u(j) a(h) e.(fg..)",
+    "4d": "(c3) E(i) u(h) o(i) u(j) a(h) e.(i.)",
+    "5a": "(c4) E(j) u(j) o(k) u(i) a(j) e.(h.)",
+    "6F": "(c4) E(h) u(h) o(f) u(gh) a(g) e.(f.)",
+    "7a": "(c3) E(i) u(i) o(j) u(i) a(h) e.(gf..)",
+    "7b": "(c3) E(i) u(i) o(j) u(i) a(h) e.(g.)",
+    "7c": "(c3) E(i) u(i) o(j) u(i) a(h) e.(gh..)",
+    "7c2": "(c3) E(i) u(i) o(j) u(i) a(h) e.(ih..)",
+    "7d": "(c3) E(i) u(i) o(j) u(i) a(h) e.(gi..)",
+    "8G": "(c4) E(j) u(j) o(i) u(j) a(h) e.(g.)",
+    "8G*": "(c4) E(j) u(j) o(i) u(j) a(h) e.(gh..)",
+    "8c": "(c4) E(j) u(j) o(h) u(j) a(k) e.(j.)",
+    "peregrinus": "(c4) E(g) u(g) o(g) u(d) a(f) e.(ed..)"
+  },
   "ordinarium": [
     "amen",
     "benedicamus-domino",
@@ -1479,53 +1514,56 @@ function GabcFeld({id, label, wert, setze}) {
 
 // Kirchenton und Differentia bestimmen die Schlussformel vollständig —
 // darum wird sie nie eingetippt, sondern zum gewählten Psalmton aus dem
-// Datenblock nachgeschlagen und nur angezeigt. Die Silben von
-// "sæculOrUm. Amen" sind ohnehin immer dieselben (Spiegelbild von
-// gabc.py's build_euouae_gabc).
-const EUOUAE_SILBEN = ["E", "u", "o", "u", "a", "e."];
+// Datenblock nachgeschlagen und nur angezeigt.
 
-function spliceEuouae(neumen) {
-  const tokens = (neumen || "").trim().split(/\s+/).filter(Boolean);
-  if (tokens.length !== 6) return null;
-  return tokens.map((ton, i) => `${EUOUAE_SILBEN[i]}(${ton})`).join(" ");
-}
-
-// Schlussformel je Psalmton, vom Notengenerator erzeugt (nie handgepflegt).
-// Ohne (brauchbaren) Datenblock bleibt die Vorschau einfach aus.
+// Die sechs Neumen im kanonischen Notenschlüssel c4 (ADR-0042). Damit wird
+// die Zusicherung „euouae:“ aus einer geladenen Datei verglichen — zum
+// Zeichnen dient die Vorschau darunter. Ohne (brauchbaren) Datenblock
+// bleibt beides einfach aus.
 const EUOUAE_JE_TON = (datenblock.euouae_per_tonus
   && typeof datenblock.euouae_per_tonus === "object")
   ? datenblock.euouae_per_tonus : {};
+
+// Dieselben Schlussformeln, fertig zum Zeichnen: ein Notenschlüssel und die
+// sechs Silben von "sæculOrUm. Amen". Welcher Schlüssel eine Formel gut
+// aufs Liniensystem legt, rechnet libellus beim Erzeugen des Datenblocks aus
+// — hier soll keine Notenarithmetik stehen (ADR-0003, ADR-0045). Neun Töne
+// (2D, 4A, 4A*, 4d, 7a–7d, 7c2) sitzen darum in c3 statt c4: in c4 reichten
+// sie über die Linien hinaus, was die Bücher genauso lösen (issue #80).
+const EUOUAE_VORSCHAU_JE_TON = (datenblock.euouae_preview_per_tonus
+  && typeof datenblock.euouae_preview_per_tonus === "object")
+  ? datenblock.euouae_preview_per_tonus : {};
 
 // Der Psalmton wird geschrieben, wie die Bücher ihn drucken („8 G“, „8g“,
 // „8G“ meinen denselben Ton) — beim Nachschlagen dieselbe Toleranz wie im
 // Notengenerator: Leerzeichen und Punkte weg, Großschreibung egal, „star“
 // für „*“.
 const tonSchluessel = (ton) => ton.toLowerCase().replace(/[\s.]/g, "").replace(/\*/g, "star");
-const EUOUAE_NACH_SCHLUESSEL = Object.fromEntries(
-  Object.entries(EUOUAE_JE_TON).map(([ton, neumen]) => [tonSchluessel(ton), neumen]));
+const nachSchluessel = (tabelle) => Object.fromEntries(
+  Object.entries(tabelle).map(([ton, wert]) => [tonSchluessel(ton), wert]));
+const EUOUAE_NACH_SCHLUESSEL = nachSchluessel(EUOUAE_JE_TON);
+const VORSCHAU_NACH_SCHLUESSEL = nachSchluessel(EUOUAE_VORSCHAU_JE_TON);
 const euouaeZumTon = (ton) => EUOUAE_NACH_SCHLUESSEL[tonSchluessel(ton || "")] ?? null;
+const euouaeVorschauZumTon = (ton) =>
+  VORSCHAU_NACH_SCHLUESSEL[tonSchluessel(ton || "")] ?? null;
 
-// Zeichnet eine Schlussformel (sechs Neumen) auf eine Notenzeile; null,
-// wenn es nichts zu zeichnen gibt. Der Notengenerator liefert die Neumen in
-// einem festen Notenschlüssel, c4 (ADR-0042) — darum steht der hier fest.
-// Töne, die die Bücher in c3 oder f3 drucken (2D, 4c, 4A, 4A*, 4d, 5a,
-// 7a–7d), stimmen so in der Tonhöhe, sitzen in c4 aber hoch über den Linien
-// — offen als issue #80.
-function EuouaeNoten({neumen}) {
+// Zeichnet eine fertig gesetzte Schlussformel auf eine Notenzeile; null,
+// wenn es nichts zu zeichnen gibt. Der Notenschlüssel steht in der Vorschau
+// selbst — welcher es ist, hat libellus entschieden (ADR-0045).
+function EuouaeNoten({vorschau}) {
   const behaelter = useRef(null);
   const [fehler, setzeFehler] = useState(false);
-  const gespleisst = spliceEuouae(neumen);
-  const zeigen = exsurge !== null && gespleisst !== null;
+  const zeigen = exsurge !== null && !!vorschau;
   useEffect(() => {
     if (!zeigen) { setzeFehler(false); return; }
     try {
-      zeichneGabc(behaelter.current, `name:Euouae;\n%%\n(c4) ${gespleisst}`);
+      zeichneGabc(behaelter.current, `name:Euouae;\n%%\n${vorschau}`);
       setzeFehler(false);
     } catch {
       behaelter.current.innerHTML = "";
       setzeFehler(true);
     }
-  }, [gespleisst, zeigen]);
+  }, [vorschau, zeigen]);
   if (!zeigen) return null;
   return html`<div class="noten" ref=${behaelter}
     style=${fehler ? "display:none" : ""}></div>`;
@@ -1533,13 +1571,15 @@ function EuouaeNoten({neumen}) {
 
 // Nur Anzeige: die Schlussformel, die libellus beim Setzen an die Antiphon
 // anhängt, wenn der Gesang selbst keine hat (ADR-0017). Die Schola pfeift
-// sie nach der Antiphon, um in den Psalm zu finden.
+// sie nach der Antiphon, um in den Psalm zu finden. Hier steht sie für sich,
+// ohne Antiphon — beim Satz rückt libellus sie in deren Notenschlüssel und
+// Lage (ADR-0045), sie kann also anders aussehen als im fertigen Heft.
 function EuouaeVorschau({id, tonus}) {
-  const neumen = euouaeZumTon(tonus);
-  if (exsurge === null || spliceEuouae(neumen) === null) return null;
+  const vorschau = euouaeVorschauZumTon(tonus);
+  if (exsurge === null || vorschau === null) return null;
   return html`<div class="feld breit vorschau" id=${`${id}-vorschau`}>
     <span>Schlussformel (EUOUAE) dieses Psalmtons</span>
-    <${EuouaeNoten} neumen=${neumen} />
+    <${EuouaeNoten} vorschau=${vorschau} />
     <small>Ergibt sich aus dem Psalmton — nichts einzutragen. Hat der Gesang
     selbst keine Schlussformel, hängt libellus sie beim Setzen an
     (ADR-0017).</small>
@@ -1635,7 +1675,7 @@ function TonusFeld({id, label, hinweis, tonus, setze, zusicherung}) {
             <button type="button" class="tonwahl-zeile" key=${ton}
               onClick=${() => setze(ton)}>
               <span class="tonwahl-kuerzel">${suffix}</span>
-              <${EuouaeNoten} neumen=${EUOUAE_JE_TON[ton]} />
+              <${EuouaeNoten} vorschau=${EUOUAE_VORSCHAU_JE_TON[ton]} />
             </button>`)}
           <small>Anklicken setzt die Differentia.</small>
         </div>` : null)}`;

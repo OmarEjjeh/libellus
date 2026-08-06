@@ -263,7 +263,8 @@ canonical `Clef` and one octave first — the letters alone name no pitch
 Where an antiphon's own `gabc:` already prints one — tagged
 (`<eu>...</eu>`) or bare/untagged, both occur in the wild — it is kept as
 transcribed; where it prints none, the ending's notes are appended to the
-antiphon's *materialized* score only (ADR-0017). The optional `euouae:`
+antiphon's *materialized* score only (ADR-0017), respelled into that
+score's `Clef` and moved into the octave it starts again in (ADR-0045). The optional `euouae:`
 field is an **assertion**, not an input: it records what a printed source
 shows, purely to cross-check `Tonus` — a disagreement is an error. A
 EUOUAE cannot express a `Termination formula`, so it never drives
@@ -282,7 +283,8 @@ letters. The corpus is all `c4`; GregoBase routinely uses `c3`, `c2`, `c1`
 and `f3`, and the psalm-tone engine writes each tone's verses in whichever
 of `c4`, `c3`, `f3` suits it. Anything comparing notation across sources
 therefore normalises to one frame first: `c4`, `gabc.CANONICAL_CLEF`
-(ADR-0042).
+(ADR-0042). Anything *printing* notation goes the other way and respells
+into the clef of the stave it lands on (ADR-0045).
 _Avoid_: key (that is the flat a clef may carry, `cb3`); pitch (a letter is
 only a pitch once a clef has said so)
 
@@ -308,7 +310,10 @@ the same note (mode 1's `D`, `D-` and `D2` all close on `d`), and it is a
 convention rather than a law: three antiphons of the two shipped booklets
 are sung to an ending it does not propose. So it suggests, and a
 disagreement with a notated `Euouae` is a finding to surface rather than an
-error to resolve (ADR-0044).
+error to resolve (ADR-0044). Read as a *height* rather than as an identity,
+the same comparison decides which octave an appended cue prints in — the
+nearest one, since the rule may be contradicted and the cue must print
+regardless (ADR-0045).
 _Avoid_: opening-note rule (it is chosen for the *return* to the antiphon,
 which is why the antiphon's opening note is the thing it reads); differentia
 rule

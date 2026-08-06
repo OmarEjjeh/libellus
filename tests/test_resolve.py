@@ -14,7 +14,9 @@ from libellus.gabc import (
     differentia_candidates,
     find_clef,
     find_euouae,
+    is_inline_gabc,
     normalize_euouae,
+    opening_position,
 )
 from libellus import resolve
 from libellus.psalmtone import (
@@ -529,15 +531,127 @@ def test_missing_euouae_is_appended_from_the_tone(repo_root: Path) -> None:
 
     materialized = (physical("chant/inline/antiphona-2.gabc")).read_text(encoding="utf-8")
     expected = euouae_per_tonus()["8G"]  # derived, not hand-written here
+    # and printed exactly as the engine writes it: the antiphon is c4, like
+    # every one in the corpus, and starts again close enough to where 8G
+    # closes that neither clef nor octave moves the cue (ADR-0045)
     assert materialized.rstrip("\n") == (
         original_content.rstrip("\n")
-        + f" <eu>{build_euouae_gabc(expected)}</eu>(::)"
+        + f" <eu>{build_euouae_gabc(expected, 'c4', connect_to=7)}</eu>(::)"
     )
     assert resolved.context["psalmi"][1]["antiphona"]["gabc"] == "chant/inline/antiphona-2"
     # the superseded original path-reference isn't staged as a dead extra asset
     assert Path("chant/ant/cum-palma-ad-regna.gabc") not in resolved.assets
     # the appended cue must not leak into the antiphon's repeat line
     assert "Euouae" not in resolved.context["psalmi"][1]["antiphona"]["repetitio"]
+
+
+#: The same mode-2 antiphon transcribed twice: once on a ``c4`` stave and
+#: once on an ``f3`` one, which is what a transcriber reaches for when a
+#: melody sits low. gabc letters are staff positions, so the two spell
+#: nothing alike — and the cue appended to each has to be spelled its way.
+_MODE_TWO_C4 = "name:Probe;\nmode:2;\n%%\n(c4) An(d)tí(f)pho(e)na.(d) (::)\n"
+_MODE_TWO_F3 = "name:Probe;\nmode:2;\n%%\n(f3) An(f)tí(h)pho(g)na.(f) (::)\n"
+
+
+@pytest.mark.parametrize(
+    ("antiphon", "cue"),
+    [
+        (_MODE_TWO_C4, "E(f) u(f) o(f) u(e) a(c) e.(d.)"),
+        (_MODE_TWO_F3, "E(h) u(h) o(h) u(g) a(e) e.(f.)"),
+    ],
+    ids=["c4", "f3"],
+)
+def test_appended_cue_is_spelled_for_the_stave_it_lands_on(
+    repo_root: Path, antiphon: str, cue: str
+) -> None:
+    """The cue is joined into the antiphon's own continuous stave (ADR-0017),
+    so it has to be written in that stave's clef and at that stave's height.
+
+    Tone 2D is the case that shows both: the engine writes it a whole octave
+    above a ``c4`` staff, and an ``f3`` antiphon spells the same notes five
+    positions lower again. Appended blind — as it was until #80 — the ``c4``
+    antiphon got a cue floating two ledger lines above its own notes and the
+    ``f3`` one got a cue a fifth out of tune.
+    """
+    data = _smoke_data(repo_root)
+    data["antiphonae"][1]["gabc"] = antiphon
+    data["antiphonae"][1]["tonus"] = "2D"
+    data["antiphonae"][1].pop("euouae", None)  # the fixture asserts another tone
+    build_context(FeastSpec.model_validate(data), repo_root)
+
+    materialized = physical("chant/inline/antiphona-2.gabc").read_text(encoding="utf-8")
+    assert materialized.rstrip("\n") == (
+        antiphon.rstrip("\n") + f" <eu>{cue}</eu>(::)"
+    )
+
+
+@pytest.mark.parametrize(
+    ("antiphon", "clef"),
+    [(_MODE_TWO_C4, "c4"), (_MODE_TWO_F3, "f3")],
+    ids=["c4", "f3"],
+)
+def test_appended_cue_closes_on_the_note_the_antiphon_starts_again_on(
+    repo_root: Path, antiphon: str, clef: str
+) -> None:
+    """What the placement is *for*: the schola whistles the cue to find its
+    way back into the antiphon, so its last note is the antiphon's first —
+    the connection rule (ADR-0044), read as a height rather than as an
+    identity (ADR-0045)."""
+    data = _smoke_data(repo_root)
+    data["antiphonae"][1]["gabc"] = antiphon
+    data["antiphonae"][1]["tonus"] = "2D"
+    data["antiphonae"][1].pop("euouae", None)  # the fixture asserts another tone
+    build_context(FeastSpec.model_validate(data), repo_root)
+
+    materialized = physical("chant/inline/antiphona-2.gabc").read_text(encoding="utf-8")
+    cue = find_euouae(materialized)
+    assert cue is not None
+    assert find_clef(materialized) == clef
+    closing = re.findall(r"[a-mA-M]", cue.split()[-1])[-1]
+    assert ord(closing.lower()) - ord("a") == opening_position(antiphon)
+
+
+def test_shipped_booklets_print_their_cues_exactly_as_the_engine_writes_them(
+    repo_root: Path,
+) -> None:
+    """Every antiphon of both shipped booklets is ``c4`` and starts again
+    where its tone's ending closes, so clef-aware placement must move none of
+    them: #80 changes no printed byte of Benedict or St. Lambert, as #45
+    changed none."""
+    appended = 0
+    for feast in (_benedict_data(repo_root), _smoke_data(repo_root)):
+        spec = FeastSpec.model_validate(feast)
+        build_context(spec, repo_root)
+        antiphons = [
+            (f"antiphona-{index}", ant.gabc, ant.tonus)
+            for index, ant in enumerate(spec.antiphonae, start=1)
+        ]
+        antiphons.append((
+            "antiphona-ad-magnificat",
+            spec.magnificat.antiphona.gabc,
+            spec.magnificat.tonus,
+        ))
+        for slug, gabc, tonus in antiphons:
+            text = (
+                gabc if is_inline_gabc(gabc)
+                else physical(Path(gabc)).read_text(encoding="utf-8")
+            )
+            if find_euouae(text) is not None:
+                continue  # the transcriber's own cue, kept as transcribed
+            materialized = physical(
+                Path(f"chant/inline/{slug}.gabc")
+            ).read_text(encoding="utf-8")
+            # the engine's own six neumes, letter for letter — checked against
+            # the table rather than against the placement code, so that a
+            # placement bug cannot agree with itself
+            printed = find_euouae(materialized)
+            assert printed is not None, slug
+            assert printed.split() == euouae_per_tonus()[tonus].split(), slug
+            assert materialized.rstrip("\n").startswith(text.rstrip("\n")), slug
+            appended += 1
+    # four St. Lambert antiphons and its Magnificat antiphon print no cue of
+    # their own; Benedict's four all do. A vacuous pass would prove nothing.
+    assert appended == 5
 
 
 def test_euouae_disagreeing_with_tonus_gives_german_message(repo_root: Path) -> None:

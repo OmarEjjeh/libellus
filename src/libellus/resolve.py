@@ -33,6 +33,7 @@ from libellus.gabc import (
     hymn_stanzas,
     incipit,
     is_inline_gabc,
+    opening_position,
     pointed_halves,
 )
 from libellus.imagedata import (
@@ -460,19 +461,27 @@ def _resolve_euouae(
 
     A EUOUAE that is already present, or supplied as the ``euouae:``
     assertion, is checked against ``tonus:`` (issue #33).
+
+    The appended notes are placed for the stave they land on: respelled into
+    the antiphon's clef and moved into the octave the antiphon starts again
+    in (ADR-0045, issue #80). Both matter because gabc letters are staff
+    positions, not notes — the engine hands its table out in one canonical
+    clef, and printing it unmoved is right only for an antiphon that happens
+    to share it.
     """
     full_path = source_of(gabc_path, root)
     content = full_path.read_text(encoding="utf-8") if full_path.is_file() else ""
+    clef = _antiphon_clef(content, gabc_path)
     own = find_euouae(content)
     if own is not None:
         _verify_tonus(
-            content, own, _antiphon_clef(content, gabc_path),
+            content, own, clef,
             "Die Schlussformel der Antiphon", tonus, what, problems,
         )
         return gabc_path
     if euouae_field is not None:
         _verify_tonus(
-            content, euouae_field, _antiphon_clef(content, gabc_path),
+            content, euouae_field, clef,
             "Das Feld „euouae“", tonus, what, problems,
         )
     try:
@@ -482,7 +491,7 @@ def _resolve_euouae(
         return gabc_path
     if tonus not in table:
         return gabc_path  # unknown tone: already reported by verse generation
-    euouae_gabc = build_euouae_gabc(table[tonus])
+    euouae_gabc = build_euouae_gabc(table[tonus], clef, opening_position(content))
     if euouae_gabc is None:
         return gabc_path
     appended = content.rstrip("\n") + f" <eu>{euouae_gabc}</eu>(::)\n"
@@ -490,8 +499,9 @@ def _resolve_euouae(
     source_of(target, root).parent.mkdir(parents=True, exist_ok=True)
     source_of(target, root).write_text(appended, encoding="utf-8")
     logger.debug(
-        "%s: Schlussformel des Tons %s an materialisierte Kopie „%s“ angehängt.",
-        slug, tonus, target,
+        "%s: Schlussformel des Tons %s in %s an materialisierte Kopie „%s“ "
+        "angehängt.",
+        slug, tonus, clef, target,
     )
     assets.discard(gabc_path)
     assets.add(target)
