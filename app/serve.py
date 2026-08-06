@@ -6,10 +6,15 @@
 
     uv run app/serve.py [--port 8017]
 
-Builds a fresh ``libellus`` wheel, then serves the repository root so the page
-can reach four things: itself under ``/app/``, the Toolchain under
-``/toolchain/``, that wheel under ``/dist/``, and the Working directory —
-feast specs, their pictures and the Psalter — from the checkout.
+Builds a fresh ``libellus`` wheel and a fresh editor bundle, then serves the
+repository root so the page can reach four things: itself under ``/app/``, the
+Toolchain under ``/toolchain/``, that wheel under ``/dist/``, and the Working
+directory — feast specs, their pictures and the Psalter — from the checkout.
+
+``/app/`` is the one path that is not what it looks like: since #91 the
+application is built by Vite, so it is served out of ``app/dist/`` rather than
+out of ``app/`` itself. The URL shape is deliberately unchanged, because
+``worker.mjs`` and ``electron/main.mjs`` both depend on it (ADR-0046).
 
 Deliberately plain. It sends **no** ``Cross-Origin-Opener-Policy`` and no
 ``Cross-Origin-Embedder-Policy``, so the page runs without cross-origin
@@ -37,6 +42,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
+#: Where ``vite build`` puts the application, and therefore what ``/app/``
+#: actually serves. Kept distinct from the repository's ``dist/``, which is the
+#: Python wheel's output directory.
+APP_BUILD = ROOT / "app" / "dist"
+
 #: Logical prefixes the wheel does NOT carry, because they are the user's
 #: content rather than the tool (see libellus.paths). The page copies these
 #: into Pyodide's filesystem, which is what makes it a Working directory.
@@ -56,6 +66,23 @@ def build_wheel() -> str:
     )
     wheels = sorted((ROOT / "dist").glob("libellus-*.whl"), key=lambda p: p.stat().st_mtime)
     return wheels[-1].name
+
+
+def build_application() -> None:
+    """Build the editor bundle this serves under ``/app/``.
+
+    Built rather than merely checked for, and for the same reason the wheel is:
+    a stale bundle is served silently and looks like a code change that had no
+    effect. ``npm run dev`` is the loop for working on the editor itself; this
+    server is for working on everything under it.
+    """
+    print("building the application…", file=sys.stderr)
+    try:
+        subprocess.run(["npm", "run", "build"], cwd=ROOT, check=True, capture_output=True)
+    except FileNotFoundError:
+        sys.exit("no npm — the application is a Vite build now (#91); install Node")
+    except subprocess.CalledProcessError as failure:
+        sys.exit(f"the application failed to build:\n{failure.stderr.decode()}")
 
 
 def content_files(base: Path, pattern: str) -> Iterator[Path]:
@@ -113,6 +140,20 @@ class Handler(SimpleHTTPRequestHandler):
         self.generated = generated
         super().__init__(*args, directory=str(ROOT), **kwargs)
 
+    def translate_path(self, path: str) -> str:
+        """Map ``/app/…`` onto the built application, everything else onto the checkout.
+
+        Rewritten *after* the base class has resolved and sanitised the path,
+        so this only ever inserts one fixed segment and cannot be talked into
+        escaping the tree.
+        """
+        resolved = Path(super().translate_path(path))
+        app_source = ROOT / "app"
+        if resolved == app_source or app_source in resolved.parents:
+            return str(APP_BUILD / resolved.relative_to(app_source))
+        return str(resolved)
+
+
     def do_GET(self) -> None:  # noqa: N802 — http.server's spelling
         body = self.generated.get(self.path)
         if body is None:
@@ -133,7 +174,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--port", type=int, default=8017)
     parser.add_argument(
-        "--no-build", action="store_true", help="reuse the wheel already in dist/"
+        "--no-build",
+        action="store_true",
+        help="reuse the wheel and the application bundle already built",
     )
     arguments = parser.parse_args()
 
@@ -141,6 +184,10 @@ def main() -> None:
         wheel = sorted((ROOT / "dist").glob("libellus-*.whl"))[-1].name
     else:
         wheel = build_wheel()
+        build_application()
+
+    if not (APP_BUILD / "index.html").is_file():
+        sys.exit("no application bundle — run `npm install && npm run build` first")
 
     if not (ROOT / "toolchain" / "manifest.json").is_file():
         sys.exit("no Toolchain — run scripts/toolchain/build.sh first")

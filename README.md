@@ -245,11 +245,10 @@ libellus export-form-data          # --check only reports staleness
 
 ## The booklet in a browser tab
 
-`app/` is the first slice of the all-in-one (ADR-0026): the whole pipeline —
-resolve, notation, LuaTeX — running in a browser tab, with no TeX Live, no
-Node and nothing installed. It is a tracer bullet, not the finished
-application: it builds the bundled feasts and nothing else, and there is no
-editor yet (#57).
+`app/` is the all-in-one (ADR-0026) in a browser tab: the whole pipeline —
+resolve, notation, LuaTeX — with no TeX Live, no Node and nothing installed
+(#57), and since #91 an editing surface over it (ADR-0028) rather than a build
+button alone.
 
 It needs the **Toolchain** — LuaHBTeX and gregorio as WebAssembly plus a
 46 MB texmf tree — which is built once from pinned upstream releases and a
@@ -257,8 +256,21 @@ local TeX Live:
 
 ```
 scripts/toolchain/build.sh         # ~80 MB into toolchain/, gitignored
+npm install                        # once per checkout; not shared between worktrees
 uv run app/serve.py                # http://127.0.0.1:8017/app/
 ```
+
+`serve.py` builds the wheel and the application before serving, so this one
+command is the whole loop for working on anything under the editor. For working
+on the editor itself, `npm run dev` adds hot reload and forwards everything the
+pipeline needs (the wheel, the Toolchain, the Working directory) back to a
+`serve.py` on its default port — run both.
+
+What gets served under `/app/` is `app/dist/`, the Vite build, not the sources
+beside it (ADR-0046). `app/pipeline/` is the exception that proves the rule: the
+six pipeline modules and the vendored `pdf-lib` are copied through the build
+untouched, because the Electron shell reuses them verbatim and a bundler must
+not get near their relative `fetch()` and `import()` calls.
 
 The first visit downloads the Toolchain into the origin's private filesystem
 (OPFS) and builds a `lualatex.fmt` inside the WebAssembly, because
@@ -274,20 +286,21 @@ Einheitsübersetzung, which is not redistributable.
 
 ## The Electron shell
 
-`electron/` is the second host (#60, ADR-0035): the exact same `app/*.mjs`
-pipeline, running in a `BrowserWindow` instead of a browser tab, fetching the
-**Toolchain** from its published GitHub release rather than a local build.
+`electron/` is the second host (#60, ADR-0035): the exact same application and
+the exact same `app/pipeline/*.mjs`, running in a `BrowserWindow` instead of a
+browser tab, fetching the **Toolchain** from its published GitHub release rather
+than a local build.
 
 ```
 uv build --wheel --out-dir dist    # or: npm run predist
 npm install
-npm start
+npm start                          # builds the application first, then launches
 ```
 
 The window loads `app/index.html` over a privileged `libellus://` scheme that
-serves `app/`, the wheel and the Working directory straight off disk, and
-proxies `/toolchain/…` to the real `toolchain-vN` release asset — the main
-process is not subject to browser CORS, so it fetches that asset directly,
+serves the built application, the wheel and the Working directory straight off
+disk, and proxies `/toolchain/…` to the real `toolchain-vN` release asset — the
+main process is not subject to browser CORS, so it fetches that asset directly,
 which is exactly why this host does not need the browser's same-origin
 `toolchain-assets` workaround (#58). `worker.mjs`, `engines.mjs` and
 `toolchain.mjs` run completely unchanged.
@@ -303,20 +316,21 @@ this pipeline.
 **The Working directory is whichever folder you point the app at** (#70). Run
 from the checkout it defaults to the checkout, same content as the browser —
 `feasts/`, `images/` and `psalter/` read straight off disk. A packaged
-installer defaults to its own resources, which carry `app/` and the wheel but
-no content, so it opens on an empty feast list until you pick a folder. The
-picker is a native directory dialog, offered only by this host — the browser
-page shares `app/main.mjs` and simply hides the button — and the folder it
-returns is remembered across launches in `settings.json` under Electron's
-`userData`. Changing it reloads the page rather than re-staging Pyodide's
-filesystem in place.
+installer defaults to its own resources, which carry the application and the
+wheel but no content, so it opens on an empty feast list until you pick a
+folder. The picker is a native directory dialog, offered only by this host —
+the browser page shares the same code and simply hides the button — and the
+folder it returns is remembered across launches in `settings.json` under
+Electron's `userData`. Changing it reloads the page rather than re-staging
+Pyodide's filesystem in place.
 
-`extraResources` bundles `app/` and the wheel and deliberately stops there:
-neither `feasts/` nor `psalter/` ships inside an installer. Since ADR-0041 that
-is no longer a copyright limit — `psalter/allioli-arndt/` is public domain and
-tracked — but both shipped feasts name their translation explicitly
-(`eu1980`/`eu2016`), so bundling the public-domain Psalter alone would still
-build nothing. What an installer should carry as a demo is open (#78).
+`extraResources` bundles `app/dist/` and the wheel and deliberately stops
+there: neither `feasts/` nor `psalter/` ships inside an installer. Since
+ADR-0041 that is no longer a copyright limit — `psalter/allioli-arndt/` is
+public domain and tracked — but both shipped feasts name their translation
+explicitly (`eu1980`/`eu2016`), so bundling the public-domain Psalter alone
+would still build nothing. What an installer should carry as a demo is open
+(#78).
 
 `npm run dist` packages unsigned installers for macOS, Windows and Linux via
 `electron-builder` (ADR-0035); expect the usual Gatekeeper/SmartScreen
@@ -441,15 +455,21 @@ embed the Psalter — the German verses still come from your working directory.
 
 ```
 feasts/                     the feast specs — the artifact you edit
-form/formular.html          self-contained browser form
-app/                        the whole pipeline, shared by both hosts below
-├── worker.mjs              where it all runs — and it must be a Worker
-├── engines.mjs             gregorio + LuaHBTeX behind a synchronous seam
-├── psalmengine.mjs         the jgabc engine, in the page instead of in node
+form/formular.html          the retired standalone form (ADR-0028)
+app/                        the application: editing surface + pipeline
+├── index.html              the Vite entry point
+├── src/                    the editor — Preact + TSX (#91)
+│   └── feast/document.ts   a feast spec's bytes and its typed view (ADR-0047)
+├── pipeline/               copied through the build untouched (ADR-0046)
+│   ├── worker.mjs          where it all runs — and it must be a Worker
+│   ├── engines.mjs         gregorio + LuaHBTeX behind a synchronous seam
+│   └── psalmengine.mjs     the jgabc engine, in the page instead of in node
+├── dist/                   what both hosts serve (built, gitignored)
 └── serve.py                browser dev server; deliberately sends no COOP/COEP
 electron/                   the Electron shell (#60, ADR-0035)
 └── main.mjs                BrowserWindow + the libellus:// protocol handler
-package.json                electron / electron-builder, npm start / npm run dist
+vite.config.mts             the application's build — .mts, and that matters
+package.json                vite / vitest / electron-builder; npm run build, dev, dist
 toolchain/                  WebAssembly + texmf tree (built, gitignored)
 images/<feast>/             pictures, one folder per celebration (names:
                             letters, digits, . _ - only — see ADR-0033)
@@ -520,7 +540,9 @@ The directory name is the branch minus its type prefix. Do not use bare
 worktree resolves no German and cannot run the application, without saying so.
 The script symlinks the expensive, stable parts back to the main checkout and
 syncs the rest; a provisioned worktree costs about 9 MB of real disk and passes
-the full suite. Add `npm install` only if the work touches the Electron shell.
+the full suite. `node_modules/` is not among the shared parts, so run
+`npm install` in the worktree before serving or packaging the application —
+since #91 that is needed for the browser host too, not only for Electron.
 
 `toolchain/` and `psalter/` are shared, so a `git -C psalter pull` or a
 toolchain rebuild in one worktree is felt in all of them. Pass

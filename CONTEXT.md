@@ -10,6 +10,16 @@ operable by non-technical successors. See `docs/adr/` for decisions.
 One YAML file describing one celebration, always self-contained.
 _Avoid_: feast file, config, spec file
 
+**Feast document**:
+A **Feast spec** as the app holds it, which is two things at once: the token
+stream carrying its exact bytes, and the typed view composed on top of that.
+Editing reads the typed view and writes back a splice into the tokens, so a spec
+that was opened and saved is unchanged to the byte, and one that was edited
+differs only where it was edited — comments, hand-made line breaks and all
+(ADR-0047).
+_Avoid_: parsed spec, AST, model — each names one of the two halves and loses
+the other, which is the whole point
+
 **Libellus**:
 The tool that turns a feast spec into the finished booklet PDFs — one product in
 three shapes: the application (browser and Electron), the command line, and the

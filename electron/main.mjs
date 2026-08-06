@@ -1,15 +1,17 @@
 // The Electron shell (#60, ADR-0035): a `BrowserWindow` running the exact same
-// `app/*.mjs` code the browser host runs, over a privileged custom scheme
-// instead of an http(s) origin.
+// application the browser host runs, over a privileged custom scheme instead of
+// an http(s) origin.
 //
-// ADR-0035 decision 5 is the whole design: `worker.mjs`, `engines.mjs` and
-// `toolchain.mjs` are reused completely unchanged — not a single line here
-// patches them. That is only possible because they already talk to their
-// "origin" through root-relative `fetch()` calls (`/app/workdir.json`,
-// `/feasts/…`, `/toolchain/manifest.json`, `/dist/…`), which is exactly what
-// `app/serve.py` serves for the browser host today. This file reproduces that
-// same URL shape under `libellus://bundle/…`, so nothing downstream can tell
-// the difference.
+// ADR-0035 decision 5 is the whole design: `pipeline/worker.mjs`,
+// `pipeline/engines.mjs` and `pipeline/toolchain.mjs` are reused completely
+// unchanged — not a single line here patches them, and since #91 the build
+// system says so too, by copying them out of Vite's public directory verbatim
+// rather than bundling them (ADR-0046). That is only possible because they
+// already talk to their "origin" through root-relative `fetch()` calls
+// (`/app/workdir.json`, `/feasts/…`, `/toolchain/manifest.json`, `/dist/…`),
+// which is exactly what `app/serve.py` serves for the browser host today. This
+// file reproduces that same URL shape under `libellus://bundle/…`, so nothing
+// downstream can tell the difference.
 //
 // What genuinely differs per host, per decision 5, is the Working-directory
 // access layer. For this v1 that is a narrow difference: the browser's dev
@@ -35,6 +37,16 @@ const REPO_ROOT = path.join(__dirname, "..");
  */
 function resourceRoot(name) {
   return app.isPackaged ? path.join(process.resourcesPath, name) : path.join(REPO_ROOT, name);
+}
+
+/**
+ * The application itself, which since #91 is a Vite build rather than files
+ * served straight off disk (ADR-0046). Packaged, `extraResources` copies
+ * `app/dist` to `app`, so the two hosts converge again there; in dev it has to
+ * be named outright, or this serves the TSX sources and the window is blank.
+ */
+function applicationRoot() {
+  return app.isPackaged ? resourceRoot("app") : path.join(REPO_ROOT, "app", "dist");
 }
 
 /**
@@ -185,6 +197,8 @@ const MIME = {
   ".json": "application/json",
   ".whl": "application/zip",
   ".html": "text/html",
+  ".css": "text/css",
+  ".map": "application/json",
 };
 
 function withContentType(response, pathname) {
@@ -197,12 +211,12 @@ function withContentType(response, pathname) {
 
 async function route(pathname) {
   if (pathname === "/" || pathname === "/app/index.html") {
-    return serveFile(path.join(resourceRoot("app"), "index.html"));
+    return serveFile(path.join(applicationRoot(), "index.html"));
   }
   if (pathname === "/app/wheels.json") return jsonResponse(await wheelsJson());
   if (pathname === "/app/workdir.json") return jsonResponse(await workdirJson());
   if (pathname.startsWith("/app/")) {
-    return serveFile(safeJoin(resourceRoot("app"), pathname.slice("/app".length)));
+    return serveFile(safeJoin(applicationRoot(), pathname.slice("/app".length)));
   }
   if (pathname.startsWith("/dist/")) {
     return serveFile(safeJoin(resourceRoot("dist"), pathname.slice("/dist".length)));

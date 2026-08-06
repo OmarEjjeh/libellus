@@ -14,9 +14,12 @@
 # bare `git worktree add` produces a directory that resolves no German, has no
 # Toolchain and no venv. This script symlinks the expensive, shared parts back
 # to the main checkout and syncs the cheap ones. node_modules is deliberately
-# not among them: it is 400 MB, only Electron work needs it, and an `npm
-# install` through a shared symlink would rewrite what every other worktree is
-# using.
+# not among them: it is 400 MB, and an `npm install` through a shared symlink
+# would rewrite what every other worktree is using. It is no longer optional,
+# though — since #91 the application is a Vite build, so both hosts need it,
+# not only Electron. It is left to a manual `npm install` because failing to
+# run one is loud: `app/serve.py` builds the application before serving and
+# exits saying so.
 set -euo pipefail
 
 OWN_TOOLCHAIN=0
@@ -143,7 +146,7 @@ else
 fi
 echo
 echo "next:  cd $WT && direnv allow"
-echo "       npm install          # only if the work touches the Electron shell"
+echo "       npm install          # needed by both hosts since #91, not just Electron"
 echo
 echo "when it merges:  git worktree remove --force $WT && git branch -d $BRANCH"
 echo "  (--force is normal here: .venv/ and build/ are untracked. Verified that"

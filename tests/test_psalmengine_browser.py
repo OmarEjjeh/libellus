@@ -1,9 +1,9 @@
 """The browser's psalm-tone engine answers exactly as ``node`` does.
 
-``app/psalmengine.mjs`` runs the vendored ``generate.js`` in the page instead
-of in a process (ADR-0027). The engine file itself is untouched, so the whole
-risk is in the four node built-ins the browser has to supply — and that risk is
-real: reproducing ``vm.runInContext`` faithfully means getting both a
+``app/pipeline/psalmengine.mjs`` runs the vendored ``generate.js`` in the page
+instead of in a process (ADR-0027). The engine file itself is untouched, so the
+whole risk is in the four node built-ins the browser has to supply — and that
+risk is real: reproducing ``vm.runInContext`` faithfully means getting both a
 declaration (``var gloria_patri``) and an implicit global
 (``var o_g_tones = g_tones = {…}``) onto the sandbox, and an earlier attempt
 that handled only the first produced silently empty notation.
@@ -42,8 +42,9 @@ COMMANDS = [
     ["verses", "--psalmus", "109", "--tonus", "9Z"],
 ]
 
-#: Drives app/psalmengine.mjs with a Pyodide stand-in whose filesystem is the
-#: real one — the module only ever reads files and asks for the generator path.
+#: Drives app/pipeline/psalmengine.mjs with a Pyodide stand-in whose filesystem
+#: is the real one — the module only ever reads files and asks for the
+#: generator path.
 HARNESS = """
 import {{ readFileSync, existsSync }} from "fs";
 const {{ psalmEngine }} = await import("{app}/psalmengine.mjs");
@@ -64,7 +65,7 @@ def browser_engine(repo_root: Path, args: list[str], tmp_path: Path) -> tuple[in
     script = tmp_path / "harness.mjs"
     script.write_text(
         HARNESS.format(
-            app=(repo_root / "app").as_posix(),
+            app=(repo_root / "app" / "pipeline").as_posix(),
             generator=GENERATOR.as_posix(),
             args=json.dumps(args),
         ),

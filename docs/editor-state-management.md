@@ -4,9 +4,19 @@ The design of an editor UI over the `FeastSpec` model for the JS/TS side of the
 port (ADR-0027): the Pydantic model translated to Zod, undo/redo, and GABC chant
 rendering via exsurge.js.
 
-**Recorded, not yet decided.** None of this has earned an ADR or a `CONTEXT.md`
-term, and none of it is implemented. Formalising it is the next step; the ADRs
-would begin at **ADR-0041**, ADR-0040 being the current highest.
+**Partly decided, partly still a record.** The stack below was ratified by
+ADR-0028 decision 2; #91 slice 1 has built the shell on it and turned two
+further questions into ADR-0046 (the application is a build, and both hosts
+serve it) and ADR-0047 (a feast spec's bytes are its CST). The store, the
+validation split and the GABC rendering discipline are still records rather
+than decisions, and are #91's slices 2, 4 and 5.
+
+One correction the experiment forced, before reading further: **the Zod split
+below is not what slice 4 builds.** ADR-0028 decision 3 assumed the schema was
+already Zod in `core`; it is not, and the TypeScript port (ADR-0027, #92)
+follows this work rather than preceding it. So the strict tier calls the real
+`libellus.schema` through the Pyodide worker for one round, and the two-tier
+shape below is what it will grow into afterwards.
 
 ## Decisions made
 
@@ -86,6 +96,12 @@ behavior. **Needs a decision before implementation.**
 ## What this still needs
 
 - The open question above answered. It is the one item here that blocks
-  implementation rather than merely wanting to be written down.
-- The decisions above turned into ADRs from ADR-0041 onward, and any new terms
-  they introduce added to `CONTEXT.md`.
+  implementation rather than merely wanting to be written down, and #91 answers
+  it: conversion on first edit rather than on open, as a named store action
+  (`detachGabcToInline`) so undo restores the path in one step, and visible in
+  the field. It is slice 5's to build.
+- The state-management decisions above turned into ADRs as they are built
+  (slice 2), and any new terms they introduce added to `CONTEXT.md`.
+- One constraint they did not anticipate, from ADR-0047: the store has to keep
+  the loaded `FeastDocument` beside the draft, because a save finds each
+  changed field's `srcToken` through it.

@@ -26,12 +26,27 @@ jobs:
           enable-cache: true
 
       # The psalm-tone engine is plain JS with no npm dependencies, but it does
-      # need a runtime: every build of every feast calls it (ADR-0024).
+      # need a runtime: every build of every feast calls it (ADR-0024). Since
+      # #91 the application is a Vite build too, which is what pins the version
+      # (vite requires ^20.19 || >=22.12).
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - run: uv sync --all-groups
+
+      - name: Install the application's dependencies
+        run: npm ci
+
+      - name: Check the editor's types and its own tests
+        run: |
+          npm run typecheck
+          npm test
+
+      # `tests/test_app_serving.py` checks the built output, and every feast
+      # spec's round-trip is asserted against the real files above.
+      - name: Build the application
+        run: npm run build
 
       # test_form.py drives the browser form through the real data island
       - name: Install the Playwright browser
