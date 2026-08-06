@@ -1,7 +1,11 @@
 # ADR-0047: A feast spec's bytes are its CST; the typed model is composed on top, and edits are spliced
 
 Date: 2026-08-06
-Status: accepted
+Status: **superseded 2026-08-06 by ADR-0049 decision 2** — a save re-emits
+through the AST and the guarantee is restated as „no value changes and no
+comment is lost", measured rather than asserted. The distinction this record
+draws between the CST and the AST remains accurate and worth reading; only the
+choice built on it is withdrawn.
 Scopes: ADR-0003 (the surviving half), ADR-0028 decision 2.
 Answers a question `docs/editor-state-management.md` did not know it was asking.
 

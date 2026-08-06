@@ -11,14 +11,25 @@ One YAML file describing one celebration, always self-contained.
 _Avoid_: feast file, config, spec file
 
 **Feast document**:
-A **Feast spec** as the app holds it, which is two things at once: the token
-stream carrying its exact bytes, and the typed view composed on top of that.
-Editing reads the typed view and writes back a splice into the tokens, so a spec
-that was opened and saved is unchanged to the byte, and one that was edited
-differs only where it was edited — comments, hand-made line breaks and all
-(ADR-0047).
-_Avoid_: parsed spec, AST, model — each names one of the two halves and loses
-the other, which is the whole point
+A **Feast spec** as the app holds it: the `eemeli/yaml` document parsed from the
+file, kept beside the **Draft** for as long as the spec is open. Saving writes
+only the values that moved into it and stringifies the whole document, so every
+comment survives and no value changes — but flow collections, the spacing before
+trailing comments and folded (`>-`) prose are re-emitted in the house format
+(ADR-0049 decision 2). Notation is safe: it lives in literal (`|`) blocks, which
+keep their lines.
+_Avoid_: parsed spec, AST, model — the first two name the machinery, and „model“
+is what the **Draft** is
+
+**Draft**:
+The **Feast spec** as the editor currently has it, in the shape the form needs
+rather than the shape the file has: every antiphon slot present whether the
+**Ordo** uses it or not, absent fields as empty strings rather than missing, at
+least one versus always. It is held in the store, mutated as the user types, and
+is the only thing undo and redo move. Two translators bridge it to the **Feast
+document** on either side (ADR-0049 decision 1).
+_Avoid_: state, model, working copy — the first two are about the machinery, the
+third suggests a second file somewhere
 
 **Libellus**:
 The tool that turns a feast spec into the finished booklet PDFs — one product in
