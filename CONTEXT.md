@@ -278,6 +278,36 @@ it. Belongs to the vendored engine's tone table; this project never
 authors one.
 _Avoid_: termination (bare, ambiguous with the cadence itself); euouae
 
+**Connection rule**:
+The traditional way of choosing a `Tonus`'s differentia where nothing
+records it: the ending whose closing note runs smoothly into the note the
+antiphon is taken up again on. Since a `Euouae` and the antiphon are read
+in the same `Clef` frame, that is one comparison — the ending's last note
+against the antiphon's first. It is available wherever a mode and a first
+note are, which is everywhere, but it ties where a mode's endings close on
+the same note (mode 1's `D`, `D-` and `D2` all close on `d`), and it is a
+convention rather than a law: three antiphons of the two shipped booklets
+are sung to an ending it does not propose. So it suggests, and a
+disagreement with a notated `Euouae` is a finding to surface rather than an
+error to resolve (ADR-0044).
+_Avoid_: opening-note rule (it is chosen for the *return* to the antiphon,
+which is why the antiphon's opening note is the thing it reads); differentia
+rule
+
+**Tonus candidate**:
+One answer of the psalm-tone resolver: a `Tonus` label plus the
+*provenance* that earned it — `euouae` (measured from a notated cue,
+exactly), `euouae-leading` (measured on the leading neumes only, tolerating
+an embellished final neume), `connection` (the `Connection rule`), or
+`mode-only` (nothing derivable, so the declared mode's endings whole).
+Ranked measured-before-inferred, and a label both operations propose
+appears once per provenance, because agreement and silence are different
+things. The set is a suggestion and a cross-check, never an input: `tonus:`
+stays human-authored, and a tie always comes back whole rather than
+narrowed to one invented label (ADR-0044).
+_Avoid_: detected tone, best match, guess (the contract's whole point is
+that it does not)
+
 **Staging**:
 Producing a self-contained build folder that compiles to the booklet
 without libellus or the rest of the repo — and compiles to the *same*

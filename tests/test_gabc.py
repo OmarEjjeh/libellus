@@ -7,14 +7,17 @@ from libellus.gabc import (
     build_euouae_gabc,
     chant_name,
     differentia_candidates,
+    final_pitch_class,
     find_clef,
     find_euouae,
+    find_mode,
     first_stanza_gabc,
     hymn_incipit,
     hymn_stanzas,
     incipit,
     lyrics,
     normalize_euouae,
+    opening_pitch_class,
     pointed_halves,
     read_headers,
 )
@@ -302,6 +305,91 @@ def test_differentia_candidates_identifies_an_ending_under_another_clef(
     assert differentia_candidates("f f e f d c.", table, "c2")[0] == ["8G"]
     # tone 2D, the one ending the engine itself writes under an f clef
     assert differentia_candidates("h h h g e f.", table, "f3")[0] == ["2D"]
+
+
+def _pitch_class(letter: str) -> int:
+    """What a ``c4`` note letter reduces to — the oracle for the reduction the
+    two pitch-class readers apply, spelled out rather than imported."""
+    return (ord(letter) - ord("a")) % 7
+
+
+def test_find_mode_reads_the_header() -> None:
+    """The mode is declared, not derived — every corpus antiphon carries it,
+    and the tonus peregrinus writes ``p`` where the others write a digit
+    (#46)."""
+    assert find_mode(_score("chant/ant/cum-palma-ad-regna.gabc")) == "8"
+    assert find_mode(_score("chant/ant/martyres-domini.gabc")) == "p"
+    assert find_mode("name:Ohne Modus;\n%%\n(c4) Lau(j)dá(j)te.(j) (::)\n") is None
+
+
+def test_find_mode_ignores_the_body() -> None:
+    """Only the headers are read: a body may well contain the letters
+    ``mode:`` inside sung text or a comment, and must not be mistaken for a
+    declaration."""
+    assert find_mode("%%\n(c4) mode:8 hi(g)er(g) nicht.(g) (::)\n") is None
+
+
+def test_opening_pitch_class_skips_the_clef_and_the_lyrics() -> None:
+    """The first *sung* note. Both traps are real: the clef is a note group
+    (``(c4)`` would read as a ``c``), and the sung text is full of letters
+    ``a``–``m`` that are not notation at all (#46)."""
+    assert opening_pitch_class("%%\n(c4) BE(e)á(e)tus(f) vir(ed) (::)\n") == (
+        _pitch_class("e")
+    )
+
+
+def test_opening_pitch_class_skips_an_accidental() -> None:
+    """An accidental is spelled with the pitch letter it applies to — tone I's
+    B-flat is ``ixi``, accidental on ``i`` then the note ``i``. Reading its
+    letter as the opening note would name the wrong one wherever a score
+    happens to open under a flat."""
+    assert opening_pitch_class("%%\n(c4) Læ(ixi)tor.(h) (::)\n") == _pitch_class("i")
+    assert opening_pitch_class("%%\n(c4) Læ(bxf)tor.(h) (::)\n") == _pitch_class("f")
+
+
+def test_opening_pitch_class_reads_a_flat_clef_past_its_flat() -> None:
+    """``cb4`` puts "do" where ``c4`` does — the flat lowers a pitch, it does
+    not move a staff position (ADR-0042)."""
+    laetare = _score("chant/ant/laetare-et-lauda.gabc")
+    assert find_clef(laetare) == "cb4"
+    assert opening_pitch_class(laetare) == _pitch_class("f")
+
+
+def test_opening_pitch_class_is_the_same_note_under_any_clef() -> None:
+    """gabc letters are staff positions, so the same opening note spells
+    differently under each clef — and must still compare equal (#45)."""
+    assert (
+        opening_pitch_class("%%\n(c4) Lau(j)dá(j)te.(j) (::)\n", "c4")
+        == opening_pitch_class("%%\n(c3) Lau(h)dá(h)te.(h) (::)\n", "c3")
+        == opening_pitch_class("%%\n(f3) Lau(e)dá(e)te.(e) (::)\n", "f3")
+    )
+
+
+def test_opening_pitch_class_without_a_body_is_none() -> None:
+    """No ``%%`` means no notation to read, exactly as :func:`find_clef` has it."""
+    assert opening_pitch_class("name:Nur Kopfzeilen;\n") is None
+    assert opening_pitch_class("%%\n(c4) (::)\n") is None
+
+
+def test_final_pitch_class_is_the_last_note_of_the_last_neume() -> None:
+    """A termination's closing note — the one the connection rule matches.
+    It may sit inside a compound neume: mode 1's ``D`` ends ``gvFED.``, whose
+    final note is the ``D``, and case is a note *shape*, not a pitch."""
+    assert final_pitch_class("h h g f gh gvFED.") == _pitch_class("d")
+    assert final_pitch_class("j j i j h gh..") == _pitch_class("h")
+    assert final_pitch_class("g g g d f ed..") == _pitch_class("d")
+
+
+def test_final_pitch_class_ignores_the_octave() -> None:
+    """Mode 2's table row is written a whole octave above the staff, so the
+    rule compares pitch classes rather than positions (ADR-0042's octave
+    doctrine, applied to a single note)."""
+    assert final_pitch_class("m m m l j k.") == final_pitch_class("f f f e c d.")
+
+
+def _score(logical: str) -> str:
+    """One committed gabc score, verbatim."""
+    return physical(logical).read_text(encoding="utf-8")
 
 
 def test_incipit_extends_past_a_governing_word(repo_root: Path) -> None:
