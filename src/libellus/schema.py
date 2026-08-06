@@ -301,6 +301,13 @@ class AntiphonaAdMagnificat(OrdoItem):
 class Magnificat(StrictModel):
     antiphona: AntiphonaAdMagnificat
     tonus: str
+    #: Which of a tone's mediations to sing, where the books print more than
+    #: one under a single label — today only `6F` (ADR-0043). Omitted takes
+    #: the tone's default; naming one on a tone that has no choice is an
+    #: error, since ignoring it would set a melody nobody asked for. The valid
+    #: names come from `psalmtone.mediationes_per_tonus`, so they are not
+    #: repeated here.
+    mediatio: str | None = None
 
 
 class Oratio(Notable):

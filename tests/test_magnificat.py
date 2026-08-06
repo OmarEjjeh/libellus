@@ -26,8 +26,8 @@ def test_open_notes_are_off_by_default(repo_root: Path) -> None:
     _, closed = generate_verses("magnificat", "6F")
     _, open_ = generate_verses("magnificat", "6F", open_notes=True)
 
-    assert "(hr)" not in closed[1] and "(fr)" not in closed[0]
-    assert "(hr)" in open_[1]
+    assert "(fr)" not in closed[0] and "(h fr)" not in closed[1]
+    assert "(fr)" in open_[0] and "(h fr)" in open_[1]
 
 
 def test_system_carries_both_verses_under_one_line_of_notes(
@@ -35,7 +35,7 @@ def test_system_carries_both_verses_under_one_line_of_notes(
 ) -> None:
     """Verse 1 in the lyric line, verse 2 in gabc's translation slot beneath
     it, the notes those of the complete verse — so the cadence „Magníficat"
-    never reaches is on the page, with no words under it."""
+    never reaches is on the page, carrying verse 2's syllables alone."""
     system = system_gabc(verses_6f[0], verses_6f[1])
     body = system.split("%%", 1)[1]
 
@@ -45,12 +45,12 @@ def test_system_carries_both_verses_under_one_line_of_notes(
     assert body.count("(c4)") == 1
     assert body.count("(::)") == 1
     assert "1.~Ma" in body and "[2.~Et]" in body
-    # the mediant cadence verse 1 does not reach: notes, no lyric of its own
-    assert "[ <b>spí</b>-](ixi)" in body
+    # the mediant cadence verse 1 does not reach: verse 2's syllable alone
+    assert " [us](f.)" in body
     # verse 1's „mi" sits on the reciting note verse 2 has no syllable for
     assert "mi[](fr)" in body
     # and the reciting notes are hollow, as the Liber prints them
-    assert "(hr)" in body
+    assert "(h fr)" in body
 
 
 def test_the_system_carries_no_padding_of_its_own(verses_6f: list[str]) -> None:
@@ -102,3 +102,19 @@ def test_committed_systems_are_current(repo_root: Path, verses_6f: list[str]) ->
     committed = physical(SYSTEM_DIR / "6f.gabc").read_text(encoding="utf-8")
 
     assert committed == system_gabc(verses_6f[0], verses_6f[1])
+
+
+def test_a_second_mediation_gets_a_committed_system_of_its_own(repo_root: Path) -> None:
+    """A tone offering two mediations is two melodies under one label, so it is
+    two systems — keyed by the cache folder, which is what tells them apart
+    (ADR-0043). Without one, choosing the older mediation would silently fall
+    back to notating both verses separately."""
+    folder, verses = generate_verses(
+        "magnificat", "6F", open_notes=True, mediatio="ut-in-tono-i"
+    )
+    assert folder == "6f-ut-in-tono-i"
+
+    committed = physical(SYSTEM_DIR / f"{folder}.gabc").read_text(encoding="utf-8")
+    assert committed == system_gabc(verses[0], verses[1])
+    # the older mediation is tone I's, B-flat and all
+    assert "(ixi)" in committed

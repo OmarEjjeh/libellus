@@ -530,6 +530,7 @@ def _load_verse_library(
     assets: set[Path],
     psalter_de: str | list[str] | None = None,
     latin_only: bool = False,
+    mediatio: str | None = None,
 ) -> list[dict[str, Any]]:
     """Generate the per-verse gabc on demand and pair it with the German.
 
@@ -543,10 +544,13 @@ def _load_verse_library(
     still gets its notation, and its German is simply absent. This is what
     makes a fresh ``pip install`` able to set a booklet, since no Psalter
     ships with libellus.
+
+    :param mediatio: Which of the tone's mediations to sing, where it offers a
+        choice (ADR-0043). Only the Magnificat passes one.
     """
     psalmus = _psalter_name(library_dir)
     try:
-        folder, contents = generate_verses(psalmus, tonus)
+        folder, contents = generate_verses(psalmus, tonus, mediatio=mediatio)
     except PsalmToneError as exc:
         problems.append(f"{what}: {exc}")
         return []
@@ -838,7 +842,8 @@ def build_context(
 
     magnificat_verses = _load_verse_library(
         MAGNIFICAT_DIR, spec.magnificat.tonus, "Magnificat", problems, root, assets,
-        spec.psalter_de, spec.latin_only,
+        psalter_de=spec.psalter_de, latin_only=spec.latin_only,
+        mediatio=spec.magnificat.mediatio,
     )
 
     # A Kurzfassung puts the Magnificat's first two verses under one system

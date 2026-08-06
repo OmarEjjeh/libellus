@@ -11,6 +11,18 @@
 //     -> JSON {"folder": "8g", "verses": ["<full gabc file content>", ...]}
 //        (Gloria Patri appended; the Magnificat intones every verse)
 //
+//   node generate.js verses --psalmus magnificat --tonus 6F --mediatio ut-in-tono-i
+//     -> the same, sung from the other of the two mediations the books print
+//        under one label (ADR-0043). Only a tone listed by `list-mediationes`
+//        takes the flag; the folder then carries the name, "6f-ut-in-tono-i",
+//        since the same label now spells two different melodies.
+//
+//   node generate.js list-mediationes
+//     -> JSON {"6F": ["recentior", "ut-in-tono-i"]}: the tones whose mediation
+//        the books leave open, and what each choice is called. The FIRST is
+//        the tone's default — the one place that is written down. Tones with
+//        only one mediation are absent, not listed with a single entry.
+//
 //   node generate.js verses --psalmus magnificat --tonus 1D --open-notes
 //     -> the same, but every reciting note jgabc does not put a syllable on is
 //        drawn as an open (hollow) note, the way the Liber Usualis prints a
@@ -60,8 +72,16 @@ const pt = (function loadPsalmtone() {
 // ------------------------------------------------------------------- tones
 // The full Liber Usualis ferial tone set as defined by jgabc. `single: true`
 // marks tones with only one termination; the label is the one the books
-// print. (Not offered: jgabc's alternative tone-6 mediant "6 alt", solemn
-// variants.)
+// print. (Not offered: solemn variants.)
+//
+// `key` names the jgabc row a tone is sung from. Where the books print more
+// than one mediation under one label the tone has no single row, so it carries
+// `mediationes` instead of a `key`: every choice by name, the first being the
+// default. Tone 6 is the only one today — LU p. 117 gives "ut in I. Ton"
+// (p. 108) and "juxta recentiorem usum" under one "VI" with the same
+// differentia F, and the schola sings the second, so that is listed first
+// (ADR-0043). jgabc's "6." being byte-identical to "1." is the engine
+// faithfully obeying the first rubric, not a bug.
 const TONES = [
   { key: '1.', mode: '1', endings: ['D', 'D-', 'D2', 'f', 'g', 'g2', 'g3', 'a', 'a2', 'a3'] },
   { key: '2.', mode: '2', endings: ['D'], single: true },
@@ -69,16 +89,38 @@ const TONES = [
   { key: '4.', mode: '4', endings: ['g', 'E'] },
   { key: '4 alt', mode: '4', endings: ['c', 'A', 'A*', 'd'] },
   { key: '5.', mode: '5', endings: ['a'], single: true },
-  { key: '6.', mode: '6', endings: ['F'], single: true },
+  {
+    mode: '6', endings: ['F'], single: true,
+    mediationes: { 'recentior': '6 alt', 'ut-in-tono-i': '6.' },
+  },
   { key: '7.', mode: '7', endings: ['a', 'b', 'c', 'c2', 'd'] },
   { key: '8.', mode: '8', endings: ['G', 'G*', 'c'] },
   { key: 'per.', mode: 'peregrinus', endings: [''], single: true },
 ];
 
 // "8" + "G*" -> "8gstar"; peregrinus has no ending label -> "peregrinus".
-function toneFolder(mode, ending) {
-  if (mode === 'peregrinus') return 'peregrinus';
-  return mode + ending.toLowerCase().replace('*', 'star');
+// A mediation other than the tone's default is a different melody under the
+// *same* label, so it gets a cache folder of its own: "6f-ut-in-tono-i".
+// `mediatio` is null for the default — main() normalizes it there, so nothing
+// downstream has to ask whether the default was named explicitly.
+function toneFolder(tone, ending, mediatio) {
+  const base = tone.mode === 'peregrinus'
+    ? 'peregrinus'
+    : tone.mode + ending.toLowerCase().replace('*', 'star');
+  return mediatio ? base + '-' + mediatio : base;
+}
+
+// The name of a tone's default mediation: the first `mediationes` names.
+function defaultMediatio(tone) {
+  return Object.keys(tone.mediationes)[0];
+}
+
+// Which jgabc row to sing this tone from. No mediation named -> the default;
+// an unknown name, or any name on a tone with no choice -> null, for the
+// caller to report.
+function mediationRow(tone, mediatio) {
+  if (!tone.mediationes) return mediatio ? null : tone.key;
+  return tone.mediationes[mediatio || defaultMediatio(tone)] || null;
 }
 
 function canonicalLabel(mode, ending) {
@@ -94,7 +136,7 @@ function findTone(label) {
   for (const tone of TONES) {
     for (const ending of tone.endings) {
       if (normalizeLabel(canonicalLabel(tone.mode, ending)) === wanted
-        || toneFolder(tone.mode, ending) === wanted) {
+        || toneFolder(tone, ending) === wanted) {
         return { tone, ending };
       }
     }
@@ -173,7 +215,9 @@ function euouaeOf(tone, ending) {
     if (/[a-mA-M]/.test(m[1])) notes.push(m[1]);
   }
   const euouae = notes.slice(-EUOUAE_SYLLABLES).join(' ');
-  return underCanonicalClef(euouae, pt.g_tones[tone.key].clef);
+  // The tone's default row: a mediation changes the middle of a verse, never
+  // its termination, so every mediation of a tone yields this same EUOUAE.
+  return underCanonicalClef(euouae, pt.g_tones[mediationRow(tone)].clef);
 }
 
 function allEuouae() {
@@ -194,8 +238,9 @@ function deepCopyTones(t) {
 
 // ------------------------------------------------------------- verse engine
 // Mirrors the gabc branch of jgabc's psalmtone.html.js updateEditor().
-function generateVerses(psalmText, tone, ending, repeatIntonation, openNotes) {
-  const t = pt.g_tones[tone.key];
+function generateVerses(psalmText, tone, ending, repeatIntonation, openNotes, mediatio) {
+  const row = mediationRow(tone, mediatio);
+  const t = pt.g_tones[row];
   const termLine = t.terminations ? t.terminations[ending] : (t.termination || t.mediant);
   let gMediant = pt.getGabcTones(t.mediant);
   const gTermination = pt.getGabcTones(termLine);
@@ -241,7 +286,7 @@ function generateVerses(psalmText, tone, ending, repeatIntonation, openNotes) {
     }
     gabc = '(' + t.clef + ') ' + gabc + ' (::)';
     if (/undefined|NaN/.test(gabc)) {
-      throw new Error(`bad gabc for verse ${i + 1} of tone ${tone.key} ${ending}: ${gabc}`);
+      throw new Error(`bad gabc for verse ${i + 1} of tone ${row} ${ending}: ${gabc}`);
     }
     verses.push(gabc);
     if (i === 0 && !repeatIntonation) gMediant = pt.removeIntonation(deepCopyTones(gMediant));
@@ -274,8 +319,19 @@ function main(argv) {
     process.stdout.write(JSON.stringify(allEuouae()) + '\n');
     return;
   }
+  if (command === 'list-mediationes') {
+    const result = {};
+    for (const tone of TONES) {
+      if (!tone.mediationes) continue;
+      for (const ending of tone.endings) {
+        result[canonicalLabel(tone.mode, ending)] = Object.keys(tone.mediationes);
+      }
+    }
+    process.stdout.write(JSON.stringify(result) + '\n');
+    return;
+  }
   if (command !== 'verses') {
-    fail({ error: `unknown command "${command || ''}" — use: list-toni | euouae | verses` });
+    fail({ error: `unknown command "${command || ''}" — use: list-toni | list-mediationes | euouae | verses` });
   }
   const args = {};
   const flags = argv.slice(1).filter((a) => a === '--open-notes');
@@ -288,6 +344,26 @@ function main(argv) {
 
   const found = findTone(args.tonus);
   if (!found) fail({ error: `unknown tone "${args.tonus}"`, toni: allLabels() });
+
+  const label = canonicalLabel(found.tone.mode, found.ending);
+  let mediatio = args.mediatio || null;
+  if (mediatio) {
+    // A named mediation the tone does not have is a real mistake: ignoring it
+    // would print, in silence, a melody nobody asked for.
+    if (!found.tone.mediationes) {
+      fail({ error: `no mediationes for tone "${label}"` });
+    }
+    if (!found.tone.mediationes[mediatio]) {
+      fail({
+        error: `unknown mediatio "${mediatio}"`,
+        mediationes: Object.keys(found.tone.mediationes),
+      });
+    }
+    // Naming the default is allowed and says out loud what already happens, so
+    // it must land in the same cache folder as saying nothing: normalize here,
+    // once, rather than leaving every later step to compare rows.
+    if (mediatio === defaultMediatio(found.tone)) mediatio = null;
+  }
 
   const isCanticle = args.psalmus.toLowerCase() === 'magnificat';
   // jgabc names the psalm files with three digits ("001.txt", "042.txt"), so
@@ -306,11 +382,11 @@ function main(argv) {
   // the printed name keeps the number unpadded: "Psalmus 42", not "Psalmus 042"
   const name = isCanticle ? 'Magnificat' : `Psalmus ${number}`;
   // canticle: the intonation is repeated on every verse
-  const verses = generateVerses(text, found.tone, found.ending, isCanticle, openNotes)
+  const verses = generateVerses(text, found.tone, found.ending, isCanticle, openNotes, mediatio)
     .map((verse, i) => verseFile(
       name, isCanticle ? 'Canticum' : 'Psalmus', found.tone, found.ending, i + 1, verse));
   process.stdout.write(JSON.stringify({
-    folder: toneFolder(found.tone.mode, found.ending),
+    folder: toneFolder(found.tone, found.ending, mediatio),
     verses: verses,
   }) + '\n');
 }

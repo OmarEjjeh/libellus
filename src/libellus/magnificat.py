@@ -25,7 +25,7 @@ import re
 from pathlib import Path
 
 from libellus.paths import source_of
-from libellus.psalmtone import generate_verses, list_toni
+from libellus.psalmtone import generate_verses, list_toni, mediationes_per_tonus
 
 logger = logging.getLogger(__name__)
 
@@ -311,21 +311,33 @@ def build_systems() -> dict[str, str]:
     for the first half, which no single system can carry and which it would be
     wrong to force. Those tones are skipped here and the booklet notates both
     verses separately instead; the absence of the file is that decision.
+
+    **Some tones get more than one.** Where the books print two mediations
+    under one label (``6F``, ADR-0043), each is a melody of its own and gets
+    its own system. Keying by cache folder rather than by label is what keeps
+    them apart — ``6f`` and ``6f-ut-in-tono-i``.
     """
     systems: dict[str, str] = {}
     skipped: list[str] = []
+    mediationes = mediationes_per_tonus()
     for label in list_toni():
-        folder, verses = generate_verses("magnificat", label, open_notes=True)
-        if len(verses) < 2:
-            raise MagnificatSystemError(
-                f"Ton „{label}“: der Generator liefert nur {len(verses)} Vers(e)."
+        # The first mediation listed is the tone's default, and is generated
+        # under no name at all — naming it would only produce the same file.
+        for mediatio in [None, *mediationes.get(label, [])[1:]]:
+            named = f"{label} ({mediatio})" if mediatio else label
+            folder, verses = generate_verses(
+                "magnificat", label, open_notes=True, mediatio=mediatio
             )
-        try:
-            systems[folder] = system_gabc(verses[0], verses[1])
-        except MagnificatSystemError:
-            skipped.append(label)
-            continue
-        logger.debug("Kurzfassungs-System für Ton %s erzeugt (%s).", label, folder)
+            if len(verses) < 2:
+                raise MagnificatSystemError(
+                    f"Ton „{named}“: der Generator liefert nur {len(verses)} Vers(e)."
+                )
+            try:
+                systems[folder] = system_gabc(verses[0], verses[1])
+            except MagnificatSystemError:
+                skipped.append(named)
+                continue
+            logger.debug("Kurzfassungs-System für Ton %s erzeugt (%s).", named, folder)
     logger.info(
         "Magnificat-Systeme erzeugt: %d von %d Tönen. Eigene Melodie im 1. Vers "
         "(zwei Systeme statt einem): %s",
