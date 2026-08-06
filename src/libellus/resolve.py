@@ -26,7 +26,6 @@ from libellus.gabc import (
     CANONICAL_CLEF,
     build_euouae_gabc,
     chant_name,
-    differentia_candidates,
     find_clef,
     find_euouae,
     first_stanza_gabc,
@@ -53,6 +52,13 @@ from libellus.psalmtone import (
     write_verse_cache,
 )
 from libellus.schema import FeastSpec
+from libellus.tonus import (
+    Provenance,
+    disagrees,
+    labels_with,
+    resolve_tonus,
+    tonus_message,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -280,7 +286,13 @@ def _warn_about_print_size(data: bytes, subject: str, path: Path) -> None:
 
 
 def _verify_tonus(
-    euouae: str, clef: str, source: str, tonus: str, what: str, problems: list[str]
+    gabc: str,
+    euouae: str,
+    clef: str,
+    source: str,
+    tonus: str,
+    what: str,
+    problems: list[str],
 ) -> None:
     """Check a EUOUAE against ``tonus:`` — they must name the same ending.
 
@@ -290,6 +302,17 @@ def _verify_tonus(
     stated tone. Anything else is a German error: a EUOUAE and a tone that
     disagree mean the printed cue and the sung psalm ending would diverge.
 
+    The matching itself is :func:`~libellus.tonus.resolve_tonus`, shared with
+    the suggestion the editor offers (issue #46) — this is the assertion end
+    of the same operation, and two implementations would drift. Only the
+    *measured* candidates decide anything here: the connection rule the
+    resolver also applies is a convention, and three antiphons of the two
+    shipped booklets legitimately depart from it, so it cannot fail a build.
+
+    :param gabc: The antiphon's whole score — what the resolver reads.
+    :param euouae: The EUOUAE being checked: the antiphon's own, or the feast
+        spec's ``euouae:`` assertion, which is why it is passed rather than
+        re-read from ``gabc``.
     :param clef: The clef ``euouae`` is written under — without it the pitch
         letters mean nothing, since they are staff positions (issue #45).
     """
@@ -300,8 +323,14 @@ def _verify_tonus(
         return
     if tonus not in table:
         return  # an unknown tone is reported once, by verse generation
-    exact, leading = differentia_candidates(euouae, table, clef)
-    if exact == [tonus] or (not exact and tonus in leading):
+    candidates = resolve_tonus(gabc, table, euouae=euouae, clef=clef)
+    if disagrees(candidates):
+        logger.debug("%s: %s", what, tonus_message(candidates))
+    exact = labels_with(candidates, Provenance.EUOUAE)
+    leading = labels_with(candidates, Provenance.EUOUAE_LEADING)
+    # `exact` holds at most one label, since no two endings' EUOUAEs normalize
+    # alike (`test_every_endings_euouae_is_unique`) — hence `exact[0]` below.
+    if tonus in exact or (not exact and tonus in leading):
         return
     if exact:
         problems.append(
@@ -369,13 +398,13 @@ def _resolve_euouae(
     own = find_euouae(content)
     if own is not None:
         _verify_tonus(
-            own, _antiphon_clef(content, gabc_path),
+            content, own, _antiphon_clef(content, gabc_path),
             "Die Schlussformel der Antiphon", tonus, what, problems,
         )
         return gabc_path
     if euouae_field is not None:
         _verify_tonus(
-            euouae_field, _antiphon_clef(content, gabc_path),
+            content, euouae_field, _antiphon_clef(content, gabc_path),
             "Das Feld „euouae“", tonus, what, problems,
         )
     try:

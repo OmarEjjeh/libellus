@@ -21,8 +21,17 @@ def is_inline_gabc(source: str) -> bool:
 
 def read_headers(path: Path) -> dict[str, str]:
     """Parse the ``key: value;`` headers before the ``%%`` separator."""
+    return _headers(path.read_text(encoding="utf-8"))
+
+
+def _headers(text: str) -> dict[str, str]:
+    """The ``key: value;`` headers of a gabc score held as text.
+
+    Reading stops at the ``%%`` separator, so nothing in the body can be
+    mistaken for a declaration — sung text and comments both contain colons.
+    """
     headers: dict[str, str] = {}
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for line in text.splitlines():
         if line.strip() == "%%":
             break
         match = re.match(r"([\w-]+)\s*:\s*(.*?);?\s*$", line)
@@ -243,7 +252,13 @@ _EUOUAE_LEADING = 5
 
 #: The clef a gabc score opens with: ``c`` or ``f``, optionally carrying a
 #: flat (``cb3``), on one of the four staff lines.
-_CLEF = re.compile(r"\(([cf]b?[1-4])\)")
+_CLEF_SPELLING = r"[cf]b?[1-4]"
+_CLEF = re.compile(rf"\(({_CLEF_SPELLING})\)")
+
+#: One note group of a gabc body: everything between a matched pair of
+#: parentheses. What stands *outside* them is sung text, which is full of the
+#: letters ``a``–``m`` and is not notation at all.
+_NOTE_GROUP = re.compile(r"\(([^()]*)\)")
 
 #: A staff position. gabc spells them ``a``–``m`` from the bottom, uppercase
 #: for an inclinatum — case is a note *shape*, never a different pitch. Every
@@ -283,6 +298,19 @@ def find_clef(text: str) -> str | None:
         return None
     match = _CLEF.search(body)
     return None if match is None else match.group(1)
+
+
+def find_mode(text: str) -> str | None:
+    """The mode a gabc score declares in its ``mode:`` header.
+
+    Written as the books number them — ``1``–``8``, or ``p`` for the tonus
+    peregrinus. It is declared rather than derived: no reading of the melody
+    is as reliable as the transcriber's own statement, and every antiphon in
+    the corpus carries one.
+
+    :return: The mode as written, or ``None`` if the score declares none.
+    """
+    return _headers(text).get("mode", "").strip() or None
 
 
 def _do_position(clef: str) -> int:
@@ -420,6 +448,83 @@ def differentia_candidates(
         if " ".join(normalize_euouae(other).split()[:_EUOUAE_LEADING]) == head
     ]
     return exact, leading
+
+
+#: How many staff positions an octave spans, and the modulus that turns a
+#: position into a **pitch class**: the two functions below transpose into
+#: :data:`CANONICAL_CLEF` and then reduce by this, so ``0`` is the ``a`` of a
+#: ``c4`` stave and ``6`` its ``g``. The clef half is what makes two scores
+#: comparable at all (ADR-0042); the octave half is the same doctrine
+#: :func:`normalize_euouae` applies to a whole EUOUAE, and is needed here for
+#: the same reason — the engine writes mode 2's row a whole octave above the
+#: staff. Nothing is lost by it, because within one mode no two endings close
+#: an octave apart (asserted by ``test_no_mode_has_two_endings_an_octave_apart``).
+_OCTAVE = 7
+
+
+def _pitch_class(pitch: str, clef: str) -> int:
+    """One gabc pitch letter as a pitch class; see :data:`_OCTAVE`."""
+    shift = _do_position(CANONICAL_CLEF) - _do_position(clef)
+    return (ord(pitch.lower()) - _A + shift) % _OCTAVE
+
+
+#: An accidental: a pitch letter plus a flat (``x``), natural (``y``) or
+#: sharp (``#``) marker, as in tone I's B-flat ``ixi`` — accidental on ``i``,
+#: then the note ``i``. It carries a pitch letter without being a sung note,
+#: so anything hunting for the first note has to drop it first. Nothing else
+#: a note group may carry follows a pitch with one of these three.
+_ACCIDENTAL = re.compile(r"[a-mA-M][xy#]")
+
+
+def opening_pitch_class(text: str, clef: str = CANONICAL_CLEF) -> int | None:
+    """The first note a gabc score is sung on, as a pitch class.
+
+    Three things in a body look like notes and are not: the clef is itself a
+    note group (``(c4)`` would read as a ``c``), the sung text between the
+    groups is ordinary Latin, most of whose letters fall in ``a``–``m``, and
+    an accidental is spelled with the pitch letter it applies to. So only note
+    groups are read, the clef among them is skipped, and accidentals come out
+    of whichever group holds the first real note.
+
+    :param text: A whole gabc score, headers included — a body is what is
+        read, and a text with no ``%%`` separator has none.
+    :param clef: The clef the score is notated under, from :func:`find_clef`.
+    :return: The pitch class (see :data:`_OCTAVE`), or ``None`` if the score
+        sounds no note.
+    """
+    _, separator, body = text.partition("%%")
+    if not separator:
+        return None
+    for group in _NOTE_GROUP.findall(body):
+        if re.fullmatch(_CLEF_SPELLING, group):
+            continue
+        pitch = _PITCH.search(_ACCIDENTAL.sub("", group))
+        if pitch is not None:
+            return _pitch_class(pitch.group(), clef)
+    return None
+
+
+def final_pitch_class(euouae: str) -> int | None:
+    """The note a termination closes on, as a pitch class.
+
+    The last note of the last neume that has one — which may sit inside a
+    compound neume, as mode 1's ``D`` ends ``gvFED.`` on the ``D``. Case is a
+    note *shape*, never a different pitch.
+
+    No clef to pass: the only terminations anything reads are the psalm-tone
+    engine's own, and it hands its table out in :data:`CANONICAL_CLEF`
+    already (ADR-0042). Nor any accidental to strip, for the same reason —
+    no ending in that table carries one.
+
+    :param euouae: Six whitespace-separated neumes, e.g. ``"j j i j h g."``.
+    :return: The pitch class (see :data:`_OCTAVE`), or ``None`` if there is no
+        note at all.
+    """
+    for neume in reversed(euouae.split()):
+        pitches = _PITCH.findall(neume)
+        if pitches:
+            return _pitch_class(pitches[-1], CANONICAL_CLEF)
+    return None
 
 
 def _normalize_first_word(text: str) -> str:
