@@ -1,21 +1,14 @@
-# DRAFT — St. Lambert, Vespers I, romanum-cum-precibus (issue #14).
+# St. Lambert, Vespers I, romanum-cum-precibus (issue #14) — the sung
+# booklet for 18 September 2026.
 #
-# This file is a first pass, not a finished, signed-off feast spec. It
-# assembles the content settled with the priest over July 2026, plus GABC
-# freshly fetched from GregoBase for the five Common-of-Martyrs pieces that
-# weren't in the repo yet (antiphons 1-3/5, hymn). Several German
-# translations below are a first AI draft, not yet seen by the maintainer or
-# the priest — every such field is flagged with a comment. Do NOT
-# build/print/sing from this without a full review pass.
-#
-# No placeholders left: title, subtitle, rank, date, source, chants, tones
-# and their EUOUAE are all settled. Still genuinely open (not something to
-# guess here):
-#   - the capitulum's per-verse split below is a mechanical re-cut of
-#     the priest-supplied Latin/German at the given Hebr 5 verse
-#     boundaries, not independently re-translated — unresolved until the
-#     maintainer confirms the cut
-#   - the German marked "AI draft" below still wants a review pass
+# Signed off by the maintainer on 2026-09-16: the German that used to be
+# marked "AI draft, not yet reviewed" (antiphons 1, 4 and 5, the versicle,
+# the Magnificat antiphon and the back-cover quote) has been read and kept,
+# and so has the capitulum's per-verse re-cut of the priest-supplied Hebr 5
+# text. The markers are gone because the review happened, not because it was
+# waived. The content settled with the priest over July 2026 is unchanged;
+# the GABC for the five Common-of-Martyrs pieces that weren't in the repo
+# came from GregoBase (antiphons 1-3/5, hymn).
 #
 # ADR-0011 (provenance `note`/footnote fields) landed 2026-07-26 (#27) —
 # the idiosyncratic choices below (proper oratio/capitulum instead of the
@@ -30,8 +23,8 @@
 # settled. His remaining points are not in this file: the accents
 # (Mártyres/Mártyrum, ínclyta) and the Ordo incipits live in the gabc and in
 # ADR-0020, the spelled-out Tonus peregrinus in chant/ant/martyres-domini.gabc,
-# and "Fidelium animae" in chant/ordinarium/de.yaml. Still awaiting his word:
-# the back-cover picture and its caption.
+# and "Fidelium animae" in chant/ordinarium/de.yaml. The back-cover picture,
+# its credit line and the quote beneath it were signed off on 2026-09-16.
 title: Sancti Lamberti
 subtitle: Episcopi et Martyris
 vesperae: I
@@ -74,7 +67,7 @@ praenotanda:
     (Solesmes 1961), wenn es nicht anders vermerkt ist.
 antiphonae:
   - gabc: chant/ant/omnes-sancti-quanta-passi.gabc
-    de: >-  # TODO: AI draft, not yet reviewed
+    de: >-
       Alle Heiligen, wie viele Qualen haben sie erlitten, um sicher zur
       Palme des Martyriums zu gelangen.
     psalmus: 109
@@ -105,13 +98,13 @@ antiphonae:
     tonus: 1f
     euouae: h h g f gh g.f.  # what the LU prints; cross-checks tonus (issue #33)
   - gabc: chant/ant/martyres-domini.gabc
-    de: >-  # TODO: AI draft, not yet reviewed
+    de: >-
       Ihr Märtyrer des Herrn, preiset den Herrn in Ewigkeit.
     psalmus: 112
     tonus: peregrinus
     euouae: g g g d f e.d.  # what the LU prints; cross-checks tonus (issue #33)
   - gabc: chant/ant/martyrum-chorus-laudate.gabc
-    de: >-  # TODO: AI draft, not yet reviewed
+    de: >-
       Chor der Märtyrer, lobet den Herrn in der Höhe.
     psalmus: 116
     tonus: 8c
@@ -119,7 +112,7 @@ antiphonae:
 
 capitulum:
   ref: Hebr 5, 1-6 # NOTE: the Mass reading for Lambert in the Liège diocese's own Proprium Missarum Leodiense), not the Commune text.
-  versus: # TODO: check the recut
+  versus:
     - n: 1
       text: >-
         Omnis namque pontifex ex homínibus assúmptus, pro homínibus
@@ -217,7 +210,7 @@ hymnus:
 
 versiculus:
   gabc: chant/vers/laetamini-in-domino.gabc
-  de: >-  # TODO: AI draft, not yet reviewed
+  de: >-
     ℣. Freuet euch im Herrn und frohlocket, ihr Gerechten. ℟. Und
     rühmet euch, alle, die aufrichtigen Herzens seid.
   note: >-
@@ -230,7 +223,7 @@ magnificat:
     # (issue #38); the priest's own review supplies this one. Delete once
     # the antiphon itself is accented — the derivation then gets it right.
     incipit: Laetáre et lauda
-    de: >-  # TODO: AI draft, not yet reviewed
+    de: >-
       Freue dich und lobe Gott, Lüttich, ob der Gegenwart deines Patrons
       Lambertus, durch dessen Blut du geweiht, durch dessen Leib du
       bereichert zu werden verdient hast. O Liebhaber der Keuschheit, o
@@ -274,15 +267,13 @@ back_cover:
       succúrrat me insipiéntem. In sǽcula tibi laudes cum glória lingua,
       ut valet, pio reddit afféctu; tibi sit honor, qui trinus et unus
       vivis et regnas.
-    de: >-  # TODO: AI draft, not yet reviewed
+    de: >-
       Demütig vertraue ich dir Seele und Leib an; in deiner Güte mögest
       du mir Unverständigem beistehen. In alle Ewigkeit erweist dir die
       Zunge, so gut sie es vermag, in frommer Zuneigung Lob und Ehre; dir
       sei die Ehre, der du dreifaltig und einig lebst und herrschest.
-    citation: >- # TODO: fix this
+    citation: >-
       Vita Landiberti episcopi Traiectensis vetustissima (ed. B. Krusch,
-      MGH SS rer. Merov. 6, 1913, pp. 253-384) — the first sentence is
-      confirmed against the Narrative Sources database, the second only by
-      search synthesis; worth a by-hand check against the Krusch edition
+      MGH SS rer. Merov. 6, 1913, pp. 253-384)
 
 drollery: auto
