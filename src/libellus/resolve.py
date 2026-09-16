@@ -743,6 +743,7 @@ def _resolve_filler(
                 "blocks": [{"heading": b.heading, "text": b.text} for b in page.blocks],
                 "citation": page.citation,
                 "image": image.as_posix() if image is not None else None,
+                "image_width": page.image_width,
                 "caption": page.caption,
             }
         )

@@ -110,11 +110,33 @@ repository only. Recorded provenance:
 - `images/03-lambert/St-Lambert-Liege.jpg` — "The murder of Saint Lambert"
   (Jan van Brussel?, c. 1490), detail of the *Palude diptych*, Musée Grand
   Curtius, Liège.
+- `images/03-lambert/Lambert-Ikone.png`, `Ostercappeln-Kirche.png`,
+  `Ostercappeln-Taufbecken.png` — the icon, the parish church of St. Lambertus
+  in Ostercappeln, and its 11th-century font. Supplied September 2026 by the
+  friend of the schola who wrote that feast's flavour pages, with full rights
+  granted; see *Prose in the feast specs* above.
 - `images/02-benedict/` — see `images/02-benedict/source.md`.
 - `images/01-ascension/ascension-no-background.png` — **provenance not
   recorded**, and therefore **not in this repository at all.** It stays in the
   private archive; establish its source before reusing it. No feast spec here
   refers to it.
+
+## Prose in the feast specs
+
+The flavour pages at the back of a booklet (`filler:` in a feast spec) are prose
+like any other, and the 0BSD grant above covers only what is mine to license.
+
+- **St. Lambert, `filler:` pages** — written for this booklet in September 2026
+  by a friend of the Bremen schola, who **granted the maintainer full rights to
+  the material**, text and photographs alike. The editing was mechanical only:
+  soft hyphens closed, one number agreement corrected, a missing `aus`
+  restored, a bare URL turned into a caption. The authorship is his; the entry
+  is here because the 0BSD grant above covers what is mine to license, and this
+  is covered by his permission rather than by my authorship.
+- **St. Benedict, `filler:` pages** — Dom Prosper Guéranger, *Das Kirchenjahr*,
+  Bd. 5, Mainz: Kirchheim 1877, and Gregory the Great's *Dialogues* II, 33–34,
+  in a German rendering of the same vintage. Both long out of copyright; cited
+  on the pages themselves.
 
 ## German translations
 

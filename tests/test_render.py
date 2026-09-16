@@ -104,10 +104,43 @@ def test_filler_pages_render_with_their_styling(repo_root: Path, benedict_feast:
     assert "\\vspace{0.3em}\\null" not in filler_region
 
 
-def test_filler_absent_leaves_only_the_padding_loop(repo_root: Path, smoke_feast: Path) -> None:
-    """Lambert sets `filler: []` — no filler content, but the ÷4 ornament
-    padding loop still runs."""
+def test_filler_image_width_overrides_the_default(repo_root: Path, smoke_feast: Path) -> None:
+    """`image_width:` sets the fraction of \\textwidth a filler picture is drawn
+    at; a page that omits it keeps the partial's long-standing 0.72.
+
+    Lambert needs this: three pictures share pp. 33-35 with the prose, and at
+    0.72 a portrait photograph is taller than the room a page has left.
+    """
     spec = load_spec(smoke_feast)
+    resolved = build_context(spec, repo_root)
+    tex = render(spec.rite, resolved.context, repo_root)
+
+    assert "\\includegraphics[width=0.33\\textwidth]{images/03-lambert/Lambert-Ikone.png}" in tex
+    assert "width=0.72\\textwidth]{images/03-lambert/" not in tex
+
+    # `filler` is a union with the raw-.tex escape hatch, which has no fields
+    # to update; Lambert has none of those, and the isinstance keeps mypy and
+    # the test honest if one is ever added.
+    widened = spec.model_copy(
+        update={
+            "filler": [
+                page if isinstance(page, Path) else page.model_copy(update={"image_width": None})
+                for page in spec.filler
+            ]
+        }
+    )
+    fallback = render(widened.rite, build_context(widened, repo_root).context, repo_root)
+    assert "\\includegraphics[width=0.72\\textwidth]{images/03-lambert/Lambert-Ikone.png}" in fallback
+
+
+def test_filler_absent_leaves_only_the_padding_loop(repo_root: Path, smoke_feast: Path) -> None:
+    """No filler content, but the ÷4 ornament padding loop still runs.
+
+    The empty `filler` is set here rather than read from a fixture: both
+    shipped feasts carry flavour pages now, so a spec that renders none is
+    something this test has to construct.
+    """
+    spec = load_spec(smoke_feast).model_copy(update={"filler": []})
     resolved = build_context(spec, repo_root)
     tex = render(spec.rite, resolved.context, repo_root)
 
@@ -688,6 +721,10 @@ RAW_INTERPOLATIONS: dict[str, str] = {
     "shrink": _LENGTH,
     "note_reserve": _LENGTH,
     "gilded_thickness": _LENGTH,
+    # A float the schema has already bounded to (0, 1], or the literal default
+    # when the page named none — it becomes a factor of \textwidth, so it has
+    # to stay a number. No author string can reach this site.
+    "page.image_width or 0.72": _LENGTH,
     "loop.index": _COUNTED,
     "loop.index + 1": _COUNTED,
     "ps.index_roman": _COUNTED,

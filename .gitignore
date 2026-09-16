@@ -32,6 +32,10 @@ private-notes.md
 lambertus-email-threads.md
 lambertus-hintergrund.md
 lambert-corrections.md
+lambert-flavour-source.md
+# A contributor's own draft, as they sent it. Converted prose worth printing
+# goes into the feast spec; the document itself stays here.
+*.odt
 # HANDOFF.md was retired 2026-08-02 — its live content became the map issue,
 # the rest is in docs/adr/, the issues and git history. Still ignored so that a
 # stray one can never be committed by accident.

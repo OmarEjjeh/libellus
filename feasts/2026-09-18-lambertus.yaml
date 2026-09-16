@@ -252,7 +252,127 @@ oratio:
 
 antiphona_bmv: salve-regina-simple
 
-filler: []
+# The three flavour pages, from a text and photographs supplied by a friend
+# of the schola („Entwurf zum heiligen Lambert", ODT, 2026-09-16), who has
+# granted full rights to the material. The source document is untracked, like
+# the priest's correspondence — see lambert-flavour-source.md in the main
+# checkout. Editorial changes to what he wrote, all of them mechanical: the
+# ODT's soft hyphens („gesell-schaftlicher", „christ-lichen",
+# „Nordwest-europas", „Tochter-Kirchen") are closed up, one number agreement
+# is fixed („einer Auseinandersetzung", was „einer Auseinandersetzungen"), a
+# missing „aus" is restored, and the bare URL at the foot of his second
+# section became the last page's citation line. Nothing else is rewritten.
+#
+# A fourth photograph came with the ODT and is deliberately not used: it is
+# the back cover's own painting at a third of its resolution.
+#
+# These three pages are the booklet's whole padding budget — they occupy
+# pp. 33-35, with the back cover on 36. Nothing here may grow onto a fourth
+# page: the ÷4 ornament loop would then add three more and the booklet would
+# print as 40. That is why each picture carries an `image_width:`; at the
+# partial's 0.72 default a portrait photograph is ~11 cm tall on a 15.9 cm
+# page and no prose fits beside it. The values below were measured against
+# the built PDF, not guessed — re-measure if the text changes.
+filler:
+  - title: Der heilige Lambert von Maastricht
+    subtitle: Ein Bischof und Märtyrer
+    blocks:
+      - text: >-
+          Der heilige Lambert von Maastricht gehört zu den bedeutenden
+          Bischöfen und Märtyrern der frühen Kirche im nordwestlichen Europa.
+          Er wurde um das Jahr 635 geboren und 669 von König Childerich II.
+          zum Bischof von Maastricht ernannt. In einer Zeit politischer
+          Umbrüche und gesellschaftlicher Veränderungen setzte er sich für
+          die Verkündigung des christlichen Glaubens und für die Erneuerung
+          des kirchlichen Lebens ein.
+      - text: >-
+          Nach Childerichs Ermordung musste Lambert ab 675 sein Bistum
+          verlassen und lebte sieben Jahre wie ein Inhaftierter im Kloster
+          Stablo im Exil. Zwar konnte er später zeitweilig als Bischof in
+          sein Bistum zurückkehren, fand dort aber schließlich als Folge
+          einer Auseinandersetzung um eine Blutrache den Tod: Lambert wurde
+          von Pippins Hausmeier Dodo am 17. September 705 in seinem Haus
+          ermordet.
+    image: images/03-lambert/Lambert-Ikone.png
+    image_width: 0.33
+    caption: >-
+      Ikone des heiligen Lambert, Bischof und Märtyrer.
+  # The life runs on across this page break rather than being squeezed onto
+  # one page: his three sections are 250, 135 and 210 words, and no grouping
+  # of whole sections leaves room for a picture on each of the three pages.
+  - blocks:
+      - text: >-
+          Eine spätere Überlieferung sieht den Grund für seinen Tod darin,
+          dass er König Pippin wegen seines Ehebruchs mit der Alpais, der
+          Mutter von Karl Martell, getadelt habe.
+      - text: >-
+          Da er sich gegen seinen Mörder nicht zur Wehr setzte und — wie
+          einst der heilige Diakon Stephanus — den Tod auf sich nahm, wurde
+          sein Tod bald als Martyrium verstanden, und es begann seine
+          Verehrung als Heiliger. Sein Gedenktag ist eigentlich sein
+          Todestag, der 17. September. Wegen der heiligen Hildegard von
+          Bingen, die ebenfalls am 17. September ihren Namenstag hat, wird
+          Lambert im deutschen Sprachraum am heutigen 18. September gefeiert.
+      - heading: Ein Heiliger der frühen Mission in Nordwesteuropa
+        text: >-
+          Lambert lebte zur Zeit der fränkischen Herrschaft in Westeuropa. In
+          dieser Zeit verwurzelte sich das Christentum gerade erst in weiten
+          Teilen Nordwesteuropas. Die fränkischen Könige förderten eine rege
+          missionarische Aktivität und sandten Bischöfe, Missionare und
+          Mönche aus, um das Evangelium zu verbreiten.
+      - text: >-
+          Lambert selbst wirkte zwar vor allem im Raum Maastricht und
+          Brabant. Sein Name und seine Verehrung verbreiteten sich jedoch
+          weit über sein eigentliches Wirkungsgebiet hinaus. Im Rheinland und
+          in Westfalen tragen zahlreiche Kirchen seinen Namen. In der
+          Stadtkirche St. Lamberti zu Münster hat Clemens August Kardinal von
+          Galen im Sommer 1941 seine Predigten gegen die Verbrechen der
+          Nationalsozialisten gehalten. Auch in Oldenburg und in Aurich
+          tragen die aus dem Mittelalter stammenden, heute evangelischen
+          Hauptkirchen seinen Namen.
+    image: images/03-lambert/Ostercappeln-Kirche.png
+    image_width: 0.55
+    caption: >-
+      Die Pfarrkirche St. Lambertus in Ostercappeln bei Osnabrück.
+  # Ostercappeln is a red heading rather than a third ornament title block:
+  # the title block costs ~3.5 cm, and this page carries both the longest
+  # prose of the three and the picture the prose actually points at. One
+  # ornament title opens the whole section on p. 33; these two continue it.
+  - blocks:
+      - heading: Die Lambertusverehrung in Ostercappeln
+        text: >-
+          Die Missionierung der im Raum Osnabrück ansässigen Sachsen erfolgte
+          zur Zeit Kaiser Karls des Großen (768–814) durch Missionare aus dem
+          Bistum Lüttich. Dies war sozusagen das Patenbistum für die junge
+          Kirche von Osnabrück.
+      - text: >-
+          Der Lütticher Bischof Agilfred weihte Ende des 8. Jahrhunderts die
+          erste Kirche in Osnabrück an der Stelle des heutigen Domes. Der
+          dortige Friedhof hieß im Mittelalter auch Lamberti-Friedhof.
+      - text: >-
+          Im Bistum Osnabrück sind dem hl. Lambertus seit alter Zeit die
+          Pfarrkirchen von Merzen bei Fürstenau und in Ostercappeln bei
+          Osnabrück geweiht. Der Dom St. Petrus in Osnabrück hatte seit dem
+          9. Jahrhundert zwei Tochterkirchen im Osten und im Westen, so
+          genannte Kapellen. Dies sind St. Stephanus in Westerkappeln und
+          St. Lambertus in Ostercappeln.
+      - text: >-
+          Die Lambertuskirche in Ostercappeln macht diese Verbindung bis
+          heute sichtbar: Im Eingangsbereich der Kirche finden sich Statuen
+          von Karl dem Großen sowie von Bischof Wiho, dem ersten Bischof von
+          Osnabrück. Der Patron der Kirche ist aber der heilige Lambertus,
+          der die Missionierung der heute zum Bistum Osnabrück gehörenden
+          Gebiete durch flämische Mönche durch sein Wirken als Bischof erst
+          ermöglicht hat. Er ist in Ostercappeln auf dem Taufbecken aus dem
+          11. Jahrhundert dargestellt.
+    image: images/03-lambert/Ostercappeln-Taufbecken.png
+    # 0.32, not the 0.36 first tried: this page's prose runs longest of the
+    # three, and at 0.36 the picture and its caption were ~4 mm too tall, which
+    # spilled the caption onto p. 36 and took the booklet to 40 pages.
+    image_width: 0.40
+    caption: >-
+      Das Taufbecken aus dem 11. Jahrhundert, auf dem der heilige Lambert
+      dargestellt ist.
 
 back_cover:
   image: images/03-lambert/St-Lambert-Liege.jpg
