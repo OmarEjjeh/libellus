@@ -53,7 +53,7 @@
 \BLOCK{if page.image}
 \vfill
 \begin{center}
-  \includegraphics[width=0.72\textwidth]{\VAR{page.image}}\\[0.7em]
+  \includegraphics[width=\VAR{page.image_width or 0.72}\textwidth]{\VAR{page.image}}\\[0.7em]
 \BLOCK{if page.caption}
   \begin{minipage}{0.9\textwidth}
     {\scriptsize\itshape \VAR{page.caption|tex}\par}

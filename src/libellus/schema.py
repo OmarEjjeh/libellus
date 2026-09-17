@@ -381,6 +381,29 @@ class FillerPage(StrictModel):
     citation: str | None = None  # flush-right source line, tiny italic
     image: ImageSource | None = None
     caption: str | None = None  # only meaningful with an image
+    # Fraction of \textwidth the picture is drawn at; the default is what the
+    # partial has always used. A portrait photograph at 0.72 is ~11 cm tall on
+    # a 15.9 cm page, which leaves a filler page room for a heading and little
+    # else — so a page carrying both prose and a picture has to say how wide.
+    # Height is not settable: \includegraphics keeps the aspect ratio, and one
+    # dimension is the whole decision.
+    image_width: float | None = None
+
+    @model_validator(mode="after")
+    def _image_width_is_a_usable_fraction(self) -> FillerPage:
+        if self.image_width is None:
+            return self
+        if self.image is None:
+            raise ValueError(
+                "Die Bildbreite („image_width“) steht ohne Bild („image“) da."
+            )
+        if not 0 < self.image_width <= 1:
+            raise ValueError(
+                "Die Bildbreite („image_width“) ist ein Anteil der Textbreite "
+                "und muss zwischen 0 und 1 liegen — 0.42 heißt 42 % der "
+                f"Textbreite. Angegeben war {self.image_width}."
+            )
+        return self
 
     @model_validator(mode="after")
     def _has_something_to_print(self) -> FillerPage:

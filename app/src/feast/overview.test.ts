@@ -28,11 +28,22 @@ describe("overview", () => {
     // cannot hide behind an empty one.
     expect(overview(shipped("2026-09-18-lambertus")).sections).toEqual([
       ["antiphonae", 5],
-      ["filler", 0],
+      ["filler", 3],
     ]);
     expect(overview(shipped("2026-07-10-benedictus")).sections).toEqual([
       ["antiphonae", 4],
       ["filler", 2],
+    ]);
+  });
+
+  it("counts a section the spec leaves empty, and one it omits, as none", () => {
+    // Until Lambert gained its flavour pages it was the `filler: []` case, and
+    // the assertion above carried this on its back. A shipped spec is the wrong
+    // place for it: the count is content, and content changes. Both ways of
+    // having no entries are spelled out here instead.
+    expect(overview(parseFeastDocument("antiphonae: []\n")).sections).toEqual([
+      ["antiphonae", 0],
+      ["filler", 0],
     ]);
   });
 
