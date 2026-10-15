@@ -51,7 +51,7 @@ from libellus.psalmtone import (
     generate_verses,
     write_verse_cache,
 )
-from libellus.schema import FeastSpec
+from libellus.schema import FeastSpec, Oratio
 from libellus.tonus import (
     Provenance,
     disagrees,
@@ -113,6 +113,50 @@ PSALTER_DIR = Path("psalter")
 PSALTER_DE_PREFERENCE = ("allioli-arndt", "eu1980", "eu2016")
 
 #: Ordinarium chants every skeleton needs (chant name → German required?).
+#: The conclusions of an oration (Rubricae generales 1960, n. 115; ADR-0051),
+#: in full and as the books abbreviate them, Latin and German. The full forms
+#: of `per-dominum` are the words St. Benedict's booklet printed and was sung
+#: from. The asterisk is a pause mark like any other in an oration.
+CONCLUSIONES: dict[str, dict[str, tuple[str, str]]] = {
+    "per-dominum": {
+        "plena": (
+            "Per Dóminum nostrum Iesum Christum Fílium tuum, qui tecum vivit et "
+            "regnat in unitáte Spíritus Sancti, Deus, * per ómnia sǽcula sæculórum.",
+            "Durch unsern Herrn Jesus Christus, deinen Sohn, der in der Einheit des "
+            "Heiligen Geistes mit dir lebt und herrscht, Gott von Ewigkeit zu Ewigkeit.",
+        ),
+        "brevis": ("Per Dóminum.", "Durch Jesus Christus…"),
+    },
+    "per-eundem": {
+        "plena": (
+            "Per eúndem Dóminum nostrum Iesum Christum Fílium tuum, qui tecum vivit "
+            "et regnat in unitáte Spíritus Sancti, Deus, * per ómnia sǽcula sæculórum.",
+            "Durch ihn, unsern Herrn Jesus Christus, deinen Sohn, der in der Einheit "
+            "des Heiligen Geistes mit dir lebt und herrscht, Gott von Ewigkeit zu Ewigkeit.",
+        ),
+        "brevis": ("Per eúndem.", "Durch ihn, Jesus Christus…"),
+    },
+    "qui-tecum": {
+        "plena": (
+            "Qui tecum vivit et regnat in unitáte Spíritus Sancti, Deus, * per ómnia "
+            "sǽcula sæculórum.",
+            "Der mit dir lebt und herrscht in der Einheit des Heiligen Geistes, Gott "
+            "von Ewigkeit zu Ewigkeit.",
+        ),
+        "brevis": ("Qui tecum.", "Der mit dir lebt…"),
+    },
+    "qui-vivis": {
+        "plena": (
+            "Qui vivis et regnas cum Deo Patre in unitáte Spíritus Sancti, Deus, * per "
+            "ómnia sǽcula sæculórum.",
+            "Der du mit Gott dem Vater lebst und herrschest in der Einheit des "
+            "Heiligen Geistes, Gott von Ewigkeit zu Ewigkeit.",
+        ),
+        "brevis": ("Qui vivis.", "Der du lebst…"),
+    },
+}
+
+
 ORDINARIUM_ALWAYS: dict[str, bool] = {
     "incipit": True,
     "versicle-domine-exaudi": True,
@@ -788,6 +832,23 @@ def _resolve_drollery(
     return (DROLLERY_DIR / spec.drollery).as_posix()
 
 
+def _concluded(oratio: Oratio, with_conclusion: bool) -> dict[str, Any]:
+    """An oration's text and German as printed, with its conclusion or without.
+
+    :param with_conclusion: False for a commemorated oration that is not the
+        last, which the rubrics leave unconcluded (n. 249, ADR-0051).
+    """
+    text, de = oratio.text, oratio.de
+    if with_conclusion:
+        latin, german = CONCLUSIONES[oratio.conclusio]["brevis" if oratio.brevis else "plena"]
+        if oratio.eiusdem:  # n. 115 e: the oration has named the Holy Spirit
+            latin = latin.replace("unitáte Spíritus", "unitáte eiúsdem Spíritus")
+            german = german.replace("des Heiligen Geistes", "desselben Heiligen Geistes")
+        text = f"{text} {latin}"
+        de = None if de is None else f"{de} {german}"
+    return {"text": text, "de": de, "note": oratio.note}
+
+
 def build_context(
     spec: FeastSpec, root: Path, draft_stamp: str | None = None, compact: bool = False
 ) -> ResolvedFeast:
@@ -869,6 +930,30 @@ def build_context(
         magnificat_ant_gabc, spec.magnificat.antiphona.euouae, spec.magnificat.tonus,
         "antiphona-ad-magnificat", "Antiphona ad Magnificat", problems, root, assets,
     )
+
+    commemorationes: list[dict[str, Any]] = []
+    for index, commemoratio in enumerate(spec.commemorationes, start=1):
+        # No _resolve_euouae: the antiphon is sung without a psalm (ADR-0050).
+        ant_gabc = _resolve_gabc(
+            commemoratio.antiphona.gabc, f"commemoratio-{index}-antiphona",
+            f"Commemoratio {index}, Antiphon", problems, root, assets,
+        )
+        vers_gabc = _resolve_gabc(
+            commemoratio.versiculus.gabc, f"commemoratio-{index}-versiculus",
+            f"Commemoratio {index}, Versiculus", problems, root, assets,
+        )
+        commemorationes.append(
+            {
+                "title": commemoratio.title,
+                "antiphona": {"gabc": _stem(ant_gabc), "de": commemoratio.antiphona.de,
+                              "note": commemoratio.antiphona.note},
+                "versiculus": {"gabc": _stem(vers_gabc), "de": commemoratio.versiculus.de,
+                               "note": commemoratio.versiculus.note},
+                "oratio": _concluded(
+                    commemoratio.oratio, with_conclusion=index == len(spec.commemorationes)
+                ),
+            }
+        )
 
     magnificat_verses = _load_verse_library(
         MAGNIFICAT_DIR, spec.magnificat.tonus, "Magnificat", problems, root, assets,
@@ -971,6 +1056,8 @@ def build_context(
             "system": magnificat_system,
         },
         "oratio_incipit": " ".join(spec.oratio.text.split()[:3]).rstrip(",;:."),
+        "oratio": _concluded(spec.oratio, with_conclusion=True),
+        "commemorationes": commemorationes,
         "ordinarium": ordinarium,
         "bmv": bmv,
         "filler": filler,

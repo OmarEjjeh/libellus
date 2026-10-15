@@ -401,11 +401,22 @@ _Avoid_: class, classis (the YAML field is named `rank`); conflating with
 **Commemoratio** below
 
 **Commemoratio**:
-A saint's antiphon+versicle+oration appended after a higher-ranking day's
-own office (e.g. a Sunday's), rather than that saint having its own
-primary Vespers. Not a `Rank` value — structurally a different feature,
-not yet implemented (see IDEAS.md).
-_Avoid_: treating it as another rank level
+An impeded office — a Sunday, a saint, a feria — kept in the day's Vespers
+by its antiphon, versicle and oration, sung after the oration of the day
+(`commemorationes:`, ADR-0050). The form is fixed by the rubrics
+(Rubricae Breviarii 1960, nn. 249, 251): antiphon without a psalm, versicle,
+Orémus, oration; no second salutation, and the Amen after the last
+commemoration only. The spec supplies the content, the oratio partial the
+form. Not a `Rank` value, and not an **Einschub** either.
+_Avoid_: treating it as another rank level; memoria (the post-1969 term)
+
+**Conclusio** (of an oration):
+The closing formula of an oration, *Per Dóminum nostrum …* and its three
+siblings (Rubricae generales 1960, n. 115). Named by the `conclusio:` field and
+added by libellus, never written into the oration's text (ADR-0051). Not the
+**Conclusio** section of the office (Benedicamus, Fidelium animae), which
+shares the word.
+_Avoid_: Schlussgebet, doxology
 
 **Psalter**:
 One translator's complete German for the sung verses — one directory,

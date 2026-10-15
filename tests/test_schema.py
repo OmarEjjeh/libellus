@@ -609,3 +609,93 @@ def test_praenotanda_without_german_is_rejected_unless_latin_only(repo_root: Pat
 
     data["latin_only"] = True
     assert FeastSpec.model_validate(data).praenotanda is not None
+
+
+def _commemoratio_data() -> dict:
+    """A complete commemoration of a Sunday, German included (ADR-0050)."""
+    return {
+        "title": "Dominicæ XXIII post Pentecosten",
+        "antiphona": {"gabc": "chant/ant/martyres-domini.gabc", "de": "Ich sah den Herrn …"},
+        "versiculus": {"gabc": "chant/vers/laetamini-in-domino.gabc", "de": "℣. Mein Abendgebet …"},
+        "oratio": {"text": "Absólve, quǽsumus, Dómine …", "de": "Sprich los, o Herr …"},
+    }
+
+
+def test_commemorationes_are_optional(repo_root: Path) -> None:
+    """Neither shipped feast commemorates anything, and needs no field for it."""
+    assert load_spec(repo_root / SMOKE_FEAST).commemorationes == []
+    assert load_spec(repo_root / BENEDICT_FEAST).commemorationes == []
+
+
+def test_commemoratio_is_read_in_order(repo_root: Path) -> None:
+    """A list, kept in the order the Ordo gives it."""
+    data = _smoke_data(repo_root)
+    second = _commemoratio_data() | {"title": "S. Martini"}
+    data["commemorationes"] = [_commemoratio_data(), second]
+    spec = FeastSpec.model_validate(data)
+    assert [c.title for c in spec.commemorationes] == [
+        "Dominicæ XXIII post Pentecosten",
+        "S. Martini",
+    ]
+
+
+def test_commemoratio_without_german_is_rejected_unless_latin_only(repo_root: Path) -> None:
+    """Each of its three texts needs a translation (ADR-0025), named in the
+    collected message with the commemoration it belongs to."""
+    data = _smoke_data(repo_root)
+    commemoratio = _commemoratio_data()
+    for part in ("antiphona", "versiculus", "oratio"):
+        del commemoratio[part]["de"]
+    data["commemorationes"] = [commemoratio]
+    with pytest.raises(ValidationError) as excinfo:
+        FeastSpec.model_validate(data)
+    message = str(excinfo.value)
+    assert "Commemoratio 1, Antiphon" in message
+    assert "Commemoratio 1, Versiculus" in message
+    assert "Commemoratio 1, Oratio" in message
+
+    data["latin_only"] = True
+    assert len(FeastSpec.model_validate(data).commemorationes) == 1
+
+
+def test_commemoratio_rejects_a_euouae(repo_root: Path) -> None:
+    """The antiphon is sung without a psalm, so it has no EUOUAE to assert."""
+    data = _smoke_data(repo_root)
+    commemoratio = _commemoratio_data()
+    commemoratio["antiphona"]["euouae"] = "g g g d f e.d."
+    data["commemorationes"] = [commemoratio]
+    with pytest.raises(ValidationError):
+        FeastSpec.model_validate(data)
+
+
+@pytest.mark.parametrize(
+    "ending",
+    [
+        "Per Dóminum.",
+        "Per Dóminum nostrum Iesum Christum Fílium tuum, qui tecum vivit",
+        "Per eúndem Dóminum.",
+        "Qui tecum vivit et regnat.",
+        "Qui vivis et regnas cum Deo Patre.",
+        "Deus, * per ómnia sǽcula sæculórum.",
+    ],
+)
+def test_a_conclusion_written_into_the_oration_is_rejected(repo_root: Path, ending: str) -> None:
+    """libellus adds the conclusion (ADR-0051), so a written one would print
+    twice — and the message says which field to use instead."""
+    data = _smoke_data(repo_root)
+    data["oratio"]["text"] += " " + ending
+    with pytest.raises(ValidationError) as excinfo:
+        FeastSpec.model_validate(data)
+    assert "conclusio" in str(excinfo.value)
+
+
+def test_conclusio_defaults_to_per_dominum_in_full(repo_root: Path) -> None:
+    oratio = load_spec(repo_root / BENEDICT_FEAST).oratio
+    assert (oratio.conclusio, oratio.eiusdem, oratio.brevis) == ("per-dominum", False, False)
+
+
+def test_conclusio_is_a_closed_vocabulary(repo_root: Path) -> None:
+    data = _smoke_data(repo_root)
+    data["oratio"]["conclusio"] = "per-christum"
+    with pytest.raises(ValidationError):
+        FeastSpec.model_validate(data)

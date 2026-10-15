@@ -226,6 +226,15 @@ Key fields:
   survives a Latin-only booklet.
 - **`image:`** — a path in your working directory, or a `data:` URI embedded in
   the spec itself (ADR-0019).
+- **`commemorationes:`** — optional; each one a `title` (the genitive after
+  „Commemoratio", e.g. `Dominicæ XXIII post Pentecosten`), an `antiphona`, a
+  `versiculus` and an `oratio`, in the order the Ordo gives them. They print
+  after the oration of the day in the form the 1960 rubrics fix (ADR-0050).
+- **`conclusio:`** — on any oration, which conclusion libellus adds:
+  `per-dominum` (the default), `per-eundem`, `qui-tecum` or `qui-vivis`, plus
+  `eiusdem: true` when the oration names the Holy Spirit. Printed in full,
+  Latin and German; `brevis: true` prints only its incipit, „Per Dóminum.".
+  Never write the conclusion into `text:` — that is an error (ADR-0051).
 
 Every error is reported in German, all of them at once, naming the field.
 
