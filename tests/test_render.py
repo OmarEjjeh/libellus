@@ -13,9 +13,14 @@ from libellus.errors import FeastFileError
 from libellus.render import render
 from libellus.resolve import build_context, load_spec
 from libellus.schema import (
+    SECTIONS_PER_RITE,
     AntiphonaCommemorationis,
     Commemoratio,
     FeastSpec,
+    Insertio,
+    InsertioCantus,
+    InsertioRubrica,
+    InsertioTextus,
     Oratio,
 )
 from libellus.stage import stage
@@ -702,6 +707,7 @@ RAW_INTERPOLATIONS: dict[str, str] = {
     "bmv.gabc": _SCORE,
     "c.antiphona.gabc": _SCORE,
     "c.versiculus.gabc": _SCORE,
+    "item.gabc": _SCORE,
     "hymnus.gabc": _SCORE,
     "magnificat.antiphona.gabc": _SCORE,
     "magnificat.system": _SCORE,
@@ -874,8 +880,9 @@ def _torture(model: Model) -> Model:
 
 def _tortured_spec(smoke_feast: Path) -> FeastSpec:
     """St. Lambert with hostile text everywhere and an awkwardly named picture."""
-    # with a commemoration, so that its title and texts are tortured too
-    spec = _torture(_with_commemorationes(load_spec(smoke_feast), "Prima"))
+    # with a commemoration and an Einschub, so that their texts are tortured too
+    spec = _with_commemorationes(load_spec(smoke_feast), "Prima")
+    spec = _torture(_with_insertiones(spec, _te_deum(spec, "conclusio")))
     return spec.model_copy(
         update={"back_cover": spec.back_cover.model_copy(update={"image": TORTURE_IMAGE})}
     )
@@ -1147,3 +1154,117 @@ def test_only_the_last_commemorated_oration_is_concluded(
     assert "Oratio Secunda. Per Dóminum nostrum" in section
     assert "Gebet Prima.}" in section
     assert "Gebet Secunda. Durch unsern Herrn" in section
+
+
+# ============================================================
+#  Einschübe (#103, ADR-0052)
+# ============================================================
+
+
+def _te_deum(spec: FeastSpec, after: str, title: str = "Te Deum") -> Insertio:
+    """An Einschub of two scores around a rubric, then a prayer — built from
+    the feast's own hymn so that every chant resolves."""
+    return Insertio(
+        after=after,
+        title=title,
+        who="Alle",
+        posture="Man steht",
+        items=[
+            InsertioCantus(gabc=spec.hymnus.gabc, de=f"{title}, erster Teil."),
+            InsertioRubrica(rubrica="Hic genuflectitur."),
+            InsertioCantus(gabc=spec.hymnus.gabc, de=f"{title}, zweiter Teil."),
+            InsertioTextus(text=f"Oratio post {title}.", de=f"Gebet nach {title}."),
+        ],
+    )
+
+
+def _with_insertiones(spec: FeastSpec, *insertiones: Insertio) -> FeastSpec:
+    return spec.model_copy(update={"insertiones": list(insertiones)})
+
+
+def _rendered(spec: FeastSpec, repo_root: Path) -> str:
+    return render(spec.rite, build_context(spec, repo_root).context, repo_root)
+
+
+@pytest.mark.parametrize("rite", sorted(SECTIONS_PER_RITE))
+def test_every_skeleton_offers_exactly_the_sections_the_schema_allows(
+    repo_root: Path, rite: str
+) -> None:
+    """The anchors are listed twice — in the skeleton, where the insertion
+    points are, and in the schema, which validates `after:`. They must agree,
+    in the same order."""
+    skeleton = (repo_root / f"src/libellus/template/{rite}.tex.j2").read_text(encoding="utf-8")
+    anchors = re.findall(r'set anchor = "([a-z-]+)"', skeleton)
+    assert tuple(anchors) == SECTIONS_PER_RITE[rite]
+    # each insertion point follows the include of the section it is named after
+    for anchor in anchors:
+        part = "ordo-table" if anchor == "ordo" else anchor
+        assert f'partials/{part}.tex.j2"}}\n\\BLOCK{{set anchor = "{anchor}"}}' in skeleton
+
+
+def test_insertio_stands_between_its_section_and_the_next(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    spec = load_spec(smoke_feast)
+    tex = _rendered(_with_insertiones(spec, _te_deum(spec, "conclusio")), repo_root)
+    conclusio = tex.index("\\section{Conclusio}")
+    insertio = tex.index("\\section{Te Deum}")
+    bmv = tex.index("\\section{Antiphona B.M.V.}")
+    assert conclusio < insertio < bmv
+    assert "\\stagenote{Alle}{Man steht}" in tex[insertio:bmv]
+
+
+def test_insertio_after_ordo_comes_before_the_initium(repo_root: Path, smoke_feast: Path) -> None:
+    spec = load_spec(smoke_feast)
+    tex = _rendered(_with_insertiones(spec, _te_deum(spec, "ordo", "Veni Creator")), repo_root)
+    assert tex.index("ORDO VESPERARUM") < tex.index("\\section{Veni Creator}") < tex.index("\\section{Initium}")
+
+
+def test_insertiones_at_one_section_keep_their_order(repo_root: Path, smoke_feast: Path) -> None:
+    spec = load_spec(smoke_feast)
+    tex = _rendered(
+        _with_insertiones(spec, _te_deum(spec, "oratio", "Prima"), _te_deum(spec, "oratio", "Secunda")),
+        repo_root,
+    )
+    assert tex.index("\\section{Prima}") < tex.index("\\section{Secunda}") < tex.index("\\section{Conclusio}")
+
+
+def test_insertio_items_print_in_order_with_their_german(repo_root: Path, smoke_feast: Path) -> None:
+    """Only the first score has a drop capital; the piece split around the
+    rubric continues without one."""
+    spec = load_spec(smoke_feast)
+    tex = _rendered(_with_insertiones(spec, _te_deum(spec, "conclusio")), repo_root)
+    body = tex[tex.index("\\section{Te Deum}") : tex.index("\\section{Antiphona B.M.V.}")]
+
+    first = body.index("Te Deum, erster Teil.")
+    rubric = body.index("\\rubric{Hic genuflectitur.}")
+    second = body.index("Te Deum, zweiter Teil.")
+    prayer = body.index("Oratio post Te Deum.")
+    assert first < rubric < second < prayer < body.index("Gebet nach Te Deum.")
+    assert body.index("\\gresetinitiallines{1}\n\\gregorioscore") < first
+    assert rubric < body.index("\\gresetinitiallines{0}\n\\gregorioscore") < second
+
+
+def test_insertio_initialis_can_be_set_explicitly(repo_root: Path, smoke_feast: Path) -> None:
+    spec = load_spec(smoke_feast)
+    insertio = _te_deum(spec, "conclusio")
+    first = insertio.items[0].model_copy(update={"initialis": False})
+    insertio = insertio.model_copy(update={"items": [first, *insertio.items[1:]]})
+    tex = _rendered(_with_insertiones(spec, insertio), repo_root)
+    body = tex[tex.index("\\section{Te Deum}") : tex.index("\\section{Antiphona B.M.V.}")]
+    assert "\\gresetinitiallines{1}\n\\gregorioscore" not in body
+
+
+def test_insertio_drops_its_german_when_latin_only(repo_root: Path, smoke_feast: Path) -> None:
+    spec = load_spec(smoke_feast)
+    spec = _with_insertiones(spec, _te_deum(spec, "conclusio")).model_copy(update={"latin_only": True})
+    body = _rendered(spec, repo_root)
+    assert "Oratio post Te Deum." in body
+    assert "erster Teil" not in body and "Gebet nach" not in body
+    assert "\\rubric{Hic genuflectitur.}" in body
+
+
+def test_insertio_has_a_row_in_the_ordo(repo_root: Path, smoke_feast: Path) -> None:
+    spec = load_spec(smoke_feast)
+    ordo = _ordo_page(_rendered(_with_insertiones(spec, _te_deum(spec, "conclusio")), repo_root))
+    assert ordo.index("\\rubric{Orátio}") < ordo.index("\\textit{Te Deum}") < ordo.index("Antiphona B.M.V.")

@@ -1,0 +1,27 @@
+\#{ Einschübe (ADR-0052): every Einschub listed after the section the skeleton
+    has just included. The skeleton sets `anchor` to that section's name
+    before including this partial; with no Einschub there, this prints nothing. }
+\BLOCK{for e in insertiones.get(anchor, [])}
+% ============================================================
+%  INSERTIO
+% ============================================================
+\section{\VAR{e.title|tex}}
+\stagenote{\VAR{e.who|tex}}{\VAR{e.posture|tex}}
+
+\BLOCK{for item in e['items']}
+\BLOCK{if item.kind == "cantus"}
+\gresetinitiallines{\BLOCK{if item.initialis}1\BLOCK{else}0\BLOCK{endif}}
+\gregorioscore{\VAR{item.gabc}}
+\gresetinitiallines{1}
+\BLOCK{if not latin_only}\noindent{\footnotesize\itshape \VAR{item.de|tex}\BLOCK{if item.note}\footnote{\VAR{item.note|tex}}\BLOCK{endif}\par}\BLOCK{elif item.note}\noindent{\footnotesize\footnote{\VAR{item.note|tex}}\par}\BLOCK{endif}\medskip
+\BLOCK{elif item.kind == "rubrica"}
+\begin{center}{\small\rubric{\VAR{item.text|tex}}}\end{center}
+\BLOCK{else}
+\noindent \VAR{item.text|tex|pausemarks}
+
+\medskip\BLOCK{if latin_only}\BLOCK{if item.note}\footnote{\VAR{item.note|tex}}\BLOCK{endif}\BLOCK{else}\noindent{\footnotesize\itshape \VAR{item.de|tex}\BLOCK{if item.note}\footnote{\VAR{item.note|tex}}\BLOCK{endif}\par}\BLOCK{endif}\medskip
+\BLOCK{endif}
+\BLOCK{endfor}
+
+\smallornament
+\BLOCK{endfor}

@@ -71,6 +71,15 @@ hatch. Distinct from the ornament-only pages the booklet adds by itself to
 reach a page count divisible by 4, which are padding, not content.
 _Avoid_: trivia page, appendix
 
+**Einschub** (`insertiones:`):
+A section of the spec's own making, printed after a named section of the
+office (`after:`) — a *Te Deum* after the Conclusio, a hymn before the
+Initium. Scores, red rubric lines and prose, with German like the rest
+(ADR-0052). Free-form and without liturgical claim: nothing checks that it
+belongs where it is put. Part of the office, unlike a **Zusatzseite**, and not
+a **Commemoratio**, whose form and place the rubrics fix.
+_Avoid_: insert page, extra section, appendix
+
 **Bündel** (bundle):
 A self-contained copy of a feast spec, produced by `libellus bundle`: every
 chant reference replaced by its notation, every picture by a `data:` URI, so the

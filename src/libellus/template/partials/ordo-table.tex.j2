@@ -30,28 +30,67 @@
   {\footnotesize\scshape Ordo Vesperarum}\\[0.8em]
   {\footnotesize
   \begin{tabular}{@{}rl@{}}
+\BLOCK{for e in insertiones.get('ordo', [])}
+    \rubric{Insertio}               & \textit{\VAR{e.title|tex}} \\[3pt]
+\BLOCK{endfor}
     \rubric{Initium}                & \textit{Deus, in adjutórium\ldots} \\[3pt]
+\BLOCK{for e in insertiones.get('initium', [])}
+    \rubric{Insertio}               & \textit{\VAR{e.title|tex}} \\[3pt]
+\BLOCK{endfor}
 \BLOCK{for ps in psalmi}
     \textsc{Ant.~\VAR{ps.index_roman}} & \textit{\VAR{ps.antiphona.incipit|tex}\ldots} \\
     \textsc{Ps.~\VAR{ps.number_roman}} & \textit{\VAR{ps.incipit|tex}\ldots} \\[3pt]
 \BLOCK{endfor}
+\BLOCK{for e in insertiones.get('psalmi', [])}
+    \rubric{Insertio}               & \textit{\VAR{e.title|tex}} \\[3pt]
+\BLOCK{endfor}
     \rubric{Capitulum}              & \textit{\VAR{feast.capitulum.ref|tex}} \\[3pt]
+\BLOCK{for e in insertiones.get('capitulum', [])}
+    \rubric{Insertio}               & \textit{\VAR{e.title|tex}} \\[3pt]
+\BLOCK{endfor}
 \BLOCK{if feast.responsorium}
     \textsc{Resp. Br.}              & \textit{\VAR{responsorium.incipit|tex}\ldots} \\[3pt]
 \BLOCK{endif}
+\BLOCK{for e in insertiones.get('responsorium', [])}
+    \rubric{Insertio}               & \textit{\VAR{e.title|tex}} \\[3pt]
+\BLOCK{endfor}
     \textsc{Hymnus}                 & \textit{\VAR{hymnus.incipit|tex}} \\[3pt]
+\BLOCK{for e in insertiones.get('hymnus', [])}
+    \rubric{Insertio}               & \textit{\VAR{e.title|tex}} \\[3pt]
+\BLOCK{endfor}
     \textsc{Versiculus}             & \textit{\VAR{versiculus.incipit|tex}\ldots} \\[3pt]
+\BLOCK{for e in insertiones.get('versiculus', [])}
+    \rubric{Insertio}               & \textit{\VAR{e.title|tex}} \\[3pt]
+\BLOCK{endfor}
     \textsc{Ant. ad Magnificat}     & \textit{\VAR{magnificat.antiphona.incipit|tex}\ldots} \\
     \textsc{Magnificat}             & \textit{Magníficat ánima mea\ldots} \\[3pt]
+\BLOCK{for e in insertiones.get('magnificat', [])}
+    \rubric{Insertio}               & \textit{\VAR{e.title|tex}} \\[3pt]
+\BLOCK{endfor}
 \BLOCK{if feast.cum_precibus}
     \rubric{Preces}                 & \textit{Te rogámus, audi nos} \\[3pt]
+\BLOCK{for e in insertiones.get('preces', [])}
+    \rubric{Insertio}               & \textit{\VAR{e.title|tex}} \\[3pt]
+\BLOCK{endfor}
     \textsc{Pater Noster}           & \textit{Pater noster et preces} \\[3pt]
+\BLOCK{for e in insertiones.get('paternoster', [])}
+    \rubric{Insertio}               & \textit{\VAR{e.title|tex}} \\[3pt]
+\BLOCK{endfor}
 \BLOCK{endif}
     \rubric{Orátio}                 & \textit{\VAR{oratio_incipit|tex}\ldots} \\
 \BLOCK{for c in commemorationes}
     \rubric{Commem.}                & \textit{\VAR{c.title|tex}} \\
 \BLOCK{endfor}
+\BLOCK{for e in insertiones.get('oratio', [])}
+    \rubric{Insertio}               & \textit{\VAR{e.title|tex}} \\[3pt]
+\BLOCK{endfor}
+\BLOCK{for e in insertiones.get('conclusio', [])}
+    \rubric{Insertio}               & \textit{\VAR{e.title|tex}} \\[3pt]
+\BLOCK{endfor}
     \textsc{Antiphona B.M.V.}       & \textit{\VAR{bmv.name|tex}} \\[3pt]
+\BLOCK{for e in insertiones.get('antiphona-bmv', [])}
+    \rubric{Insertio}               & \textit{\VAR{e.title|tex}} \\[3pt]
+\BLOCK{endfor}
   \end{tabular}}\\[1.5em]
 \BLOCK{if feast.praenotanda}
   % Front-matter provenance rubric (ADR-0038): the Ordo lists exactly the

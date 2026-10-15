@@ -699,3 +699,69 @@ def test_conclusio_is_a_closed_vocabulary(repo_root: Path) -> None:
     data["oratio"]["conclusio"] = "per-christum"
     with pytest.raises(ValidationError):
         FeastSpec.model_validate(data)
+
+
+def _te_deum_data(after: str = "conclusio") -> dict:
+    """An Einschub in all three item kinds, German included (ADR-0052)."""
+    return {
+        "after": after,
+        "title": "Te Deum",
+        "who": "Alle",
+        "posture": "Man steht",
+        "items": [
+            {"gabc": "chant/hymni/sanctorum-meritis.gabc", "de": "Dich, Gott, loben wir …"},
+            {"rubrica": "Hic genuflectitur."},
+            {"text": "Orémus. Deus, cujus misericórdiæ non est numerus …", "de": "Lasset uns beten …"},
+        ],
+    }
+
+
+def test_insertiones_are_optional(repo_root: Path) -> None:
+    assert load_spec(repo_root / SMOKE_FEAST).insertiones == []
+    assert load_spec(repo_root / BENEDICT_FEAST).insertiones == []
+
+
+def test_insertio_items_are_told_apart_by_their_key(repo_root: Path) -> None:
+    data = _smoke_data(repo_root)
+    data["insertiones"] = [_te_deum_data()]
+    items = FeastSpec.model_validate(data).insertiones[0].items
+    assert [type(item).__name__ for item in items] == [
+        "InsertioCantus", "InsertioRubrica", "InsertioTextus",
+    ]
+
+
+@pytest.mark.parametrize("after", ["responsorium", "completorium"])
+def test_insertio_after_a_section_the_rite_lacks_is_rejected(repo_root: Path, after: str) -> None:
+    """St. Lambert's Roman Vespers has no responsory — an Einschub there would
+    silently vanish, so it is an error naming the sections that exist."""
+    data = _smoke_data(repo_root)
+    data["insertiones"] = [_te_deum_data(after)]
+    with pytest.raises(ValidationError) as excinfo:
+        FeastSpec.model_validate(data)
+    message = str(excinfo.value)
+    assert f"nach „{after}“" in message
+    assert "Möglich sind: ordo, initium, psalmi" in message
+
+
+def test_insertio_needs_german_except_for_rubrics(repo_root: Path) -> None:
+    data = _smoke_data(repo_root)
+    insertio = _te_deum_data()
+    for item in insertio["items"]:
+        item.pop("de", None)
+    data["insertiones"] = [insertio]
+    with pytest.raises(ValidationError) as excinfo:
+        FeastSpec.model_validate(data)
+    message = str(excinfo.value)
+    assert "Einschub 1 („Te Deum“), Stück 1" in message
+    assert "Stück 3" in message
+    assert "Stück 2" not in message  # a rubric has no translation
+
+    data["latin_only"] = True
+    assert len(FeastSpec.model_validate(data).insertiones) == 1
+
+
+def test_insertio_needs_at_least_one_item(repo_root: Path) -> None:
+    data = _smoke_data(repo_root)
+    data["insertiones"] = [_te_deum_data() | {"items": []}]
+    with pytest.raises(ValidationError):
+        FeastSpec.model_validate(data)
