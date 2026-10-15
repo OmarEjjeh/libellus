@@ -235,6 +235,26 @@ Key fields:
   `eiusdem: true` when the oration names the Holy Spirit. Printed in full,
   Latin and German; `brevis: true` prints only its incipit, „Per Dóminum.".
   Never write the conclusion into `text:` — that is an error (ADR-0051).
+- **`insertiones:`** — optional sections of your own, each printed after a
+  named section (`after: conclusio`; `after: ordo` comes before the Initium).
+  Each has a `title`, optional `who`/`posture` for the stage note, and `items`:
+  `gabc:` scores, `rubrica:` red lines and `text:` prose, the scores and prose
+  with `de:`. Only the first score opens with a drop capital unless
+  `initialis:` says otherwise (ADR-0052):
+
+  ```yaml
+  insertiones:
+    - after: conclusio
+      title: Te Deum
+      who: Alle
+      posture: Man steht
+      items:
+        - gabc: chant/hymni/te-deum-1.gabc
+          de: Dich, Gott, loben wir …
+        - rubrica: Hic genuflectitur.
+        - gabc: chant/hymni/te-deum-2.gabc
+          de: Dich bitten wir denn …
+  ```
 
 Every error is reported in German, all of them at once, naming the field.
 

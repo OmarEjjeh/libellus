@@ -51,7 +51,7 @@ from libellus.psalmtone import (
     generate_verses,
     write_verse_cache,
 )
-from libellus.schema import FeastSpec, Oratio
+from libellus.schema import FeastSpec, InsertioCantus, InsertioRubrica, Oratio
 from libellus.tonus import (
     Provenance,
     disagrees,
@@ -955,6 +955,32 @@ def build_context(
             }
         )
 
+    # Einschübe (ADR-0052), keyed by the section they follow; the skeleton asks
+    # for each section's list right after including that section.
+    insertiones: dict[str, list[dict[str, Any]]] = {}
+    for index, insertio in enumerate(spec.insertiones, start=1):
+        items: list[dict[str, Any]] = []
+        first_score = True
+        for number, item in enumerate(insertio.items, start=1):
+            if isinstance(item, InsertioCantus):
+                score = _resolve_gabc(
+                    item.gabc, f"insertio-{index}-{number}",
+                    f"Einschub {index}, Stück {number}", problems, root, assets,
+                )
+                initialis = first_score if item.initialis is None else item.initialis
+                first_score = False
+                items.append({"kind": "cantus", "gabc": _stem(score), "de": item.de,
+                              "note": item.note, "initialis": initialis})
+            elif isinstance(item, InsertioRubrica):
+                items.append({"kind": "rubrica", "text": item.rubrica})
+            else:
+                items.append({"kind": "textus", "text": item.text, "de": item.de,
+                              "note": item.note})
+        insertiones.setdefault(insertio.after, []).append(
+            {"title": insertio.title, "who": insertio.who or "",
+             "posture": insertio.posture or "", "items": items}
+        )
+
     magnificat_verses = _load_verse_library(
         MAGNIFICAT_DIR, spec.magnificat.tonus, "Magnificat", problems, root, assets,
         psalter_de=spec.psalter_de, latin_only=spec.latin_only,
@@ -1058,6 +1084,7 @@ def build_context(
         "oratio_incipit": " ".join(spec.oratio.text.split()[:3]).rstrip(",;:."),
         "oratio": _concluded(spec.oratio, with_conclusion=True),
         "commemorationes": commemorationes,
+        "insertiones": insertiones,
         "ordinarium": ordinarium,
         "bmv": bmv,
         "filler": filler,

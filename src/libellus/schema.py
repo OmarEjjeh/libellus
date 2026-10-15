@@ -184,6 +184,26 @@ RITES_CUM_PRECIBUS = {"monasticum", "romanum-cum-precibus"}
 #: it is a monastic-Office feature, see issue #30).
 RITES_WITH_RESPONSORIUM = {"monasticum"}
 
+#: The sections an Einschub can follow, per rite, in booklet order (ADR-0052):
+#: the rite skeleton's own include list from the Ordo page to the Marian
+#: antiphon. `ordo` is the Ordo page, so `after: ordo` comes before the
+#: Initium. tests/test_render.py holds this to the skeletons.
+SECTIONS_PER_RITE: dict[str, tuple[str, ...]] = {
+    "romanum-1962": (
+        "ordo", "initium", "psalmi", "capitulum", "hymnus", "versiculus",
+        "magnificat", "oratio", "conclusio", "antiphona-bmv",
+    ),
+    "romanum-cum-precibus": (
+        "ordo", "initium", "psalmi", "capitulum", "hymnus", "versiculus",
+        "magnificat", "preces", "paternoster", "oratio", "conclusio", "antiphona-bmv",
+    ),
+    "monasticum": (
+        "ordo", "initium", "psalmi", "capitulum", "responsorium", "hymnus",
+        "versiculus", "magnificat", "preces", "paternoster", "oratio", "conclusio",
+        "antiphona-bmv",
+    ),
+}
+
 
 class StrictModel(BaseModel):
     """Base model: unknown fields are errors (catches YAML typos)."""
@@ -382,6 +402,76 @@ class Commemoratio(StrictModel):
     oratio: Oratio
 
 
+class InsertioCantus(Notable):
+    """A score in an Einschub, with its German."""
+
+    gabc: GabcSource
+    #: German translation. Required unless the feast is `latin_only`
+    #: (ADR-0025); FeastSpec._german_present_unless_latin_only enforces that,
+    #: because a nested model cannot see the top-level flag.
+    de: str | None = None
+    #: Whether the score opens with a drop capital. Omitted: the first score of
+    #: the Einschub has one and every later score does not, which is what a
+    #: piece split around a rubric (the Te Deum at „Te ergo") wants.
+    initialis: bool | None = None
+
+
+class InsertioRubrica(StrictModel):
+    """A red line between scores, e.g. „genuflectitur"."""
+
+    rubrica: str
+
+
+class InsertioTextus(Notable):
+    """Spoken or recited prose — a prayer, a reading — with its German."""
+
+    text: str
+    #: German translation. Required unless the feast is `latin_only`
+    #: (ADR-0025); FeastSpec._german_present_unless_latin_only enforces that,
+    #: because a nested model cannot see the top-level flag.
+    de: str | None = None
+
+
+def _insertio_kind(value: object) -> str:
+    """Which arm of the Einschub item union an entry belongs to, by its key.
+
+    Told apart before validating, for the reason `_filler_kind` gives.
+    """
+    if isinstance(value, InsertioCantus | InsertioRubrica | InsertioTextus):
+        return type(value).__name__
+    keys = set(value) if isinstance(value, dict) else set()
+    if "gabc" in keys:
+        return "InsertioCantus"
+    if "rubrica" in keys:
+        return "InsertioRubrica"
+    return "InsertioTextus"
+
+
+InsertioItem = Annotated[
+    Annotated[InsertioCantus, Tag("InsertioCantus")]
+    | Annotated[InsertioRubrica, Tag("InsertioRubrica")]
+    | Annotated[InsertioTextus, Tag("InsertioTextus")],
+    Discriminator(_insertio_kind),
+]
+
+
+class Insertio(StrictModel):
+    """An Einschub: a section of the spec's own making (ADR-0052).
+
+    Free-form by design and without liturgical claims — unlike a commemoration
+    (ADR-0050), whose form and place the rubrics fix.
+    """
+
+    #: The section after which this one is printed; one of the feast's rite's
+    #: `SECTIONS_PER_RITE`, checked in `FeastSpec._insertiones_follow_a_section`.
+    after: str
+    title: str
+    #: The stagenote's two halves: who sings, and the posture.
+    who: str | None = None
+    posture: str | None = None
+    items: list[InsertioItem] = Field(min_length=1)
+
+
 class BackCoverQuote(Notable):
     """Latin quote + German translation; newlines are line breaks."""
 
@@ -547,6 +637,9 @@ class FeastSpec(StrictModel):
     #: gives them (ADR-0050). How many a day admits is the Ordo's decision
     #: (Rubricae generales 1960, n. 111), not checked here.
     commemorationes: list[Commemoratio] = []
+    #: Einschübe, each after a named section; several after the same section
+    #: keep the order they are listed in (ADR-0052).
+    insertiones: list[Insertio] = []
     #: Ordinarium chant name, e.g. "salve-regina-simple" — resolved to
     #: chant/ordinarium/<name>.gabc, so it reaches \gregorioscore as a path.
     antiphona_bmv: SpecPath
@@ -626,6 +719,12 @@ class FeastSpec(StrictModel):
                 )
                 if item.de is None
             ]
+        for index, insertio in enumerate(self.insertiones, start=1):
+            missing += [
+                f"Einschub {index} („{insertio.title}“), Stück {number}"
+                for number, item in enumerate(insertio.items, start=1)
+                if isinstance(item, InsertioCantus | InsertioTextus) and item.de is None
+            ]
         if self.back_cover.quote is not None and self.back_cover.quote.de is None:
             missing.append("Rückseiten-Zitat")
         if missing:
@@ -642,6 +741,22 @@ class FeastSpec(StrictModel):
             raise ValueError(
                 f"Der Ritus „{self.rite}“ hat {expected} Antiphonen mit Psalmen — "
                 f"in der Datei stehen {len(self.antiphonae)}."
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _insertiones_follow_a_section(self) -> FeastSpec:
+        """An Einschub after a section this rite does not have would vanish."""
+        sections = SECTIONS_PER_RITE[self.rite]
+        wrong = [
+            f"Einschub {index} („{insertio.title}“) steht nach „{insertio.after}“"
+            for index, insertio in enumerate(self.insertiones, start=1)
+            if insertio.after not in sections
+        ]
+        if wrong:
+            raise ValueError(
+                "; ".join(wrong) + f" — den Abschnitt gibt es im Ritus „{self.rite}“ "
+                "nicht. Möglich sind: " + ", ".join(sections) + "."
             )
         return self
 
