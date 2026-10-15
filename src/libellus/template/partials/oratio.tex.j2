@@ -12,9 +12,35 @@
 \noindent\rubric{Orémus.}\medskip\\
 \BLOCK{if not latin_only}\noindent{\footnotesize\itshape Lasset uns beten.\par}\BLOCK{endif}\medskip
 
-\noindent \VAR{feast.oratio.text|tex|pausemarks}
+\noindent \VAR{oratio.text|tex|pausemarks}
 
 \medskip\noindent\rc\rubric{Amen.}
 
-\medskip\BLOCK{if latin_only}\BLOCK{if feast.oratio.note}\footnote{\VAR{feast.oratio.note|tex}}\BLOCK{endif}\BLOCK{else}\noindent{\footnotesize\itshape \VAR{feast.oratio.de|tex}\BLOCK{if feast.oratio.note}\footnote{\VAR{feast.oratio.note|tex}}\BLOCK{endif}}
+\medskip\BLOCK{if latin_only}\BLOCK{if oratio.note}\footnote{\VAR{oratio.note|tex}}\BLOCK{endif}\BLOCK{else}\noindent{\footnotesize\itshape \VAR{oratio.de|tex}\BLOCK{if oratio.note}\footnote{\VAR{oratio.note|tex}}\BLOCK{endif}}
 \BLOCK{endif}
+\BLOCK{for c in commemorationes}
+% Commemoratio (ADR-0050), in the form of Rubricae Breviarii 1960 nn. 249, 251:
+% antiphon, versicle, Orémus, oration. No salutation — that precedes the first
+% oration only — and the conclusion with its Amen after the last commemoration
+% only (resolve._concluded adds it to that oration's text, ADR-0051).
+\bigskip
+\begin{center}{\small\rubric{Commemoratio \VAR{c.title|tex}}}\end{center}
+
+\gregorioscore{\VAR{c.antiphona.gabc}}
+\BLOCK{if not latin_only}\noindent{\footnotesize\itshape \VAR{c.antiphona.de|tex}\BLOCK{if c.antiphona.note}\footnote{\VAR{c.antiphona.note|tex}}\BLOCK{endif}\par}\BLOCK{elif c.antiphona.note}\noindent{\footnotesize\footnote{\VAR{c.antiphona.note|tex}}\par}\BLOCK{endif}\medskip
+\gresetinitiallines{0}
+\gregorioscore{\VAR{c.versiculus.gabc}}
+\gresetinitiallines{1}
+\BLOCK{if not latin_only}\noindent{\footnotesize\itshape \VAR{c.versiculus.de|tex}\BLOCK{if c.versiculus.note}\footnote{\VAR{c.versiculus.note|tex}}\BLOCK{endif}\par}\BLOCK{elif c.versiculus.note}\noindent{\footnotesize\footnote{\VAR{c.versiculus.note|tex}}\par}\BLOCK{endif}\medskip
+
+\noindent\rubric{Orémus.}\medskip\\
+\BLOCK{if not latin_only}\noindent{\footnotesize\itshape Lasset uns beten.\par}\BLOCK{endif}\medskip
+
+\noindent \VAR{c.oratio.text|tex|pausemarks}
+
+\BLOCK{if loop.last}\medskip\noindent\rc\rubric{Amen.}
+
+\BLOCK{endif}
+\medskip\BLOCK{if latin_only}\BLOCK{if c.oratio.note}\footnote{\VAR{c.oratio.note|tex}}\BLOCK{endif}\BLOCK{else}\noindent{\footnotesize\itshape \VAR{c.oratio.de|tex}\BLOCK{if c.oratio.note}\footnote{\VAR{c.oratio.note|tex}}\BLOCK{endif}}
+\BLOCK{endif}
+\BLOCK{endfor}

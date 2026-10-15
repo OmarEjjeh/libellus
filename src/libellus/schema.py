@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import datetime
 import re
+import unicodedata
 from pathlib import Path
 from typing import Annotated, Literal
 
@@ -310,12 +311,75 @@ class Magnificat(StrictModel):
     mediatio: str | None = None
 
 
+#: The conclusions of Rubricae generales 1960, n. 115 a–d (ADR-0051), told
+#: apart by whom the oration addresses and where it names the Son — which the
+#: wording does not reliably show, so the author names it.
+Conclusio = Literal["per-dominum", "per-eundem", "qui-tecum", "qui-vivis"]
+
+#: Normalised fragments that only a conclusion contains; see
+#: Oratio._conclusion_is_not_in_the_text.
+_CONCLUSION_MARKERS = ("per dominum", "per eundem", "qui tecum vivit", "qui vivis", "per omnia saecula")
+
+
 class Oratio(Notable):
+    #: The oration without its conclusion, which the template adds (ADR-0051).
     text: str
     #: German translation. Required unless the feast is `latin_only`
     #: (ADR-0025); FeastSpec._german_present_unless_latin_only enforces that,
     #: because a nested model cannot see the top-level flag.
     de: str | None = None
+    conclusio: Conclusio = "per-dominum"
+    #: The oration names the Holy Spirit, so the conclusion says „in unitáte
+    #: eiúsdem Spíritus Sancti" (n. 115 e).
+    eiusdem: bool = False
+    #: Print the conclusion's incipit only („Per Dóminum."), as the books do.
+    #: St. Lambert was sung that way; a booklet sung by a congregation that does
+    #: not know the formula by heart wants it in full.
+    brevis: bool = False
+
+    @model_validator(mode="after")
+    def _conclusion_is_not_in_the_text(self) -> Oratio:
+        """A conclusion written into the text would print twice."""
+        plain = unicodedata.normalize("NFKD", self.text.replace("æ", "ae").replace("ǽ", "ae"))
+        plain = "".join(c for c in plain if not unicodedata.combining(c)).lower()
+        plain = re.sub(r"[^a-z]+", " ", plain)
+        found = [marker for marker in _CONCLUSION_MARKERS if marker in plain]
+        if found:
+            raise ValueError(
+                "Die Schlussformel der Oration setzt libellus selbst — sie gehört "
+                f"nicht in den Text („{found[0]}“). Welche es ist, sagt "
+                "„conclusio:“ (per-dominum, per-eundem, qui-tecum, qui-vivis)."
+            )
+        return self
+
+
+class AntiphonaCommemorationis(OrdoItem):
+    gabc: GabcSource
+    #: German translation. Required unless the feast is `latin_only`
+    #: (ADR-0025); FeastSpec._german_present_unless_latin_only enforces that,
+    #: because a nested model cannot see the top-level flag.
+    de: str | None = None
+
+
+class Commemoratio(StrictModel):
+    """One commemoration after the oration of the day (ADR-0050).
+
+    Only the content: the form — antiphon, versicle, Orémus and oration, in
+    that order, with the conclusion and Amen after the last commemoration only
+    — is fixed by the rubrics (Rubricae Breviarii 1960, nn. 249, 251) and lives
+    in ``partials/oratio.tex.j2``. The ``conclusio:`` of every commemorated
+    oration but the last is therefore never printed.
+    """
+
+    #: The genitive after "Commemoratio" in the heading, e.g. "Dominicæ XXIII
+    #: post Pentecosten".
+    title: str
+    #: The Benedictus or Magnificat antiphon of the commemorated office, sung
+    #: without a psalm and so without a EUOUAE.
+    antiphona: AntiphonaCommemorationis
+    #: The versicle that precedes that antiphon in the commemorated office.
+    versiculus: Versiculus
+    oratio: Oratio
 
 
 class BackCoverQuote(Notable):
@@ -479,6 +543,10 @@ class FeastSpec(StrictModel):
     versiculus: Versiculus
     magnificat: Magnificat
     oratio: Oratio
+    #: Commemorations after the oration of the day, in the order the Ordo
+    #: gives them (ADR-0050). How many a day admits is the Ordo's decision
+    #: (Rubricae generales 1960, n. 111), not checked here.
+    commemorationes: list[Commemoratio] = []
     #: Ordinarium chant name, e.g. "salve-regina-simple" — resolved to
     #: chant/ordinarium/<name>.gabc, so it reaches \gregorioscore as a path.
     antiphona_bmv: SpecPath
@@ -548,6 +616,16 @@ class FeastSpec(StrictModel):
             missing.append("Antiphon zum Magnificat")
         if self.oratio.de is None:
             missing.append("Oratio")
+        for index, commemoratio in enumerate(self.commemorationes, start=1):
+            missing += [
+                f"Commemoratio {index}, {part}"
+                for part, item in (
+                    ("Antiphon", commemoratio.antiphona),
+                    ("Versiculus", commemoratio.versiculus),
+                    ("Oratio", commemoratio.oratio),
+                )
+                if item.de is None
+            ]
         if self.back_cover.quote is not None and self.back_cover.quote.de is None:
             missing.append("Rückseiten-Zitat")
         if missing:

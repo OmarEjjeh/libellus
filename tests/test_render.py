@@ -12,7 +12,12 @@ from libellus.compile import compile_pdf, page_count
 from libellus.errors import FeastFileError
 from libellus.render import render
 from libellus.resolve import build_context, load_spec
-from libellus.schema import FeastSpec
+from libellus.schema import (
+    AntiphonaCommemorationis,
+    Commemoratio,
+    FeastSpec,
+    Oratio,
+)
 from libellus.stage import stage
 
 from helpers import physical
@@ -695,6 +700,8 @@ _COMPOSED = "Latin the pipeline composed from the date or from a Literal field"
 
 RAW_INTERPOLATIONS: dict[str, str] = {
     "bmv.gabc": _SCORE,
+    "c.antiphona.gabc": _SCORE,
+    "c.versiculus.gabc": _SCORE,
     "hymnus.gabc": _SCORE,
     "magnificat.antiphona.gabc": _SCORE,
     "magnificat.system": _SCORE,
@@ -867,7 +874,8 @@ def _torture(model: Model) -> Model:
 
 def _tortured_spec(smoke_feast: Path) -> FeastSpec:
     """St. Lambert with hostile text everywhere and an awkwardly named picture."""
-    spec = _torture(load_spec(smoke_feast))
+    # with a commemoration, so that its title and texts are tortured too
+    spec = _torture(_with_commemorationes(load_spec(smoke_feast), "Prima"))
     return spec.model_copy(
         update={"back_cover": spec.back_cover.model_copy(update={"image": TORTURE_IMAGE})}
     )
@@ -978,3 +986,164 @@ def test_praenotanda_drops_its_german_when_latin_only(
     ordo = _ordo_page(tex)
     assert "Antiphonae, Hymnus et Versiculi de Communi" in ordo
     assert "Die Antiphonen, der Hymnus und die Versikel" not in ordo
+
+
+# ============================================================
+#  Commemorations (#105, ADR-0050)
+# ============================================================
+
+
+def _with_commemorationes(spec: FeastSpec, *titles: str) -> FeastSpec:
+    """``spec`` with one commemoration per title, built from its own versicle
+    and oration so that every chant resolves."""
+    commemorationes = [
+        Commemoratio(
+            title=title,
+            antiphona=AntiphonaCommemorationis(
+                gabc=spec.versiculus.gabc, de=f"Antiphon {title}"
+            ),
+            versiculus=spec.versiculus,
+            oratio=Oratio(text=f"Oratio {title}.", de=f"Gebet {title}."),
+        )
+        for title in titles
+    ]
+    return spec.model_copy(update={"commemorationes": commemorationes})
+
+
+def _oratio_section(tex: str) -> str:
+    """From the oratio section to the conclusio section."""
+    return tex[tex.index("\\section{Oratio}") : tex.index("\\section{Conclusio}")]
+
+
+def test_commemoratio_follows_the_oration_of_the_day_in_its_fixed_form(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    """Antiphon, versicle, Orémus, oration — after the day's oration and its
+    Amen, with no second salutation (Rubricae Breviarii 1960, nn. 249, 251)."""
+    spec = _with_commemorationes(load_spec(smoke_feast), "Dominicæ XXIII post Pentecosten")
+    tex = render(spec.rite, build_context(spec, repo_root).context, repo_root)
+    section = _oratio_section(tex)
+
+    day_amen = section.index("\\rubric{Amen.}")
+    heading = section.index("Commemoratio Dominicæ XXIII post Pentecosten")
+    antiphon = section.index("\\gregorioscore{", heading)
+    versicle = section.index("\\gregorioscore{", antiphon + 1)
+    oremus = section.index("\\rubric{Orémus.}", heading)
+    oration = section.index("Oratio Dominicæ XXIII post Pentecosten.")
+    assert day_amen < heading < antiphon < versicle < oremus < oration
+    assert section.index("Antiphon Dominicæ") < versicle
+    assert section.index("Gebet Dominicæ") > oration
+    # the salutation stands once, before the oration of the day
+    assert section.count("versicle-domine-exaudi") == 1
+
+
+def test_only_the_last_commemoration_ends_with_amen(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    """Commemorated orations are concluded in the last only (n. 249), so the
+    Amen follows the day's oration and the last commemoration — no other."""
+    spec = _with_commemorationes(load_spec(smoke_feast), "Prima", "Secunda")
+    section = _oratio_section(
+        render(spec.rite, build_context(spec, repo_root).context, repo_root)
+    )
+
+    amens = [m.start() for m in re.finditer(re.escape("\\rubric{Amen.}"), section)]
+    assert len(amens) == 2
+    assert amens[0] < section.index("Commemoratio Prima")
+    assert section.index("Oratio Secunda.") < amens[1]
+
+
+def test_commemoratio_has_a_row_in_the_ordo(repo_root: Path, smoke_feast: Path) -> None:
+    spec = _with_commemorationes(load_spec(smoke_feast), "Dominicæ XXIII post Pentecosten")
+    ordo = _ordo_page(render(spec.rite, build_context(spec, repo_root).context, repo_root))
+    assert ordo.index("\\rubric{Orátio}") < ordo.index("Dominicæ XXIII post Pentecosten")
+
+
+def test_commemoratio_drops_its_german_when_latin_only(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    spec = _with_commemorationes(load_spec(smoke_feast), "Prima")
+    spec = spec.model_copy(update={"latin_only": True})
+    section = _oratio_section(
+        render(spec.rite, build_context(spec, repo_root).context, repo_root)
+    )
+    assert "Oratio Prima." in section
+    assert "Gebet Prima." not in section
+    assert "Antiphon Prima" not in section
+    assert "Lasset uns beten." not in section
+
+
+def test_no_commemoratio_leaves_the_booklet_as_it_was(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    spec = load_spec(smoke_feast)
+    tex = render(spec.rite, build_context(spec, repo_root).context, repo_root)
+    assert "Commemoratio" not in tex.replace("% Commemoratio", "")
+
+
+# ============================================================
+#  Conclusions (ADR-0051)
+# ============================================================
+
+
+def test_the_conclusion_is_added_to_the_oration_in_full_by_default(
+    repo_root: Path, benedict_feast: Path
+) -> None:
+    """The words Benedict's booklet printed, now from the table rather than
+    the spec — Latin and German."""
+    spec = load_spec(benedict_feast)
+    section = _oratio_section(render(spec.rite, build_context(spec, repo_root).context, repo_root))
+    assert "adimpleámus. Per Dóminum nostrum Iesum Christum Fílium tuum" in section
+    assert "versprochen haben. Durch unsern Herrn Jesus Christus" in section
+
+
+@pytest.mark.parametrize(
+    ("conclusio", "latin", "german"),
+    [
+        ("per-eundem", "Per eúndem Dóminum nostrum", "Durch ihn, unsern Herrn"),
+        ("qui-tecum", "Qui tecum vivit et regnat", "Der mit dir lebt"),
+        ("qui-vivis", "Qui vivis et regnas cum Deo Patre", "Der du mit Gott dem Vater"),
+    ],
+)
+def test_each_conclusion_of_n_115_prints_its_own_words(
+    repo_root: Path, benedict_feast: Path, conclusio: str, latin: str, german: str
+) -> None:
+    spec = load_spec(benedict_feast)
+    spec = spec.model_copy(update={"oratio": spec.oratio.model_copy(update={"conclusio": conclusio})})
+    section = _oratio_section(render(spec.rite, build_context(spec, repo_root).context, repo_root))
+    assert latin in section and german in section
+    assert "Per Dóminum" not in section
+
+
+def test_eiusdem_names_the_holy_spirit_again(repo_root: Path, benedict_feast: Path) -> None:
+    """n. 115 e: an oration that has named the Holy Spirit concludes „in unitáte
+    eiúsdem Spíritus Sancti"."""
+    spec = load_spec(benedict_feast)
+    spec = spec.model_copy(update={"oratio": spec.oratio.model_copy(update={"eiusdem": True})})
+    section = _oratio_section(render(spec.rite, build_context(spec, repo_root).context, repo_root))
+    assert "in unitáte eiúsdem Spíritus Sancti" in section
+    assert "in der Einheit desselben Heiligen Geistes" in section
+
+
+def test_brevis_prints_the_incipit_of_the_conclusion(repo_root: Path, smoke_feast: Path) -> None:
+    """St. Lambert was sung with „Per Dóminum." alone."""
+    spec = load_spec(smoke_feast)
+    assert spec.oratio.brevis
+    section = _oratio_section(render(spec.rite, build_context(spec, repo_root).context, repo_root))
+    assert "famulátum. Per Dóminum." in section
+    assert "machen. Durch Jesus Christus…" in section
+    assert "Fílium tuum" not in section
+
+
+def test_only_the_last_commemorated_oration_is_concluded(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    """n. 249: the day's oration keeps its conclusion; of the commemorations,
+    only the last has one."""
+    spec = _with_commemorationes(load_spec(smoke_feast), "Prima", "Secunda")
+    section = _oratio_section(render(spec.rite, build_context(spec, repo_root).context, repo_root))
+    assert "famulátum. Per Dóminum." in section
+    assert "Oratio Prima.\n" in section
+    assert "Oratio Secunda. Per Dóminum nostrum" in section
+    assert "Gebet Prima.}" in section
+    assert "Gebet Secunda. Durch unsern Herrn" in section

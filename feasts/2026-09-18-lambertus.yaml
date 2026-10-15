@@ -238,12 +238,14 @@ oratio:
   text: >-
     Intercéssio, quaésumus, Dómine, beáti Lambérti Mártyris tui atque
     Pontíficis, † tuam nobis non désinat placáre justítiam, * et nostrum
-    tibi devótum effícere famulátum. Per Dóminum.
+    tibi devótum effícere famulátum.
   de: >-
     Die Fürbitte deines heiligen Märtyrers und Bischofs Lambertus, so
     bitten wir dich, o Herr, möge nicht aufhören, für uns deine
     Gerechtigkeit zu versöhnen und unseren Dienst dir wohlgefällig zu
-    machen. Durch Jesus Christus…
+    machen.
+  # Sung with the conclusion abbreviated, as the books print it (ADR-0051).
+  brevis: true
   note: >-
     Eigene Oration des hl. Lambertus, im Mittelalter am Lambertusfest im
     Bistum Osnabrück gebetet (Collectarium des Osnabrücker Doms, 15. Jh.;

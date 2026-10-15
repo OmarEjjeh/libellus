@@ -48,6 +48,9 @@
     \textsc{Pater Noster}           & \textit{Pater noster et preces} \\[3pt]
 \BLOCK{endif}
     \rubric{Orátio}                 & \textit{\VAR{oratio_incipit|tex}\ldots} \\
+\BLOCK{for c in commemorationes}
+    \rubric{Commem.}                & \textit{\VAR{c.title|tex}} \\
+\BLOCK{endfor}
     \textsc{Antiphona B.M.V.}       & \textit{\VAR{bmv.name|tex}} \\[3pt]
   \end{tabular}}\\[1.5em]
 \BLOCK{if feast.praenotanda}
