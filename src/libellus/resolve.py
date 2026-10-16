@@ -159,12 +159,13 @@ CONCLUSIONES: dict[str, dict[str, tuple[str, str]]] = {
 
 ORDINARIUM_ALWAYS: dict[str, bool] = {
     "incipit": True,
-    "versicle-domine-exaudi": True,
     "benedicamus-domino": True,
     "deo-gratias": True,
     "fidelium-animae": True,
     "amen": False,
 }
+#: The presider as the stagenotes name him (ADR-0053).
+PRAESES_DE: dict[str, str] = {"sacerdos": "Priester", "diaconus": "Diakon"}
 #: Additional chants for rites that sing Preces + Pater noster.
 ORDINARIUM_CUM_PRECIBUS: dict[str, bool] = {
     "te-rogamus": True,
@@ -1006,7 +1007,10 @@ def build_context(
                 "1. Vers) — Vers 1 und 2 werden einzeln notiert.", folder,
             )
 
-    needed_ordinarium = dict(ORDINARIUM_ALWAYS)
+    # Rubricae Breviarii 1960, n. 247 (ADR-0053): a priest or deacon greets
+    # with Dóminus vobíscum, anyone else says Dómine, exáudi.
+    salutatio = "versicle-domine-exaudi" if spec.praeses is None else "dominus-vobiscum"
+    needed_ordinarium = dict(ORDINARIUM_ALWAYS) | {salutatio: True}
     if spec.cum_precibus:
         needed_ordinarium |= ORDINARIUM_CUM_PRECIBUS
     needed_ordinarium[spec.antiphona_bmv] = True
@@ -1086,6 +1090,9 @@ def build_context(
         "commemorationes": commemorationes,
         "insertiones": insertiones,
         "ordinarium": ordinarium,
+        "salutatio": ordinarium[salutatio],
+        # who the stagenotes name for the officiant's parts; None for a schola
+        "praeses": None if spec.praeses is None else PRAESES_DE[spec.praeses],
         "bmv": bmv,
         "filler": filler,
         "drollery": drollery,

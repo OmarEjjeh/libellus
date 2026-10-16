@@ -723,7 +723,7 @@ RAW_INTERPOLATIONS: dict[str, str] = {
     "ordinarium['kyrie-eleison'].gabc": _SCORE,
     "ordinarium['paternoster'].gabc": _SCORE,
     "ordinarium['te-rogamus'].gabc": _SCORE,
-    "ordinarium['versicle-domine-exaudi'].gabc": _SCORE,
+    "salutatio.gabc": _SCORE,
     "back_cover_image": _PICTURE,
     "drollery": _PICTURE,
     "page.image": _PICTURE,
@@ -1268,3 +1268,71 @@ def test_insertio_has_a_row_in_the_ordo(repo_root: Path, smoke_feast: Path) -> N
     spec = load_spec(smoke_feast)
     ordo = _ordo_page(_rendered(_with_insertiones(spec, _te_deum(spec, "conclusio")), repo_root))
     assert ordo.index("\\rubric{Orátio}") < ordo.index("\\textit{Te Deum}") < ordo.index("Antiphona B.M.V.")
+
+
+# ============================================================
+#  Praeses (ADR-0053)
+# ============================================================
+
+
+def _conclusio_section(tex: str) -> str:
+    """From the conclusio section to the Marian antiphon."""
+    return tex[tex.index("\\section{Conclusio}") : tex.index("\\section{Antiphona B.M.V.}")]
+
+
+def _presided(spec: FeastSpec, praeses: str) -> FeastSpec:
+    return spec.model_copy(update={"praeses": praeses})
+
+
+def test_without_a_praeses_the_schola_says_domine_exaudi(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    """Rubricae Breviarii 1960, n. 247: those not in deacon's orders say
+    Dómine, exáudi — what both shipped booklets print."""
+    tex = _rendered(load_spec(smoke_feast), repo_root)
+    for section in (_oratio_section(tex), _conclusio_section(tex)):
+        assert "versicle-domine-exaudi" in section
+        assert "dominus-vobiscum" not in section
+    assert "\\stagenote{Priester" not in tex and "\\stagenote{Diakon" not in tex
+
+
+@pytest.mark.parametrize("praeses", ["sacerdos", "diaconus"])
+def test_a_cleric_says_dominus_vobiscum_before_the_oration_and_the_benedicamus(
+    repo_root: Path, smoke_feast: Path, praeses: str
+) -> None:
+    """n. 247: in choir, a priest or deacon greets with Dóminus vobíscum, and
+    the Benedicamus follows a second one."""
+    tex = _rendered(_presided(load_spec(smoke_feast), praeses), repo_root)
+    oratio, conclusio = _oratio_section(tex), _conclusio_section(tex)
+    assert "versicle-domine-exaudi" not in tex
+    assert oratio.index("dominus-vobiscum") < oratio.index("\\rubric{Orémus.}")
+    assert conclusio.index("dominus-vobiscum") < conclusio.index("benedicamus-domino")
+    assert "Der Herr sei mit euch." in oratio
+
+
+def test_the_salutation_stands_once_before_the_commemorations(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    spec = _presided(_with_commemorationes(load_spec(smoke_feast), "Prima", "Secunda"), "sacerdos")
+    assert _oratio_section(_rendered(spec, repo_root)).count("dominus-vobiscum") == 1
+
+
+@pytest.mark.parametrize(("praeses", "label"), [("sacerdos", "Priester"), ("diaconus", "Diakon")])
+def test_the_stagenotes_give_the_presider_his_parts(
+    repo_root: Path, smoke_feast: Path, praeses: str, label: str
+) -> None:
+    """He intones Deus in adjutórium, sings the capitulum, the oration, the
+    salutation and Fidélium ánimæ; the cantors keep the Benedicamus."""
+    tex = _rendered(_presided(load_spec(smoke_feast), praeses), repo_root)
+    for heading in ("Initium", "Capitulum", "Oratio", "Conclusio"):
+        start = tex.index(f"\\section{{{heading}}}")
+        assert tex.index(f"\\stagenote{{{label}", start) < tex.index("\\section{", start + 1)
+    conclusio = _conclusio_section(tex)
+    assert conclusio.index("benedicamus-domino") < conclusio.index(f"\\stagenote{{{label}}}")
+    assert conclusio.index("\\stagenote{Kantor") < conclusio.index("benedicamus-domino")
+    assert f"\\rubric{{{label}}} &" in tex
+
+
+def test_latin_only_drops_the_german_of_the_salutation(repo_root: Path, smoke_feast: Path) -> None:
+    spec = _presided(load_spec(smoke_feast), "sacerdos").model_copy(update={"latin_only": True})
+    assert "Der Herr sei mit euch." not in _rendered(spec, repo_root)
