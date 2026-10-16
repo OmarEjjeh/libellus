@@ -2,12 +2,15 @@
 %  CONCLUSIO
 % ============================================================
 \section{Conclusio}
-\stagenote{Kantor, alle antworten}{Man steht}
+\stagenote{\VAR{(praeses or 'Kantor')|tex}, alle antworten}{Man steht}
 
 \gresetinitiallines{0}
-\gregorioscore{\VAR{ordinarium['versicle-domine-exaudi'].gabc}}
+\gregorioscore{\VAR{salutatio.gabc}}
 \gresetinitiallines{1}
-\BLOCK{if not latin_only}\noindent{\footnotesize\itshape \VAR{ordinarium['versicle-domine-exaudi'].de|tex}\par}\BLOCK{endif}\medskip
+\BLOCK{if not latin_only}\noindent{\footnotesize\itshape \VAR{salutatio.de|tex}\par}\BLOCK{endif}\medskip
+\#{ The presider greets; the cantors sing the Benedicamus, and he says
+    Fidélium ánimæ (LU p. 261; ADR-0053). }
+\BLOCK{if praeses}\stagenote{Kantor, alle antworten}{}\BLOCK{endif}
 \gresetinitiallines{0}
 \gregorioscore{\VAR{ordinarium['benedicamus-domino'].gabc}}
 \gresetinitiallines{1}
@@ -16,6 +19,7 @@
 \gregorioscore{\VAR{ordinarium['deo-gratias'].gabc}}
 \BLOCK{if not latin_only}\noindent{\footnotesize\itshape \VAR{ordinarium['deo-gratias'].de|tex}\par}\BLOCK{endif}\medskip
 \gresetinitiallines{1}
+\BLOCK{if praeses}\stagenote{\VAR{praeses|tex}}{}\BLOCK{endif}
 \gresetinitiallines{0}
 \gregorioscore{\VAR{ordinarium['fidelium-animae'].gabc}}
 \gresetinitiallines{1}

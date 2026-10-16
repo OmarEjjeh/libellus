@@ -427,6 +427,21 @@ added by libellus, never written into the oration's text (ADR-0051). Not the
 shares the word.
 _Avoid_: Schlussgebet, doxology
 
+**Praeses**:
+The cleric who presides at Vespers, a priest (`sacerdos`) or a deacon
+(`diaconus`), named by the `praeses:` field (ADR-0053). He greets with
+*Dóminus vobíscum* (Rubricae Breviarii 1960, n. 247), intones *Deus, in
+adjutórium*, sings the capitulum and the orations, and says *Fidélium ánimæ*.
+If the field is absent, no cleric presides: the schola says *Dómine, exáudi*,
+and the cantor intones.
+_Avoid_: Zelebrant, officiant, hebdomadarius (the choir office's rota term)
+
+**Salutatio**:
+The versicle before the oration and before the *Benedicamus*: *Dóminus
+vobíscum* when a **Praeses** leads, *Dómine, exáudi* otherwise (n. 247). It is
+said once before the oration of the day, never before a **Commemoratio**.
+_Avoid_: greeting, Gruß
+
 **Psalter**:
 One translator's complete German for the sung verses — one directory,
 `psalter/<versio>/`, holding a file per psalm plus the Magnificat. Chosen

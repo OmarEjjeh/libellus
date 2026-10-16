@@ -616,6 +616,10 @@ class FeastSpec(StrictModel):
     #: Optional front-matter rubric naming the books the propers come from
     #: (ADR-0038). Absent for a feast whose `source:` line says it all.
     praenotanda: Praenotanda | None = None
+    #: Who presides (ADR-0053): a priest or a deacon greets with Dóminus
+    #: vobíscum (Rubricae Breviarii 1960, n. 247) and sings the officiant's
+    #: parts. Absent, no cleric presides and the schola says Dómine, exáudi.
+    praeses: Literal["sacerdos", "diaconus"] | None = None
 
     #: Which German psalter translation the psalm/Magnificat verses use —
     #: one directory name under ``psalter/``, or an ordered list of them when

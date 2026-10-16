@@ -235,6 +235,10 @@ Key fields:
   `eiusdem: true` when the oration names the Holy Spirit. Printed in full,
   Latin and German; `brevis: true` prints only its incipit, „Per Dóminum.".
   Never write the conclusion into `text:` — that is an error (ADR-0051).
+- **`praeses:`** — optional; `sacerdos` or `diaconus` when a priest or deacon
+  leads. He gets *Dóminus vobíscum* before the oration and the *Benedicamus*,
+  and the stagenotes name him („Priester" / „Diakon"). Leave it out when the
+  schola sings alone: the booklet then prints *Dómine, exáudi* (ADR-0053).
 - **`insertiones:`** — optional sections of your own, each printed after a
   named section (`after: conclusio`; `after: ordo` comes before the Initium).
   Each has a `title`, optional `who`/`posture` for the stage note, and `items`:

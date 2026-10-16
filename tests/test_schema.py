@@ -701,6 +701,27 @@ def test_conclusio_is_a_closed_vocabulary(repo_root: Path) -> None:
         FeastSpec.model_validate(data)
 
 
+def test_praeses_is_optional(repo_root: Path) -> None:
+    """Both shipped booklets were sung by a schola with no cleric presiding."""
+    assert load_spec(repo_root / SMOKE_FEAST).praeses is None
+    assert load_spec(repo_root / BENEDICT_FEAST).praeses is None
+
+
+@pytest.mark.parametrize("praeses", ["sacerdos", "diaconus"])
+def test_praeses_names_a_priest_or_a_deacon(repo_root: Path, praeses: str) -> None:
+    data = _smoke_data(repo_root)
+    data["praeses"] = praeses
+    assert FeastSpec.model_validate(data).praeses == praeses
+
+
+def test_praeses_is_a_closed_vocabulary(repo_root: Path) -> None:
+    """A lay leader is the absent field, not a third value (ADR-0053)."""
+    data = _smoke_data(repo_root)
+    data["praeses"] = "cantor"
+    with pytest.raises(ValidationError):
+        FeastSpec.model_validate(data)
+
+
 def _te_deum_data(after: str = "conclusio") -> dict:
     """An Einschub in all three item kinds, German included (ADR-0052)."""
     return {
