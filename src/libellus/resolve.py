@@ -159,10 +159,33 @@ CONCLUSIONES: dict[str, dict[str, tuple[str, str]]] = {
 
 ORDINARIUM_ALWAYS: dict[str, bool] = {
     "incipit": True,
-    "benedicamus-domino": True,
-    "deo-gratias": True,
     "fidelium-animae": True,
     "amen": False,
+}
+#: The class of the Liber Usualis's Benedicamus table (1961, pp. 124–126) a
+#: rank falls under. The pre-1955 ranks follow the reform of 1960 (ADR-0054).
+#: A rank without an entry has no row there.
+BENEDICAMUS_CLASSIS: dict[str, str] = {
+    "I classis": "i-classis",
+    "Duplex I classis": "i-classis",
+    "II classis": "ii-classis",
+    "Duplex II classis": "ii-classis",
+    "III classis": "iii-classis",
+    "Duplex majus": "iii-classis",
+    "Duplex": "iii-classis",
+    "Duplex minus": "iii-classis",
+    "Semiduplex": "iii-classis",
+}
+#: The Benedicamus melody per class and Vespers, as a suffix of the file names
+#: ``benedicamus-domino`` and ``deo-gratias``. The unsuffixed melody is the
+#: I. classis at II Vespers; a rank without a row keeps it (ADR-0054).
+BENEDICAMUS_TONUS: dict[tuple[str, str | None], str] = {
+    ("i-classis", "I"): "-i-classis-i-vesperae",
+    ("i-classis", "II"): "",
+    ("ii-classis", "I"): "-ii-classis-i-vesperae",
+    ("ii-classis", "II"): "-ii-classis-ii-vesperae",
+    ("iii-classis", "I"): "-iii-classis",
+    ("iii-classis", "II"): "-iii-classis",
 }
 #: The presider as the stagenotes name him (ADR-0053).
 PRAESES_DE: dict[str, str] = {"sacerdos": "Priester", "diaconus": "Diakon"}
@@ -1010,7 +1033,17 @@ def build_context(
     # Rubricae Breviarii 1960, n. 247 (ADR-0053): a priest or deacon greets
     # with Dóminus vobíscum, anyone else says Dómine, exáudi.
     salutatio = "versicle-domine-exaudi" if spec.praeses is None else "dominus-vobiscum"
-    needed_ordinarium = dict(ORDINARIUM_ALWAYS) | {salutatio: True}
+    # Liber Usualis 1961, pp. 124–126 (ADR-0054): the Benedicamus by rank and Vespers.
+    classis = BENEDICAMUS_CLASSIS.get(spec.rank)
+    tonus = "" if classis is None else BENEDICAMUS_TONUS[classis, spec.vesperae]
+    if classis is None:
+        logger.debug("Benedicamus: Rang „%s“ hat im Liber Usualis keine Zeile.", spec.rank)
+    benedicamus, deo_gratias = f"benedicamus-domino{tonus}", f"deo-gratias{tonus}"
+    needed_ordinarium = dict(ORDINARIUM_ALWAYS) | {
+        salutatio: True,
+        benedicamus: True,
+        deo_gratias: True,
+    }
     if spec.cum_precibus:
         needed_ordinarium |= ORDINARIUM_CUM_PRECIBUS
     needed_ordinarium[spec.antiphona_bmv] = True
@@ -1091,6 +1124,8 @@ def build_context(
         "insertiones": insertiones,
         "ordinarium": ordinarium,
         "salutatio": ordinarium[salutatio],
+        "benedicamus": ordinarium[benedicamus],
+        "deo_gratias": ordinarium[deo_gratias],
         # who the stagenotes name for the officiant's parts; None for a schola
         "praeses": None if spec.praeses is None else PRAESES_DE[spec.praeses],
         "bmv": bmv,
