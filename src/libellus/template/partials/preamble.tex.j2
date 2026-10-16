@@ -50,6 +50,10 @@
 % system, where that line is verse 2 — sung Latin, not a translation, so it is
 % set upright rather than in gregorio's italic translation style (ADR-0022).
 \grechangestyle{translation}{}
+% Text above the staff (gabc <alt>) is a rubric at the note it applies to — the
+% Te Deum's „Hic genuflectitur." — so it is red like every other rubric. gabc
+% cannot colour it itself: gregorio rejects <c> inside <alt>.
+\grechangestyle{abovelinestext}{\color{rubricred}\itshape}
 
 % Gregorio typesets a translation in an \hbox to 0pt (gregoriotex-main.tex,
 % \GreWriteTranslation), so it claims no width at all: the spacing engine

@@ -1,0 +1,237 @@
+# All Saints, Vespers I, romanum-1962 (issue #104) — the sung booklet for
+# Saturday 31 October 2026.
+#
+# Set from a friend's draft in Pages („1. Vesper Allerheiligen.pdf", untracked
+# in the main checkout), which took its notation from breviariumgregorianum.com.
+# The gabc here is GregoBase's for every piece GregoBase has (the site links
+# those very ids), and the site's own for the two versicles; the psalm tones
+# below were measured against the EUOUAE the site prints under verse 1, not
+# copied from the draft's labels („1F", „7A" are its spellings of 1f and 7a).
+#
+# Settled 2026-10-14: the Einheitsübersetzung as at St. Lambert, a priest
+# presides (`praeses: sacerdos`), and the solemn I. classis Benedicamus, which
+# `rank:` + `vesperae:` now derive (ADR-0054).
+#
+# NOT YET REVIEWED: every German text in this file is an AI draft, translated
+# literally from the Latin — the antiphons, the capitulum, the hymn, the
+# oration, the commemoration, the Te Deum and the back-cover quote. Only the
+# versicle's German is St. Lambert's, already signed off. The capitulum and
+# the Te Deum are deliberately not the Einheitsübersetzung's or the
+# Stundenbuch's wording.
+title: Omnium Sanctorum
+vesperae: I
+header: Omnium Sanctorum
+rank: I classis
+date: 2026-10-31
+liturgical_date: 2026-11-01
+rite: romanum-1962
+psalter_de: [eu1980, eu2016]  # eu2016 only for the Magnificat, which eu1980 lacks
+praeses: sacerdos
+source: Liber Usualis, Solesmis 1961
+
+antiphonae:
+  - gabc: chant/ant/vidi-turbam-magnam.gabc
+    de: >-
+      Ich sah eine große Schar, die niemand zählen konnte, aus allen
+      Völkern; sie standen vor dem Thron.
+    psalmus: 109
+    tonus: 1f
+  - gabc: chant/ant/et-omnes-angeli.gabc
+    de: >-
+      Und alle Engel standen rings um den Thron; sie fielen vor dem Thron auf
+      ihr Angesicht nieder und beteten Gott an.
+    psalmus: 110
+    tonus: 1f
+    euouae: h h g f gh gf..  # what the site prints under verse 1 (issue #33)
+  - gabc: chant/ant/redemisti-nos.gabc
+    de: >-
+      Du hast uns erlöst, Herr, Gott, durch dein Blut, aus jedem Stamm und
+      jeder Sprache, aus jedem Volk und jeder Nation, und hast uns für unseren
+      Gott zu einem Königtum gemacht.
+    psalmus: 111
+    tonus: 8G
+  - gabc: chant/ant/benedicite-dominum-omnes-electi.gabc
+    de: >-
+      Preiset den Herrn, alle seine Auserwählten; begeht Tage der Freude und
+      lobet ihn.
+    psalmus: 112
+    tonus: 7a
+    # In the antiphon's own c2 clef; the site prints verse 1 in c3 as
+    # „i i j i h gf..", which is the same six notes.
+    euouae: g g h g f ed..
+  - gabc: chant/ant/hymnus-omnibus-sanctis.gabc
+    de: >-
+      Ein Lobgesang ist er allen seinen Heiligen, den Kindern Israels, dem
+      Volk, das ihm nahe ist: Das ist die Herrlichkeit aller seiner Heiligen.
+    psalmus: 116
+    tonus: 8G
+
+capitulum:
+  ref: Apoc 7, 2-3
+  versus:
+    - n: 2
+      text: >-
+        Ecce ego Ioánnes vidi álterum Angelum ascendéntem ab ortu solis,
+        habéntem signum Dei vivi: et clamávit voce magna quátuor Angelis,
+        quibus datum est nocére terræ et mari,
+      de: >-
+        Siehe, ich, Johannes, sah einen anderen Engel vom Aufgang der Sonne
+        heraufsteigen, der das Siegel des lebendigen Gottes trug. Und er rief
+        mit lauter Stimme den vier Engeln zu, denen gegeben war, der Erde und
+        dem Meer zu schaden,
+    - n: 3
+      text: >-
+        dicens: Nolíte nocére terræ et mari, neque arbóribus, quoadúsque
+        signémus servos Dei nostri in fróntibus eórum.
+      de: >-
+        und sprach: Schadet nicht der Erde und dem Meer, noch den Bäumen, bis
+        wir die Knechte unseres Gottes auf ihren Stirnen bezeichnet haben.
+
+hymnus:
+  gabc: chant/hymni/placare-christe-servulis.gabc
+  de:  # 7 stanzas, prose
+    - >-
+      Sei gnädig, Christus, deinen Knechten, für die vor dem Richterstuhl
+      deiner Gnade die Jungfrau als Fürsprecherin um die Milde des Vaters
+      bittet.
+    - >-
+      Und ihr seligen Scharen, in neun Kreise geordnet: Wehrt das Unheil ab,
+      das vergangene mit dem gegenwärtigen und das künftige.
+    - >-
+      Ihr Apostel mit den Propheten, erfleht beim strengen Richter Nachsicht
+      für die aufrichtigen Tränen der Schuldigen.
+    - >-
+      Ihr Märtyrer im Purpur, ihr Bekenner im weißen Kleid, dem Lohn eures
+      Bekenntnisses: Ruft uns Verbannte heim ins Vaterland.
+    - >-
+      Reiner Reigen der Jungfrauen, und ihr, die die Wüste als ihre Bewohner
+      zu den Sternen gesandt hat: Gebt uns einen Platz in den Wohnungen der
+      Himmlischen.
+    - >-
+      Vertreibt das treulose Volk aus dem Land der Glaubenden, damit ein
+      einziger Hirt uns alle als eine einzige Herde leite.
+    - >-
+      Gott dem Vater sei die Ehre und dem eingeborenen Sohn des Vaters,
+      zugleich dem Heiligen Tröster, in alle Ewigkeit. Amen.
+
+versiculus:
+  gabc: chant/vers/laetamini-in-domino-romanum.gabc
+  de: >-
+    ℣. Freuet euch im Herrn und frohlocket, ihr Gerechten. ℟. Und
+    rühmet euch, alle, die aufrichtigen Herzens seid.
+
+magnificat:
+  antiphona:
+    gabc: chant/ant/angeli-archangeli.gabc
+    de: >-
+      Ihr Engel und Erzengel, ihr Throne und Herrschaften, ihr Fürstentümer
+      und Gewalten, ihr Mächte, ihr Cherubim und Seraphim, ihr Patriarchen und
+      Propheten, ihr heiligen Lehrer des Gesetzes, ihr Apostel alle, ihr
+      Märtyrer Christi, ihr heiligen Bekenner, ihr Jungfrauen des Herrn, ihr
+      Einsiedler und ihr Heiligen alle: Tretet für uns ein.
+  tonus: 1D
+
+oratio:
+  text: >-
+    Omnípotens sempitérne Deus, qui nos ómnium Sanctórum tuórum mérita sub
+    una tribuísti celebritáte venerári: † quǽsumus; ut desiderátam nobis
+    tuæ propitiatiónis abundántiam, multiplicátis intercessóribus, *
+    largiáris.
+  de: >-
+    Allmächtiger, ewiger Gott, du hast uns geschenkt, die Verdienste aller
+    deiner Heiligen in einer einzigen Feier zu verehren. Wir bitten dich:
+    Gewähre uns auf die Fürsprache so vieler die ersehnte Fülle deiner Huld.
+
+commemorationes:
+  - title: Dominicæ XXIII post Pentecosten
+    antiphona:
+      gabc: chant/ant/vidi-dominum-sedentem.gabc
+      de: >-
+        Ich sah den Herrn auf einem hohen und erhabenen Thron sitzen, und die
+        ganze Erde war erfüllt von seiner Herrlichkeit; und was unter ihm war,
+        erfüllte den Tempel.
+    versiculus:
+      gabc: chant/vers/vespertina-oratio.gabc
+      de: >-
+        ℣. Mein Abendgebet steige zu dir empor, o Herr. ℟. Und herab komme
+        auf uns dein Erbarmen.
+    oratio:
+      # The draft marks this oration „Dómine, * … populórum: † …"; set here in
+      # the order the oration tone needs, flex before metrum.
+      text: >-
+        Absólve, quǽsumus, Dómine, tuórum delícta populórum: † ut a
+        peccatórum néxibus, quæ pro nostra fragilitáte contráximus, * tua
+        benignitáte liberémur.
+      de: >-
+        Sprich deine Völker los von ihren Vergehen, so bitten wir, o Herr,
+        damit wir durch deine Güte von den Fesseln der Sünden befreit werden,
+        die wir uns in unserer Gebrechlichkeit zugezogen haben.
+
+# The draft sings the Te Deum after the conclusion, in the solemn tone (LU
+# p. 1832), with the genuflection at „Te ergo". That rubric — and „Surgitur."
+# at „Ætérna fac" — stands in red above the notes, inside the gabc, where it
+# applies. A `rubrica:` item between two halves of the score printed it after
+# the first half's German, often a page away from the verse it meant.
+insertiones:
+  - after: conclusio
+    title: Te Deum
+    who: Alle
+    posture: Man steht
+    items:
+      - gabc: chant/hymni/te-deum-sollemnis.gabc
+        de: >-
+          Dich, Gott, loben wir, dich, Herr, bekennen wir. Dich, den ewigen
+          Vater, verehrt die ganze Erde. Dir rufen alle Engel, dir die Himmel
+          und alle Mächte, dir rufen die Cherubim und Seraphim mit
+          unaufhörlicher Stimme zu: Heilig, heilig, heilig, Herr, Gott der
+          Heerscharen. Himmel und Erde sind voll der Majestät deiner
+          Herrlichkeit. Dich lobt der glorreiche Chor der Apostel, dich der
+          Propheten lobwürdige Zahl, dich lobt der Märtyrer leuchtendes Heer.
+          Dich bekennt die heilige Kirche auf dem ganzen Erdkreis: dich, den
+          Vater unermesslicher Majestät, deinen anbetungswürdigen, wahren und
+          einzigen Sohn und auch den Heiligen Geist, den Tröster. Du, Christus,
+          bist der König der Herrlichkeit. Du bist des Vaters ewiger Sohn. Du
+          hast den Schoß der Jungfrau nicht gescheut, als du den Menschen
+          annehmen wolltest, um ihn zu befreien. Du hast den Stachel des Todes
+          besiegt und den Glaubenden das Himmelreich geöffnet. Du sitzest zur
+          Rechten Gottes in der Herrlichkeit des Vaters. Wir glauben, dass du
+          als Richter kommen wirst. Dich also bitten wir: Komm deinen Dienern zu Hilfe, die du mit deinem
+          kostbaren Blut erlöst hast. Lass uns mit deinen Heiligen in der
+          ewigen Herrlichkeit gezählt werden. Rette dein Volk, Herr, und segne
+          dein Erbe; leite sie und erhebe sie bis in Ewigkeit. An jedem Tag
+          preisen wir dich, und wir loben deinen Namen in Ewigkeit und in alle
+          Ewigkeit. Bewahre uns, Herr, an diesem Tag ohne Sünde. Erbarme dich
+          unser, Herr, erbarme dich unser. Dein Erbarmen, Herr, komme über
+          uns, wie wir auf dich gehofft haben. Auf dich, Herr, habe ich
+          gehofft; in Ewigkeit werde ich nicht zuschanden.
+
+antiphona_bmv: salve-regina-simple
+
+# The picture is the user's choice of 2026-10-16, the crowd of haloed saints
+# without the women (the second picture in the main checkout's
+# images/04-all-saints/ is the companion page of virgins). TO VERIFY: the
+# shelfmark in the credit line — the Hours of Louis de Laval are believed to
+# be Paris, BnF, ms. latin 920; the file came without a source.
+back_cover:
+  image: images/04-all-saints/omnes-sancti-louis-de-laval.jpg
+  border: gilded
+  border_size: normal
+  credit: >-
+    Imago: Omnes Sancti, ex Horis Ludovíci de Laval (circa 1470), in
+    Bibliothéca nationáli Fránciæ Lutétiæ asservátis (ms. lat. 920).
+  quote:
+    text: >-
+      Ideóque et nos tantam habéntes impósitam nubem téstium, depónentes omne
+      pondus, et circúmstans nos peccátum, per patiéntiam currámus ad
+      propósitum nobis certámen.
+    de: >-
+      Darum wollen auch wir, da uns eine so große Wolke von Zeugen umgibt,
+      jede Last ablegen und die Sünde, die uns umstrickt, und mit Ausdauer in
+      dem Wettkampf laufen, der vor uns liegt.
+    citation: Hebr 12, 1
+
+drollery: auto
+
+# Out for review (2026-10-16): the German is not yet signed off. Remove this
+# line for the print run.
+draft: true

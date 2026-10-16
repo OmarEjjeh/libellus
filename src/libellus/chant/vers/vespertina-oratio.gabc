@@ -1,0 +1,11 @@
+name: Vespertina oratio;
+office-part: Versiculum;
+book: Breviarium Gregorianum (breviariumgregorianum.com), Ad Vesperas, 31 Oct 2026 (commemoratio Dominicae XXIII post Pentecosten);
+transcriber: Omar Ejjeh;
+initial-style: 0;
+% Einfacher Versikelton, wie ihn die Seite setzt. Die Silbentrennung der Seite
+% („a(h)scé(h)nda(h)t“, „mi(h)se(h)ri(h)có(h)rdi(h)a“) ist berichtigt; die Noten
+% sind unverändert.
+%%
+(c3) ℣. Ves(h)per(h)tí(h)na(h) o(h)rá(h)ti(h)o(h) a(h)scén(h)dat(h) ad(h) te,(h) Dó(h)mi(h)ne.(f.) (::)(Z)
+℟. Et(h) de(h)scén(h)dat(h) su(h)per(h) nos(h) mi(h)se(h)ri(h)cór(h)di(h)a(h) tu(h)a.(f.) (::)
