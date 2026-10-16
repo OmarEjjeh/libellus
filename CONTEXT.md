@@ -442,6 +442,15 @@ vobíscum* when a **Praeses** leads, *Dómine, exáudi* otherwise (n. 247). It i
 said once before the oration of the day, never before a **Commemoratio**.
 _Avoid_: greeting, Gruß
 
+**Benedicamus**:
+The ℣ *Benedicamus Dómino* and ℟ *Deo grátias* of the **Conclusio** section,
+sung by the cantors. Its melody follows from the **Rank** and from `vesperae:`
+(Liber Usualis 1961, pp. 124–126; ADR-0054): the I. and II. classis have one
+melody each for First and Second Vespers, the III. classis one for both. The
+pre-1955 ranks follow the reform of 1960. A rank without a row in that table
+keeps the I. classis melody of Second Vespers. Never named in the spec.
+_Avoid_: Entlassruf, dismissal (that is the *Ite, missa est* of Mass)
+
 **Psalter**:
 One translator's complete German for the sung verses — one directory,
 `psalter/<versio>/`, holding a file per psalm plus the Magnificat. Chosen

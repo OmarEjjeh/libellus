@@ -180,7 +180,7 @@ celebration* lives in the spec.
 title: Sancti Lamberti
 header: S. Lambertus, Ep. et Mart.        # running header
 rank: Semiduplex                          # closed vocabulary, ADR-0015
-vesperae: II                              # First or Second Vespers
+vesperae: II                              # First or Second Vespers; with rank, picks the Benedicamus (ADR-0054)
 date: 2026-09-18                          # when it is actually sung
 rite: romanum-cum-precibus                # which ordo
 source: Antiphonale Romanum · mcmxlix     # printed on the cover

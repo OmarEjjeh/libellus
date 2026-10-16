@@ -716,14 +716,14 @@ RAW_INTERPOLATIONS: dict[str, str] = {
     "verse.gabc": _SCORE,
     "versiculus.gabc": _SCORE,
     "ordinarium['amen'].gabc": _SCORE,
-    "ordinarium['benedicamus-domino'].gabc": _SCORE,
-    "ordinarium['deo-gratias'].gabc": _SCORE,
     "ordinarium['fidelium-animae'].gabc": _SCORE,
     "ordinarium['incipit'].gabc": _SCORE,
     "ordinarium['kyrie-eleison'].gabc": _SCORE,
     "ordinarium['paternoster'].gabc": _SCORE,
     "ordinarium['te-rogamus'].gabc": _SCORE,
     "salutatio.gabc": _SCORE,
+    "benedicamus.gabc": _SCORE,
+    "deo_gratias.gabc": _SCORE,
     "back_cover_image": _PICTURE,
     "drollery": _PICTURE,
     "page.image": _PICTURE,
@@ -1331,6 +1331,38 @@ def test_the_stagenotes_give_the_presider_his_parts(
     assert conclusio.index("benedicamus-domino") < conclusio.index(f"\\stagenote{{{label}}}")
     assert conclusio.index("\\stagenote{Kantor") < conclusio.index("benedicamus-domino")
     assert f"\\rubric{{{label}}} &" in tex
+
+
+@pytest.mark.parametrize(
+    ("rank", "vesperae", "tonus"),
+    [
+        ("I classis", "I", "-i-classis-i-vesperae"),
+        ("I classis", "II", ""),
+        ("II classis", "I", "-ii-classis-i-vesperae"),
+        ("II classis", "II", "-ii-classis-ii-vesperae"),
+        ("III classis", "I", "-iii-classis"),
+        ("III classis", "II", "-iii-classis"),
+        ("Duplex I classis", "I", "-i-classis-i-vesperae"),
+        ("Duplex II classis", "II", "-ii-classis-ii-vesperae"),
+        ("Duplex majus", "I", "-iii-classis"),
+        ("Duplex", "II", "-iii-classis"),
+        ("Duplex minus", "I", "-iii-classis"),
+        ("Semiduplex", "I", "-iii-classis"),
+        ("IV classis", "II", ""),
+        ("Feria", "II", ""),
+    ],
+)
+def test_the_benedicamus_follows_the_rank_and_the_vespers(
+    repo_root: Path, smoke_feast: Path, rank: str, vesperae: str, tonus: str
+) -> None:
+    """Liber Usualis 1961, pp. 124–126 (ADR-0054). The pre-1955 ranks follow the
+    reform of 1960; a rank without a row keeps the I. classis melody of II Vespers."""
+    spec = load_spec(smoke_feast).model_copy(update={"rank": rank, "vesperae": vesperae})
+    conclusio = _conclusio_section(_rendered(spec, repo_root))
+    assert f"ordinarium/benedicamus-domino{tonus}}}" in conclusio
+    assert f"ordinarium/deo-gratias{tonus}}}" in conclusio
+    assert "Lasset uns den Herrn loben." in conclusio
+    assert "Dank sei Gott." in conclusio
 
 
 def test_latin_only_drops_the_german_of_the_salutation(repo_root: Path, smoke_feast: Path) -> None:

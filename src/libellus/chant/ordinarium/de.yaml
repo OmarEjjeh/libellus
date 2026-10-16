@@ -13,8 +13,17 @@ paternoster: >-
   Bösen.
 versicle-domine-exaudi: ℣. Herr, erhöre mein Gebet. ℟. Und mein Rufen komme zu dir.
 dominus-vobiscum: ℣. Der Herr sei mit euch. ℟. Und mit deinem Geiste.
-benedicamus-domino: ℣. Lasset uns den Herrn loben.
-deo-gratias: ℟. Dank sei Gott.
+# One German text for every melody of the Benedicamus by rank (ADR-0054).
+benedicamus-domino: &benedicamus ℣. Lasset uns den Herrn loben.
+benedicamus-domino-i-classis-i-vesperae: *benedicamus
+benedicamus-domino-ii-classis-i-vesperae: *benedicamus
+benedicamus-domino-ii-classis-ii-vesperae: *benedicamus
+benedicamus-domino-iii-classis: *benedicamus
+deo-gratias: &deo-gratias ℟. Dank sei Gott.
+deo-gratias-i-classis-i-vesperae: *deo-gratias
+deo-gratias-ii-classis-i-vesperae: *deo-gratias
+deo-gratias-ii-classis-ii-vesperae: *deo-gratias
+deo-gratias-iii-classis: *deo-gratias
 # Wortlaut des Pastors, 2026-07-31 (Anmerkung zu S. 31): "(verstorbenen)" macht
 # klar, dass "fideles" hier die Verstorbenen sind und nicht die Anwesenden.
 fidelium-animae: >-
