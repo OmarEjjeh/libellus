@@ -13,11 +13,12 @@
 # `rank:` + `vesperae:` now derive (ADR-0054).
 #
 # The German was drafted literally from the Latin — the antiphons, the
-# capitulum, the hymn, the oration, the commemoration, the Te Deum and the
-# back-cover quote; the versicle's is St. Lambert's. The reviewing priest read
-# the draft of 2026-10-16 and found the translations accurate (2026-10-21).
-# The capitulum and the Te Deum are deliberately not the Einheitsübersetzung's
-# or the Stundenbuch's wording.
+# capitulum, the hymn, the oration, the commemoration and the back-cover
+# quote; the versicle's is St. Lambert's. The reviewing priest read the draft
+# of 2026-10-16 and found the translations accurate (2026-10-21). The
+# capitulum is deliberately not the Einheitsübersetzung's wording. The Te
+# Deum's German is Guardini's and the Tantum ergo's a sung paraphrase, both
+# supplied on 2026-10-22; the rest of Benediction came from the priest.
 title: Omnium Sanctorum
 vesperae: I
 header: Omnium Sanctorum
@@ -170,43 +171,135 @@ commemorationes:
         damit wir durch deine Güte von den Fesseln der Sünden befreit werden,
         die wir uns in unserer Gebrechlichkeit zugezogen haben.
 
-# The draft sings the Te Deum after the conclusion, in the solemn tone (LU
-# p. 1832), with the genuflection at „Te ergo". That rubric — and „Surgitur."
-# at „Ætérna fac" — stands in red above the notes, inside the gabc, where it
-# applies. A `rubrica:` item between two halves of the score printed it after
-# the first half's German, often a page away from the verse it meant.
+# After the Benedicamus the Blessed Sacrament is exposed, and Vespers runs on
+# into Benediction, in the order the celebrants settled in October 2026:
+# exposition with a German hymn, the prayer for the Pope, the Te Deum (without
+# the versicles „Benedicamus Patrem …" that usually follow it), Tantum ergo,
+# ℣ Panem de cælo (without Alleluia), two orations, the blessing — and the
+# Salve Regina, which is `antiphona_bmv:` and so comes last of its own accord.
+#
+# The Te Deum is in the solemn tone (LU p. 1832), with the genuflection at
+# „Te ergo". That rubric — and „Surgitur." at „Ætérna fac" — stands in red
+# above the notes, inside the gabc, where it applies. A `rubrica:` item
+# between two halves of the score printed it after the first half's German,
+# often a page away from the verse it meant.
+# Benediction follows the Benedicamus at once, so Vespers ends without
+# Fidélium ánimæ (2026-10-22).
+fidelium_animae: false
+
 insertiones:
+  - after: conclusio
+    title: Expositio Sanctissimi Sacramenti
+    who: Alle
+    posture: Man kniet
+    items:
+      # Not yet chosen (2026-10-22): a German hymn. Replace this line with it.
+      - rubrica: Sakramentslied — steht noch nicht fest.
+  - after: conclusio
+    title: Oremus pro Pontifice
+    who: Priester, alle antworten
+    posture: Man kniet
+    items:
+      - gabc: chant/varia/oremus-pro-pontifice.gabc
+        # As the reviewing priest supplied it, 2026-10-22. His Latin had passed
+        # through a machine translation („Der Dóminus", „and vivíficet"); the
+        # Latin is the gabc's, from the Liber Usualis.
+        de: >-
+          ℣. Lasst uns für Papst Leo beten. ℟. Möge der Herr ihn behüten, ihm
+          ein langes Leben schenken, ihn segnen auf Erden und ihn nicht in die
+          Hände seiner Feinde geben.
   - after: conclusio
     title: Te Deum
     who: Alle
     posture: Man steht
     items:
       - gabc: chant/hymni/te-deum-sollemnis.gabc
+        # Guardini's translation, supplied 2026-10-22, without its section
+        # headings; it replaces the literal draft of 2026-10-16.
+        note: Deutsche Übersetzung nach Romano Guardini, 1950.
         de: >-
-          Dich, Gott, loben wir, dich, Herr, bekennen wir. Dich, den ewigen
-          Vater, verehrt die ganze Erde. Dir rufen alle Engel, dir die Himmel
-          und alle Mächte, dir rufen die Cherubim und Seraphim mit
-          unaufhörlicher Stimme zu: Heilig, heilig, heilig, Herr, Gott der
-          Heerscharen. Himmel und Erde sind voll der Majestät deiner
-          Herrlichkeit. Dich lobt der glorreiche Chor der Apostel, dich der
-          Propheten lobwürdige Zahl, dich lobt der Märtyrer leuchtendes Heer.
-          Dich bekennt die heilige Kirche auf dem ganzen Erdkreis: dich, den
-          Vater unermesslicher Majestät, deinen anbetungswürdigen, wahren und
-          einzigen Sohn und auch den Heiligen Geist, den Tröster. Du, Christus,
-          bist der König der Herrlichkeit. Du bist des Vaters ewiger Sohn. Du
-          hast den Schoß der Jungfrau nicht gescheut, als du den Menschen
-          annehmen wolltest, um ihn zu befreien. Du hast den Stachel des Todes
-          besiegt und den Glaubenden das Himmelreich geöffnet. Du sitzest zur
-          Rechten Gottes in der Herrlichkeit des Vaters. Wir glauben, dass du
-          als Richter kommen wirst. Dich also bitten wir: Komm deinen Dienern zu Hilfe, die du mit deinem
-          kostbaren Blut erlöst hast. Lass uns mit deinen Heiligen in der
-          ewigen Herrlichkeit gezählt werden. Rette dein Volk, Herr, und segne
-          dein Erbe; leite sie und erhebe sie bis in Ewigkeit. An jedem Tag
-          preisen wir dich, und wir loben deinen Namen in Ewigkeit und in alle
-          Ewigkeit. Bewahre uns, Herr, an diesem Tag ohne Sünde. Erbarme dich
-          unser, Herr, erbarme dich unser. Dein Erbarmen, Herr, komme über
-          uns, wie wir auf dich gehofft haben. Auf dich, Herr, habe ich
-          gehofft; in Ewigkeit werde ich nicht zuschanden.
+          Dich, Gott, loben wir, dich, Herr, preisen wir. Dir, dem ewigen
+          Vater, huldigt das Erdenrund. Dir rufen die Engel alle, dir Himmel
+          und Mächte insgesamt, die Kerubim dir und die Serafim mit niemals
+          endender Stimme zu: Heilig, heilig, heilig der Herr, der Gott der
+          Scharen! Voll sind Himmel und Erde von deiner hohen Herrlichkeit.
+          Dich preist der glorreiche Chor der Apostel; dich der Propheten
+          lobwürdige Zahl; dich der Märtyrer leuchtendes Heer; dich preist
+          über das Erdenrund die heilige Kirche; dich, den Vater unermessbarer
+          Majestät; deinen wahren und einzigen Sohn; und den Heiligen
+          Fürsprecher Geist. Du König der Herrlichkeit, Christus. Du bist des
+          Vaters allewiger Sohn. Du hast der Jungfrau Schoß nicht verschmäht,
+          bist Mensch geworden, den Menschen zu befreien. Du hast bezwungen
+          des Todes Stachel und denen, die glauben, die Reiche der Himmel
+          aufgetan. Du sitzest zur Rechten Gottes in deines Vaters
+          Herrlichkeit. Als Richter, so glauben wir, kehrst du einst wieder.
+          Dich bitten wir denn, komm deinen Dienern zu Hilfe, die du erlöst
+          mit kostbarem Blut. In der ewigen Herrlichkeit zähle uns deinen
+          Heiligen zu. Rette dein Volk, o Herr, und segne dein Erbe; und führe
+          sie und erhebe sie bis in Ewigkeit. An jedem Tag benedeien wir dich
+          und loben in Ewigkeit deinen Namen, ja, in der ewigen Ewigkeit. In
+          Gnaden wollest du, Herr, an diesem Tag uns ohne Schuld bewahren.
+          Erbarme dich unser, o Herr, erbarme dich unser. Lass über uns dein
+          Erbarmen geschehn, wie wir gehofft auf dich. Auf dich, o Herr, habe
+          ich meine Hoffnung gesetzt. In Ewigkeit werde ich nicht zuschanden.
+
+  - after: conclusio
+    title: Tantum ergo
+    who: Alle
+    posture: Man kniet
+    items:
+      # The German is a sung paraphrase rather than a translation, supplied
+      # 2026-10-22; it replaces the literal draft.
+      - gabc: chant/hymni/tantum-ergo.gabc
+        de: >-
+          Sakrament der Liebe Gottes: Leib des Herrn, sei hoch verehrt, Mahl,
+          das uns mit Gott vereinigt, Brot, das unsre Seele nährt, Blut, in
+          dem uns Gott besiegelt seinen Bund, der ewig währt. Lob und Dank sei
+          Gott dem Vater, der das Leben uns verheißt, seinem Wort, dem ewgen
+          Sohne, der im Himmelsbrot uns speist; auch der Born der höchsten
+          Liebe sei gelobt, der Heilge Geist. Amen.
+  # The versicle and both orations as the reviewing priest supplied them,
+  # 2026-10-22, German included; accents added to his Latin. His „/" is the
+  # flex, printed †, and his order of † and * is kept as he wrote it.
+  - after: conclusio
+    title: Panem de cælo
+    who: Priester, alle antworten
+    posture: Man kniet
+    items:
+      - gabc: chant/vers/panem-de-caelo.gabc
+        initialis: false  # a versicle opens with ℣, not a drop capital
+        de: >-
+          ℣. Brot vom Himmel hast du ihnen gegeben. ℟. Das alle Erquickung in
+          sich birgt.
+      - text: >-
+          Orémus. Deus, qui nobis sub Sacraménto mirábili passiónis tuæ
+          memóriam reliquísti: † tríbue, quǽsumus, ita nos Córporis et
+          Sánguinis tui sacra mystéria venerári; * ut redemptiónis tuæ fructum
+          in nobis júgiter sentiámus.
+        de: >-
+          Lasset uns beten. Gott, im wunderbaren Sakrament des Altares hast du
+          uns das Gedächtnis deines Leidens und deiner Auferstehung
+          hinterlassen. Gib uns die Gnade, die heiligen Geheimnisse deines
+          Leibes und Blutes allezeit so zu verehren, dass uns die Frucht der
+          Erlösung zuteil wird.
+      - text: >-
+          Deus, cujus misericórdiæ non est númerus, et bonitátis infinítus est
+          thesáurus: * piíssimæ majestáti tuæ pro collátis donis grátias
+          ágimus, tuam semper cleméntiam exorántes; † ut, qui peténtibus
+          postuláta concédis, eósdem non déserens, ad prǽmia futúra dispónas.
+          Per Christum, Dóminum nostrum. ℟. Amen.
+        de: >-
+          Deine Barmherzigkeit, o Gott, ist ohne Maß, und der Reichtum deiner
+          Güte ist unerschöpflich. Wir danken dir für die empfangenen Gaben und
+          flehen ohne Unterlass zu deiner Milde: Verlass uns nicht, der du
+          gewährst, um was wir dich bitten, sondern bereite uns für den ewigen
+          Lohn – durch Christus, unseren Herrn. ℟. Amen.
+  - after: conclusio
+    title: Benedictio cum Sanctissimo Sacramento
+    who: Priester
+    posture: Man kniet
+    items:
+      - rubrica: Sacerdos benedicit populum cum Sanctissimo Sacramento.
 
 antiphona_bmv: salve-regina-simple
 
@@ -224,7 +317,7 @@ back_cover:
     Bibliothéca nationáli Fránciæ Lutétiæ asservátis (ms. lat. 920).
   quote:
     text: >-
-      Ideóque et nos tantam habéntes impósitam nubem téstium, depónentes omne
+      Ideóque et nos tantam habéntes impósitam nubem téstium, deponéntes omne
       pondus, et circúmstans nos peccátum, per patiéntiam currámus ad
       propósitum nobis certámen.
     de: >-

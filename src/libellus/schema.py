@@ -644,6 +644,11 @@ class FeastSpec(StrictModel):
     #: Einschübe, each after a named section; several after the same section
     #: keep the order they are listed in (ADR-0052).
     insertiones: list[Insertio] = []
+    #: Whether the conclusio ends with Fidélium ánimæ and its Amen. Omitted
+    #: where another rite follows at once — All Saints runs on into Benediction
+    #: (#104). The author says so, because no other field states it: an
+    #: Einschub after the conclusio may be a Te Deum as well as an exposition.
+    fidelium_animae: bool = True
     #: Ordinarium chant name, e.g. "salve-regina-simple" — resolved to
     #: chant/ordinarium/<name>.gabc, so it reaches \gregorioscore as a path.
     antiphona_bmv: SpecPath

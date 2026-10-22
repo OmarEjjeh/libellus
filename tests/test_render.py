@@ -1364,13 +1364,14 @@ def test_the_capitulum_sets_latin_and_german_apart_and_answers_deo_gratias(
     repo_root: Path, smoke_feast: Path
 ) -> None:
     """The German is a paragraph of its own, not run on behind the Latin, and
-    the answer is Latin with its German beneath (#104)."""
+    each reading has its own answer: Deo grátias after the Latin, Dank sei Gott
+    after the German (#104)."""
     capitulum = _capitulum_section(_rendered(load_spec(smoke_feast), repo_root))
     latin_end = capitulum.index("Melchísedech.")
+    deo_gratias = capitulum.index("\\rubric{Deo grátias.}")
     german = capitulum.index("\\vers{1} Jeder Hohepriester")
-    assert "\\par" in capitulum[latin_end:german]
-    assert capitulum.index("\\rubric{Deo grátias.}") > german
-    assert "Dank sei Gott." in capitulum
+    assert latin_end < deo_gratias < german < capitulum.index("Dank sei Gott.")
+    assert "\\par" in capitulum[latin_end:deo_gratias]
 
 
 def test_latin_only_capitulum_keeps_its_notes_on_the_latin(
@@ -1417,3 +1418,16 @@ def test_the_benedicamus_follows_the_rank_and_the_vespers(
 def test_latin_only_drops_the_german_of_the_salutation(repo_root: Path, smoke_feast: Path) -> None:
     spec = _presided(load_spec(smoke_feast), "sacerdos").model_copy(update={"latin_only": True})
     assert "Der Herr sei mit euch." not in _rendered(spec, repo_root)
+
+
+def test_fidelium_animae_can_be_left_out(repo_root: Path, smoke_feast: Path) -> None:
+    """Where another rite follows at once, the conclusio ends with the Deo
+    grátias (#104); by default nothing changes."""
+    spec = load_spec(smoke_feast)
+    assert "fidelium-animae" in _conclusio_section(_rendered(spec, repo_root))
+    conclusio = _conclusio_section(
+        _rendered(spec.model_copy(update={"fidelium_animae": False}), repo_root)
+    )
+    assert "fidelium-animae" not in conclusio
+    assert "ordinarium/amen" not in conclusio
+    assert "deo-gratias" in conclusio

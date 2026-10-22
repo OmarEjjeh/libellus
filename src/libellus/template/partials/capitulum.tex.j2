@@ -10,11 +10,12 @@
 
 \#{ The \par above is explicit: trim_blocks eats the newline after the
     closing endfor tag, so a blank line there would not end the paragraph, and
-    the German ran on behind the Latin in the same paragraph. }
-\BLOCK{if not latin_only}\medskip\noindent{\footnotesize\itshape \BLOCK{for v in feast.capitulum.versus}\vers{\VAR{v.n}} \VAR{v.de|tex}\BLOCK{if v.note}\footnote{\VAR{v.note|tex}}\BLOCK{endif}\BLOCK{if not loop.last} \BLOCK{endif}\BLOCK{endfor}\par}
-\BLOCK{endif}\#{}
-
+    the German ran on behind the Latin in the same paragraph. Each reading has
+    its own answer: Deo grátias after the Latin, Dank sei Gott after the German
+    the lector reads (#104). }
 \medskip\noindent\rc\rubric{Deo grátias.}\par
-\BLOCK{if not latin_only}\noindent{\footnotesize\itshape Dank sei Gott.\par}\BLOCK{endif}
+\BLOCK{if not latin_only}\medskip\noindent{\footnotesize\itshape \BLOCK{for v in feast.capitulum.versus}\vers{\VAR{v.n}} \VAR{v.de|tex}\BLOCK{if v.note}\footnote{\VAR{v.note|tex}}\BLOCK{endif}\BLOCK{if not loop.last} \BLOCK{endif}\BLOCK{endfor}\par}
+\medskip\noindent{\footnotesize\itshape \rc Dank sei Gott.\par}
+\BLOCK{endif}
 
 \smallornament
