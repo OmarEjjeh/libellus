@@ -12,18 +12,17 @@
 # presides (`praeses: sacerdos`), and the solemn I. classis Benedicamus, which
 # `rank:` + `vesperae:` now derive (ADR-0054).
 #
-# NOT YET REVIEWED: every German text in this file is an AI draft, translated
-# literally from the Latin — the antiphons, the capitulum, the hymn, the
-# oration, the commemoration, the Te Deum and the back-cover quote. Only the
-# versicle's German is St. Lambert's, already signed off. The capitulum and
-# the Te Deum are deliberately not the Einheitsübersetzung's or the
-# Stundenbuch's wording.
+# The German was drafted literally from the Latin — the antiphons, the
+# capitulum, the hymn, the oration, the commemoration, the Te Deum and the
+# back-cover quote; the versicle's is St. Lambert's. The reviewing priest read
+# the draft of 2026-10-16 and found the translations accurate (2026-10-21).
+# The capitulum and the Te Deum are deliberately not the Einheitsübersetzung's
+# or the Stundenbuch's wording.
 title: Omnium Sanctorum
 vesperae: I
 header: Omnium Sanctorum
 rank: I classis
 date: 2026-10-31
-liturgical_date: 2026-11-01
 rite: romanum-1962
 psalter_de: [eu1980, eu2016]  # eu2016 only for the Magnificat, which eu1980 lacks
 praeses: sacerdos
@@ -135,7 +134,7 @@ oratio:
   text: >-
     Omnípotens sempitérne Deus, qui nos ómnium Sanctórum tuórum mérita sub
     una tribuísti celebritáte venerári: † quǽsumus; ut desiderátam nobis
-    tuæ propitiatiónis abundántiam, multiplicátis intercessóribus, *
+    tuæ propitiatiónis abundántiam, * multiplicátis intercessóribus,
     largiáris.
   de: >-
     Allmächtiger, ewiger Gott, du hast uns geschenkt, die Verdienste aller
@@ -143,7 +142,11 @@ oratio:
     Gewähre uns auf die Fürsprache so vieler die ersehnte Fülle deiner Huld.
 
 commemorationes:
-  - title: Dominicæ XXIII post Pentecosten
+  # The Sunday is commemorated as the first of November, whose office the
+  # antiphon belongs to — Vidi Dóminum answers the Isaiah read at Matins in
+  # that week — not by its count after Pentecost (the reviewing priest,
+  # 2026-10-21).
+  - title: Dominicæ I Novembris
     antiphona:
       gabc: chant/ant/vidi-dominum-sedentem.gabc
       de: >-

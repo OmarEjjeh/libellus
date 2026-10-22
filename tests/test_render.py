@@ -1333,6 +1333,55 @@ def test_the_stagenotes_give_the_presider_his_parts(
     assert f"\\rubric{{{label}}} &" in tex
 
 
+@pytest.mark.parametrize(("praeses", "label"), [("sacerdos", "Priester"), ("diaconus", "Diakon")])
+def test_the_presider_intones_and_a_lector_reads_the_german_capitulum(
+    repo_root: Path, smoke_feast: Path, praeses: str, label: str
+) -> None:
+    """He intones the first antiphon, the hymn and the Magnificat antiphon, and
+    sings the capitulum in Latin; a lector reads its German (#104)."""
+    tex = _rendered(_presided(load_spec(smoke_feast), praeses), repo_root)
+    assert tex.count(f"\\stagenote{{{label} stimmt an, Schola singt weiter}}") == 3
+    for heading in ("Psalmus CIX", "Hymnus", "Canticum Beatæ Mariæ Virginis"):
+        start = tex.index(f"\\section{{{heading}}}")
+        assert tex.index(f"\\stagenote{{{label} stimmt an", start) < tex.index("\\section{", start + 1)
+    assert f"\\stagenote{{{label} lateinisch, Lektor deutsch, alle antworten}}" in tex
+    assert "\\rubric{Lektor} &" in tex
+
+
+def test_without_a_praeses_the_schola_intones(repo_root: Path, smoke_feast: Path) -> None:
+    tex = _rendered(load_spec(smoke_feast), repo_root)
+    assert "stimmt an, Schola singt weiter" not in tex
+    assert "Lektor" not in tex
+    assert "\\stagenote{Vorbeter, alle antworten}{Man sitzt}" in tex
+
+
+def _capitulum_section(tex: str) -> str:
+    """From the capitulum section to the hymn."""
+    return tex[tex.index("\\section{Capitulum}") : tex.index("\\section{Hymnus}")]
+
+
+def test_the_capitulum_sets_latin_and_german_apart_and_answers_deo_gratias(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    """The German is a paragraph of its own, not run on behind the Latin, and
+    the answer is Latin with its German beneath (#104)."""
+    capitulum = _capitulum_section(_rendered(load_spec(smoke_feast), repo_root))
+    latin_end = capitulum.index("Melchísedech.")
+    german = capitulum.index("\\vers{1} Jeder Hohepriester")
+    assert "\\par" in capitulum[latin_end:german]
+    assert capitulum.index("\\rubric{Deo grátias.}") > german
+    assert "Dank sei Gott." in capitulum
+
+
+def test_latin_only_capitulum_keeps_its_notes_on_the_latin(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    spec = load_spec(smoke_feast).model_copy(update={"latin_only": True})
+    capitulum = _capitulum_section(_rendered(spec, repo_root))
+    assert "Dank sei Gott." not in capitulum
+    assert capitulum.index("\\footnote{") < capitulum.index("\\par")
+
+
 @pytest.mark.parametrize(
     ("rank", "vesperae", "tonus"),
     [
