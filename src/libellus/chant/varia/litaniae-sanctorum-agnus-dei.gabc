@@ -1,0 +1,19 @@
+name:Litaniae Sanctorum, Agnus Dei, Kyrie et Pater noster;
+office-part:Supplicatio;
+book:The Liber Usualis, 1961, p. 838–839; via GregoBase (gregobase.selapa.net), chant ids 8750 und 8766;
+transcriber:Sebastian Malton;
+% Zwei GregoBase-Stücke in einer Datei (#104). Abweichungen von der Vorlage: der
+% Custos hinter dem Agnus Dei ist gestrichen, „<sp>V/</sp>.“ und „<sp>R/</sp>.“
+% sind als „℣.“ und „℟.“ geschrieben, wie in den übrigen Dateien.
+%%
+(c3) A(h)gnus(h) De(hi)i,(i.) (,) qui(i) tol(i)lis(i) pec(h)cá(i)ta(gxg) mun(h)di,(i.) (,) par(h)ce(i) no(j)bis,(h) Dó(i)mi(h)ne.(h.) (::)
+A(h)gnus(h) De(hi)i,(i.) (,) qui(i) tol(i)lis(i) pec(h)cá(i)ta(gxg) mun(h)di,(i.) (,) ex(h)áu(i)di(j) nos,(h) Dó(i)mi(h)ne.(h.) (::)
+A(h)gnus(h) De(hi)i,(i.) (,) qui(i) tol(i)lis(i) pec(h)cá(i)ta(gxg) mun(h)di,(i.) (,) mi(h)se(i)ré(j)re(h) no(i)bis.(h.) (::)
+Chri(i)ste,(hi) au(gxg)di(h) nos.(i.) (::)
+Chri(i)ste,(h) ex(i)áu(gxg)di(h) nos.(i.) (::)
+Ký(h)ri(f)e,(f) e(f)lé(f)i(e)son.(f.) (::)
+Chri(h)ste,(f) e(f)lé(f)i(e)son.(f.) (::)
+Ký(f)ri(e)e,(df) e(gxge)lé(f)i(e)son.(evDC.) (::)
+Pa(h)ter(h) no(h)ster.(f.) <i>secreto.</i>(::)
+℣. Et(h) ne(h) nos(h) in(h)dú(h)cas(h) in(h) ten(h)ta(h)ti(h)ó(h)nem.(f.) (::)
+℟. Sed(h) lí(h)be(h)ra(h) nos(h) a(h) ma(h)lo.(f.) (::)

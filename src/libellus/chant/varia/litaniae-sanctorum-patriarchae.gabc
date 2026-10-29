@@ -1,0 +1,10 @@
+name:Litaniae Sanctorum, Omnes sancti Patriarchae et Sancte Petre;
+office-part:Supplicatio;
+book:The Liber Usualis, 1961, p. 836; via GregoBase (gregobase.selapa.net), chant ids 8763 und 8762;
+transcriber:Sebastian Malton;
+% Zwei GregoBase-Stücke in einer Datei (#104); der Zeilenumbruch „(z)“ hinter
+% dem ersten ist gestrichen. Die hohle Note in „Pe(i gr)tre“ ist die des Liber
+% Usualis: sie gilt für eine Anrufung, die auf ein Proparoxytonon endet.
+%%
+(c3) O(h)mnes(h) san(h)cti(h) Pa(h)tri(h)ár(h)chæ(h) et(h) Pro(h)<b>phé</b>(i)tæ,(g.) (,) o(g)rá(g)<i>te</i>(f) <i>pro</i>(g) <b>no</b>(h)bis.(h.) (::)
+San(h)cte(h) <b>Pe</b>(i gr)tre,(g.) (,) o(g)<i>ra</i>(f) <i>pro</i>(g) <b>no</b>(h)bis.(h.) (::)
