@@ -193,8 +193,10 @@ insertiones:
     who: Alle
     posture: Man kniet
     items:
-      # Not yet chosen (2026-10-22): a German hymn. Replace this line with it.
-      - rubrica: Sakramentslied — steht noch nicht fest.
+      # Chosen by the reviewing priest, 2026-10-29. German already, so `de:`
+      # carries only the hymnal number for those who sing from their own book.
+      - gabc: chant/hymni/gottheit-tief-verborgen.gabc
+        de: Gotteslob Nr. 497
   - after: conclusio
     title: Oremus pro Pontifice
     who: Priester, alle antworten
@@ -327,6 +329,10 @@ back_cover:
     citation: Hebr 12, 1
 
 drollery: auto
+
+# The reviewing priest asked on 2026-10-29 for only the first verse of each
+# psalm in notes: the schola carries the congregation through the rest.
+compact: true
 
 # Out for review (2026-10-16): the German is not yet signed off. Remove this
 # line for the print run.
