@@ -175,8 +175,9 @@ commemorationes:
 # into Benediction, in the order the celebrants settled in October 2026:
 # exposition with a German hymn, the prayer for the Pope, the Te Deum (without
 # the versicles „Benedicamus Patrem …" that usually follow it), Tantum ergo,
-# ℣ Panem de cælo (without Alleluia), two orations, the blessing — and the
-# Salve Regina, which is `antiphona_bmv:` and so comes last of its own accord.
+# ℣ Panem de cælo (without Alleluia), two orations, the blessing, the Divine
+# Praises, the procession to the cemetery — and the Salve Regina, which is
+# `antiphona_bmv:` and so comes last of its own accord.
 #
 # The Te Deum is in the solemn tone (LU p. 1832), with the genuflection at
 # „Te ergo". That rubric — and „Surgitur." at „Ætérna fac" — stands in red
@@ -193,23 +194,55 @@ insertiones:
     who: Alle
     posture: Man kniet
     items:
-      # Chosen by the reviewing priest, 2026-10-29. German already, so `de:`
-      # carries only the hymnal number for those who sing from their own book.
+      # Chosen by the reviewing priest, 2026-10-29. Stanza 1 is notated and
+      # stanzas 2 and 3 follow as text, one line per phrase: gregorio sets
+      # only one line of words under the notes. German already, so the
+      # last `de:` carries only the hymnal number.
       - gabc: chant/hymni/gottheit-tief-verborgen.gabc
+        de: ""
+      - text: |-
+          2. Augen, Mund und Hände täuschen sich in dir,
+          doch des Wortes Botschaft offenbart dich mir.
+          Was Gott Sohn gesprochen, nehm ich glaubend an;
+          er ist selbst die Wahrheit, die nicht trügen kann.
+        de: ""
+      - text: |-
+          3. Einst am Kreuz verhüllte sich der Gottheit Glanz,
+          hier ist auch verborgen deine Menschheit ganz.
+          Beide sieht mein Glaube in dem Brote hier;
+          wie der Schächer ruf ich, Herr, um Gnad zu dir.
         de: Gotteslob Nr. 497
   - after: conclusio
     title: Oremus pro Pontifice
     who: Priester, alle antworten
     posture: Man kniet
     items:
+      # As the reviewing priest supplied it, 2026-10-22, and corrected it,
+      # 2026-10-29: his first Latin had passed through a machine translation
+      # („Der Dóminus", „and vivíficet"), and the versicle and the oration
+      # were missing. The Latin of the chant is the gabc's, from the Liber
+      # Usualis; accents added to his Latin of the oration.
       - gabc: chant/varia/oremus-pro-pontifice.gabc
-        # As the reviewing priest supplied it, 2026-10-22. His Latin had passed
-        # through a machine translation („Der Dóminus", „and vivíficet"); the
-        # Latin is the gabc's, from the Liber Usualis.
         de: >-
-          ℣. Lasst uns für Papst Leo beten. ℟. Möge der Herr ihn behüten, ihm
-          ein langes Leben schenken, ihn segnen auf Erden und ihn nicht in die
-          Hände seiner Feinde geben.
+          ℣. Lasst uns für unseren Papst Leo beten. ℟. Möge der Herr ihn
+          behüten, ihm ein langes Leben schenken, ihn segnen auf Erden und ihn
+          nicht in die Hände seiner Feinde geben.
+      - gabc: chant/vers/fiat-manus-tua.gabc
+        de: >-
+          ℣. Strecke deine Hand aus gegen den Mann zu deiner Rechten. ℟. Und
+          gegen den Menschensohn, an den du dich gebunden hast. (Psalm 79, 18)
+      - text: >-
+          Orémus. Deus, ómnium fidélium pastor et rector, fámulum tuum Leónem,
+          quem pastórem Ecclésiæ tuæ præésse voluísti, propítius réspice: † da
+          ei, quǽsumus, verbo et exémplo, quibus præest, profícere; * ut ad
+          vitam, una cum grege sibi crédito, pervéniat sempitérnam. Per
+          Christum, Dóminum nostrum. ℟. Amen.
+        de: >-
+          Lasset uns beten. Gott, du Hirte und Führer aller Gläubigen, blicke
+          gnädig auf deinen Diener Leo, den du zum Hirten deiner Kirche berufen
+          hast; gewähre ihm, wir bitten dich, dass er durch Wort und Beispiel
+          die ihm Anvertrauten voranbringe, damit er mit der ihm anvertrauten
+          Herde das ewige Leben erlange. Durch Christus, unseren Herrn. ℟. Amen.
   - after: conclusio
     title: Te Deum
     who: Alle
@@ -250,19 +283,21 @@ insertiones:
     who: Alle
     posture: Man kniet
     items:
-      # The German is a sung paraphrase rather than a translation, supplied
-      # 2026-10-22; it replaces the literal draft.
+      # The German is a sung paraphrase rather than a translation, as the
+      # reviewing priest supplied it on 2026-10-29; it replaces his paraphrase
+      # of 2026-10-22.
       - gabc: chant/hymni/tantum-ergo.gabc
         de: >-
-          Sakrament der Liebe Gottes: Leib des Herrn, sei hoch verehrt, Mahl,
-          das uns mit Gott vereinigt, Brot, das unsre Seele nährt, Blut, in
-          dem uns Gott besiegelt seinen Bund, der ewig währt. Lob und Dank sei
-          Gott dem Vater, der das Leben uns verheißt, seinem Wort, dem ewgen
-          Sohne, der im Himmelsbrot uns speist; auch der Born der höchsten
-          Liebe sei gelobt, der Heilge Geist. Amen.
+          Lasst uns also dieses Zeichen hingestreckt nun beten an. Altes
+          Vorbild kann nun weichen, da der neue Brauch begann. Was die Sinne
+          nicht begreifen, nehme doch der Glaube an. Gott dem Vater und dem
+          Sohne sei der Lobgesang geweiht, Freudenruf und Jubellieder, Ruhm und
+          Segen allezeit, und zugleich dem Heil'gen Geiste Ehre, Preis und
+          Herrlichkeit! Amen.
   # The versicle and both orations as the reviewing priest supplied them,
   # 2026-10-22, German included; accents added to his Latin. His „/" is the
-  # flex, printed †, and his order of † and * is kept as he wrote it.
+  # flex, printed †, and his order of † and * is kept as he wrote it. The
+  # German of both orations is his revision of 2026-10-29.
   - after: conclusio
     title: Panem de cælo
     who: Priester, alle antworten
@@ -279,8 +314,8 @@ insertiones:
           Sánguinis tui sacra mystéria venerári; * ut redemptiónis tuæ fructum
           in nobis júgiter sentiámus.
         de: >-
-          Lasset uns beten. Gott, im wunderbaren Sakrament des Altares hast du
-          uns das Gedächtnis deines Leidens und deiner Auferstehung
+          Lasst uns beten. Herr Jesus Christus, im wunderbaren Sakrament des
+          Altares hast du uns das Gedächtnis deines Leidens und deiner Auferstehung
           hinterlassen. Gib uns die Gnade, die heiligen Geheimnisse deines
           Leibes und Blutes allezeit so zu verehren, dass uns die Frucht der
           Erlösung zuteil wird.
@@ -291,17 +326,48 @@ insertiones:
           postuláta concédis, eósdem non déserens, ad prǽmia futúra dispónas.
           Per Christum, Dóminum nostrum. ℟. Amen.
         de: >-
-          Deine Barmherzigkeit, o Gott, ist ohne Maß, und der Reichtum deiner
-          Güte ist unerschöpflich. Wir danken dir für die empfangenen Gaben und
-          flehen ohne Unterlass zu deiner Milde: Verlass uns nicht, der du
-          gewährst, um was wir dich bitten, sondern bereite uns für den ewigen
-          Lohn – durch Christus, unseren Herrn. ℟. Amen.
+          Gott, deine Barmherzigkeit ist ohne Maß und der Reichtum deiner Güte
+          ist unerschöpflich. Wir sagen deiner Majestät Dank für die verliehenen
+          Gaben und flehen ohne Unterlass zu deiner Milde: Verlass uns nicht,
+          der du gewährst, um was wir dich bitten, sondern bereite uns für den
+          ewigen Lohn. Durch Christus, unseren Herrn. ℟. Amen.
   - after: conclusio
     title: Benedictio cum Sanctissimo Sacramento
     who: Priester
     posture: Man kniet
     items:
       - rubrica: Sacerdos benedicit populum cum Sanctissimo Sacramento.
+  # Asked for by the reviewing priest, 2026-10-29. German only, so `text:`
+  # carries it and `de:` stays empty; each line is one acclamation.
+  - after: conclusio
+    title: Laudes divinae
+    who: Priester, alle wiederholen
+    posture: Man kniet
+    items:
+      - text: |-
+          Gott sei gepriesen!
+          Gepriesen sei sein heiliger Name!
+          Gepriesen sei Jesus Christus, wahrer Gott und wahrer Mensch!
+          Gepriesen sei der Name Jesu!
+          Gepriesen sei sein heiligstes Herz!
+          Gepriesen sei sein kostbares Blut!
+          Gepriesen sei Jesus im allerheiligsten Sakrament des Altares!
+          Gepriesen sei der Heilige Geist, der Tröster!
+          Gepriesen sei die erhabene Gottesmutter, die allerseligste Jungfrau Maria!
+          Gepriesen sei ihre heilige und unbefleckte Empfängnis!
+          Gepriesen sei ihre wunderbare Himmelfahrt!
+          Gepriesen sei der Name der Jungfrau und Mutter Maria!
+          Gepriesen sei der heilige Joseph, ihr reinster Bräutigam!
+          Gepriesen sei Gott in seinen Engeln und Heiligen!
+          Amen.
+        de: ""
+  - after: conclusio
+    title: Processio ad coemeterium
+    who: Alle
+    items:
+      - rubrica: >-
+          Prozession zum Friedhof. Dort werden die Gebete für die Verstorbenen
+          gesprochen; am Schluss wird das Salve Regina gesungen.
 
 antiphona_bmv: salve-regina-simple
 

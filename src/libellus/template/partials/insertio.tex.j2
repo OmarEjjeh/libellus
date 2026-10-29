@@ -17,9 +17,9 @@
 \BLOCK{elif item.kind == "rubrica"}
 \begin{center}{\small\rubric{\VAR{item.text|tex}}}\end{center}
 \BLOCK{else}
-\noindent \VAR{item.text|tex|pausemarks}
+\noindent \VAR{item.text|tex|breaks|pausemarks}
 
-\medskip\BLOCK{if latin_only}\BLOCK{if item.note}\footnote{\VAR{item.note|tex}}\BLOCK{endif}\BLOCK{else}\noindent{\footnotesize\itshape \VAR{item.de|tex}\BLOCK{if item.note}\footnote{\VAR{item.note|tex}}\BLOCK{endif}\par}\BLOCK{endif}\medskip
+\medskip\BLOCK{if latin_only}\BLOCK{if item.note}\footnote{\VAR{item.note|tex}}\BLOCK{endif}\BLOCK{else}\noindent{\footnotesize\itshape \VAR{item.de|tex|breaks}\BLOCK{if item.note}\footnote{\VAR{item.note|tex}}\BLOCK{endif}\par}\BLOCK{endif}\medskip
 \BLOCK{endif}
 \BLOCK{endfor}
 

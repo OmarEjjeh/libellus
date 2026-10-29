@@ -2,10 +2,10 @@ name:Gottheit tief verborgen;
 office-part:Hymnus;
 book:Gotteslob, 2013, Nr. 497;
 % Übertragen aus dem Notenbild des Gotteslobs (#104, 2026-10-29): Fünfliniensystem
-% mit Violinschlüssel, Melodie von c' bis c''. Der c-Schlüssel auf der zweiten
-% Linie hält dieselben Tonstufen; die Melodie ist die des Adoro te devote. Die
-% Zäsuren (:) stehen, wo das Gotteslob seine Phrasenstriche setzt.
+% mit Violinschlüssel, Melodie von c' bis c''. Der c-Schlüssel auf der ersten
+% Linie (c1) legt c' auf d und c'' auf k; die Melodie ist die des Adoro te
+% devote. Die Zäsuren (:) stehen, wo das Gotteslob seine Phrasenstriche setzt.
+% Nur Strophe 1 ist notiert; die Strophen 2 und 3 stehen im Feast-Spec als Text
+% unter den Noten.
 %%
-(c2) Gott(d)heit(f) tief(h) ver(h)bor(hi)gen,(h) be(g)tend(f) nah(e) ich(d) dir.(d) (:) Un(d)ter(f) die(h)sen(h) Zei(hi)chen(h) bist(g) du(f) wahr(e)haft(d) hier.(d) (:) Sieh,(h) mit(h) gan(ij)zem(k) Her(kj)zen(h) schenk(i) ich(h) dir(g) mich(f) hin,(e) (:) weil(f) vor(h) sol(g)chem(f) Wun(ed)der(e) ich(f) nur(d) Ar(e)mut(d) bin.(d) (::)
-(z) 2. Au(d)gen,(f) Mund(h) und(h) Hän(hi)de(h) täu(g)schen(f) sich(e) in(d) dir,(d) (:) doch(d) des(f) Wor(h)tes(h) Bot(hi)schaft(h) of(g)fen(f)bart(e) dich(d) mir.(d) (:) Was(h) Gott(h) Sohn(ij) ge(k)spro(kj)chen,(h) nehm(i) ich(h) glau(g)bend(f) an;(e) (:) er(f) ist(h) selbst(g) die(f) Wahr(ed)heit,(e) die(f) nicht(d) trü(e)gen(d) kann.(d) (::)
-(z) 3. Einst(d) am(f) Kreuz(h) ver(h)hüll(hi)te(h) sich(g) der(f) Gott(e)heit(d) Glanz,(d) (:) hier(d) ist(f) auch(h) ver(h)bor(hi)gen(h) dei(g)ne(f) Mensch(e)heit(d) ganz.(d) (:) Bei(h)de(h) sieht(ij) mein(k) Glau(kj)be(h) in(i) dem(h) Bro(g)te(f) hier;(e) (:) wie(f) der(h) Schä(g)cher(f) ruf(ed) ich,(e) Herr,(f) um(d) Gnad(e) zu(d) dir.(d) (::)
+(c1) Gott(d)heit(f) tief(h) ver(h)bor(hi)gen,(h) be(g)tend(f) nah(e) ich(d) dir.(d) (:) Un(d)ter(f) die(h)sen(h) Zei(hi)chen(h) bist(g) du(f) wahr(e)haft(d) hier.(d) (:) Sieh,(h) mit(h) gan(ij)zem(k) Her(kj)zen(h) schenk(i) ich(h) dir(g) mich(f) hin,(e) (:) weil(f) vor(h) sol(g)chem(f) Wun(ed)der(e) ich(f) nur(d) Ar(e)mut(d) bin.(d) (::)
