@@ -369,12 +369,13 @@ insertiones:
           Prozession zum Friedhof; auf dem Weg wird die Allerheiligenlitanei
           gesungen. Dort werden die Gebete für die Verstorbenen gesprochen; am
           Schluss wird das Salve Regina gesungen.
-  # Sung during the procession (2026-10-29), in Latin alone and complete as the
-  # Liber Usualis has it (pp. 835–840): litany, Psalm 69, versicles, orations.
+  # Sung during the procession (2026-10-29), in Latin alone: the litany itself
+  # as the Liber Usualis has it (pp. 835–838), up to the closing Kyrie — not the
+  # Pater noster, Psalm 69, versicles and orations that follow it there.
   # Laid out as the LU lays it out — each melodic formula notated once, the
   # invocations that share it listed beneath as text. The text is Divinum
-  # Officium's (the 1962 books), checked against the LU scan; the * and † of
-  # the psalm, the versicles and the orations are the LU's. `de: ""`: Latin only.
+  # Officium's (the 1962 books), checked against the LU scan. `de: ""`: Latin
+  # only.
   - after: conclusio
     title: Litaniae Sanctorum
     who: Kantoren, alle wiederholen jede Anrufung
@@ -386,25 +387,23 @@ insertiones:
           Spíritus Sancte, Deus, miserére nobis.
           Sancta Trínitas, unus Deus, miserére nobis.
         de: ""
+      # One model for every invocation down to „Omnes Sancti et Sanctæ Dei":
+      # the LU notates five more, but they differ only by the extra note a
+      # proparoxytone or „oráte" takes, which the schola supplies.
       - gabc: chant/varia/litaniae-sanctorum-sancta-maria.gabc
         de: ""
       - text: |-
+          Sancta Dei Génitrix, ora pro nobis.
           Sancta Virgo vírginum, ora pro nobis.
           Sancte Míchaël, ora pro nobis.
           Sancte Gábriel, ora pro nobis.
           Sancte Ráphaël, ora pro nobis.
-        de: ""
-      - gabc: chant/varia/litaniae-sanctorum-omnes-angeli.gabc
-        de: ""
-      - text: Omnes sancti beatórum Spirítuum órdines, oráte pro nobis.
-        de: ""
-      - gabc: chant/varia/litaniae-sanctorum-sancte-joannes.gabc
-        de: ""
-      - text: Sancte Joseph, ora pro nobis.
-        de: ""
-      - gabc: chant/varia/litaniae-sanctorum-patriarchae.gabc
-        de: ""
-      - text: |-
+          Omnes sancti Ángeli et Archángeli, oráte pro nobis.
+          Omnes sancti beatórum Spirítuum órdines, oráte pro nobis.
+          Sancte Joánnes Baptísta, ora pro nobis.
+          Sancte Joseph, ora pro nobis.
+          Omnes sancti Patriárchæ et Prophétæ, oráte pro nobis.
+          Sancte Petre, ora pro nobis.
           Sancte Paule, ora pro nobis.
           Sancte Andréa, ora pro nobis.
           Sancte Jacóbe, ora pro nobis.
@@ -505,105 +504,6 @@ insertiones:
           Fili Dei, te rogámus, audi nos.
         de: ""
       - gabc: chant/varia/litaniae-sanctorum-agnus-dei.gabc
-        de: ""
-  - after: conclusio
-    title: Psalmus 69
-    who: Alle
-    items:
-      - gabc: chant/varia/psalmus-69-litaniae.gabc
-        initialis: false
-        de: ""
-      - text: |-
-          2. Confundántur et revereántur, * qui quærunt ánimam meam.
-          3. Avertántur retrórsum, et erubéscant, * qui volunt mihi mala.
-          4. Avertántur statim erubescéntes, * qui dicunt mihi: Euge, euge.
-          5. Exsúltent et læténtur in te omnes qui quærunt te: * et dicant semper: Magnificétur Dóminus: qui díligunt salutáre tuum.
-          6. Ego vero egénus et pauper sum: * Deus, ádjuva me.
-          7. Adjútor meus et liberátor meus es tu: * Dómine, ne moréris.
-          8. Glória Patri, et Fílio, * et Spirítui Sancto.
-          9. Sicut erat in princípio, et nunc, et semper, * et in sǽcula sæculórum. Amen.
-        de: ""
-      - text: |-
-          ℣. Salvos fac servos tuos. ℟. Deus meus, sperántes in te.
-          ℣. Esto nobis, Dómine, turris fortitúdinis. ℟. A fácie inimíci.
-          ℣. Nihil profíciat inimícus in nobis. ℟. Et fílius iniquitátis non appónat nocére nobis.
-          ℣. Dómine, non secúndum peccáta nostra fácias nobis. ℟. Neque secúndum iniquitátes nostras retríbuas nobis.
-          ℣. Orémus pro Pontífice nostro Leóne. ℟. Dóminus consérvet eum, et vivíficet eum, † et beátum fáciat eum in terra, * et non tradat eum in ánimam inimicórum ejus.
-          ℣. Orémus pro benefactóribus nostris. ℟. Retribúere dignáre, Dómine, † ómnibus nobis bona faciéntibus propter nomen tuum, * vitam ætérnam. Amen.
-          ℣. Orémus pro fidélibus defúnctis. ℟. Réquiem ætérnam dona eis, Dómine, * et lux perpétua lúceat eis.
-          ℣. Requiéscant in pace. ℟. Amen.
-          ℣. Pro frátribus nostris abséntibus. ℟. Salvos fac servos tuos, * Deus meus, sperántes in te.
-          ℣. Mitte eis, Dómine, auxílium de sancto. ℟. Et de Sion tuére eos.
-          ℣. Dómine, exáudi oratiónem meam. ℟. Et clamor meus ad te véniat.
-          ℣. Dóminus vobíscum. ℟. Et cum spíritu tuo.
-        de: ""
-  - after: conclusio
-    title: Orationes
-    who: Priester
-    items:
-      - text: >-
-          Orémus. Deus, cui próprium est miseréri semper et párcere: † súscipe
-          deprecatiónem nostram; ut nos, et omnes fámulos tuos, quos
-          delictórum caténa constríngit, * miserátio tuæ pietátis cleménter
-          absólvat.
-        de: ""
-      - text: >-
-          Exáudi, quǽsumus, Dómine, súpplicum preces, † et confiténtium tibi
-          parce peccátis: * ut páriter nobis indulgéntiam tríbuas benígnus et
-          pacem.
-        de: ""
-      - text: >-
-          Ineffábilem nobis, Dómine, misericórdiam tuam cleménter osténde: † ut
-          simul nos et a peccátis ómnibus éxuas, * et a pœnis, quas pro his
-          merémur, erípias.
-        de: ""
-      - text: >-
-          Deus, qui culpa offénderis, pœniténtia placáris: † preces pópuli tui
-          supplicántis propítius réspice; * et flagélla tuæ iracúndiæ, quæ pro
-          peccátis nostris merémur, avérte.
-        de: ""
-      - text: >-
-          Omnípotens sempitérne Deus, miserére fámulo tuo Pontífici nostro
-          Leóni, † et dírige eum secúndum tuam cleméntiam in viam salútis
-          ætérnæ: * ut, te donánte, tibi plácita cúpiat, et tota virtúte
-          perfíciat.
-        de: ""
-      - text: >-
-          Deus, a quo sancta desidéria, recta consília et justa sunt ópera: †
-          da servis tuis illam, quam mundus dare non potest, pacem; * ut et
-          corda nostra mandátis tuis dédita, et, hóstium subláta formídine,
-          témpora sint, tua protectióne, tranquílla.
-        de: ""
-      - text: >-
-          Ure igne Sancti Spíritus renes nostros et cor nostrum, Dómine: † ut
-          tibi casto córpore serviámus, * et mundo corde placeámus.
-        de: ""
-      - text: >-
-          Fidélium, Deus, ómnium Cónditor et Redémptor, animábus famulórum
-          famularúmque tuárum remissiónem cunctórum tríbue peccatórum: † ut
-          indulgéntiam, quam semper optavérunt, * piis supplicatiónibus
-          consequántur.
-        de: ""
-      - text: >-
-          Actiónes nostras, quǽsumus, Dómine, aspirándo prǽveni et adjuvándo
-          proséquere: † ut cuncta nostra orátio et operátio a te semper
-          incípiat, * et per te cœpta finiátur.
-        de: ""
-      - text: >-
-          Omnípotens sempitérne Deus, qui vivórum domináris simul et
-          mortuórum, omniúmque miseréris, quos tuos fide et ópere futúros esse
-          prænóscis: † te súpplices exorámus; ut, pro quibus effúndere preces
-          decrévimus, quosque vel præsens sǽculum adhuc in carne rétinet, vel
-          futúrum jam exútos córpore suscépit, * intercedéntibus ómnibus
-          Sanctis tuis, pietátis tuæ cleméntia, ómnium delictórum suórum véniam
-          consequántur. Per Dóminum nostrum Jesum Christum, Fílium tuum, qui
-          tecum vivit et regnat in unitáte Spíritus Sancti Deus, per ómnia
-          sǽcula sæculórum. ℟. Amen.
-        de: ""
-      - text: |-
-          ℣. Dóminus vobíscum. ℟. Et cum spíritu tuo.
-          ℣. Exáudiat nos omnípotens et miséricors Dóminus. ℟. Amen.
-          ℣. Et fidélium ánimæ per misericórdiam Dei requiéscant in pace. ℟. Amen.
         de: ""
 
 antiphona_bmv: salve-regina-simple

@@ -1,8 +1,7 @@
 name:Litaniae Sanctorum, Sancta Maria;
 office-part:Supplicatio;
-book:The Liber Usualis, 1961, p. 836; via GregoBase (gregobase.selapa.net), chant ids 8758 und 8759;
+book:The Liber Usualis, 1961, p. 836; via GregoBase (gregobase.selapa.net), chant id 8758;
 transcriber:Sebastian Malton;
-% Zwei GregoBase-Stücke in einer Datei (#104).
+% Das eine Modell für alle Anrufungen bis „Omnes Sancti et Sanctæ Dei“ (#104).
 %%
 (c3) San(h)cta(h) Ma(h)rí(i)a,(g.) (,) o(g)<i>ra</i>(f) <i>pro</i>(g) <b>no</b>(h)bis.(h.) (::)
-San(h)cta(h) De(h)i(h) Gé(i)ni(g)trix,(g.) (,) o(g)<i>ra</i>(f) <i>pro</i>(g) <b>no</b>(h)bis.(h.) (::)
