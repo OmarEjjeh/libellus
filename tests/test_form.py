@@ -1074,3 +1074,20 @@ def test_compact_checkbox_round_trips(page: Page, repo_root: Path) -> None:
 
     load_via_paste(page, ROUNDTRIP_FIXTURE.replace("\nrite:", "\ncompact: true\nrite:"))
     expect(page.locator("#compact")).to_be_checked()
+
+
+def test_back_cover_closing_round_trips(page: Page, repo_root: Path) -> None:
+    """The optional closing line under the back-cover quote is read, shown and
+    written back; left empty, the key is absent."""
+    page.goto(form_url(repo_root))
+    assert "closing:" not in page.locator("#yaml-pane").input_value()
+
+    page.fill("#backcover-closing", "Nehmen Sie das Heft mit.")
+    assert "closing: Nehmen Sie das Heft mit." in page.locator("#yaml-pane").input_value()
+
+    load_via_paste(page, ROUNDTRIP_FIXTURE.replace(
+        "    citation: Regula Benedicti, cap. XLIII\n",
+        "    citation: Regula Benedicti, cap. XLIII\n  closing: Ein Gruß.\n",
+    ))
+    expect(page.locator("#backcover-closing")).to_have_value("Ein Gruß.")
+    assert "closing: Ein Gruß." in page.locator("#yaml-pane").input_value()

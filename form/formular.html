@@ -861,7 +861,7 @@ const leererZustand = () => ({
   back_cover: {
     image: "", credit: "", art: "quote", border: "gilded", border_size: "normal",
     quote: {text: "", de: "", motto: "", motto_de: "", citation: "", note: ""},
-    text: "",
+    text: "", closing: "",
   },
   drollery: "auto",
   draft: false,
@@ -963,6 +963,7 @@ function alsFeastSpec(z) {
   } else {
     spec.back_cover.text = z.back_cover.text.trim();
   }
+  if (gesetzt(z.back_cover.closing)) spec.back_cover.closing = z.back_cover.closing.trim();
   spec.drollery = z.drollery.trim() || "auto";
   // Nur „draft: true“ steht je in der Datei — „kein Entwurf“ ist das
   // Fehlen des Schlüssels, wie bei „drollery: auto“ (ADR-0021).
@@ -1213,6 +1214,7 @@ function ausFeastSpec(roh) {
     z.back_cover.art = "text";
     z.back_cover.text = text(rueckseite.text, "back_cover, text");
   }
+  z.back_cover.closing = text(rueckseite.closing, "back_cover, closing");
   if (vorhanden(roh.drollery))
     z.drollery = text(roh.drollery, "drollery") || "auto";
   z.draft = roh.draft === true;
@@ -2111,6 +2113,9 @@ function Formular() {
           </div>` : null}
         <${Feld} id="backcover-credit" label="Bildnachweis" wert=${zustand.back_cover.credit}
           setze=${setze("back_cover", "credit")} hinweis="Kleine kursive Zeile ganz unten." breit />
+        <${Feld} id="backcover-closing" label="Schlusszeile (optional)" wert=${zustand.back_cover.closing}
+          setze=${setze("back_cover", "closing")}
+          hinweis="Steht unter Zitat oder Text, über dem Bildnachweis — z. B. ein Dank oder Gruß." breit />
         <label class="feld" for="backcover-border"><span>Rahmen</span>
           <select id="backcover-border" value=${zustand.back_cover.border}
             onChange=${(e) => setze("back_cover", "border")(e.currentTarget.value)}>

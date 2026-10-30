@@ -499,6 +499,10 @@ class BackCover(StrictModel):
     credit: str  # bottom line, tiny italic — always present
     quote: BackCoverQuote | None = None
     text: str | None = None  # free text, alternative to a quote block
+    #: A closing line under the quote or text, above the credit — e.g. „Nehmen
+    #: Sie gerne dieses Heft als Erinnerung mit nach Hause." German only, so
+    #: it is not part of the quote and needs no translation.
+    closing: str | None = None
     border: BackCoverBorder = "gilded"  # optional ornamental frame, see ADR-0013
     border_size: BackCoverBorderSize = "normal"  # "gilded" thickness only, see ADR-0014
 

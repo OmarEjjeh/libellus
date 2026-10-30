@@ -337,8 +337,9 @@ insertiones:
     posture: Man kniet
     items:
       - rubrica: Sacerdos benedicit populum cum Sanctissimo Sacramento.
-  # Asked for by the reviewing priest, 2026-10-29. German only, so `text:`
-  # carries it and `de:` stays empty; each line is one acclamation.
+  # Asked for by the reviewing priest, 2026-10-29. The four petitions for
+  # vocations that usually close them were sent on 2026-10-30. German only, so
+  # `text:` carries it and `de:` stays empty; each line is one acclamation.
   - after: conclusio
     title: Laudes divinae
     who: Priester, alle wiederholen
@@ -358,155 +359,28 @@ insertiones:
           Gepriesen sei ihre wunderbare Himmelfahrt!
           Gepriesen sei der Name der Jungfrau und Mutter Maria!
           Gepriesen sei der heilige Joseph, ihr reinster Bräutigam!
-          Gepriesen sei Gott in seinen Engeln und Heiligen!
-          Amen.
+          Gepriesen sei Gott in seinen Engeln und Heiligen! Amen.
+          Herr, schenke uns Priester!
+          Herr, schenke uns heilige Priester!
+          Herr, schenke uns viele heilige Priester und Ordensberufungen!
+          Herr, schenke uns heilige Familien!
         de: ""
   - after: conclusio
     title: Processio ad coemeterium
     who: Alle
+    # The priest's wording of 2026-10-30: the litany is sung from the
+    # Gotteslob, so the booklet only names it (it printed the LU's litany
+    # until then, `922ccfe`).
     items:
       - rubrica: >-
           Prozession zum Friedhof; auf dem Weg wird die Allerheiligenlitanei
-          gesungen. Dort werden die Gebete für die Verstorbenen gesprochen; am
-          Schluss wird das Salve Regina gesungen.
-  # Sung during the procession (2026-10-29), in Latin alone: the litany itself
-  # as the Liber Usualis has it (pp. 835–838), up to the closing Kyrie — not the
-  # Pater noster, Psalm 69, versicles and orations that follow it there.
-  # Laid out as the LU lays it out — each melodic formula notated once, the
-  # invocations that share it listed beneath as text. The text is Divinum
-  # Officium's (the 1962 books), checked against the LU scan. `de: ""`: Latin
-  # only.
-  - after: conclusio
-    title: Litaniae Sanctorum
-    who: Kantoren, alle wiederholen jede Anrufung
-    items:
-      - gabc: chant/varia/litaniae-sanctorum-kyrie.gabc
-        de: ""
-      - text: |-
-          Fili, Redémptor mundi, Deus, miserére nobis.
-          Spíritus Sancte, Deus, miserére nobis.
-          Sancta Trínitas, unus Deus, miserére nobis.
-        de: ""
-      # One model for every invocation down to „Omnes Sancti et Sanctæ Dei":
-      # the LU notates five more, but they differ only by the extra note a
-      # proparoxytone or „oráte" takes, which the schola supplies.
-      - gabc: chant/varia/litaniae-sanctorum-sancta-maria.gabc
-        de: ""
-      - text: |-
-          Sancta Dei Génitrix, ora pro nobis.
-          Sancta Virgo vírginum, ora pro nobis.
-          Sancte Míchaël, ora pro nobis.
-          Sancte Gábriel, ora pro nobis.
-          Sancte Ráphaël, ora pro nobis.
-          Omnes sancti Ángeli et Archángeli, oráte pro nobis.
-          Omnes sancti beatórum Spirítuum órdines, oráte pro nobis.
-          Sancte Joánnes Baptísta, ora pro nobis.
-          Sancte Joseph, ora pro nobis.
-          Omnes sancti Patriárchæ et Prophétæ, oráte pro nobis.
-          Sancte Petre, ora pro nobis.
-          Sancte Paule, ora pro nobis.
-          Sancte Andréa, ora pro nobis.
-          Sancte Jacóbe, ora pro nobis.
-          Sancte Joánnes, ora pro nobis.
-          Sancte Thoma, ora pro nobis.
-          Sancte Jacóbe, ora pro nobis.
-          Sancte Philíppe, ora pro nobis.
-          Sancte Bartholomǽe, ora pro nobis.
-          Sancte Matthǽe, ora pro nobis.
-          Sancte Simon, ora pro nobis.
-          Sancte Thaddǽe, ora pro nobis.
-          Sancte Matthía, ora pro nobis.
-          Sancte Bárnaba, ora pro nobis.
-          Sancte Luca, ora pro nobis.
-          Sancte Marce, ora pro nobis.
-          Omnes sancti Apóstoli et Evangelístæ, oráte pro nobis.
-          Omnes sancti Discípuli Dómini, oráte pro nobis.
-          Omnes sancti Innocéntes, oráte pro nobis.
-          Sancte Stéphane, ora pro nobis.
-          Sancte Laurénti, ora pro nobis.
-          Sancte Vincénti, ora pro nobis.
-          Sancti Fabiáne et Sebastiáne, oráte pro nobis.
-          Sancti Joánnes et Paule, oráte pro nobis.
-          Sancti Cosma et Damiáne, oráte pro nobis.
-          Sancti Gervási et Protási, oráte pro nobis.
-          Omnes sancti Mártyres, oráte pro nobis.
-          Sancte Silvéster, ora pro nobis.
-          Sancte Gregóri, ora pro nobis.
-          Sancte Ambrósi, ora pro nobis.
-          Sancte Augustíne, ora pro nobis.
-          Sancte Hierónyme, ora pro nobis.
-          Sancte Martíne, ora pro nobis.
-          Sancte Nicoláe, ora pro nobis.
-          Omnes sancti Pontífices et Confessóres, oráte pro nobis.
-          Omnes sancti Doctóres, oráte pro nobis.
-          Sancte Antóni, ora pro nobis.
-          Sancte Benedícte, ora pro nobis.
-          Sancte Bernárde, ora pro nobis.
-          Sancte Domínice, ora pro nobis.
-          Sancte Francísce, ora pro nobis.
-          Omnes sancti Sacerdótes et Levítæ, oráte pro nobis.
-          Omnes sancti Mónachi et Eremítæ, oráte pro nobis.
-          Sancta María Magdaléna, ora pro nobis.
-          Sancta Agatha, ora pro nobis.
-          Sancta Lúcia, ora pro nobis.
-          Sancta Agnes, ora pro nobis.
-          Sancta Cæcília, ora pro nobis.
-          Sancta Catharína, ora pro nobis.
-          Sancta Anastásia, ora pro nobis.
-          Omnes sanctæ Vírgines et Víduæ, oráte pro nobis.
-          Omnes Sancti et Sanctæ Dei, intercédite pro nobis.
-        de: ""
-      - gabc: chant/varia/litaniae-sanctorum-propitius.gabc
-        de: ""
-      - text: |-
-          Propítius esto, exáudi nos, Dómine.
-          Ab omni malo, líbera nos, Dómine.
-          Ab omni peccáto, líbera nos, Dómine.
-          Ab ira tua, líbera nos, Dómine.
-          A subitánea et improvísa morte, líbera nos, Dómine.
-          Ab insídiis diáboli, líbera nos, Dómine.
-          Ab ira et ódio et omni mala voluntáte, líbera nos, Dómine.
-          A spíritu fornicatiónis, líbera nos, Dómine.
-          A fúlgure et tempestáte, líbera nos, Dómine.
-          A flagéllo terræmótus, líbera nos, Dómine.
-          A peste, fame et bello, líbera nos, Dómine.
-          A morte perpétua, líbera nos, Dómine.
-          Per mystérium sanctæ Incarnatiónis tuæ, líbera nos, Dómine.
-          Per advéntum tuum, líbera nos, Dómine.
-          Per nativitátem tuam, líbera nos, Dómine.
-          Per baptísmum et sanctum jejúnium tuum, líbera nos, Dómine.
-          Per crucem et passiónem tuam, líbera nos, Dómine.
-          Per mortem et sepultúram tuam, líbera nos, Dómine.
-          Per sanctam resurrectiónem tuam, líbera nos, Dómine.
-          Per admirábilem ascensiónem tuam, líbera nos, Dómine.
-          Per advéntum Spíritus Sancti Parácliti, líbera nos, Dómine.
-          In die judícii, líbera nos, Dómine.
-        de: ""
-      - gabc: chant/varia/litaniae-sanctorum-peccatores.gabc
-        de: ""
-      - text: |-
-          Ut nobis parcas, te rogámus, audi nos.
-          Ut nobis indúlgeas, te rogámus, audi nos.
-          Ut ad veram pœniténtiam nos perdúcere dignéris, te rogámus, audi nos.
-          Ut Ecclésiam tuam sanctam régere et conserváre dignéris, te rogámus, audi nos.
-          Ut domnum Apostólicum et omnes ecclesiásticos órdines in sancta religióne conserváre dignéris, te rogámus, audi nos.
-          Ut inimícos sanctæ Ecclésiæ humiliáre dignéris, te rogámus, audi nos.
-          Ut régibus et princípibus christiánis pacem et veram concórdiam donáre dignéris, te rogámus, audi nos.
-          Ut cuncto pópulo christiáno pacem et unitátem largíri dignéris, te rogámus, audi nos.
-          Ut omnes errántes ad unitátem Ecclésiæ revocáre, et infidéles univérsos ad Evangélii lumen perdúcere dignéris, te rogámus, audi nos.
-          Ut nosmetípsos in tuo sancto servítio confortáre et conserváre dignéris, te rogámus, audi nos.
-          Ut mentes nostras ad cæléstia desidéria érigas, te rogámus, audi nos.
-          Ut ómnibus benefactóribus nostris sempitérna bona retríbuas, te rogámus, audi nos.
-          Ut ánimas nostras, fratrum, propinquórum et benefactórum nostrórum ab ætérna damnatióne erípias, te rogámus, audi nos.
-          Ut fructus terræ dare et conserváre dignéris, te rogámus, audi nos.
-          Ut ómnibus fidélibus defúnctis réquiem ætérnam donáre dignéris, te rogámus, audi nos.
-          Ut nos exaudíre dignéris, te rogámus, audi nos.
-          Fili Dei, te rogámus, audi nos.
-        de: ""
-      - gabc: chant/varia/litaniae-sanctorum-agnus-dei.gabc
-        de: ""
+          gesungen (Gotteslob 556).
+      - rubrica: >-
+          Ablass-Gebete (Apostolisches Glaubensbekenntnis, Vater unser, Ave
+          Maria).
+      - rubrica: Psalm 129 und Oration für die Verstorbenen.
 
-antiphona_bmv: salve-regina-sollemnis
+antiphona_bmv: salve-regina-simple
 
 # The picture is the user's choice of 2026-10-16, the crowd of haloed saints
 # without the women (the second picture in the main checkout's
@@ -530,6 +404,8 @@ back_cover:
       jede Last ablegen und die Sünde, die uns umstrickt, und mit Ausdauer in
       dem Wettkampf laufen, der vor uns liegt.
     citation: Hebr 12, 1
+  # The priest's wording, 2026-10-30.
+  closing: Nehmen Sie gerne dieses Heft als Erinnerung mit nach Hause.
 
 drollery: auto
 

@@ -185,6 +185,24 @@ def test_back_cover_free_text_renders(repo_root: Path, smoke_feast: Path) -> Non
     assert "Freier Text\\\\\nüber zwei Zeilen." in tex
 
 
+def test_back_cover_closing_renders_between_quote_and_credit(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    """`closing:` is one line under the quote and above the credit; without it
+    nothing is printed there."""
+    spec = load_spec(smoke_feast)
+    plain = render(spec.rite, build_context(spec, repo_root).context, repo_root)
+    assert "{\\small Nehmen Sie" not in plain
+
+    back_cover = spec.back_cover.model_copy(
+        update={"closing": "Nehmen Sie gerne dieses Heft als Erinnerung mit nach Hause."}
+    )
+    spec = spec.model_copy(update={"back_cover": back_cover})
+    tex = render(spec.rite, build_context(spec, repo_root).context, repo_root)
+    closing = tex.index("{\\small Nehmen Sie gerne dieses Heft als Erinnerung mit nach Hause.}")
+    assert closing < tex.index("{\\tiny\\textit{")
+
+
 def test_back_cover_border_none_renders_plain_image(repo_root: Path, smoke_feast: Path) -> None:
     """The "none" style keeps the bare \\includegraphics, no frame (ADR-0013)."""
     spec = load_spec(smoke_feast)
