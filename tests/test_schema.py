@@ -116,6 +116,16 @@ def test_back_cover_free_text(repo_root: Path) -> None:
     assert spec.back_cover.quote is None
 
 
+def test_back_cover_closing_is_optional(repo_root: Path) -> None:
+    """`closing:` is off by default and sits beside a quote."""
+    data = _smoke_data(repo_root)
+    assert FeastSpec.model_validate(data).back_cover.closing is None
+    data["back_cover"]["closing"] = "Nehmen Sie gerne dieses Heft mit nach Hause."
+    spec = FeastSpec.model_validate(data)
+    assert spec.back_cover.closing == "Nehmen Sie gerne dieses Heft mit nach Hause."
+    assert spec.back_cover.quote is not None
+
+
 def test_back_cover_border_defaults_to_gilded(repo_root: Path) -> None:
     data = _smoke_data(repo_root)
     del data["back_cover"]["border"]  # the fixture states it; the default must match

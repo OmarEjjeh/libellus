@@ -1,0 +1,11 @@
+name:Gottheit tief verborgen;
+office-part:Hymnus;
+book:Gotteslob, 2013, Nr. 497;
+% Übertragen aus dem Notenbild des Gotteslobs (#104, 2026-10-29): Fünfliniensystem
+% mit Violinschlüssel, Melodie von c' bis c''. Der c-Schlüssel auf der ersten
+% Linie (c1) legt c' auf d und c'' auf k; die Melodie ist die des Adoro te
+% devote. Die Zäsuren (:) stehen, wo das Gotteslob seine Phrasenstriche setzt.
+% Nur Strophe 1 ist notiert; die Strophen 2 und 3 stehen im Feast-Spec als Text
+% unter den Noten.
+%%
+(c1) Gott(d)heit(f) tief(h) ver(h)bor(hi)gen,(h) be(g)tend(f) nah(e) ich(d) dir.(d) (:) Un(d)ter(f) die(h)sen(h) Zei(hi)chen(h) bist(g) du(f) wahr(e)haft(d) hier.(d) (:) Sieh,(h) mit(h) gan(ij)zem(k) Her(kj)zen(h) schenk(i) ich(h) dir(g) mich(f) hin,(e) (:) weil(f) vor(h) sol(g)chem(f) Wun(ed)der(e) ich(f) nur(d) Ar(e)mut(d) bin.(d) (::)

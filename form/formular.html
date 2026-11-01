@@ -375,6 +375,7 @@ nie das Formular kaputt — verbindlich prüft weiterhin libellus.
     "paternoster",
     "reginacaeli",
     "salve-regina-simple",
+    "salve-regina-sollemnis",
     "te-rogamus",
     "versicle-domine-exaudi"
   ],
@@ -552,19 +553,30 @@ nie das Formular kaputt — verbindlich prüft weiterhin libellus.
     "IV classis"
   ],
   "chant_paths": [
+    "chant/ant/angeli-archangeli.gabc",
     "chant/ant/beatus-vir-benedictus.gabc",
+    "chant/ant/benedicite-dominum-omnes-electi.gabc",
     "chant/ant/corpora-sanctorum-in-pace.gabc",
     "chant/ant/cum-palma-ad-regna.gabc",
+    "chant/ant/et-omnes-angeli.gabc",
     "chant/ant/exsultet-omnium-turba.gabc",
     "chant/ant/fuit-vir-vitae-venerabilis.gabc",
     "chant/ant/gloriosus-confessor-domini.gabc",
+    "chant/ant/hymnus-omnibus-sanctis.gabc",
     "chant/ant/laetare-et-lauda.gabc",
     "chant/ant/martyres-domini.gabc",
     "chant/ant/martyrum-chorus-laudate.gabc",
     "chant/ant/omnes-sancti-quanta-passi.gabc",
+    "chant/ant/redemisti-nos.gabc",
+    "chant/ant/vidi-dominum-sedentem.gabc",
+    "chant/ant/vidi-turbam-magnam.gabc",
     "chant/ant/vir-domini-benedictus.gabc",
     "chant/hymni/gemma-caelestis.gabc",
+    "chant/hymni/gottheit-tief-verborgen.gabc",
+    "chant/hymni/placare-christe-servulis.gabc",
     "chant/hymni/sanctorum-meritis.gabc",
+    "chant/hymni/tantum-ergo.gabc",
+    "chant/hymni/te-deum-sollemnis.gabc",
     "chant/ordinarium/amen.gabc",
     "chant/ordinarium/benedicamus-domino-i-classis-i-vesperae.gabc",
     "chant/ordinarium/benedicamus-domino-ii-classis-i-vesperae.gabc",
@@ -586,11 +598,22 @@ nie das Formular kaputt — verbindlich prüft weiterhin libellus.
     "chant/ordinarium/paternoster.gabc",
     "chant/ordinarium/reginacaeli.gabc",
     "chant/ordinarium/salve-regina-simple.gabc",
+    "chant/ordinarium/salve-regina-sollemnis.gabc",
     "chant/ordinarium/te-rogamus.gabc",
     "chant/ordinarium/versicle-domine-exaudi.gabc",
     "chant/resp/sancte-pater-benedicte.gabc",
+    "chant/varia/litaniae-sanctorum-agnus-dei.gabc",
+    "chant/varia/litaniae-sanctorum-kyrie.gabc",
+    "chant/varia/litaniae-sanctorum-peccatores.gabc",
+    "chant/varia/litaniae-sanctorum-propitius.gabc",
+    "chant/varia/litaniae-sanctorum-sancta-maria.gabc",
+    "chant/varia/oremus-pro-pontifice.gabc",
     "chant/vers/amavit-eum-dominus.gabc",
-    "chant/vers/laetamini-in-domino.gabc"
+    "chant/vers/fiat-manus-tua.gabc",
+    "chant/vers/laetamini-in-domino-romanum.gabc",
+    "chant/vers/laetamini-in-domino.gabc",
+    "chant/vers/panem-de-caelo.gabc",
+    "chant/vers/vespertina-oratio.gabc"
   ],
   "image_paths": [
     "images/02-benedict/medal-print.png",
@@ -599,6 +622,7 @@ nie das Formular kaputt — verbindlich prüft weiterhin libellus.
     "images/03-lambert/Ostercappeln-Kirche.png",
     "images/03-lambert/Ostercappeln-Taufbecken.png",
     "images/03-lambert/St-Lambert-Liege.jpg",
+    "images/04-all-saints/omnes-sancti-louis-de-laval.jpg",
     "images/borders/gilded-corner-ne.png",
     "images/borders/gilded-corner-nw.png",
     "images/borders/gilded-corner-se.png",
@@ -837,7 +861,7 @@ const leererZustand = () => ({
   back_cover: {
     image: "", credit: "", art: "quote", border: "gilded", border_size: "normal",
     quote: {text: "", de: "", motto: "", motto_de: "", citation: "", note: ""},
-    text: "",
+    text: "", closing: "",
   },
   drollery: "auto",
   draft: false,
@@ -939,6 +963,7 @@ function alsFeastSpec(z) {
   } else {
     spec.back_cover.text = z.back_cover.text.trim();
   }
+  if (gesetzt(z.back_cover.closing)) spec.back_cover.closing = z.back_cover.closing.trim();
   spec.drollery = z.drollery.trim() || "auto";
   // Nur „draft: true“ steht je in der Datei — „kein Entwurf“ ist das
   // Fehlen des Schlüssels, wie bei „drollery: auto“ (ADR-0021).
@@ -1189,6 +1214,7 @@ function ausFeastSpec(roh) {
     z.back_cover.art = "text";
     z.back_cover.text = text(rueckseite.text, "back_cover, text");
   }
+  z.back_cover.closing = text(rueckseite.closing, "back_cover, closing");
   if (vorhanden(roh.drollery))
     z.drollery = text(roh.drollery, "drollery") || "auto";
   z.draft = roh.draft === true;
@@ -2087,6 +2113,9 @@ function Formular() {
           </div>` : null}
         <${Feld} id="backcover-credit" label="Bildnachweis" wert=${zustand.back_cover.credit}
           setze=${setze("back_cover", "credit")} hinweis="Kleine kursive Zeile ganz unten." breit />
+        <${Feld} id="backcover-closing" label="Schlusszeile (optional)" wert=${zustand.back_cover.closing}
+          setze=${setze("back_cover", "closing")}
+          hinweis="Steht unter Zitat oder Text, über dem Bildnachweis — z. B. ein Dank oder Gruß." breit />
         <label class="feld" for="backcover-border"><span>Rahmen</span>
           <select id="backcover-border" value=${zustand.back_cover.border}
             onChange=${(e) => setze("back_cover", "border")(e.currentTarget.value)}>

@@ -408,7 +408,9 @@ class InsertioCantus(Notable):
     gabc: GabcSource
     #: German translation. Required unless the feast is `latin_only`
     #: (ADR-0025); FeastSpec._german_present_unless_latin_only enforces that,
-    #: because a nested model cannot see the top-level flag.
+    #: because a nested model cannot see the top-level flag. An empty `de: ""`
+    #: is a deliberate "no translation" — German already, or Latin printed
+    #: alone (#104) — and prints no German line.
     de: str | None = None
     #: Whether the score opens with a drop capital. Omitted: the first score of
     #: the Einschub has one and every later score does not, which is what a
@@ -428,7 +430,8 @@ class InsertioTextus(Notable):
     text: str
     #: German translation. Required unless the feast is `latin_only`
     #: (ADR-0025); FeastSpec._german_present_unless_latin_only enforces that,
-    #: because a nested model cannot see the top-level flag.
+    #: because a nested model cannot see the top-level flag. An empty `de: ""`
+    #: is a deliberate "no translation", as for InsertioCantus.
     de: str | None = None
 
 
@@ -499,6 +502,10 @@ class BackCover(StrictModel):
     credit: str  # bottom line, tiny italic — always present
     quote: BackCoverQuote | None = None
     text: str | None = None  # free text, alternative to a quote block
+    #: A closing line under the quote or text, above the credit — e.g. „Nehmen
+    #: Sie gerne dieses Heft als Erinnerung mit nach Hause." German only, so
+    #: it is not part of the quote and needs no translation.
+    closing: str | None = None
     border: BackCoverBorder = "gilded"  # optional ornamental frame, see ADR-0013
     border_size: BackCoverBorderSize = "normal"  # "gilded" thickness only, see ADR-0014
 
@@ -644,6 +651,11 @@ class FeastSpec(StrictModel):
     #: Einschübe, each after a named section; several after the same section
     #: keep the order they are listed in (ADR-0052).
     insertiones: list[Insertio] = []
+    #: Whether the conclusio ends with Fidélium ánimæ and its Amen. Omitted
+    #: where another rite follows at once — All Saints runs on into Benediction
+    #: (#104). The author says so, because no other field states it: an
+    #: Einschub after the conclusio may be a Te Deum as well as an exposition.
+    fidelium_animae: bool = True
     #: Ordinarium chant name, e.g. "salve-regina-simple" — resolved to
     #: chant/ordinarium/<name>.gabc, so it reaches \gregorioscore as a path.
     antiphona_bmv: SpecPath

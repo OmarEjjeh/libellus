@@ -19,6 +19,7 @@
 \gregorioscore{\VAR{deo_gratias.gabc}}
 \BLOCK{if not latin_only}\noindent{\footnotesize\itshape \VAR{deo_gratias.de|tex}\par}\BLOCK{endif}\medskip
 \gresetinitiallines{1}
+\BLOCK{if feast.fidelium_animae}
 \BLOCK{if praeses}\stagenote{\VAR{praeses|tex}}{}\BLOCK{endif}
 \gresetinitiallines{0}
 \gregorioscore{\VAR{ordinarium['fidelium-animae'].gabc}}
@@ -27,3 +28,4 @@
 \gregorioscore{\VAR{ordinarium['amen'].gabc}}
 \gresetinitiallines{1}
 \BLOCK{if not latin_only}\noindent{\footnotesize\itshape \VAR{ordinarium['fidelium-animae'].de|tex}\par}\BLOCK{endif}\medskip
+\BLOCK{endif}

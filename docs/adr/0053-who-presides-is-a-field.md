@@ -1,7 +1,7 @@
 # ADR-0053: Who presides is a field, and the salutation follows from it
 
 Date: 2026-10-15
-Status: accepted
+Status: accepted; decision 4 amended by ADR-0055 (2026-10-22)
 
 ## Context
 

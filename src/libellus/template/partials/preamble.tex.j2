@@ -50,6 +50,10 @@
 % system, where that line is verse 2 — sung Latin, not a translation, so it is
 % set upright rather than in gregorio's italic translation style (ADR-0022).
 \grechangestyle{translation}{}
+% Text above the staff (gabc <alt>) is a rubric at the note it applies to — the
+% Te Deum's „Hic genuflectitur." — so it is red like every other rubric. gabc
+% cannot colour it itself: gregorio rejects <c> inside <alt>.
+\grechangestyle{abovelinestext}{\color{rubricred}\itshape}
 
 % Gregorio typesets a translation in an \hbox to 0pt (gregoriotex-main.tex,
 % \GreWriteTranslation), so it claims no width at all: the spacing engine
@@ -336,9 +340,12 @@
 % (cover) or \pagestyle{plain} (filler pages) the way a fancyhdr footer would.
 \usepackage{draftwatermark}
 \SetWatermarkText{PRO MANUSCRIPTO}
-\SetWatermarkScale{0.45}
+% Along the A5 diagonal, atan(210/148) ≈ 54.8°, and short enough to fit it. At
+% 45° and scale 0.45 the text spanned the page's whole width, so both ends ran
+% into the trim and were cut off — in the imposed sheets at the fold.
+\SetWatermarkScale{0.36}
 \SetWatermarkLightness{0.9}
-\SetWatermarkAngle{45}
+\SetWatermarkAngle{54.8}
 % The dated line sits inside geometry's 20mm bottom margin — below the text
 % block, hence below every footnote (the provenance notes of ADR-0011).
 \usepackage{eso-pic}

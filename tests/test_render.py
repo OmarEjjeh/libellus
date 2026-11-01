@@ -185,6 +185,24 @@ def test_back_cover_free_text_renders(repo_root: Path, smoke_feast: Path) -> Non
     assert "Freier Text\\\\\nüber zwei Zeilen." in tex
 
 
+def test_back_cover_closing_renders_between_quote_and_credit(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    """`closing:` is one line under the quote and above the credit; without it
+    nothing is printed there."""
+    spec = load_spec(smoke_feast)
+    plain = render(spec.rite, build_context(spec, repo_root).context, repo_root)
+    assert "{\\small Nehmen Sie" not in plain
+
+    back_cover = spec.back_cover.model_copy(
+        update={"closing": "Nehmen Sie gerne dieses Heft als Erinnerung mit nach Hause."}
+    )
+    spec = spec.model_copy(update={"back_cover": back_cover})
+    tex = render(spec.rite, build_context(spec, repo_root).context, repo_root)
+    closing = tex.index("{\\small Nehmen Sie gerne dieses Heft als Erinnerung mit nach Hause.}")
+    assert closing < tex.index("{\\tiny\\textit{")
+
+
 def test_back_cover_border_none_renders_plain_image(repo_root: Path, smoke_feast: Path) -> None:
     """The "none" style keeps the bare \\includegraphics, no frame (ADR-0013)."""
     spec = load_spec(smoke_feast)
@@ -1333,6 +1351,56 @@ def test_the_stagenotes_give_the_presider_his_parts(
     assert f"\\rubric{{{label}}} &" in tex
 
 
+@pytest.mark.parametrize(("praeses", "label"), [("sacerdos", "Priester"), ("diaconus", "Diakon")])
+def test_the_presider_intones_and_a_lector_reads_the_german_capitulum(
+    repo_root: Path, smoke_feast: Path, praeses: str, label: str
+) -> None:
+    """He intones the first antiphon, the hymn and the Magnificat antiphon, and
+    sings the capitulum in Latin; a lector reads its German (#104)."""
+    tex = _rendered(_presided(load_spec(smoke_feast), praeses), repo_root)
+    assert tex.count(f"\\stagenote{{{label} stimmt an, Schola singt weiter}}") == 3
+    for heading in ("Psalmus CIX", "Hymnus", "Canticum Beatæ Mariæ Virginis"):
+        start = tex.index(f"\\section{{{heading}}}")
+        assert tex.index(f"\\stagenote{{{label} stimmt an", start) < tex.index("\\section{", start + 1)
+    assert f"\\stagenote{{{label} lateinisch, Lektor deutsch, alle antworten}}" in tex
+    assert "\\rubric{Lektor} &" in tex
+
+
+def test_without_a_praeses_the_schola_intones(repo_root: Path, smoke_feast: Path) -> None:
+    tex = _rendered(load_spec(smoke_feast), repo_root)
+    assert "stimmt an, Schola singt weiter" not in tex
+    assert "Lektor" not in tex
+    assert "\\stagenote{Vorbeter, alle antworten}{Man sitzt}" in tex
+
+
+def _capitulum_section(tex: str) -> str:
+    """From the capitulum section to the hymn."""
+    return tex[tex.index("\\section{Capitulum}") : tex.index("\\section{Hymnus}")]
+
+
+def test_the_capitulum_sets_latin_and_german_apart_and_answers_deo_gratias(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    """The German is a paragraph of its own, not run on behind the Latin, and
+    each reading has its own answer: Deo grátias after the Latin, Dank sei Gott
+    after the German (#104)."""
+    capitulum = _capitulum_section(_rendered(load_spec(smoke_feast), repo_root))
+    latin_end = capitulum.index("Melchísedech.")
+    deo_gratias = capitulum.index("\\rubric{Deo grátias.}")
+    german = capitulum.index("\\vers{1} Jeder Hohepriester")
+    assert latin_end < deo_gratias < german < capitulum.index("Dank sei Gott.")
+    assert "\\par" in capitulum[latin_end:deo_gratias]
+
+
+def test_latin_only_capitulum_keeps_its_notes_on_the_latin(
+    repo_root: Path, smoke_feast: Path
+) -> None:
+    spec = load_spec(smoke_feast).model_copy(update={"latin_only": True})
+    capitulum = _capitulum_section(_rendered(spec, repo_root))
+    assert "Dank sei Gott." not in capitulum
+    assert capitulum.index("\\footnote{") < capitulum.index("\\par")
+
+
 @pytest.mark.parametrize(
     ("rank", "vesperae", "tonus"),
     [
@@ -1368,3 +1436,16 @@ def test_the_benedicamus_follows_the_rank_and_the_vespers(
 def test_latin_only_drops_the_german_of_the_salutation(repo_root: Path, smoke_feast: Path) -> None:
     spec = _presided(load_spec(smoke_feast), "sacerdos").model_copy(update={"latin_only": True})
     assert "Der Herr sei mit euch." not in _rendered(spec, repo_root)
+
+
+def test_fidelium_animae_can_be_left_out(repo_root: Path, smoke_feast: Path) -> None:
+    """Where another rite follows at once, the conclusio ends with the Deo
+    grátias (#104); by default nothing changes."""
+    spec = load_spec(smoke_feast)
+    assert "fidelium-animae" in _conclusio_section(_rendered(spec, repo_root))
+    conclusio = _conclusio_section(
+        _rendered(spec.model_copy(update={"fidelium_animae": False}), repo_root)
+    )
+    assert "fidelium-animae" not in conclusio
+    assert "ordinarium/amen" not in conclusio
+    assert "deo-gratias" in conclusio

@@ -1,0 +1,470 @@
+# All Saints, Vespers I, romanum-1962 (issue #104) — the sung booklet for
+# Saturday 31 October 2026.
+#
+# Set from a friend's draft in Pages („1. Vesper Allerheiligen.pdf", untracked
+# in the main checkout), which took its notation from breviariumgregorianum.com.
+# The gabc here is GregoBase's for every piece GregoBase has (the site links
+# those very ids), and the site's own for the two versicles; the psalm tones
+# below were measured against the EUOUAE the site prints under verse 1, not
+# copied from the draft's labels („1F", „7A" are its spellings of 1f and 7a).
+#
+# Settled 2026-10-14: the Einheitsübersetzung as at St. Lambert, a priest
+# presides (`praeses: sacerdos`), and the solemn I. classis Benedicamus, which
+# `rank:` + `vesperae:` now derive (ADR-0054).
+#
+# The German was drafted literally from the Latin — the antiphons, the
+# capitulum, the hymn, the oration, the commemoration and the back-cover
+# quote; the versicle's is St. Lambert's. The reviewing priest read the draft
+# of 2026-10-16 and found the translations accurate (2026-10-21). The
+# capitulum is deliberately not the Einheitsübersetzung's wording. The Te
+# Deum's German is Guardini's and the Tantum ergo's a sung paraphrase, both
+# supplied on 2026-10-22; the rest of Benediction came from the priest.
+title: Omnium Sanctorum
+vesperae: I
+header: Omnium Sanctorum
+rank: I classis
+date: 2026-10-31
+rite: romanum-1962
+psalter_de: [eu1980, eu2016]  # eu2016 only for the Magnificat, which eu1980 lacks
+praeses: sacerdos
+source: Liber Usualis, Solesmis 1961
+
+antiphonae:
+  - gabc: chant/ant/vidi-turbam-magnam.gabc
+    de: >-
+      Ich sah eine große Schar, die niemand zählen konnte, aus allen
+      Völkern; sie standen vor dem Thron.
+    psalmus: 109
+    tonus: 1f
+  - gabc: chant/ant/et-omnes-angeli.gabc
+    de: >-
+      Und alle Engel standen rings um den Thron; sie fielen vor dem Thron auf
+      ihr Angesicht nieder und beteten Gott an.
+    psalmus: 110
+    tonus: 1f
+    euouae: h h g f gh gf..  # what the site prints under verse 1 (issue #33)
+  - gabc: chant/ant/redemisti-nos.gabc
+    de: >-
+      Du hast uns erlöst, Herr, Gott, durch dein Blut, aus jedem Stamm und
+      jeder Sprache, aus jedem Volk und jeder Nation, und hast uns für unseren
+      Gott zu einem Königtum gemacht.
+    psalmus: 111
+    tonus: 8G
+  - gabc: chant/ant/benedicite-dominum-omnes-electi.gabc
+    de: >-
+      Preiset den Herrn, alle seine Auserwählten; begeht Tage der Freude und
+      lobet ihn.
+    psalmus: 112
+    tonus: 7a
+    # In the antiphon's own c2 clef; the site prints verse 1 in c3 as
+    # „i i j i h gf..", which is the same six notes.
+    euouae: g g h g f ed..
+  - gabc: chant/ant/hymnus-omnibus-sanctis.gabc
+    de: >-
+      Ein Lobgesang ist er allen seinen Heiligen, den Kindern Israels, dem
+      Volk, das ihm nahe ist: Das ist die Herrlichkeit aller seiner Heiligen.
+    psalmus: 116
+    tonus: 8G
+
+capitulum:
+  ref: Apoc 7, 2-3
+  versus:
+    - n: 2
+      text: >-
+        Ecce ego Ioánnes vidi álterum Angelum ascendéntem ab ortu solis,
+        habéntem signum Dei vivi: et clamávit voce magna quátuor Angelis,
+        quibus datum est nocére terræ et mari,
+      de: >-
+        Siehe, ich, Johannes, sah einen anderen Engel vom Aufgang der Sonne
+        heraufsteigen, der das Siegel des lebendigen Gottes trug. Und er rief
+        mit lauter Stimme den vier Engeln zu, denen gegeben war, der Erde und
+        dem Meer zu schaden,
+    - n: 3
+      text: >-
+        dicens: Nolíte nocére terræ et mari, neque arbóribus, quoadúsque
+        signémus servos Dei nostri in fróntibus eórum.
+      de: >-
+        und sprach: Schadet nicht der Erde und dem Meer, noch den Bäumen, bis
+        wir die Knechte unseres Gottes auf ihren Stirnen bezeichnet haben.
+
+hymnus:
+  gabc: chant/hymni/placare-christe-servulis.gabc
+  de:  # 7 stanzas, prose
+    - >-
+      Sei gnädig, Christus, deinen Knechten, für die vor dem Richterstuhl
+      deiner Gnade die Jungfrau als Fürsprecherin um die Milde des Vaters
+      bittet.
+    - >-
+      Und ihr seligen Scharen, in neun Kreise geordnet: Wehrt das Unheil ab,
+      das vergangene mit dem gegenwärtigen und das künftige.
+    - >-
+      Ihr Apostel mit den Propheten, erfleht beim strengen Richter Nachsicht
+      für die aufrichtigen Tränen der Schuldigen.
+    - >-
+      Ihr Märtyrer im Purpur, ihr Bekenner im weißen Kleid, dem Lohn eures
+      Bekenntnisses: Ruft uns Verbannte heim ins Vaterland.
+    - >-
+      Reiner Reigen der Jungfrauen, und ihr, die die Wüste als ihre Bewohner
+      zu den Sternen gesandt hat: Gebt uns einen Platz in den Wohnungen der
+      Himmlischen.
+    - >-
+      Vertreibt das treulose Volk aus dem Land der Glaubenden, damit ein
+      einziger Hirt uns alle als eine einzige Herde leite.
+    - >-
+      Gott dem Vater sei die Ehre und dem eingeborenen Sohn des Vaters,
+      zugleich dem Heiligen Tröster, in alle Ewigkeit. Amen.
+
+versiculus:
+  gabc: chant/vers/laetamini-in-domino-romanum.gabc
+  de: >-
+    ℣. Freuet euch im Herrn und frohlocket, ihr Gerechten. ℟. Und
+    rühmet euch, alle, die aufrichtigen Herzens seid.
+
+magnificat:
+  antiphona:
+    gabc: chant/ant/angeli-archangeli.gabc
+    de: >-
+      Ihr Engel und Erzengel, ihr Throne und Herrschaften, ihr Fürstentümer
+      und Gewalten, ihr Mächte, ihr Cherubim und Seraphim, ihr Patriarchen und
+      Propheten, ihr heiligen Lehrer des Gesetzes, ihr Apostel alle, ihr
+      Märtyrer Christi, ihr heiligen Bekenner, ihr Jungfrauen des Herrn, ihr
+      Einsiedler und ihr Heiligen alle: Tretet für uns ein.
+  tonus: 1D
+
+oratio:
+  text: >-
+    Omnípotens sempitérne Deus, qui nos ómnium Sanctórum tuórum mérita sub
+    una tribuísti celebritáte venerári: † quǽsumus; ut desiderátam nobis
+    tuæ propitiatiónis abundántiam, * multiplicátis intercessóribus,
+    largiáris.
+  de: >-
+    Allmächtiger, ewiger Gott, du hast uns geschenkt, die Verdienste aller
+    deiner Heiligen in einer einzigen Feier zu verehren. Wir bitten dich:
+    Gewähre uns auf die Fürsprache so vieler die ersehnte Fülle deiner Huld.
+
+commemorationes:
+  # The Sunday is commemorated as the first of November, whose office the
+  # antiphon belongs to — Vidi Dóminum answers the Isaiah read at Matins in
+  # that week — not by its count after Pentecost (the reviewing priest,
+  # 2026-10-21).
+  - title: Dominicæ I Novembris
+    antiphona:
+      gabc: chant/ant/vidi-dominum-sedentem.gabc
+      de: >-
+        Ich sah den Herrn auf einem hohen und erhabenen Thron sitzen, und die
+        ganze Erde war erfüllt von seiner Herrlichkeit; und was unter ihm war,
+        erfüllte den Tempel.
+    versiculus:
+      gabc: chant/vers/vespertina-oratio.gabc
+      de: >-
+        ℣. Mein Abendgebet steige zu dir empor, o Herr. ℟. Und herab komme
+        auf uns dein Erbarmen.
+    oratio:
+      # The draft marks this oration „Dómine, * … populórum: † …"; set here in
+      # the order the oration tone needs, flex before metrum.
+      text: >-
+        Absólve, quǽsumus, Dómine, tuórum delícta populórum: † ut a
+        peccatórum néxibus, quæ pro nostra fragilitáte contráximus, * tua
+        benignitáte liberémur.
+      de: >-
+        Sprich deine Völker los von ihren Vergehen, so bitten wir, o Herr,
+        damit wir durch deine Güte von den Fesseln der Sünden befreit werden,
+        die wir uns in unserer Gebrechlichkeit zugezogen haben.
+
+# After the Benedicamus the Blessed Sacrament is exposed, and Vespers runs on
+# into Benediction, in the order the celebrants settled in October 2026:
+# exposition with a German hymn, the prayer for the Pope, the Te Deum (without
+# the versicles „Benedicamus Patrem …" that usually follow it), Tantum ergo,
+# ℣ Panem de cælo (without Alleluia), two orations, the blessing, the Divine
+# Praises, the procession to the cemetery — and the Salve Regina, which is
+# `antiphona_bmv:` and so comes last of its own accord.
+#
+# The Te Deum is in the solemn tone (LU p. 1832), with the genuflection at
+# „Te ergo". That rubric — and „Surgitur." at „Ætérna fac" — stands in red
+# above the notes, inside the gabc, where it applies. A `rubrica:` item
+# between two halves of the score printed it after the first half's German,
+# often a page away from the verse it meant.
+# Benediction follows the Benedicamus at once, so Vespers ends without
+# Fidélium ánimæ (2026-10-22).
+fidelium_animae: false
+
+insertiones:
+  - after: conclusio
+    title: Expositio Sanctissimi Sacramenti
+    who: Alle
+    posture: Man kniet
+    items:
+      # Chosen by the reviewing priest, 2026-10-29. Stanza 1 is notated and
+      # stanzas 2 and 3 follow as text, one line per phrase: gregorio sets
+      # only one line of words under the notes. German already, so the
+      # last `de:` carries only the hymnal number.
+      - gabc: chant/hymni/gottheit-tief-verborgen.gabc
+        de: ""
+      - text: |-
+          2. Augen, Mund und Hände täuschen sich in dir,
+          doch des Wortes Botschaft offenbart dich mir.
+          Was Gott Sohn gesprochen, nehm ich glaubend an;
+          er ist selbst die Wahrheit, die nicht trügen kann.
+        de: ""
+      - text: |-
+          3. Einst am Kreuz verhüllte sich der Gottheit Glanz,
+          hier ist auch verborgen deine Menschheit ganz.
+          Beide sieht mein Glaube in dem Brote hier;
+          wie der Schächer ruf ich, Herr, um Gnad zu dir.
+        de: Gotteslob Nr. 497
+  - after: conclusio
+    title: Oremus pro Pontifice
+    who: Priester, alle antworten
+    posture: Man kniet
+    items:
+      # As the reviewing priest supplied it, 2026-10-22, and corrected it,
+      # 2026-10-29: his first Latin had passed through a machine translation
+      # („Der Dóminus", „and vivíficet"), and the versicle and the oration
+      # were missing. The Latin of the chant is the gabc's, from the Liber
+      # Usualis; accents added to his Latin of the oration.
+      - gabc: chant/varia/oremus-pro-pontifice.gabc
+        de: >-
+          ℣. Lasst uns für unseren Papst Leo beten. ℟. Möge der Herr ihn
+          behüten, ihm ein langes Leben schenken, ihn segnen auf Erden und ihn
+          nicht in die Hände seiner Feinde geben.
+      - gabc: chant/vers/fiat-manus-tua.gabc
+        de: >-
+          ℣. Strecke deine Hand aus gegen den Mann zu deiner Rechten. ℟. Und
+          gegen den Menschensohn, an den du dich gebunden hast. (Psalm 79, 18)
+      - text: >-
+          Orémus. Deus, ómnium fidélium pastor et rector, fámulum tuum Leónem,
+          quem pastórem Ecclésiæ tuæ præésse voluísti, propítius réspice: † da
+          ei, quǽsumus, verbo et exémplo, quibus præest, profícere; * ut ad
+          vitam, una cum grege sibi crédito, pervéniat sempitérnam. Per
+          Christum, Dóminum nostrum. ℟. Amen.
+        de: >-
+          Lasset uns beten. Gott, du Hirte und Führer aller Gläubigen, blicke
+          gnädig auf deinen Diener Leo, den du zum Hirten deiner Kirche berufen
+          hast; gewähre ihm, wir bitten dich, dass er durch Wort und Beispiel
+          die ihm Anvertrauten voranbringe, damit er mit der ihm anvertrauten
+          Herde das ewige Leben erlange. Durch Christus, unseren Herrn. ℟. Amen.
+  - after: conclusio
+    title: Te Deum
+    who: Alle
+    posture: Man steht
+    items:
+      - gabc: chant/hymni/te-deum-sollemnis.gabc
+        # Guardini's translation, supplied 2026-10-22, without its section
+        # headings; it replaces the literal draft of 2026-10-16.
+        note: Deutsche Übersetzung nach Romano Guardini, 1950.
+        de: >-
+          Dich, Gott, loben wir, dich, Herr, preisen wir. Dir, dem ewigen
+          Vater, huldigt das Erdenrund. Dir rufen die Engel alle, dir Himmel
+          und Mächte insgesamt, die Kerubim dir und die Serafim mit niemals
+          endender Stimme zu: Heilig, heilig, heilig der Herr, der Gott der
+          Scharen! Voll sind Himmel und Erde von deiner hohen Herrlichkeit.
+          Dich preist der glorreiche Chor der Apostel; dich der Propheten
+          lobwürdige Zahl; dich der Märtyrer leuchtendes Heer; dich preist
+          über das Erdenrund die heilige Kirche; dich, den Vater unermessbarer
+          Majestät; deinen wahren und einzigen Sohn; und den Heiligen
+          Fürsprecher Geist. Du König der Herrlichkeit, Christus. Du bist des
+          Vaters allewiger Sohn. Du hast der Jungfrau Schoß nicht verschmäht,
+          bist Mensch geworden, den Menschen zu befreien. Du hast bezwungen
+          des Todes Stachel und denen, die glauben, die Reiche der Himmel
+          aufgetan. Du sitzest zur Rechten Gottes in deines Vaters
+          Herrlichkeit. Als Richter, so glauben wir, kehrst du einst wieder.
+          Dich bitten wir denn, komm deinen Dienern zu Hilfe, die du erlöst
+          mit kostbarem Blut. In der ewigen Herrlichkeit zähle uns deinen
+          Heiligen zu. Rette dein Volk, o Herr, und segne dein Erbe; und führe
+          sie und erhebe sie bis in Ewigkeit. An jedem Tag benedeien wir dich
+          und loben in Ewigkeit deinen Namen, ja, in der ewigen Ewigkeit. In
+          Gnaden wollest du, Herr, an diesem Tag uns ohne Schuld bewahren.
+          Erbarme dich unser, o Herr, erbarme dich unser. Lass über uns dein
+          Erbarmen geschehn, wie wir gehofft auf dich. Auf dich, o Herr, habe
+          ich meine Hoffnung gesetzt. In Ewigkeit werde ich nicht zuschanden.
+
+  - after: conclusio
+    title: Tantum ergo
+    who: Alle
+    posture: Man kniet
+    items:
+      # The German is a sung paraphrase rather than a translation, as the
+      # reviewing priest supplied it on 2026-10-29; it replaces his paraphrase
+      # of 2026-10-22.
+      - gabc: chant/hymni/tantum-ergo.gabc
+        de: >-
+          Lasst uns also dieses Zeichen hingestreckt nun beten an. Altes
+          Vorbild kann nun weichen, da der neue Brauch begann. Was die Sinne
+          nicht begreifen, nehme doch der Glaube an. Gott dem Vater und dem
+          Sohne sei der Lobgesang geweiht, Freudenruf und Jubellieder, Ruhm und
+          Segen allezeit, und zugleich dem Heil'gen Geiste Ehre, Preis und
+          Herrlichkeit! Amen.
+  # The versicle and both orations as the reviewing priest supplied them,
+  # 2026-10-22, German included; accents added to his Latin. His „/" is the
+  # flex, printed †, and his order of † and * is kept as he wrote it. The
+  # German of both orations is his revision of 2026-10-29.
+  - after: conclusio
+    title: Panem de cælo
+    who: Priester, alle antworten
+    posture: Man kniet
+    items:
+      - gabc: chant/vers/panem-de-caelo.gabc
+        initialis: false  # a versicle opens with ℣, not a drop capital
+        de: >-
+          ℣. Brot vom Himmel hast du ihnen gegeben. ℟. Das alle Erquickung in
+          sich birgt.
+      - text: >-
+          Orémus. Deus, qui nobis sub Sacraménto mirábili passiónis tuæ
+          memóriam reliquísti: † tríbue, quǽsumus, ita nos Córporis et
+          Sánguinis tui sacra mystéria venerári; * ut redemptiónis tuæ fructum
+          in nobis júgiter sentiámus.
+        de: >-
+          Lasst uns beten. Herr Jesus Christus, im wunderbaren Sakrament des
+          Altares hast du uns das Gedächtnis deines Leidens und deiner Auferstehung
+          hinterlassen. Gib uns die Gnade, die heiligen Geheimnisse deines
+          Leibes und Blutes allezeit so zu verehren, dass uns die Frucht der
+          Erlösung zuteil wird.
+      - text: >-
+          Deus, cujus misericórdiæ non est númerus, et bonitátis infinítus est
+          thesáurus: * piíssimæ majestáti tuæ pro collátis donis grátias
+          ágimus, tuam semper cleméntiam exorántes; † ut, qui peténtibus
+          postuláta concédis, eósdem non déserens, ad prǽmia futúra dispónas.
+          Per Christum, Dóminum nostrum. ℟. Amen.
+        de: >-
+          Gott, deine Barmherzigkeit ist ohne Maß und der Reichtum deiner Güte
+          ist unerschöpflich. Wir sagen deiner Majestät Dank für die verliehenen
+          Gaben und flehen ohne Unterlass zu deiner Milde: Verlass uns nicht,
+          der du gewährst, um was wir dich bitten, sondern bereite uns für den
+          ewigen Lohn. Durch Christus, unseren Herrn. ℟. Amen.
+  - after: conclusio
+    title: Benedictio cum Sanctissimo Sacramento
+    who: Priester
+    posture: Man kniet
+    items:
+      - rubrica: Sacerdos benedicit populum cum Sanctissimo Sacramento.
+  # Asked for by the reviewing priest, 2026-10-29. The four petitions for
+  # vocations that usually close them were sent on 2026-10-30. German only, so
+  # `text:` carries it and `de:` stays empty; each line is one acclamation.
+  - after: conclusio
+    title: Laudes divinae
+    who: Priester, alle wiederholen
+    posture: Man kniet
+    items:
+      - text: |-
+          Gott sei gepriesen!
+          Gepriesen sei sein heiliger Name!
+          Gepriesen sei Jesus Christus, wahrer Gott und wahrer Mensch!
+          Gepriesen sei der Name Jesu!
+          Gepriesen sei sein heiligstes Herz!
+          Gepriesen sei sein kostbares Blut!
+          Gepriesen sei Jesus im allerheiligsten Sakrament des Altares!
+          Gepriesen sei der Heilige Geist, der Tröster!
+          Gepriesen sei die erhabene Gottesmutter, die allerseligste Jungfrau Maria!
+          Gepriesen sei ihre heilige und unbefleckte Empfängnis!
+          Gepriesen sei ihre wunderbare Himmelfahrt!
+          Gepriesen sei der Name der Jungfrau und Mutter Maria!
+          Gepriesen sei der heilige Joseph, ihr reinster Bräutigam!
+          Gepriesen sei Gott in seinen Engeln und Heiligen! Amen.
+          Herr, schenke uns Priester!
+          Herr, schenke uns heilige Priester!
+          Herr, schenke uns viele heilige Priester und Ordensberufungen!
+          Herr, schenke uns heilige Familien!
+        de: ""
+  - after: conclusio
+    title: Processio ad coemeterium
+    who: Alle
+    # The priest's wording of 2026-10-30: the litany is sung from the
+    # Gotteslob, so the booklet only names it (it printed the LU's litany
+    # until then, `922ccfe`).
+    items:
+      - rubrica: >-
+          Prozession zum Friedhof; auf dem Weg wird die Allerheiligenlitanei
+          gesungen (Gotteslob 556).
+      - rubrica: >-
+          Ablass-Gebete (Apostolisches Glaubensbekenntnis, Vater unser, Ave
+          Maria).
+      - rubrica: Psalm 129 und Oration für die Verstorbenen.
+
+antiphona_bmv: salve-regina-simple
+
+# The priest's material of 2026-10-30: his note on the feast and the lessons of
+# the second nocturn of the Roman Breviary (IV–VI), wording and dates as he
+# sent them. Two pages because the Kurzfassung left pages 34 and 35 empty; the
+# break falls between lessons IV and V, which balances the two.
+filler:
+  - title: Hochfest Allerheiligen
+    blocks:
+      - text: >-
+          Ein Fest zu Ehren aller Heiligen wird im Osten seit dem
+          4. Jahrhundert und in der römischen Kirche seit der Einweihung des
+          ehemaligen Pantheon-Tempels im Jahre 606 gefeiert. Papst Gregor VI.
+          verlegte es auf den 1. November und führte es 835 für das ganze
+          Frankenreich ein.
+      - heading: Aus den Lesungen des Stundengebets am 1. November
+        text: Predigt des hl. Priesters Beda Venerabilis (672–735)
+      - text: >-
+          Geliebte! Wir begehen heute mit diesem Freudenfest den Gedenktag
+          aller Heiligen. Der Himmel freut sich über ihre Gemeinschaft, die
+          Erde über ihren Schutz; ihr glorreicher Sieg ist eine Ehrenkrone für
+          die heilige Kirche. Je mutiger sie sich zeigten im Leiden, desto
+          ruhmvoller strahlen sie nun in ihrer Verherrlichung. Denn wenn der
+          Kampf heftiger wird wächst auch der Ruhm der Kämpfer; der Triumph des
+          Martyriums wird durch mannigfache Leiden nur noch herrlicher; je
+          größer die Pein, desto größer wurde auch ihr Lohn. Unsere Mutter, die
+          katholische Kirche, die überall auf dem ganzen Erdkreis sich
+          ausgebreitet hat, hat schon an ihrem Haupte Jesus Christus gelernt,
+          Beschimpfungen, Kreuz und Tod nicht zu fürchten; sie wurde immer
+          stärker, nicht durch Widerstand, sondern durch Ausdauer; sie hat alle
+          aus dieser ruhmvollen Schar, die der bittere Kerker umschloss, mit dem
+          gleichen und ähnlichen feurigen Mut erfüllt und ihnen die Kraft zum
+          Streit, zu glorreichem Sieg eingeflößt.
+  - blocks:
+      - text: >-
+          Wahrhaft glückselig bist du, Mutter Kirche! So sehr umstrahlt dich
+          der Ruhm, den Gott dir geschenkt; dich ziert das ruhmvolle Blut der
+          siegreichen Märtyrer; dich umkleidet die glänzendweiße Unschuld
+          unverletzter Treue! In deinem Blütenkranz fehlen weder Rosen noch
+          Lilien. Geliebteste! Nun sollen doch alle miteinander wetteifern,
+          dieser beiden Ehrungen weithin würdig zu werden, der glänzendweißen
+          Krone der Jungfräulichkeit oder der purpurroten des Leidens. Im
+          Kriegslager des Himmels gibt es für Ruhm und Kampf einen eigenen
+          Blütenkranz, mit dem die Streiter Christi geschmückt werden.
+      - text: >-
+          Gottes unsagbar, unermesslich große Güte hat auch dafür gesorgt, dass
+          die Zeit der Mühen und des Kampfes nicht zu lange oder endlos währt,
+          sondern, dass sie kurz ist und sozusagen nur einen Augenblick dauert.
+          In diesem kurzen, armseligen Leben gibt es also Kämpfe und Mühen, im
+          ewigen dagegen Kronen und Belohnungen für die Verdienste; die Mühen
+          gehen schnell zu Ende, die Belohnungen für die Verdienste währen
+          ewig; nach dem Dunkel dieses Lebens dürfen die Heiligen ein
+          hellglänzendes Licht schauen und dürfen eine Seligkeit verkosten, die
+          alle Leiden und Bitterkeiten weit übersteigt. Das bezeugt auch der
+          Apostel; er sagt: Die Leiden dieser Zeit sind nicht zu vergleichen
+          mit der künftigen Herrlichkeit, die an uns offenbar werden wird.
+    citation: Römisches Brevier, 1. November, Lesungen IV–VI
+
+# The picture is the user's choice of 2026-10-16, the crowd of haloed saints
+# without the women (the second picture in the main checkout's
+# images/04-all-saints/ is the companion page of virgins). TO VERIFY: the
+# shelfmark in the credit line — the Hours of Louis de Laval are believed to
+# be Paris, BnF, ms. latin 920; the file came without a source.
+back_cover:
+  image: images/04-all-saints/omnes-sancti-louis-de-laval.jpg
+  border: gilded
+  border_size: normal
+  credit: >-
+    Imago: Omnes Sancti, ex Horis Ludovíci de Laval (circa 1470), in
+    Bibliothéca nationáli Fránciæ Lutétiæ asservátis (ms. lat. 920).
+  quote:
+    text: >-
+      Ideóque et nos tantam habéntes impósitam nubem téstium, deponéntes omne
+      pondus, et circúmstans nos peccátum, per patiéntiam currámus ad
+      propósitum nobis certámen.
+    de: >-
+      Darum wollen auch wir, da uns eine so große Wolke von Zeugen umgibt,
+      jede Last ablegen und die Sünde, die uns umstrickt, und mit Ausdauer in
+      dem Wettkampf laufen, der vor uns liegt.
+    citation: Hebr 12, 1
+  # The priest's wording, 2026-10-30.
+  closing: Nehmen Sie gerne dieses Heft als Erinnerung mit nach Hause.
+
+drollery: auto
+
+# The reviewing priest asked on 2026-10-29 for only the first verse of each
+# psalm in notes: the schola carries the congregation through the rest.
+compact: true

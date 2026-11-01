@@ -1128,6 +1128,11 @@ def build_context(
         "deo_gratias": ordinarium[deo_gratias],
         # who the stagenotes name for the officiant's parts; None for a schola
         "praeses": None if spec.praeses is None else PRAESES_DE[spec.praeses],
+        # who the stagenotes of the pieces the presider intones name: the
+        # first antiphon, the hymn and the Magnificat antiphon (ADR-0053)
+        "intonatio": "Schola"
+        if spec.praeses is None
+        else f"{PRAESES_DE[spec.praeses]} stimmt an, Schola singt weiter",
         "bmv": bmv,
         "filler": filler,
         "drollery": drollery,
