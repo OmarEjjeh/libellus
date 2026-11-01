@@ -408,7 +408,9 @@ class InsertioCantus(Notable):
     gabc: GabcSource
     #: German translation. Required unless the feast is `latin_only`
     #: (ADR-0025); FeastSpec._german_present_unless_latin_only enforces that,
-    #: because a nested model cannot see the top-level flag.
+    #: because a nested model cannot see the top-level flag. An empty `de: ""`
+    #: is a deliberate "no translation" — German already, or Latin printed
+    #: alone (#104) — and prints no German line.
     de: str | None = None
     #: Whether the score opens with a drop capital. Omitted: the first score of
     #: the Einschub has one and every later score does not, which is what a
@@ -428,7 +430,8 @@ class InsertioTextus(Notable):
     text: str
     #: German translation. Required unless the feast is `latin_only`
     #: (ADR-0025); FeastSpec._german_present_unless_latin_only enforces that,
-    #: because a nested model cannot see the top-level flag.
+    #: because a nested model cannot see the top-level flag. An empty `de: ""`
+    #: is a deliberate "no translation", as for InsertioCantus.
     de: str | None = None
 
 

@@ -29,7 +29,7 @@ deo-gratias-iii-classis: *deo-gratias
 fidelium-animae: >-
   Die Seelen der (verstorbenen) Gläubigen mögen durch die Barmherzigkeit
   Gottes ruhen in Frieden.
-salve-regina-simple: >-
+salve-regina-simple: &salve-regina >-
   Sei gegrüßt, Königin, Mutter der Barmherzigkeit, unser Leben, unsere Wonne
   und unsere Hoffnung, sei gegrüßt! Zu dir rufen wir verbannte Kinder Evas.
   Zu dir seufzen wir trauernd und weinend in diesem Tränenland. Wohlan denn,
@@ -37,13 +37,7 @@ salve-regina-simple: >-
   diesem Elend zeige uns Jesus, die gebenedeite Frucht deines Leibes.
   O gütige, o milde, o süße Jungfrau Maria!
 # Same text, solemn tone (LU p. 276).
-salve-regina-sollemnis: >-
-  Sei gegrüßt, Königin, Mutter der Barmherzigkeit, unser Leben, unsere Wonne
-  und unsere Hoffnung, sei gegrüßt! Zu dir rufen wir verbannte Kinder Evas.
-  Zu dir seufzen wir trauernd und weinend in diesem Tränenland. Wohlan denn,
-  unsere Fürsprecherin, wende deine barmherzigen Augen uns zu, und nach
-  diesem Elend zeige uns Jesus, die gebenedeite Frucht deines Leibes.
-  O gütige, o milde, o süße Jungfrau Maria!
+salve-regina-sollemnis: *salve-regina
 reginacaeli: >-
   Freu dich, du Himmelskönigin, Halleluja! Den du zu tragen würdig warst,
   Halleluja, er ist erstanden, wie er gesagt hat, Halleluja. Bitt Gott für

@@ -1,7 +1,7 @@
 # ADR-0053: Who presides is a field, and the salutation follows from it
 
 Date: 2026-10-15
-Status: accepted
+Status: accepted; decision 4 amended by ADR-0055 (2026-10-22)
 
 ## Context
 
@@ -64,14 +64,3 @@ separates a priest from a deacon at Vespers: Vespers has no blessing, and
   them when a cleric presides was not part of #107 and is unchecked.
 - *Dómine, exáudi* keeps its current, simpler melody. Under a lay leader that
   is what Bremen sings, and it is a separate question from this one.
-
-## Update (2026-10-22)
-
-The reviewing priest corrected decision 4 on the All Saints draft (#104). The
-presider also **intones the first antiphon, the hymn and the Magnificat
-antiphon**, and the schola continues. He sings the capitulum **in Latin**, and
-a **lector** reads its German. So when `praeses:` is set, the stagenotes of
-those three pieces read „Priester stimmt an, Schola singt weiter", the
-capitulum's reads „Priester lateinisch, Lektor deutsch, alle antworten", and
-the instructions page gets a row for the lector. Without `praeses:` nothing
-changes. The other four antiphons stay with the schola.
