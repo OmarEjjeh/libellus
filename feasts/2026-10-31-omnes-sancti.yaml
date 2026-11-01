@@ -382,6 +382,62 @@ insertiones:
 
 antiphona_bmv: salve-regina-simple
 
+# The priest's material of 2026-10-30: his note on the feast and the lessons of
+# the second nocturn of the Roman Breviary (IV–VI), wording and dates as he
+# sent them. Two pages because the Kurzfassung left pages 34 and 35 empty; the
+# break falls between lessons IV and V, which balances the two.
+filler:
+  - title: Hochfest Allerheiligen
+    blocks:
+      - text: >-
+          Ein Fest zu Ehren aller Heiligen wird im Osten seit dem
+          4. Jahrhundert und in der römischen Kirche seit der Einweihung des
+          ehemaligen Pantheon-Tempels im Jahre 606 gefeiert. Papst Gregor VI.
+          verlegte es auf den 1. November und führte es 835 für das ganze
+          Frankenreich ein.
+      - heading: Aus den Lesungen des Stundengebets am 1. November
+        text: Predigt des hl. Priesters Beda Venerabilis (672–735)
+      - text: >-
+          Geliebte! Wir begehen heute mit diesem Freudenfest den Gedenktag
+          aller Heiligen. Der Himmel freut sich über ihre Gemeinschaft, die
+          Erde über ihren Schutz; ihr glorreicher Sieg ist eine Ehrenkrone für
+          die heilige Kirche. Je mutiger sie sich zeigten im Leiden, desto
+          ruhmvoller strahlen sie nun in ihrer Verherrlichung. Denn wenn der
+          Kampf heftiger wird wächst auch der Ruhm der Kämpfer; der Triumph des
+          Martyriums wird durch mannigfache Leiden nur noch herrlicher; je
+          größer die Pein, desto größer wurde auch ihr Lohn. Unsere Mutter, die
+          katholische Kirche, die überall auf dem ganzen Erdkreis sich
+          ausgebreitet hat, hat schon an ihrem Haupte Jesus Christus gelernt,
+          Beschimpfungen, Kreuz und Tod nicht zu fürchten; sie wurde immer
+          stärker, nicht durch Widerstand, sondern durch Ausdauer; sie hat alle
+          aus dieser ruhmvollen Schar, die der bittere Kerker umschloss, mit dem
+          gleichen und ähnlichen feurigen Mut erfüllt und ihnen die Kraft zum
+          Streit, zu glorreichem Sieg eingeflößt.
+  - blocks:
+      - text: >-
+          Wahrhaft glückselig bist du, Mutter Kirche! So sehr umstrahlt dich
+          der Ruhm, den Gott dir geschenkt; dich ziert das ruhmvolle Blut der
+          siegreichen Märtyrer; dich umkleidet die glänzendweiße Unschuld
+          unverletzter Treue! In deinem Blütenkranz fehlen weder Rosen noch
+          Lilien. Geliebteste! Nun sollen doch alle miteinander wetteifern,
+          dieser beiden Ehrungen weithin würdig zu werden, der glänzendweißen
+          Krone der Jungfräulichkeit oder der purpurroten des Leidens. Im
+          Kriegslager des Himmels gibt es für Ruhm und Kampf einen eigenen
+          Blütenkranz, mit dem die Streiter Christi geschmückt werden.
+      - text: >-
+          Gottes unsagbar, unermesslich große Güte hat auch dafür gesorgt, dass
+          die Zeit der Mühen und des Kampfes nicht zu lange oder endlos währt,
+          sondern, dass sie kurz ist und sozusagen nur einen Augenblick dauert.
+          In diesem kurzen, armseligen Leben gibt es also Kämpfe und Mühen, im
+          ewigen dagegen Kronen und Belohnungen für die Verdienste; die Mühen
+          gehen schnell zu Ende, die Belohnungen für die Verdienste währen
+          ewig; nach dem Dunkel dieses Lebens dürfen die Heiligen ein
+          hellglänzendes Licht schauen und dürfen eine Seligkeit verkosten, die
+          alle Leiden und Bitterkeiten weit übersteigt. Das bezeugt auch der
+          Apostel; er sagt: Die Leiden dieser Zeit sind nicht zu vergleichen
+          mit der künftigen Herrlichkeit, die an uns offenbar werden wird.
+    citation: Römisches Brevier, 1. November, Lesungen IV–VI
+
 # The picture is the user's choice of 2026-10-16, the crowd of haloed saints
 # without the women (the second picture in the main checkout's
 # images/04-all-saints/ is the companion page of virgins). TO VERIFY: the
@@ -412,7 +468,3 @@ drollery: auto
 # The reviewing priest asked on 2026-10-29 for only the first verse of each
 # psalm in notes: the schola carries the congregation through the rest.
 compact: true
-
-# Out for review (2026-10-16): the German is not yet signed off. Remove this
-# line for the print run.
-draft: true
