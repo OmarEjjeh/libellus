@@ -323,7 +323,9 @@ def _do_position(clef: str) -> int:
     move a staff position, so it cannot change which ending a EUOUAE is.
     ``generate.js`` refuses the same clef instead — not an inconsistency, but
     the difference between reading notation and rewriting it: transposing
-    *out* of a flat clef would silently drop the flat.
+    *out* of a flat clef would silently drop the flat. Transposing *into* one
+    is safe and is what :func:`build_euouae_gabc` does, since the cue joins a
+    stave that already carries that flat (ADR-0045).
 
     :raises ValueError: when ``clef`` is not a gabc clef.
     """
@@ -332,6 +334,26 @@ def _do_position(clef: str) -> int:
         raise ValueError(f"not a gabc clef: {clef!r}")
     line = _LINE[int(match.group(2)) - 1]
     return line if match.group(1) == "c" else line - 3
+
+
+def _position(pitch: str) -> int:
+    """One gabc pitch letter as the staff position it names, counted from
+    ``a`` as ``0``. Case is a note *shape*, never a different pitch."""
+    return ord(pitch.lower()) - _A
+
+
+def _clef_shift(source: str, target: str) -> int:
+    """How far a staff position moves when the same note is respelled from one
+    clef into another.
+
+    A letter names a position, and a position only names a note once a clef
+    has said where "do" is — so respelling is the difference between the two
+    clefs' "do". `c3`→`c4` is ``+2``: what a `c3` stave writes ``i``, a `c4`
+    stave writes ``k``.
+
+    :raises ValueError: when either name is not a gabc clef.
+    """
+    return _do_position(target) - _do_position(source)
 
 
 def _octave_shift_onto_the_staff(reciting: int | None) -> int:
@@ -348,29 +370,172 @@ def _octave_shift_onto_the_staff(reciting: int | None) -> int:
     return octave
 
 
-def build_euouae_gabc(neumes: str) -> str | None:
-    """Splice an ending's termination neumes onto the fixed EUOUAE syllables.
+def build_euouae_gabc(neumes: str, clef: str, connect_to: int | None) -> str | None:
+    """Splice an ending's termination neumes onto the fixed EUOUAE syllables,
+    placed for the stave they are to print on.
 
     The neumes come from the psalm-tone engine (``euouae_per_tonus``) —
     mode plus differentia fully determine them, so they are never
     hand-supplied (issue #33). The syllable text never varies.
 
-    They arrive in :data:`CANONICAL_CLEF` and are spliced through as they
-    are, so the result belongs on a ``c4`` stave. An antiphon notated under
-    any other clef would need them transposed into *its* clef first — which
-    nothing does yet (issue #80).
+    They arrive in :data:`CANONICAL_CLEF` and are placed by two moves
+    (ADR-0045). The **clef** is not a choice: the cue is joined onto the
+    antiphon's own continuous stave (ADR-0017), so it is respelled into
+    whatever clef that stave carries. The **octave** is decided by the
+    connection rule — the ending's last note goes to the note the antiphon
+    is taken up again on — because chant notation fixes no octave and the
+    engine's table is not consistent about one, writing mode 2's row a whole
+    octave above the staff where mode 1's sits below it.
 
-    :param neumes: Six whitespace-separated neume tokens, e.g.
-        ``"j j i j h g."``.
+    Neither is applied on its own. Respelling into a low clef alone can
+    carry a pitch below ``a``, which gabc has no letter for; the two moves
+    are therefore summed and the notes written once, so the arithmetic
+    happens where it is still numbers.
+
+    :param neumes: Six whitespace-separated neume tokens in
+        :data:`CANONICAL_CLEF`, e.g. ``"j j i j h g."``.
+    :param clef: The clef of the stave this will print on, from
+        :func:`find_clef`. Passed rather than defaulted: printing an ending
+        without asking what stave it lands on was issue #80.
+    :param connect_to: The staff position the antiphon starts again on, from
+        :func:`opening_position`. ``None`` — an antiphon that sounds no note —
+        leaves nothing to connect to, so the cue is folded onto the staff
+        instead; the clef is not free here, as it is for
+        :func:`euouae_on_the_staff`, because the stave already exists.
     :return: The full ``E(...) u(...) o(...) u(...) a(...) e.(...)`` GABC
         text, or ``None`` if ``neumes`` isn't exactly six tokens.
     """
     tokens = neumes.split()
     if len(tokens) != 6:
         return None
+    respelling = _clef_shift(CANONICAL_CLEF, clef)
+    respelled = [position + respelling for position in _positions(tokens)]
+    shift = respelling + _printing_octave(respelled, connect_to)
+    return _spliced([_transposed(token, shift) for token in tokens])
+
+
+#: The clefs a standalone ending may be drawn under, in preference order.
+#: Not an invented vocabulary: they are the three the psalm-tone engine
+#: itself writes its tones in (ADR-0042), so a preview that reaches for one
+#: is reaching for the clef the books print that tone under. No ending in
+#: the current table needs ``f3``; it is named because it is one of the
+#: three, not because some tone is known to want it.
+_PREVIEW_CLEFS = (CANONICAL_CLEF, "c3", "f3")
+
+
+def euouae_on_the_staff(neumes: str) -> str | None:
+    """A EUOUAE placed to be *read* rather than sung after something.
+
+    The form previews a bare tone, with no antiphon to connect to (ADR-0045),
+    so the only criterion left is legibility — and there the free variable is
+    the clef, not the octave. Respelling under another clef moves a cue onto
+    the staff while keeping the register the engine wrote it in, which is the
+    register the books print it in; folding it by an octave instead would
+    seat it just as well and match no book. The first of
+    :data:`_PREVIEW_CLEFS` that holds all six neumes wins, so the canonical
+    clef is departed from only when it cannot hold them.
+
+    Every one of the engine's endings has such a clef (asserted by
+    ``test_every_ending_can_be_previewed_on_the_staff``); the least-bad
+    spellable one is returned if that ever stops being true.
+
+    :param neumes: Six whitespace-separated neume tokens in
+        :data:`CANONICAL_CLEF`.
+    :return: A whole stave opening — the clef's note group followed by the
+        spliced EUOUAE, ``"(c3) E(i) u(h) o(i) u(j) a(h) e.(f.)"`` — ready to
+        draw and needing nothing further computed, or ``None`` if ``neumes``
+        isn't exactly six tokens.
+    """
+    tokens = neumes.split()
+    if len(tokens) != 6:
+        return None
+    canonical = _positions(tokens)
+
+    def misplacement(clef: str) -> tuple[bool, int]:
+        respelled = [
+            position + _clef_shift(CANONICAL_CLEF, clef) for position in canonical
+        ]
+        return not _spellable(respelled), _off_the_staff_by(respelled)
+
+    clef = min(_PREVIEW_CLEFS, key=misplacement)
+    spliced = _spliced(
+        [_transposed(token, _clef_shift(CANONICAL_CLEF, clef)) for token in tokens]
+    )
+    return f"({clef}) {spliced}"
+
+
+def _spliced(tokens: list[str]) -> str:
+    """Six neumes on the six syllables of "sæculOrUm. AmEn"."""
     return " ".join(
         f"{syllable}({token})" for syllable, token in zip(_EUOUAE_SYLLABLES, tokens)
     )
+
+
+def _transposed(neume: str, shift: int) -> str:
+    """One neume's pitch letters moved by ``shift`` staff positions.
+
+    Only the letters move. A note *shape* is not a pitch — the ``v`` of a
+    climacus, a mora dot, and the uppercase that marks an inclinatum all
+    stand where they stood.
+    """
+    def moved(pitch: re.Match[str]) -> str:
+        letter = chr(ord(pitch.group().lower()) + shift)
+        return letter.upper() if pitch.group().isupper() else letter
+
+    return neume if shift == 0 else _PITCH.sub(moved, neume)
+
+
+def _positions(tokens: list[str]) -> list[int]:
+    """Every staff position six neumes touch, in the order they are sung — so
+    the last of them is the note the ending closes on."""
+    return [_position(pitch) for token in tokens for pitch in _PITCH.findall(token)]
+
+
+#: The positions a four-line staff carries without a ledger line: its four
+#: lines and the spaces between and immediately outside them, ``c``–``k``.
+_STAFF = range(_LINE[0] - 1, _LINE[-1] + 2)
+
+#: What ``a``–``m`` can spell. A placement needing a letter outside it is no
+#: placement at all, however well it would read.
+_SPELLABLE = range(13)
+
+
+def _spellable(positions: list[int]) -> bool:
+    """Whether gabc has a letter for every one of these positions."""
+    return all(position in _SPELLABLE for position in positions)
+
+
+def _off_the_staff_by(positions: list[int]) -> int:
+    """How far outside the staff a set of positions reaches, summed — ``0``
+    when all of them are on it. A measure rather than a yes/no, so that an
+    ending no clef can seat is still placed as well as it can be."""
+    return sum(
+        max(0, _STAFF[0] - position) + max(0, position - _STAFF[-1])
+        for position in positions
+    )
+
+
+def _printing_octave(positions: list[int], connect_to: int | None) -> int:
+    """How far to move an ending, in whole octaves, to print it where it
+    belongs; see :func:`build_euouae_gabc` for which rule decides that."""
+    if not positions:
+        return 0
+    candidates = [
+        octave
+        for octave in range(-2 * _OCTAVE, 3 * _OCTAVE, _OCTAVE)
+        if _spellable([position + octave for position in positions])
+    ]
+    if not candidates:
+        return 0
+    if connect_to is None:
+        return min(candidates, key=lambda octave: (
+            _off_the_staff_by([position + octave for position in positions]),
+            abs(octave),
+        ))
+    closing = positions[-1]
+    return min(candidates, key=lambda octave: (
+        abs(closing + octave - connect_to), abs(octave)
+    ))
 
 
 def normalize_euouae(euouae: str, clef: str = CANONICAL_CLEF) -> str:
@@ -409,9 +574,9 @@ def normalize_euouae(euouae: str, clef: str = CANONICAL_CLEF) -> str:
         from :func:`find_clef`.
     :return: An opaque comparison key — staff positions, not playable gabc.
     """
-    shift = _do_position(CANONICAL_CLEF) - _do_position(clef)
+    shift = _clef_shift(clef, CANONICAL_CLEF)
     neumes = [
-        [ord(pitch.lower()) - _A + shift for pitch in _PITCH.findall(neume)]
+        [_position(pitch) + shift for pitch in _PITCH.findall(neume)]
         for neume in euouae.split()
     ]
     octave = _octave_shift_onto_the_staff(next((n[0] for n in neumes if n), None))
@@ -462,10 +627,9 @@ def differentia_candidates(
 _OCTAVE = 7
 
 
-def _pitch_class(pitch: str, clef: str) -> int:
-    """One gabc pitch letter as a pitch class; see :data:`_OCTAVE`."""
-    shift = _do_position(CANONICAL_CLEF) - _do_position(clef)
-    return (ord(pitch.lower()) - _A + shift) % _OCTAVE
+def _pitch_class(position: int, clef: str) -> int:
+    """One staff position as a pitch class; see :data:`_OCTAVE`."""
+    return (position + _clef_shift(clef, CANONICAL_CLEF)) % _OCTAVE
 
 
 #: An accidental: a pitch letter plus a flat (``x``), natural (``y``) or
@@ -476,8 +640,8 @@ def _pitch_class(pitch: str, clef: str) -> int:
 _ACCIDENTAL = re.compile(r"[a-mA-M][xy#]")
 
 
-def opening_pitch_class(text: str, clef: str = CANONICAL_CLEF) -> int | None:
-    """The first note a gabc score is sung on, as a pitch class.
+def opening_position(text: str) -> int | None:
+    """The staff position a gabc score's first sung note stands on.
 
     Three things in a body look like notes and are not: the clef is itself a
     note group (``(c4)`` would read as a ``c``), the sung text between the
@@ -486,11 +650,15 @@ def opening_pitch_class(text: str, clef: str = CANONICAL_CLEF) -> int | None:
     groups are read, the clef among them is skipped, and accidentals come out
     of whichever group holds the first real note.
 
+    A *position*, not a note: no clef is read, because what a letter sounds is
+    not what this answers. It is the height on this particular staff that an
+    appended EUOUAE is placed against (ADR-0045), and the octave that placement
+    settles is exactly what :func:`opening_pitch_class` throws away.
+
     :param text: A whole gabc score, headers included — a body is what is
         read, and a text with no ``%%`` separator has none.
-    :param clef: The clef the score is notated under, from :func:`find_clef`.
-    :return: The pitch class (see :data:`_OCTAVE`), or ``None`` if the score
-        sounds no note.
+    :return: The position, counted from ``a`` as ``0``, or ``None`` if the
+        score sounds no note.
     """
     _, separator, body = text.partition("%%")
     if not separator:
@@ -500,8 +668,25 @@ def opening_pitch_class(text: str, clef: str = CANONICAL_CLEF) -> int | None:
             continue
         pitch = _PITCH.search(_ACCIDENTAL.sub("", group))
         if pitch is not None:
-            return _pitch_class(pitch.group(), clef)
+            return _position(pitch.group())
     return None
+
+
+def opening_pitch_class(text: str, clef: str = CANONICAL_CLEF) -> int | None:
+    """The first note a gabc score is sung on, as a pitch class.
+
+    :func:`opening_position` finds it; the clef is what turns that position
+    into a note, and the octave goes (see :data:`_OCTAVE`).
+
+    :param text: A whole gabc score, headers included.
+    :param clef: The clef the score is notated under, from :func:`find_clef`.
+    :return: The pitch class (see :data:`_OCTAVE`), or ``None`` if the score
+        sounds no note.
+    """
+    position = opening_position(text)
+    if position is None:
+        return None
+    return _pitch_class(position, clef)
 
 
 def final_pitch_class(euouae: str) -> int | None:
@@ -523,7 +708,7 @@ def final_pitch_class(euouae: str) -> int | None:
     for neume in reversed(euouae.split()):
         pitches = _PITCH.findall(neume)
         if pitches:
-            return _pitch_class(pitches[-1], CANONICAL_CLEF)
+            return _pitch_class(_position(pitches[-1]), CANONICAL_CLEF)
     return None
 
 

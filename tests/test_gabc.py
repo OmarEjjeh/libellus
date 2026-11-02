@@ -7,6 +7,7 @@ from libellus.gabc import (
     build_euouae_gabc,
     chant_name,
     differentia_candidates,
+    euouae_on_the_staff,
     final_pitch_class,
     find_clef,
     find_euouae,
@@ -18,6 +19,7 @@ from libellus.gabc import (
     lyrics,
     normalize_euouae,
     opening_pitch_class,
+    opening_position,
     pointed_halves,
     read_headers,
 )
@@ -191,7 +193,7 @@ def test_build_euouae_gabc_splices_neumes_onto_fixed_syllables() -> None:
     """A feast author types only the six neumes (#33) — never the "E u o u
     a e" syllable text, which never varies and gets spliced in here."""
     assert (
-        build_euouae_gabc("h h g h f e.")
+        build_euouae_gabc("h h g h f e.", "c4", connect_to=4)
         == "E(h) u(h) o(g) u(h) a(f) e.(e.)"
     )
 
@@ -199,15 +201,15 @@ def test_build_euouae_gabc_splices_neumes_onto_fixed_syllables() -> None:
 def test_build_euouae_gabc_rejects_wrong_token_count() -> None:
     """Anything other than exactly six neumes must not silently produce a
     malformed or partial termination."""
-    assert build_euouae_gabc("h h g h f") is None
-    assert build_euouae_gabc("das ist keine gültige Notation") is None
+    assert build_euouae_gabc("h h g h f", "c4", connect_to=4) is None
+    assert build_euouae_gabc("das ist keine gültige Notation", "c4", None) is None
 
 
 def test_build_euouae_gabc_accepts_multi_pitch_neumes_and_mora_dot() -> None:
     """A neume may be more than one pitch letter, and the final one may
     carry a trailing mora (augmentation) dot."""
     assert (
-        build_euouae_gabc("h hg ghg h f e.")
+        build_euouae_gabc("h hg ghg h f e.", "c4", connect_to=4)
         == "E(h) u(hg) o(ghg) u(h) a(f) e.(e.)"
     )
 
@@ -217,7 +219,7 @@ def test_build_euouae_gabc_accepts_a_mora_dot_on_any_pitch_in_a_neume() -> None:
     pitches, not only as a single trailing dot on the whole token — e.g.
     "g.f." (a real St. Lambert antiphon 3 termination, issue #33)."""
     assert (
-        build_euouae_gabc("h h g f gh g.f.")
+        build_euouae_gabc("h h g f gh g.f.", "c4", connect_to=5)
         == "E(h) u(h) o(g) u(f) a(gh) e.(g.f.)"
     )
 
@@ -227,9 +229,146 @@ def test_build_euouae_gabc_keeps_compound_neumes_verbatim() -> None:
     the climacus "gvFED." for tone 1D — they are spliced through untouched,
     so no pitch-letter syntax check may reject them (#33)."""
     assert (
-        build_euouae_gabc("h h g f gh gvFED.")
+        build_euouae_gabc("h h g f gh gvFED.", "c4", connect_to=3)
         == "E(h) u(h) o(g) u(f) a(gh) e.(gvFED.)"
     )
+
+
+def test_build_euouae_gabc_respells_the_cue_in_the_antiphons_clef() -> None:
+    """The cue is joined onto the antiphon's own stave (ADR-0017), so it is
+    spelled in the antiphon's clef, not the engine's canonical one — a ``c3``
+    stave writes tone 8G's ending two positions lower than a ``c4`` one, for
+    the same sounding notes (#80)."""
+    assert (
+        build_euouae_gabc("j j i j h g.", "c3", connect_to=4)
+        == "E(h) u(h) o(g) u(h) a(f) e.(e.)"
+    )
+
+
+def test_build_euouae_gabc_places_the_cue_where_the_antiphon_is_taken_up() -> None:
+    """Mode 2's row is written a whole octave above the staff, so appending it
+    unmoved would strand it far above the antiphon it is sung after. The
+    connection rule decides the octave: the ending's last note goes to the
+    note the antiphon starts again on (ADR-0045)."""
+    assert (
+        build_euouae_gabc("m m m l j k.", "c4", connect_to=3)  # antiphon opens on d
+        == "E(f) u(f) o(f) u(e) a(c) e.(d.)"
+    )
+
+
+def test_build_euouae_gabc_places_nearest_where_the_connection_rule_fails() -> None:
+    """The rule is a convention, not a law — St. Lambert's Corpora sanctorum
+    opens on ``d`` and is sung to 1f, which closes on ``f``. The cue still has
+    to print somewhere sane: the nearest octave, not the equal one (ADR-0044)."""
+    assert (
+        build_euouae_gabc("h h g f gh gf..", "c4", connect_to=3)
+        == "E(h) u(h) o(g) u(f) a(gh) e.(gf..)"
+    )
+
+
+def test_build_euouae_gabc_moves_pitches_and_nothing_else() -> None:
+    """Transposing rewrites staff positions. A note *shape* is not one: the
+    ``v`` of tone 1D's climacus stays put, its uppercase inclinata stay
+    uppercase, and the morae stay where they were."""
+    assert (
+        build_euouae_gabc("h h g f gh gvFED.", "c3", connect_to=1)
+        == "E(f) u(f) o(e) u(d) a(ef) e.(evDCB.)"
+    )
+
+
+def test_build_euouae_gabc_never_spells_a_pitch_gabc_has_no_letter_for() -> None:
+    """An antiphon starting high would pull tone 4A's ending off the top of
+    what ``a``–``m`` can spell. Connection is a preference; being writable at
+    all is not, so the nearest *spellable* octave wins."""
+    assert (
+        build_euouae_gabc("k j k l j h.", "c4", connect_to=12)
+        == "E(k) u(j) o(k) u(l) a(j) e.(h.)"
+    )
+
+
+def test_every_ending_stays_writable_against_every_opening_note() -> None:
+    """The property placement rests on, over the whole table: whatever an
+    antiphon opens on and whatever clef it is in, the cue comes out as the
+    same six neumes with only their pitch letters moved.
+
+    Both halves matter. Respelling into a low clef can carry a pitch below
+    ``a``, and gabc has no letter there — ``d`` moved five positions down is
+    ``_``, which gabc reads as a horizontal episema. So the check is not
+    "looks like notation" but "is this notation, moved": every character
+    that is not a pitch letter has to stand exactly where it stood.
+    """
+    for neumes in euouae_per_tonus().values():
+        for opening in range(13):  # a–m
+            for clef in ("c1", "c2", "c3", "c4", "f3"):
+                gabc = build_euouae_gabc(neumes, clef, connect_to=opening)
+                assert gabc is not None
+                placed = re.findall(r"\(([^)]*)\)", gabc)
+                assert len(placed) == 6
+                for token, before in zip(placed, neumes.split()):
+                    shapes = re.sub(r"[a-mA-M]", "", token)
+                    assert shapes == re.sub(r"[a-mA-M]", "", before), (clef, opening)
+                    assert len(re.findall(r"[a-mA-M]", token)) == len(
+                        re.findall(r"[a-mA-M]", before)
+                    ), (clef, opening)
+
+
+def test_euouae_on_the_staff_leaves_a_well_placed_ending_alone() -> None:
+    """With no antiphon to connect to, the only criterion is legibility, and
+    most endings are already legible in the canonical clef (#80)."""
+    assert euouae_on_the_staff("j j i j h g.") == (
+        "(c4) E(j) u(j) o(i) u(j) a(h) e.(g.)"
+    )
+
+
+def test_euouae_on_the_staff_changes_clef_rather_than_octave() -> None:
+    """Tone 2D reaches ``m``, two ledger lines above a ``c4`` stave. A ``c3``
+    stave holds the same notes at the same pitch, which is why the books
+    print it under one — no octave is invented to seat it."""
+    assert euouae_on_the_staff("m m m l j k.") == (
+        "(c3) E(k) u(k) o(k) u(j) a(h) e.(i.)"
+    )
+
+
+def test_euouae_on_the_staff_changes_clef_where_no_octave_helps() -> None:
+    """Tone 4A spans ``h``–``l``: too high for a ``c4`` stave and too wide to
+    fold, which is exactly why the books print it under ``c3``."""
+    assert euouae_on_the_staff("k j k l j h.") == (
+        "(c3) E(i) u(h) o(i) u(j) a(h) e.(f.)"
+    )
+
+
+def test_every_ending_can_be_previewed_on_the_staff() -> None:
+    """What the form's preview promises, over the whole table: every ending is
+    drawn, drawn as itself, and drawn on the staff — so none is drawn in the
+    wrong register (#80)."""
+    for label, neumes in euouae_per_tonus().items():
+        stave = euouae_on_the_staff(neumes)
+        assert stave is not None, label
+        clef, _, spliced = stave.partition(" ")
+        assert re.fullmatch(r"\([cf]b?[1-4]\)", clef), label
+        groups = re.findall(r"\(([^)]*)\)", spliced)
+        assert len(groups) == 6, label
+        for group, before in zip(groups, neumes.split()):
+            # pitch letters moved, everything else standing: a respelling that
+            # ran past ``a`` would leave punctuation gabc reads as an episema
+            assert re.sub(r"[a-mA-M]", "", group) == re.sub(r"[a-mA-M]", "", before), (
+                label
+            )
+        # only inside the note groups: the syllables "E u o u a e" are letters
+        # a–m too, which is the trap _positions() exists to avoid
+        positions = [
+            ord(pitch.lower()) - ord("a")
+            for group in groups
+            for pitch in re.findall(r"[a-mA-M]", group)
+        ]
+        assert positions, label
+        assert min(positions) >= 2 and max(positions) <= 10, (label, stave)
+
+
+def test_euouae_on_the_staff_rejects_wrong_token_count() -> None:
+    """Same contract as :func:`build_euouae_gabc`: nothing partial is drawn."""
+    assert euouae_on_the_staff("h h g h f") is None
+
 
 
 def test_normalize_euouae_ignores_mora_spelling() -> None:
@@ -369,6 +508,25 @@ def test_opening_pitch_class_without_a_body_is_none() -> None:
     """No ``%%`` means no notation to read, exactly as :func:`find_clef` has it."""
     assert opening_pitch_class("name:Nur Kopfzeilen;\n") is None
     assert opening_pitch_class("%%\n(c4) (::)\n") is None
+
+
+def test_opening_position_is_the_letter_not_the_note() -> None:
+    """Where on *this* staff the antiphon starts again — the height an
+    appended cue is placed against (#80). No clef is read, because a
+    position is what it is before one: the same score under another clef
+    would spell a different letter for the same sounding note, but the cue
+    joined onto it is spelled in that clef too."""
+    assert opening_position("%%\n(c4) BE(e)á(e)tus(f) vir(ed) (::)\n") == 4  # e
+    assert opening_position("%%\n(c3) Lau(h)dá(h)te.(h) (::)\n") == 7  # h
+
+
+def test_opening_position_sees_past_the_same_traps_as_the_pitch_class() -> None:
+    """The clef is a note group, the sung text is full of letters ``a``–``m``,
+    and an accidental is spelled with the pitch letter it applies to — all
+    three read once, for both readers (#46)."""
+    assert opening_position("%%\n(c4) Læ(ixi)tor.(h) (::)\n") == 8  # i, not the flat
+    assert opening_position("name:Nur Kopfzeilen;\n") is None
+    assert opening_position("%%\n(c4) (::)\n") is None
 
 
 def test_final_pitch_class_is_the_last_note_of_the_last_neume() -> None:

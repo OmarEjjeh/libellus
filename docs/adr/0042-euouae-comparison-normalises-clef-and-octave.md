@@ -1,7 +1,9 @@
 # ADR-0042: EUOUAE comparison normalises clef and octave, in one canonical frame
 
 Date: 2026-08-05
-Status: accepted
+Status: accepted — amended 2026-08-06 by ADR-0045, which settles the
+register question the last paragraph below deliberately left open. Printing
+is no longer clef-blind.
 
 ## Context
 
